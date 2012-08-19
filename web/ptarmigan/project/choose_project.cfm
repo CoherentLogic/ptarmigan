@@ -1,4 +1,4 @@
-<cfmodule template="security/require.cfm" type="">
+<cfmodule template="../security/require.cfm" type="">
 <cfquery name="get_projects" datasource="ptarmigan">
 	SELECT id FROM projects ORDER BY due_date
 </cfquery>
