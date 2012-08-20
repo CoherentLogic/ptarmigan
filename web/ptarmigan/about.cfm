@@ -1,6 +1,6 @@
 <center>
-<div style="width:500px;padding:30px;border:1px solid #efefef;text-align:center; margin:20px;" align="center">
-<h1>ptarmigan</h1>
+<div style="width:500px;padding:30px;border:1px solid #efefef;text-align:center; margin:20px; margin-bottom:40px;" align="center">
+<h1 style="color:navy;letter-spacing:-4px;font-family:Utopia,Garamond,Georgia,'Times New Roman',serif;">ptarmigan</h1>
 <p><em>Simple Business Management</em></p>
 
 <p>Version 0.1</p>
