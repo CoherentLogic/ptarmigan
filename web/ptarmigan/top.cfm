@@ -4,12 +4,20 @@
 			<td>
 				<img src="/ptarmigan/ptarmigan.png">
 			</td>
-			<td align="right">
+			<td align="right" valign="bottom">
 				<cfif session.logged_in NEQ true>
 					<form name="log_in" method="post" action="login.cfm">
-						<label>Username: <input type="text" name="username"></label><br>
-						<label>Password: <input type="password" name="password"></label><br>
+						<table>
+						<tr>
+						<td>
+						<label>Username: <br/><input type="text" name="username"></label>
+						</td>
+						<td>
+						<label>Password: <br/><input type="password" name="password"></label>
 						<input type="submit" name="login_submit" value="Submit">
+						</td>
+						</tr>
+						</table>
 					</form>
 				<cfelse>
 					<table>
