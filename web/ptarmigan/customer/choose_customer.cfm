@@ -1,4 +1,4 @@
-<cfmodule template="security/require.cfm" type="admin">
+<cfmodule template="../security/require.cfm" type="admin">
 <cfquery name="get_customers" datasource="ptarmigan">
 	SELECT id FROM customers ORDER BY company_name
 </cfquery>

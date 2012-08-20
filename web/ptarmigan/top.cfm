@@ -1,11 +1,8 @@
-<html>
-<head>
-</head>
-<body>
-	<table width="100%" cellpadding="0" cellspacing="0">
+
+	<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
 		<tr>
 			<td>
-				<img src="ptarmigan.png">
+				<img src="/ptarmigan/ptarmigan.png">
 			</td>
 			<td align="right">
 				<cfif session.logged_in NEQ true>
@@ -54,9 +51,9 @@
 	</table>
 	<cfif session.logged_in NEQ true>
 		<center>
-		<hr />
+		
 		<p><cfoutput>#session.message#</cfoutput></p>
 		</center>
+	<cfelse>
+		
 	</cfif>
-</body>
-</html>

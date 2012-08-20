@@ -1,13 +1,5 @@
 <cfmodule template="security/require.cfm" type="">
-<table width="100%" border="1" cellpadding="0" cellspacing="0">
-<tr>
-	<cfoutput>
-	<td>EARNED: #NumberFormat(session.user.pay_owed(), ",_$___.__")#</td>
-	<td>WORKED: </td>
-	<td>BILLED:	</td>
-	</cfoutput>
-</tr> 
-</table>
+
 
 <cfinclude template="utility.cfm">
 
