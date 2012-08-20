@@ -9,8 +9,8 @@
 <cfset t = CreateObject("component", "ptarmigan.task").open(url.id)>
 
 <cfif IsDefined("form.submit")>
-	<cfset t.task_name = form.task_name>
-	<cfset t.description = form.description>
+	<cfset t.task_name = ucase(form.task_name)>
+	<cfset t.description = ucase(form.description)>
 	<cfif IsDefined("form.completed")>
 		<cfset t.completed = 1>
 	<cfelse>
@@ -22,7 +22,7 @@
 
 <h1>Manage Task</h1>
 
-<h2>Task Information</h2>
+<br/>
 
 <cfoutput>
 <form name="manage_task" action="manage_task.cfm?id=#url.id#" method="post">

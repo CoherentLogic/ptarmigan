@@ -6,17 +6,37 @@
 	<cfset project_id = url.id>
 </cfif>
 
+
+
+
 <cfquery name="get_customers" datasource="ptarmigan">
 	SELECT id,company_name FROM customers ORDER BY company_name
 </cfquery>
 
 <cfset p = CreateObject("component", "ptarmigan.project").open(project_id)>
+
+<cfif IsDefined("form.submit_header")>
+	<cfset p.project_number = form.project_number>
+	<cfset p.project_name = ucase(form.project_name)>
+	<cfset p.customer_id = form.customer_id>
+	<cfset p.due_date = CreateODBCDate(form.due_date)>
+	<cfset p.tax_rate = form.tax_rate>
+	<cfset p.instructions = ucase(form.instructions)>
+	
+	<cfset p.update()>
+</cfif>
 <cfset c = CreateObject("component", "ptarmigan.employee").open(p.created_by)>
 <cfset cn = "#c.last_name#, #c.honorific# #c.first_name# #c.middle_initial# #c.suffix#">
 <cfset milestones = p.milestones()>
 
-<form name="project_header">
+<form name="project_header" action="edit_project.cfm" method="post">
+<cfoutput>
+<input type="hidden" name="id" value="#project_id#">	
+</cfoutput>
 <h1>Edit Project</h1>
+<cfif IsDefined("form.submit_header")>
+	<p><em>Changes saved.</em></p>
+</cfif>
 <a href="#header">Project Info</a> | <a href="#instructions">Instructions</a> | <a href="#milestones">Milestones</a>
 <h2>Project Info</h2>
 <a name="header">
@@ -57,7 +77,7 @@
 <hr>
 <a name="milestones">
 <h2>Milestones</h2>
-<p>Current milestone in <strong>bold</strong>.</p>
+<p>Current milestone in <strong>bold</strong>. Click a milestone's name to edit the milestone.</p>
 <cfoutput>
 <form name="add_milestone" action="add_milestone.cfm?return=edit_project.cfm&id=#project_id#" method="post">
 <input type="hidden" name="project_id" value="#p.id#"> 
@@ -70,7 +90,7 @@
 		<cfoutput>
 			<form name="add_task_#ms.id#" action="add_task.cfm?return=edit_project.cfm&id=#project_id#" method="post">
 			#ms.milestone_number#.&nbsp;&nbsp;
-			#ms.milestone_name#&nbsp;
+			<a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a>&nbsp;
 			<cfif ms.floating EQ 1>
 				[FLOATING]
 			<cfelse>
@@ -85,8 +105,7 @@
 			</form>
 		</cfoutput>
 	<cfif ms.milestone_number EQ p.current_milestone></strong></cfif>
-	<blockquote>
-		<h3>Tasks</h3>
+	<blockquote>		
 		<cfset m_tasks = ms.tasks()>
 		<cfif ArrayLen(m_tasks) GT 0>
 			<ol>			

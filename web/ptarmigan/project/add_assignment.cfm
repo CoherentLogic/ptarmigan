@@ -11,7 +11,7 @@
 	<cfset a.start_date = CreateODBCDate(form.start_date)>
 	<cfset a.end_date = CreateODBCDate(form.end_date)>
 	<cfset a.instructions = form.instructions>
-	<cfset a.address= form.address>
+	<cfset a.address = form.address>
 	<cfset a.city = form.city>
 	<cfset a.state = form.state>
 	<cfset a.zip = form.zip>
