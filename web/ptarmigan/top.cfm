@@ -5,8 +5,7 @@
 	<table width="100%" cellpadding="0" cellspacing="0">
 		<tr>
 			<td>
-				<h1>ptarmigan</h1>
-				<p><em>Simple Business Management</em></p>
+				<img src="ptarmigan.png">
 			</td>
 			<td align="right">
 				<cfif session.logged_in NEQ true>
