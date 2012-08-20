@@ -53,3 +53,16 @@ hr {
 	line-height:1px;
 	border:1px solid #efefef;
 }
+
+input,select,textarea {
+	border:1px solid #999999;
+	background-color:#efefef;
+	color:navy;
+	padding:2px;
+	margin:2px;
+	border-radius:2px;
+}
+input:focus,select:focus,textarea:focus {
+	border:1px solid navy;
+	background-color:white;
+}
