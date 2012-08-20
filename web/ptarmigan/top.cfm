@@ -6,13 +6,12 @@
 			</td>
 			<td align="right">
 				<cfif session.logged_in NEQ true>
-					<form name="log_in" method="post" action="default.cfm" target="_top">
+					<form name="log_in" method="post" action="login.cfm">
 						<label>Username: <input type="text" name="username"></label><br>
 						<label>Password: <input type="password" name="password"></label><br>
 						<input type="submit" name="login_submit" value="Submit">
 					</form>
 				<cfelse>
-					<a href="logout.cfm" target="_top">Logout</a> | <a href="about.cfm" target="content">About</a><br>
 					<table>
 						<tr>
 							<td>Employee:</td>
