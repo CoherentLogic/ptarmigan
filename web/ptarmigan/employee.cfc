@@ -416,4 +416,10 @@
 		<cfreturn q_pay_paid.PSUM>
 	</cffunction>	
 	
+	<cffunction name="full_name" returntype="string" access="public" output="false">
+	
+		<cfset name_str = "#this.last_name#, #this.honorific# #this.first_name# #this.middle_initial# #this.suffix#">
+		
+		<cfreturn name_str>
+	</cffunction>
 </cfcomponent>

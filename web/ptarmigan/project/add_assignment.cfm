@@ -107,7 +107,25 @@
 		
 		
 		<cfset billable = 1>
+				
+		
 	</cfloop>
+	
+	<cfset asgn = CreateObject("component","ptarmigan.assignment").open(url.assignment_id)>
+	<cfset task = CreateObject("component", "ptarmigan.task").open(asgn.task_id)>
+	<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(task.milestone_id)>
+	
+	<cfset session.message = "Assignment created for " & e.full_name()>
+	
+	
+	<cfoutput>
+	<center>
+		<h1>Assignment Created</h1>
+		<a href="edit_project.cfm?id=#milestone.project_id#">Return to project</a>
+	</center>
+	</cfoutput>
+	
+	<cflocation url="edit_project.cfm?id=#milestone.project_id#">
 <cfelse>
 	<h1>Add Assignment</h1>
 	
