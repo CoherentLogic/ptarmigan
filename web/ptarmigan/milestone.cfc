@@ -5,6 +5,9 @@
 	<cfset this.milestone_number = 0>
 	<cfset this.milestone_name = "">
 	<cfset this.floating = 0>
+	<cfset this.start_date = "">
+	<cfset this.end_date = "">
+	<cfset this.budget = 0>
 	
 	<cfset this.written = false>
 	
@@ -18,12 +21,18 @@
 						project_id,
 						milestone_number,
 						milestone_name,
-						floating)
+						floating,
+						start_date,
+						end_date,
+						budget)
 			VALUES		('#this.id#',
 						'#this.project_id#',
 						#this.milestone_number#,
 						'#UCase(this.milestone_name)#',
-						#this.floating#)
+						#this.floating#,
+						#this.start_date#,
+						#this.end_date#,
+						#this.budget#)
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -43,6 +52,9 @@
 		<cfset this.milestone_number = mo.milestone_number>
 		<cfset this.milestone_name = mo.milestone_name>
 		<cfset this.floating = mo.floating>
+		<cfset this.start_date = mo.start_date>
+		<cfset this.end_date = mo.end_date>
+		<cfset this.budget = mo.budget>
 				
 		<cfset this.written = true>
 		
@@ -56,7 +68,10 @@
 			SET		project_id='#this.project_id#',
 					milestone_number=#this.milestone_number#,
 					milestone_name='#this.milestone_name#',
-					floating=#this.floating#
+					floating=#this.floating#,
+					start_date=#this.start_date#,
+					end_date=#this.end_date#,
+					budget=#this.budget#
 			WHERE	id='#this.id#'
 		</cfquery>
 		

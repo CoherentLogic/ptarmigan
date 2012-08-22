@@ -9,6 +9,8 @@
 	<cfset this.customer_id = "">
 	<cfset this.created_by = "">
 	<cfset this.tax_rate = 0>
+	<cfset this.start_date = "">
+	<cfset this.budget = 0>
 	
 	<cfset this.written = false>
 	
@@ -29,7 +31,9 @@
 							current_milestone,
 							customer_id,
 							created_by,
-							tax_rate)
+							tax_rate,
+							start_date,
+							budget)
 				VALUES		('#this.id#',
 							'#this.project_number#',
 							'#this.project_name#',
@@ -38,7 +42,9 @@
 							#this.current_milestone#,
 							'#this.customer_id#',
 							'#this.created_by#',
-							#this.tax_rate#)
+							#this.tax_rate#,
+							#this.start_date#,
+							#this.budget#)
 			</cfquery>
 		</cflock>
 		
@@ -48,6 +54,8 @@
 		<cfset t.milestone_number = 1000>
 		<cfset t.milestone_name = "MISCELLANEOUS TASKS">
 		<cfset t.floating = 1>
+		<cfset t.start_date = CreateODBCDate(Now())>
+		<cfset t.end_date = CreateODBCDate(Now())>
 		
 		<cfset t.create()>
 		
@@ -96,6 +104,8 @@
 		<cfset this.current_milestone = op.current_milestone>
 		<cfset this.customer_id = op.customer_id>
 		<cfset this.created_by = op.created_by>
+		<cfset this.start_date = op.start_date>
+		<cfset this.budget = op.budget>
 		
 		<cfset this.written = true>
 		
@@ -112,7 +122,9 @@
 					due_date=#this.due_date#,
 					current_milestone=#this.current_milestone#,
 					customer_id='#this.customer_id#',
-					tax_rate=#this.tax_rate#
+					tax_rate=#this.tax_rate#,
+					start_date=#this.start_date#,
+					budget=#this.budget#
 			WHERE	id='#this.id#'
 		</cfquery>
 		

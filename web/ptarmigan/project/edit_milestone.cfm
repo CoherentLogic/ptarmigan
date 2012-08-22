@@ -8,6 +8,9 @@
 <cfif IsDefined("form.submit_milestone")>
 	<cfset t.milestone_number = form.milestone_number>
 	<cfset t.milestone_name = form.milestone_name>
+	<cfset t.start_date = CreateODBCDate(form.start_date)>
+	<cfset t.end_date = CreateODBCDate(form.end_date)>
+	<cfset t.budget = form.budget>
 	<cfif IsDefined("form.floating")>
 		<cfset t.floating = 1>
 	<cfelse>
@@ -40,6 +43,18 @@
 				<td>&nbsp;</td>
 				<td><label><input type="checkbox" name="floating" <cfif t.floating EQ 1>checked</cfif>>Floating</td>
 			</tr>
+			<tr>
+				<td>Start date (MM/DD/YYYY):</td>
+				<td><input type="text" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
+			</tr>
+			<tr>
+				<td>End date (MM/DD/YYYY):</td>
+				<td><input type="text" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
+			</tr>			
+			<tr>
+				<td>Budget:</td>
+				<td>$<input type="text" name="budget" value="#t.budget#"></td>
+			</tr>	
 			<tr>
 				<td>&nbsp</td>
 				<td align="right"><input type="submit" name="submit_milestone" value="Submit"></td>

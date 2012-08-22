@@ -40,6 +40,18 @@
 			</td>
 		</tr>
 		<tr>
+			<td>Start date (MM/DD/YYYY):</td>
+			<td><input type="text" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
+		</tr>
+		<tr>
+			<td>End date (MM/DD/YYYY):</td>
+			<td><input type="text" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
+		</tr>			
+		<tr>
+			<td>Budget:</td>
+			<td>$<input type="text" name="budget" value="#t.budget#"></td>
+		</tr>
+		<tr>
 			<td>Instructions:</td>
 			<td>
 				<textarea name="description" rows="6" cols="80">#t.description#</textarea>

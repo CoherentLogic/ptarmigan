@@ -5,6 +5,10 @@
 	<cfset this.task_name = "">
 	<cfset this.description = "">
 	<cfset this.completed = 0>
+	<cfset this.start_date = "">
+	<cfset this.end_date = "">
+	<cfset this.budget = "">
+	
 	
 	<cfset this.written = false>
 	
@@ -18,12 +22,18 @@
 						milestone_id,
 						task_name,
 						description,
-						completed)
+						completed,
+						start_date,
+						end_date,
+						budget)
 			VALUES		('#this.id#',
 						'#this.milestone_id#',
 						'#UCase(this.task_name)#',
 						'#UCase(this.description)#',
-						#this.completed#)
+						#this.completed#,
+						#this.start_date#,
+						#this.end_date#,
+						#this.budget#)
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -43,6 +53,9 @@
 		<cfset this.task_name = t.task_name>
 		<cfset this.description = t.description>
 		<cfset this.completed = t.completed>
+		<cfset this.start_date = t.start_date>
+		<cfset this.end_date = t.end_date>
+		<cfset this.budget = t.budget>
 	
 		<cfset this.written = true>
 		<cfreturn this>
@@ -55,7 +68,10 @@
 			SET		milestone_id='#this.milestone_id#',
 					task_name='#UCase(this.task_name)#',
 					description='#UCase(this.description)#',
-					completed=#this.completed#
+					completed=#this.completed#,
+					start_date=#this.start_date#,
+					end_date=#this.end_date#,
+					budget=#this.budget#
 			WHERE	id='#this.id#'
 		</cfquery>
 		

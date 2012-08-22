@@ -10,6 +10,8 @@
 	<cfset t.current_milestone = 1>
 	<cfset t.created_by = session.user.id>
 	<cfset t.tax_rate = form.tax_rate>
+	<cfset t.start_date = CreateODBCDate(form.start_date)>
+	<cfset t.budget = form.budget>
 	
 	<cfset t.create()>
 	
@@ -45,12 +47,20 @@
 		</td>
 	</tr>
 	<tr>
+		<td>Budget:</td>
+		<td><input type="text" name="budget"></td>
+	</tr>
+	<tr>
 		<td>Tax rate:</td>
 		<td><input type="text" name="tax_rate" size="4"><strong>%</strong></td>
 	</tr>
 	<tr>
 		<td>Instructions:</td>
 		<td><textarea name="instructions" cols="80" rows="10"></textarea>
+	</tr>
+	<tr>
+		<td>Start date (MM/DD/YYYY):</td>
+		<td><input type="text" name="start_date">
 	</tr>
 	<tr>
 		<td>Due date (MM/DD/YYYY):</td>

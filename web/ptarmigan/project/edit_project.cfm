@@ -56,6 +56,13 @@
 	</tr>	
 	<tr>
 		<cfoutput>
+		<td>&nbsp;</td>
+		<td>BUDGET: <input type="text" name="budget" value="#p.budget#"></td>
+		<td>START DATE: <input type="text" name="start_date" value="#dateFormat(p.start_date, 'MM/DD/YYYY')#"></td>
+		</cfoutput>
+	</tr>
+	<tr>
+		<cfoutput>
 		<td>DUE DATE:<input type="text" name="due_date" value="#dateFormat(p.due_date, 'MM/DD/YYYY')#"></td>
 		<td>CREATED BY: <strong>#cn#</strong></td>
 		<td>TAX RATE: <input type="text" name="tax_rate" value="#p.tax_rate#"><strong>%</strong></td>
@@ -90,7 +97,7 @@
 		<cfoutput>
 			<form name="add_task_#ms.id#" action="add_task.cfm?return=edit_project.cfm&id=#project_id#" method="post">
 			#ms.milestone_number#.&nbsp;&nbsp;
-			<a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a>&nbsp;
+			<a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a>&nbsp; <cfif ms.floating EQ 0>(#dateFormat(ms.start_date, 'm/dd/yyyy')#-#dateFormat(ms.end_date, 'm/dd/yyyy')#)</cfif>
 			<cfif ms.floating EQ 1>
 				[FLOATING]
 			<cfelse>
