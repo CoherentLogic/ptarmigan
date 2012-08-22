@@ -25,7 +25,9 @@
 				<cfmenuitem display="Approve time entries" href="#session.root_url#/time/approve.cfm"/>	
 			</cfif>
 		</cfmenuitem>
-		
+		<cfmenuitem name="Documents" display="Documents">
+			<cfmenuitem display="Add document type" href="#session.root_url#/documents/add_document_type.cfm"/>
+		</cfmenuitem>
 		<cfif session.user.is_admin() EQ true>
 			<cfmenuitem name="Customers" display="Customers">
 				<cfmenuitem display="Add customer" href="#session.root_url#/customer/add_customer.cfm"/>	
