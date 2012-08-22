@@ -11,7 +11,7 @@
 <h1>Add Document Type</h1>
 
 <cfif IsDefined("form.submit")>
-	<p><em>Document type <strong><cfoutput>#form.type_name#</cfoutput></strong> added.</em></p>
+	<p><em>Document type <strong><cfoutput>#UCase(form.type_name)#</cfoutput></strong> added.</em></p>
 </cfif>
 
 <form name="add_document_type" action="add_document_type.cfm" method="post">

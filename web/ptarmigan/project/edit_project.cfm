@@ -22,6 +22,8 @@
 	<cfset p.due_date = CreateODBCDate(form.due_date)>
 	<cfset p.tax_rate = form.tax_rate>
 	<cfset p.instructions = ucase(form.instructions)>
+	<cfset p.start_date = CreateODBCDate(form.start_date)>
+	<cfset p.budget = form.budget>
 	
 	<cfset p.update()>
 </cfif>
@@ -119,7 +121,7 @@
 			<ol>			
 			<cfloop array="#m_tasks#" index="c_task">
 					<cfoutput>
-					<li><a href="manage_task.cfm?id=#c_task.id#">#c_task.task_name#</a>&nbsp;&nbsp;
+					<li><a href="manage_task.cfm?id=#c_task.id#">#c_task.task_name#</a> (#dateFormat(c_task.start_date,'m/dd/yyyy')#-#dateFormat(c_task.end_date,'m/dd/yyyy')#)&nbsp;&nbsp;
 							<cfif c_task.completed EQ 1>
 								[COMPLETE]
 							<cfelse>

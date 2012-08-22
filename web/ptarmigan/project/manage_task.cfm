@@ -13,6 +13,9 @@
 <cfif IsDefined("form.submit")>
 	<cfset t.task_name = ucase(form.task_name)>
 	<cfset t.description = ucase(form.description)>
+	<cfset t.start_date = CreateODBCDate(form.start_date)>
+	<cfset t.end_date = CreateODBCDate(form.end_date)>
+	<cfset t.budget = form.budget>
 	<cfif IsDefined("form.completed")>
 		<cfset t.completed = 1>
 	<cfelse>
