@@ -34,10 +34,11 @@
 <input type="hidden" name="id" value="#project_id#">	
 </cfoutput>
 <h1>Edit Project</h1>
+
 <cfif IsDefined("form.submit_header")>
 	<p><em>Changes saved.</em></p>
 </cfif>
-<a href="#header">Project Info</a> | <a href="#instructions">Instructions</a> | <a href="#milestones">Milestones</a>
+<cfoutput><a href="charting/gantt_chart.cfm?id=#project_id#">Gantt Chart</a></cfoutput> | <a href="#header">Project Info</a> | <a href="#instructions">Instructions</a> | <a href="#milestones">Milestones</a>
 <h2>Project Info</h2>
 <a name="header">
 <table width="100%">
