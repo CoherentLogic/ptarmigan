@@ -22,4 +22,4 @@
 		<cfset session.message = "Invalid username or password">
 	</cfif>	
 </cfif>
-<cflocation url="default.cfm">
+<cflocation url="/ptarmigan/default.cfm">

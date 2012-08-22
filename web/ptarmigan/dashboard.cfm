@@ -111,7 +111,12 @@
 	        <td>
 		    	<a href="time/add_time.cfm?assignment_id=#ca.id#">Enter time manually</a>
 			</td>
-	        <td colspan="2" align="right"><input type="button" name="map" value="View Map"></td>
+			<cfif ca.location_preference EQ 0>
+				<cfset address_string = URLEncodedFormat(ca.address & " " & ca.city & " " & ca.state & "," & ca.zip)>	
+			<cfelse>
+				<cfset address_string = URLEncodedFormat(ca.latitude & "," & ca.longitude)>
+			</cfif>
+	        <td colspan="2" align="right"><a href="project/view_map.cfm?address_string=#address_string#" target="_blank">View Map</a></td>
 	    </tr>
 		
 	</cfoutput>

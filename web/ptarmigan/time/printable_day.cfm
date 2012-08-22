@@ -61,7 +61,7 @@
 	<cfif ca.location_preference EQ 0>
 		<cfset address_string = URLEncodedFormat(ca.address & " " & ca.city & " " & ca.state & "," & ca.zip)>	
 	<cfelse>
-	
+		<cfset address_string = URLEncodedFormat(ca.latitude & "," & ca.longitude)>
 	</cfif>
 	<table width="100%" border="0">
 		<tr>
