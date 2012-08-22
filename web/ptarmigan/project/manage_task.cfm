@@ -7,6 +7,8 @@
 </cfquery>
 
 <cfset t = CreateObject("component", "ptarmigan.task").open(url.id)>
+<cfset ms = CreateObject("component", "ptarmigan.milestone").open(t.milestone_id)>
+
 
 <cfif IsDefined("form.submit")>
 	<cfset t.task_name = ucase(form.task_name)>
@@ -21,9 +23,12 @@
 </cfif>
 
 <h1>Manage Task</h1>
-
+<cfoutput>
+<a href="edit_project.cfm?id=#ms.project_id#">Return to project</a>
+</cfoutput>
 <br/>
-
+<br/>
+<br>
 <cfoutput>
 <form name="manage_task" action="manage_task.cfm?id=#url.id#" method="post">
 	<table>
@@ -53,7 +58,7 @@
 
 <h2>Assignments</h2>
 
-<table border="1" width="100%">
+<table border="1" width="100%" class="pretty">
 	<tr>
 		<th>EMPLOYEE</th>
 		<th>TITLE</th>

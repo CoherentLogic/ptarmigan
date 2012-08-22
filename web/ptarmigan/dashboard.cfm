@@ -56,7 +56,7 @@
 	</cfif>
 </cfoutput>
 
-<table width="100%" border="1">
+<table width="100%" border="1" class="pretty-nohover">
 <cfloop array="#asgn#" index="ca">
 	<cfoutput>
 				

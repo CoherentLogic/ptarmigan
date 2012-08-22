@@ -12,7 +12,7 @@
 	</cfcase>
 </cfswitch>
 
-<table width="100%" border="1">
+<table width="100%" border="1" class="pretty">
 	<tr>
 		<th>PROJECT NAME</th>
 		<th>PROJECT NUMBER</th>

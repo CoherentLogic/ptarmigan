@@ -38,7 +38,7 @@
 	<cfoutput>
 	<form name="select_task_codes" action="add_assignment.cfm?employee_id=#url.employee_id#&task_id=#url.task_id#&assignment_id=#a.id#" method="post">
 	</cfoutput>
-	<table border="1" width="100%">
+	<table border="1" width="100%" class="pretty">
 		<tr>
 			<th>SELECT</th>
 			<th>TASK CODE</th>
@@ -55,8 +55,8 @@
 			<td>#c_tc.task_code#</td>
 			<td>#c_tc.task_name#</td>
 			<td>
-				BILLED: <input type="text" name="rate_#field_name#"><br>
-				PAID TO EMPLOYEE: <input type="text" name="employee_rate_#field_name#">
+				BILLED TO CUSTOMER: <input type="text" name="rate_#field_name#"><br>
+				PAID TO EMPLOYEE: <input type="text" name="employee_rate_#field_name#"></td>
 			</td>
 			<td>#c_tc.unit_type#</td>
 			<td><input type="checkbox" name="billable" value="#field_name#"></td>

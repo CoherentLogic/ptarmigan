@@ -66,3 +66,50 @@ input:focus,select:focus,textarea:focus {
 	border:1px solid navy;
 	background-color:white;
 }
+
+table.pretty {
+ margin: 1em 1em 1em 2em;
+ background: whitesmoke;
+ border-collapse: collapse;
+}
+table.pretty th, table.pretty td {
+ border: 1px gainsboro solid;
+ padding: 0.2em;
+ 
+}
+table.pretty th {
+ background: gainsboro;
+ text-align: left;
+ color:navy;
+}
+table.pretty caption {
+ margin-left: inherit;
+ margin-right: inherit;
+}
+
+table.pretty tr:hover {
+ background-color:gainsboro;
+ color:navy;
+}
+
+table.pretty-nohover {
+ margin: 1em 1em 1em 2em;
+ background: whitesmoke;
+ border-collapse: collapse;
+}
+table.pretty-nohover th, table.pretty td {
+ border: 1px gainsboro solid;
+ padding: 0.2em;
+ 
+}
+table.pretty-nohover th {
+ background: gainsboro;
+ text-align: left;
+ color:navy;
+}
+table.pretty-nohover caption {
+ margin-left: inherit;
+ margin-right: inherit;
+}
+
+

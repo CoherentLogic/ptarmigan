@@ -12,7 +12,7 @@
 	</cfcase>
 </cfswitch>
 
-<table width="100%" border="1">
+<table width="100%" border="1" class="pretty">
 	<tr>
 		<th>CUSTOMER NAME</th>
 		<th>POINT OF CONTACT</th>
