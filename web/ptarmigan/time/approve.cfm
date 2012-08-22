@@ -35,7 +35,7 @@
 	<option value="deny">Deny</option>
 </select>
 </label>
-<table width="100%" border="1">
+<table width="100%" border="1" class="pretty">
 	<tr>
 		<th></th>
 		<th>EMPLOYEE</th>

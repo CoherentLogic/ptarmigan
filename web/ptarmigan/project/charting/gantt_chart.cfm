@@ -13,10 +13,10 @@
 
 <table class="pretty" border="1" cellpadding="5">
 	<tr>
-		<th nowrap><cfoutput><strong>#project.project_name#</cfoutput></th>
+		<th nowrap><cfoutput><strong>#project.project_name#<hr></cfoutput><br></th>
 		
 		<cfloop from="0" to="#days_in_project#" index="d">
-			<th><cfoutput>#dateFormat(current_date, 'm/dd')#</cfoutput></th>
+			<th valign="top"><cfoutput>#dateFormat(current_date, 'm/dd')#</cfoutput></th>
 			
 			<cfset current_date = dateAdd("d", 1, current_date)>
 		</cfloop>
