@@ -6,7 +6,7 @@
 			</td>
 			<td align="right" valign="bottom">
 				<cfif session.logged_in NEQ true>
-					<form name="log_in" method="post" action="login.cfm">
+					<form name="log_in" method="post" action="/ptarmigan/login.cfm">
 						<table>
 						<tr>
 						<td>

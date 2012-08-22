@@ -70,7 +70,7 @@
 	
 <cfelseif IsDefined("form.submit_codes")>
 
-	<cfdump var="#form#">
+	
 	
 	<cfset selected_codes = ListToArray(form.selected_codes)>
 
@@ -104,10 +104,7 @@
 		<cfset ca.billable = billable>
 		
 		<cfset ca.create()>
-		<cfoutput>
-			<strong>Selected code:</strong> #code# <strong>Rate:</strong> #rate_value#
-			<cfif billable EQ 1> [BILLABLE] <cfelse> [NOT BILLABLE]</cfif><br>
-		</cfoutput>
+		
 		
 		<cfset billable = 1>
 	</cfloop>
