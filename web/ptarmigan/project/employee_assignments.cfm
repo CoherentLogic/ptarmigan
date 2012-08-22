@@ -9,7 +9,7 @@
 	<ol>
 	<cfloop array="#assignments#" index="a">
 		<cfoutput>
-			<li>#dateFormat(a.start_date, "MM/DD/YYYY")#-#dateFormat(a.end_date, "MM/DD/YYYY")#</li>
+			<li><a href="edit_assignment.cfm?id=#a.id#">#dateFormat(a.start_date, "MM/DD/YYYY")#-#dateFormat(a.end_date, "MM/DD/YYYY")#</a></li>
 		</cfoutput>
 	</cfloop>
 	</ol>
@@ -18,6 +18,6 @@
 <cfoutput>
 	<cfif t.completed EQ 0>
 	<hr>
-	<a href="add_assignment.cfm?task_id=#attributes.task_id#&employee_id=#attributes.employee_id#">Add Assignment</a>
+	<a href="add_assignment.cfm?task_id=#attributes.task_id#&employee_id=#attributes.employee_id#">Add assignment</a>
 	</cfif>
 </cfoutput>

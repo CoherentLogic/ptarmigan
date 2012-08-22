@@ -84,16 +84,20 @@
 		<cfset employee_rate_field = "form.employee_rate_#code#">	
 		<cfset employee_rate_value = evaluate(employee_rate_field)>
 		
-		<cfset bill = ListToArray(form.billable)>				
-		
-		<cfloop array="#bill#" index="b">
-			<cfif b EQ code>
-				<cfset billable = 1>
-				<cfbreak>
-			<cfelse>
-				<cfset billable = 0>
-			</cfif>
-		</cfloop>
+		<cfif IsDefined("form.billable")>
+			<cfset bill = ListToArray(form.billable)>				
+			
+			<cfloop array="#bill#" index="b">
+				<cfif b EQ code>
+					<cfset billable = 1>
+					<cfbreak>
+				<cfelse>
+					<cfset billable = 0>
+				</cfif>
+			</cfloop>
+		<cfelse>
+			<cfset billable = 0>
+		</cfif>
 		
 		<cfset ca = CreateObject("component", "ptarmigan.code_assign")>
 		

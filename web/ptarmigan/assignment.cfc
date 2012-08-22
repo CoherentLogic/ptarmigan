@@ -87,13 +87,13 @@
 					employee_id='#this.employee_id#',
 					start_date=#this.start_date#,
 					end_date=#this.end_date#,
-					instructions='#this.instructions#',
-					address='#this.address#',
-					city='#this.city#',
-					state='#this.state#',
-					zip='#this.zip#',
-					latitude=#this.latitude#,
-					longitude=#this.longitude#,
+					instructions='#ucase(this.instructions)#',
+					address='#ucase(this.address)#',
+					city='#ucase(this.city)#',
+					state='#ucase(this.state)#',
+					zip='#ucase(this.zip)#',
+					latitude='#this.latitude#',
+					longitude='#this.longitude#',
 					location_preference=#this.location_preference#
 			WHERE	id='#this.id#'
 		</cfquery>
