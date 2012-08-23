@@ -68,7 +68,7 @@
 		<cfset current_date = project.start_date>
 		<cfloop from="0" to="#days_in_project#" index="d">
 			<cfset date_working = dateFormat(current_date, "mm/dd/yyyy")>
-			<th valign="top" <cfif date_working EQ today_date>style="background-color:navy;color:white;font-weight:bold;"</cfif>>
+			<th valign="top" <cfif date_working EQ today_date>style="background-color:navy;color:white;font-weight:bold;width:30px;"<cfelse>style="width:30px;"</cfif>>
 				
 				<cfoutput>#left(dateFormat(current_date, 'ddd'),1)#</cfoutput>
 				
