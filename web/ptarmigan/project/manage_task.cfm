@@ -82,7 +82,7 @@
 	<cfoutput query="get_employees">
 	<cfset t = CreateObject("component", "ptarmigan.employee").open(id)>
 	<tr>
-		<td>#t.last_name#, #t.honorific# #t.first_name# #t.middle_initial# #t.suffix#</td>
+		<td>#t.full_name()#</td>
 		<td>#t.title#</td>
 		<td>
 			<cfmodule template="employee_assignments.cfm" employee_id="#t.id#" task_id="#url.id#">
