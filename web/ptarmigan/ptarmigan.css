@@ -9,7 +9,7 @@ h1 {
 	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
 	font-size:46px;
-	color:#000;
+	color:navy;
 	padding:0!important;
 	padding:16px 0 0 0;
 	margin:15px 0 0 0;
@@ -68,6 +68,8 @@ input:focus,select:focus,textarea:focus {
 	background-color:white;
 }
 
+/* PRETTY TABLE WITH HOVER EFFECT */
+
 table.pretty {
  margin: 1em 1em 1em 2em;
  background: whitesmoke;
@@ -93,6 +95,8 @@ table.pretty tr:hover {
  color:navy;
 }
 
+/* PRETTY TABLE WITH NO HOVER EFFECT */
+
 table.pretty-nohover {
  margin: 1em 1em 1em 2em;
  background: whitesmoke;
@@ -113,4 +117,69 @@ table.pretty-nohover caption {
  margin-right: inherit;
 }
 
+/* PROPERTY DIALOG */
 
+table.property_dialog {
+ margin: 0;
+ width: 100%;
+ background: white;
+ border-collapse: collapse;
+}
+
+table.property_dialog th, table.property_dialog td {
+ border: 1px gainsboro solid;
+ padding: 0;
+ 
+}
+
+table.property_dialog input, table.property_dialog select, table.property_dialog textarea{
+	padding:0px;
+	margin:0px;
+	border:none;
+	width:100%;
+	height:100%;
+	font-size:12px;
+}
+
+table.property_dialog th {
+ background: gainsboro;
+ text-align: left;
+ color:navy; 
+ padding:3px;
+}
+table.property_dialog caption {
+ margin-left: inherit;
+ margin-right: inherit;
+}
+
+table.property_dialog tr:hover {
+ background-color:gainsboro;
+ color:navy;
+}
+
+
+/* PAGE LAYOUT DIVS */
+
+#container {
+	padding: 20px;
+}
+
+#navigation {
+	float: left;
+	width: 400px;
+	border: solid 1px gainsboro;
+	list-style: none;
+}
+
+#content {
+	margin-left: 442px;
+	border: none;
+	padding: 0px;
+}
+
+#header {
+	background-color: whitesmoke;
+	padding: 10px;
+	border: 1px solid gainsboro;
+	margin-bottom: 20px;
+}

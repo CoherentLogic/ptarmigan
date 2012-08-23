@@ -7,6 +7,7 @@
 
 <cfparam name="session.root_url" default="/ptarmigan">
 
+
 <html>
 <head>
 	<title>ptarmigan</title>
@@ -14,10 +15,11 @@
 	<link rel="stylesheet" href="#session.root_url#/ptarmigan.css" type="text/css">
 	</cfoutput>
 </head>
+<cfif NOT IsDefined("url.suppress_headers")>
 <body>
 
 <cfinclude template="top.cfm">
 <cfinclude template="navigation.cfm">
 
 <div style="width:100%;">
-<div style="width:80%; margin:auto;" class="bodyDiv">
+</cfif>
