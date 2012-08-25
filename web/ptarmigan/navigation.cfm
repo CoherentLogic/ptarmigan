@@ -3,7 +3,11 @@
 	<cfmenuitem name="ptarmigan" display="ptarmigan">
 		<cfif session.logged_in EQ true>
 			<cfmenuitem display="Dashboard" href="#session.root_url#/dashboard.cfm"/>
-			<cfmenuitem display="Manage Company" href="#session.root_url#/manage.cfm"/>		
+			<cfif session.user.is_admin() EQ true>
+				<cfmenuitem display="Company">		
+					<cfmenuitem display="Set pay periods" href="#session.root_url#/company/create_pay_periods.cfm"/>
+				</cfmenuitem>
+			</cfif>
 			<cfmenuitem display="Log out" href="#session.root_url#/logout.cfm"/>
 		</cfif>
 		<cfmenuitem display="About" href="#session.root_url#/about.cfm"/>

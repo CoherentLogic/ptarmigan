@@ -183,3 +183,7 @@ table.property_dialog tr:hover {
 	border: 1px solid gainsboro;
 	margin-bottom: 20px;
 }
+
+div.help_box {
+	padding:20px;
+}
