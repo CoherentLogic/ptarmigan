@@ -2,6 +2,7 @@
 
 	<cfset this.id = "">
 	<cfset this.task_code_assignment_id = "">
+	<cfset this.employee_id = "">
 	<cfset this.start_time = "">
 	<cfset this.end_time = "">
 	<cfset this.approved = 0>
@@ -20,13 +21,15 @@
 						start_time,
 						end_time,
 						approved,
-						approver_id)
+						approver_id,
+						employee_id)
 			VALUES		('#this.id#',
 						'#this.task_code_assignment_id#',
 						#CreateODBCDateTime(this.start_time)#,
 						#CreateODBCDateTime(this.end_time)#,
 						#this.approved#,
-						'#this.approver_id#')
+						'#this.approver_id#',
+						'#this.employee_id#')
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -47,6 +50,7 @@
 		<cfset this.end_time = ote.end_time>
 		<cfset this.approved = ote.approved>
 		<cfset this.approver_id = ote.approver_id>
+		<cfset this.employee_id = ote.employee_id>
 		
 		<cfset this.written = true>		
 		<cfreturn this>

@@ -1,7 +1,12 @@
 <cfmodule template="security/require.cfm" type="">
 
+<cfif IsDefined("form.current_pay_period")>
+	<cfset pay_period_id = form.current_pay_period>
+<cfelseif IsDefined("url.pay_period_id")>
+	<cfset pay_period_id = url.pay_period_id>
+</cfif>
 
-<cfif NOT IsDefined("url.pay_period_id")>
+<cfif NOT IsDefined("url.pay_period_id") AND NOT IsDefined("form.current_pay_period")>
 	<cfquery name="get_current_pay_period" datasource="ptarmigan">
 		SELECT 	* 
 		FROM 	pay_periods 
@@ -9,14 +14,20 @@
 		AND 	end_date>=#CreateODBCDate(Now())#
 	</cfquery>
 	<cfset selected_pay_period_id = get_current_pay_period.id>
+	<cfset pay_period_id = get_current_pay_period.id>
 <cfelse>
 	<cfquery name="get_current_pay_period" datasource="ptarmigan">
 		SELECT	*
 		FROM	pay_periods
-		WHERE	id='#url.pay_period_id#'
+		WHERE	id='#pay_period_id#'
 	</cfquery>
-	<cfset selected_pay_period_id = url.pay_period_id>
+	
+	
+	<cfset selected_pay_period_id = pay_period_id>
+
 </cfif>
+
+
 
 <cfset open_date = get_current_pay_period.start_date>
 <cfset close_date = get_current_pay_period.end_date>
@@ -26,6 +37,7 @@
 	<cfset period_status = "OPEN">
 </cfif>
 
+<cfset stats = CreateObject("component", "ptarmigan.company.statistics")>
 
 <cfquery name="get_pay_periods" datasource="ptarmigan">
 	SELECT 		* 
@@ -33,35 +45,9 @@
 	ORDER BY 	start_date
 </cfquery>
 
-<cfquery name="projects_open" datasource="ptarmigan">
-	SELECT 		id,
-				COUNT(id) AS project_count
-	FROM		projects
-	WHERE 		start_date<=#CreateODBCDate(Now())#
-	AND 		due_date>=#CreateODBCDate(Now())#
-	ORDER BY	due_date DESC
-</cfquery>
 
-<cfquery name="milestones_open" datasource="ptarmigan">
-	SELECT 		COUNT(id) AS milestone_count
-	FROM		milestones
-	WHERE 		start_date<=#CreateODBCDate(Now())#
-	AND 		end_date>=#CreateODBCDate(Now())#
-</cfquery>
 
-<cfquery name="tasks_open" datasource="ptarmigan">
-	SELECT 		COUNT(id) AS task_count
-	FROM		tasks
-	WHERE 		start_date<=#CreateODBCDate(Now())#
-	AND 		end_date>=#CreateODBCDate(Now())#
-</cfquery>
 
-<cfquery name="assignments_open_company" datasource="ptarmigan">
-	SELECT 		COUNT(id) AS assignment_count
-	FROM		assignments
-	WHERE 		start_date<=#CreateODBCDate(Now())#
-	AND 		end_date>=#CreateODBCDate(Now())#
-</cfquery>
 
 <cfinclude template="utility.cfm">
 
@@ -76,12 +62,12 @@
 	<div id="navigation">
 		<cflayout type="accordion">	
 			<cflayoutarea title="PAY PERIOD">
-				<form name="change_pay_period">
+				<form name="change_pay_period" action="dashboard.cfm" method="post">
 				<table class="property_dialog">
 					<tr>
 						<td>Date range</td>
 						<td>
-							<select name="current_pay_period">
+							<select name="current_pay_period" onchange="this.form.submit();">
 								<cfoutput query="get_pay_periods">
 									<option value="#id#" <cfif selected_pay_period_id EQ id>selected</cfif>>#dateFormat(start_date, 'm/dd/yyyy')#-#dateFormat(end_date, 'm/dd/yyyy')#</option>
 								</cfoutput>
@@ -94,12 +80,12 @@
 					</tr>
 					<tr>
 						<td>Hours worked (me)</td>
-						<td>&nbsp;</td>
+						<td><cfoutput>#stats.hours_worked(open_date, close_date, session.user.id)#</cfoutput></td>
 					</tr>
 					<cfif session.user.is_time_approver() EQ true>
 					<tr>
 						<td>Hours worked (company)</td>
-						<td>&nbsp;</td>
+						<td><cfoutput>#stats.hours_worked(open_date, close_date)#</cfoutput></td>
 					</tr>
 					</cfif>
 					<cfif session.user.is_project_manager() EQ true>
@@ -107,7 +93,7 @@
 						<td>Projects active</td>
 						<td>
 							<cfoutput>
-								#projects_open.project_count#
+								#stats.projects_open(open_date, close_date)#
 							</cfoutput>	
 						</td>
 					</tr>
@@ -116,20 +102,24 @@
 						<td>Assignments (me)</td>
 						<td>
 							<cfoutput>
-								#assignments_open_company.assignment_count#
+								#stats.assignments_open(open_date, close_date, session.user.id)#
 							</cfoutput>
 						</td>
 					</tr>
 					<cfif session.user.is_project_manager() EQ true>
 					<tr>
 						<td>Assignments (company)</td>
-						<td>&nbsp;</td>
+						<td>
+							<cfoutput>
+								#stats.assignments_open(open_date, close_date)#								
+							</cfoutput>
+						</td>
 					</tr>
 					<tr>
 						<td>Milestones active</td>
 						<td>
 							<cfoutput>
-								#milestones_open.milestone_count#
+								#stats.milestones_open(open_date, close_date)#
 							</cfoutput>
 						</td>						
 					</tr>
@@ -137,12 +127,13 @@
 						<td>Tasks active</td>
 						<td>
 							<cfoutput>
-								#tasks_open.task_count#
+								#stats.tasks_open(open_date, close_date)#
 							</cfoutput>
 						</td>
 					</tr>
 					</cfif>
 				</table>
+				<input type="submit" name="change_pay_period" value="Update">
 				</form>
 			
 			</cflayoutarea>
@@ -300,8 +291,30 @@
 				</table>
 			</cflayoutarea>
 			<cfif session.user.is_project_manager() EQ true>
-				<cflayoutarea title="Priority Projects">
-				
+				<cflayoutarea title="Calendar">
+					
+					<cfset next_day = open_date>
+					<table width="100%">
+						<tr>						
+							<cfloop from="1" to="7" index="dayNum">
+								<td>
+									<div style="width:200px;height:200px;overflow:auto;border:1px solid black;">
+									<span style="color:gray; text-transform:uppercase; letter-spacing:3px;">
+									<cfoutput>#dateFormat(next_day, "dddd, mmm")#</cfoutput>
+									</span>
+									<cfoutput><h1 style="margin-top:0; padding-top:0;">#dateFormat(next_day, "d")#</cfoutput></h1>
+									
+									<cfset priority_projects = CreateObject("component", "ptarmigan.company.company").priority_projects(next_day, next_day)>
+									<cfloop array="#priority_projects#" index="p">
+										<cfoutput><a href="project/edit_project.cfm?id=#p.id#">#p.project_name# DUE</a><br></cfoutput>
+									</cfloop>
+									</div>
+								</td>
+								<cfset next_day = dateAdd("d", 1, next_day)>
+							</cfloop>
+						</tr>
+					</table>
+					
 				</cflayoutarea>
 			</cfif>
 			<cfif session.user.is_billing_manager() EQ true>
@@ -312,7 +325,9 @@
 				
 				</cflayoutarea>
 			</cfif>
+			<cflayoutarea title="In/Out Board">
 			
+			</cflayoutarea>
 		</cflayout>
 	</div>
 </div>

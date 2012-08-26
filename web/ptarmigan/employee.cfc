@@ -361,6 +361,29 @@
 		
 		<cfreturn oa>
 	</cffunction>
+	<cffunction name="assignments_by_range" returntype="array" access="public" output="false">
+		<cfargument name="from_date" datatype="string" required="true">
+		<cfargument name="to_date" datatype="string" required="true">
+
+		<cfquery name="q_asgn" datasource="ptarmigan">
+			SELECT		id AS asgn_id
+			FROM		assignments			
+			WHERE		employee_id='#this.id#'
+			AND			start_date>=#CreateODBCDate(from_date)#
+			AND			end_date>=#CreateODBCDate(to_date)#
+			ORDER BY	start_date
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_asgn">
+			<cfset t = CreateObject("component", "ptarmigan.assignment").open(asgn_id)>
+			
+			<cfset ArrayAppend(oa, t)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
 	
 	<cffunction name="clock_in" returntype="void" access="public" output="false">
 		<cfargument name="task_code_asgn" type="string" required="true">
@@ -368,6 +391,7 @@
 		<cfset this.clocked_in = 1>
 		<cfset this.clocked_task_code_asgn_id = task_code_asgn>
 		<cfset this.clocked_timestamp = CreateODBCDateTime(Now())>
+		
 		
 		<cfset this.update()>
 	</cffunction>
@@ -377,6 +401,7 @@
 		
 		<cfset te = CreateObject("component", "ptarmigan.time_entry")>
 		
+		<cfset te.employee_id = this.id>
 		<cfset te.task_code_assignment_id = this.clocked_task_code_asgn_id>
 		<cfset te.start_time = CreateODBCDateTime(this.clocked_timestamp)>
 		<cfset te.end_time = CreateODBCDateTime(Now())>

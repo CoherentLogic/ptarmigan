@@ -8,16 +8,16 @@
 </cffunction>
 
 <cffunction name="RoundTo15" returntype="date" access="public" output="false">
-		<cfargument name="theTime" type="date" required="true">
+	<cfargument name="theTime" type="date" required="true">
 		
 		
-		<cfset roundedMinutes = round(minute(theTime) / 15 ) * 15>
-		<cfset newHour = hour(theTime)>
+	<cfset roundedMinutes = round(minute(theTime) / 15 ) * 15>
+	<cfset newHour = hour(theTime)>
     
-		<cfif roundedMinutes EQ 60>
-			<cfset newHour=newHour + 1>
-    	    <cfset roundedMinutes = 0>
-		</cfif>
+	<cfif roundedMinutes EQ 60>
+		<cfset newHour=newHour + 1>
+   	    <cfset roundedMinutes = 0>
+	</cfif>
     	
-		<cfreturn timeFormat(createTime(newHour,roundedMinutes,0),"h:mm tt")>    
-  </cffunction>
+	<cfreturn dateFormat(theTime, "MM/DD/YYYY") & " " & timeFormat(createTime(newHour,roundedMinutes,0),"h:mm tt")>    
+ </cffunction>

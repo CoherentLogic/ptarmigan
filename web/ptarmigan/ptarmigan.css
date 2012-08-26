@@ -1,12 +1,15 @@
+body,html {
+	height:100%;
+}
 body,html,td {
 	margin:0;
 	padding:0;
 	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
+	/*font-family:Arial,Helvetica,sans-serif;*/
 	font-size:14px;
 }
 
 h1 {
-	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
 	font-size:46px;
 	color:navy;
@@ -17,7 +20,6 @@ h1 {
 }
 
 h2 {
-	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
 	font-size:36px;
 	color:#000;
@@ -27,7 +29,6 @@ h2 {
 }
 
 h3 {
-	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
 	font-size:26px;
 	color:#000;
@@ -37,7 +38,6 @@ h3 {
 }
 
 h4 {
-	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
 	font-size:16px;
 	color:#000;
@@ -159,9 +159,15 @@ table.property_dialog tr:hover {
 
 
 /* PAGE LAYOUT DIVS */
+#header_bar {
+	height:171px;
+	width:100%;
+	margin:0;
+	padding:0;
+}
 
 #container {
-	padding: 20px;
+	padding: 20px;	
 }
 
 #navigation {
@@ -169,21 +175,37 @@ table.property_dialog tr:hover {
 	width: 400px;
 	border: solid 1px gainsboro;
 	list-style: none;
+	/*height:100%;*/
 }
 
 #content {
 	margin-left: 442px;
 	border: none;
 	padding: 0px;
+	/*height:100%;*/
 }
 
 #header {
 	background-color: whitesmoke;
 	padding: 10px;
 	border: 1px solid gainsboro;
-	margin-bottom: 20px;
+	margin-bottom:20px;
 }
 
 div.help_box {
 	padding:20px;
 }
+
+a {
+	color:navy;
+	text-decoration:none;
+}
+
+a:visited {
+	color:navy;
+}
+
+a:hover {
+	color:blue;
+}
+

@@ -180,7 +180,7 @@
 </cflayout>
 </div>
 <div id="content">
-<cflayout type="tab" height="500">
+<cflayout type="tab">
 	<cflayoutarea title="Overview">
 		<cfmodule template="gantt_chart.cfm" id="#project_id#">
 	</cflayoutarea>

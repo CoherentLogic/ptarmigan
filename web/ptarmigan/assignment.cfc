@@ -136,6 +136,7 @@
 	</cffunction>
 	
 	<cffunction name="task_codes" returntype="array" access="public">
+		
 		<cfquery name="gtc" datasource="ptarmigan">
 			SELECT 		task_codes.id, 
 						task_codes.task_name,

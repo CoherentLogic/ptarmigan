@@ -15,12 +15,16 @@
 	
 	<cfset t.create()>
 	
+	<cfset session.message = "Created project " & t.project_number>
+	
 	<cfoutput>
 		<center>
 		<h1>Project Created</h1>
 		<a href="view_project.cfm?id=#t.id#">View</a> | <a href="edit_project.cfm?id=#t.id#">Edit</a>
 		</center>
 	</cfoutput>
+	
+	
 
 <cfelse>
 

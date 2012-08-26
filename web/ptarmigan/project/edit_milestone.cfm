@@ -23,8 +23,10 @@
 	
 	
 	
-	<cflocation url="edit_project.cfm?id=#t.project_id#">
-<cfelse>
+	<script>
+		refresh_parent();
+	</script>
+</cfif>
 
 	<h1>Edit Milestone</h1>
 	
@@ -63,4 +65,3 @@
 	</form>
 	</cfoutput>
 
-</cfif>

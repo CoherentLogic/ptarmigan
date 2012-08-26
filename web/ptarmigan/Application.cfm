@@ -13,13 +13,20 @@
 	<title>ptarmigan</title>
 	<cfoutput>
 	<link rel="stylesheet" href="#session.root_url#/ptarmigan.css" type="text/css">
+	<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
+	
 	</cfoutput>
+	
+
+
 </head>
 <cfif NOT IsDefined("url.suppress_headers")>
 <body>
 
+<div id="header_bar">
 <cfinclude template="top.cfm">
 <cfinclude template="navigation.cfm">
+</div>
 
 <div style="width:100%;">
 </cfif>

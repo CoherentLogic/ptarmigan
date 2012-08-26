@@ -30,7 +30,7 @@
 			<td>#t.project_number#</td>
 			<td>#dateFormat(t.due_date, "MM/DD/YYYY")#</td>
 			<td>#t.customer().company_name#</td>
-			<td><input type="submit" name="submit_#t.id#" value="#ucase(url.action)#"></td>
+			<td><a href="edit_project.cfm?id=#id#">Edit Project</a></td>
 		</tr>
 		</form>
 	</cfoutput>

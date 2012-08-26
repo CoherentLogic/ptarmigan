@@ -20,7 +20,7 @@
 	<cfset a.location_preference = form.location_preference>
 	
 	<cfset a.create()>
-	
+	<cfset session.message = "Created an assignment">
 	<cfquery name="get_task_codes" datasource="ptarmigan">
 		SELECT id FROM task_codes ORDER BY task_name
 	</cfquery>

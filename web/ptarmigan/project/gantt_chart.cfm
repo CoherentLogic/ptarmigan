@@ -83,7 +83,7 @@
 			<cfset days_in_milestone = dateDiff("d", ms.start_date, ms.end_date) + 1>
 			<cfif ms.floating EQ 0>
 				<tr>					
-				<th nowrap style="font-weight:bold;"><cfoutput>#ms.milestone_number#: <a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a> <cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="##"> <cfmodule template="/ptarmigan/link_box.cfm" text="Set Current" symbol="&gt;" href="##"></cfoutput></th>
+				<th nowrap style="font-weight:bold;"><cfoutput>#ms.milestone_number#: <a href="javascript:creator_win('edit_milestone.cfm?id=#ms.id#&suppress_headers');">#ms.milestone_name#</a> <cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="##"> <cfmodule template="/ptarmigan/link_box.cfm" text="Set Current" symbol="&gt;" href="##"></cfoutput></th>
 				<td style="background-color:white;"><cfoutput>#dateFormat(ms.start_date, "m/dd/yyyy")#</cfoutput></td>
 				<td style="background-color:white;"><cfoutput>#dateFormat(ms.end_date, "m/dd/yyyy")#</cfoutput></td>
 				<td style="background-color:white;"><cfoutput>#days_in_milestone#</cfoutput></td>
@@ -130,7 +130,7 @@
 					</cfif>
 			<cfelse><!--- ms.floating EQ 1 --->
 				<tr>					
-					<th nowrap><cfoutput><em style="font-style:italic;">#ms.milestone_name#</em></cfoutput> [FLOATING] <cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="##"></th>
+					<th nowrap><cfoutput><em style="font-style:italic;"><a href="javascript:creator_win('edit_milestone.cfm?id=#ms.id#&suppress_headers');">#ms.milestone_name#</a></em></cfoutput> [FLOATING] <cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="##"></th>
 					<th style="background-color:white;" colspan="<cfoutput>#days_in_project+4#</cfoutput>"></th>
 					
 				</tr>
