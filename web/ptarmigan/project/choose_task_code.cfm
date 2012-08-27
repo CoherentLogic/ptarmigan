@@ -1,5 +1,5 @@
 <cfmodule template="../security/require.cfm" type="project">
-<cfquery name="get_task_codes" datasource="ptarmigan">
+<cfquery name="get_task_codes" datasource="#session.company.datasource#">
 	SELECT id FROM task_codes ORDER BY task_name
 </cfquery>
 

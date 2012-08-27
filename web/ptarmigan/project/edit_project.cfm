@@ -10,7 +10,7 @@
 
 
 
-<cfquery name="get_customers" datasource="ptarmigan">
+<cfquery name="get_customers" datasource="#session.company.datasource#">
 	SELECT id,company_name FROM customers ORDER BY company_name
 </cfquery>
 

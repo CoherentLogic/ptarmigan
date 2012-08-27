@@ -7,7 +7,7 @@
 </cfif>
 
 <cfif NOT IsDefined("url.pay_period_id") AND NOT IsDefined("form.current_pay_period")>
-	<cfquery name="get_current_pay_period" datasource="ptarmigan">
+	<cfquery name="get_current_pay_period" datasource="#session.company.datasource#">
 		SELECT 	* 
 		FROM 	pay_periods 
 		WHERE 	start_date<=#CreateODBCDate(Now())#
@@ -16,7 +16,7 @@
 	<cfset selected_pay_period_id = get_current_pay_period.id>
 	<cfset pay_period_id = get_current_pay_period.id>
 <cfelse>
-	<cfquery name="get_current_pay_period" datasource="ptarmigan">
+	<cfquery name="get_current_pay_period" datasource="#session.company.datasource#">
 		SELECT	*
 		FROM	pay_periods
 		WHERE	id='#pay_period_id#'
@@ -39,7 +39,7 @@
 
 <cfset stats = CreateObject("component", "ptarmigan.company.statistics")>
 
-<cfquery name="get_pay_periods" datasource="ptarmigan">
+<cfquery name="get_pay_periods" datasource="#session.company.datasource#">
 	SELECT 		* 
 	FROM 		pay_periods 
 	ORDER BY 	start_date

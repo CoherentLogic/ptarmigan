@@ -1,5 +1,5 @@
 <cfmodule template="../security/require.cfm" type="">
-<cfquery name="get_projects" datasource="ptarmigan">
+<cfquery name="get_projects" datasource="#session.company.datasource#">
 	SELECT id FROM projects ORDER BY due_date
 </cfquery>
 

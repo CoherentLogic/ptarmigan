@@ -24,8 +24,6 @@
 <cfif NOT IsDefined("url.suppress_headers")>
 <body>
 
-<cfdump var="#session.company#">
-
 <div id="header_bar">
 <cfinclude template="top.cfm">
 <cfinclude template="navigation.cfm">

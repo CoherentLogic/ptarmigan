@@ -20,7 +20,7 @@
 	
 </cfif>
 
-<cfquery name="get_time_entries" datasource="ptarmigan">
+<cfquery name="get_time_entries" datasource="#session.company.datasource#">
 	SELECT  id 
 	FROM 	time_entries 
 	WHERE	approved=0

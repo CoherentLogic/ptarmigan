@@ -28,7 +28,7 @@
 
 <cfelse>
 
-<cfquery name="customers" datasource="ptarmigan">
+<cfquery name="customers" datasource="#session.company.datasource#">
 	SELECT company_name,id FROM customers ORDER BY company_name
 </cfquery>
 

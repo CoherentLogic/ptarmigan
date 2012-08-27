@@ -1,6 +1,6 @@
 <cfmodule template="../security/require.cfm" type="project">
 
-<cfquery name="get_employees" datasource="ptarmigan">
+<cfquery name="get_employees" datasource="#session.company.datasource#">
 	SELECT 		* 
 	FROM 		employees 
 	ORDER BY 	last_name,first_name

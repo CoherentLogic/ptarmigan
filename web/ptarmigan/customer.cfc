@@ -13,7 +13,7 @@
 		
 		<cfset this.id = CreateUUID()>
 		
-		<cfquery name="q_create_customer" datasource="ptarmigan">
+		<cfquery name="q_create_customer" datasource="#session.company.datasource#">
 			INSERT INTO customers
 						(id,
 						company_name,
@@ -37,7 +37,7 @@
 	
 	<cffunction name="update" returntype="ptarmigan.customer" access="public" output="false">
 	
-		<cfquery name="q_update_customer" datasource="ptarmigan">
+		<cfquery name="q_update_customer" datasource="#session.company.datasource#">
 			UPDATE customers
 			SET		company_name='#this.company_name#',
 					poc='#this.poc#',
@@ -56,7 +56,7 @@
 	<cffunction name="open" returntype="ptarmigan.customer" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="qoc" datasource="ptarmigan">
+		<cfquery name="qoc" datasource="#session.company.datasource#">
 			SELECT * FROM customers WHERE id='#id#'
 		</cfquery>
 		

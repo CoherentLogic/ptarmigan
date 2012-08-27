@@ -21,7 +21,7 @@
 			<cfset this.id = CreateUUID()>
 			<cfset this.project_number = this.next_project_number()>
 			
-			<cfquery name="q_project_create" datasource="ptarmigan">
+			<cfquery name="q_project_create" datasource="#session.company.datasource#">
 				INSERT INTO projects 
 							(id,
 							project_number,
@@ -67,7 +67,7 @@
 	
 	<cffunction name="next_project_number" returntype="string" access="public" output="false">
 	
-		<cfquery name="gpn" datasource="ptarmigan">
+		<cfquery name="gpn" datasource="#session.company.datasource#">
 			SELECT MAX(LEFT(project_number, 3)) AS max_pn FROM projects
 		</cfquery>
 		
@@ -92,7 +92,7 @@
 	<cffunction name="open" returntype="ptarmigan.project" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="op" datasource="ptarmigan">
+		<cfquery name="op" datasource="#session.company.datasource#">
 			SELECT * FROM projects WHERE id='#id#'
 		</cfquery>
 		
@@ -114,7 +114,7 @@
 	
 	<cffunction name="update" returntype="ptarmigan.project" access="public" output="false">
 		
-		<cfquery name="q_update_project" datasource="ptarmigan">
+		<cfquery name="q_update_project" datasource="#session.company.datasource#">
 			UPDATE projects
 			SET		project_number='#this.project_number#',
 					project_name='#this.project_name#',
@@ -140,7 +140,7 @@
 	
 	<cffunction name="milestones" returntype="array" access="public" output="false">		
 		
-		<cfquery name="gm" datasource="ptarmigan">
+		<cfquery name="gm" datasource="#session.company.datasource#">
 			SELECT * FROM milestones WHERE project_id='#this.id#' ORDER BY milestone_number
 		</cfquery>
 		

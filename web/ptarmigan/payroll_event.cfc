@@ -14,7 +14,7 @@
 		
 		<cfset this.id = CreateUUID()>
 		
-		<cfquery name="q_create_payroll_event" datasource="ptarmigan">
+		<cfquery name="q_create_payroll_event" datasource="#session.company.datasource#">
 			INSERT INTO payroll_event
 						(id,
 						employee_id,
@@ -39,7 +39,7 @@
 	<cffunction name="open" returntype="ptarmigan.payroll_event" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="ope" datasource="ptarmigan">
+		<cfquery name="ope" datasource="#session.company.datasource#">
 			SELECT * FROM payroll_event WHERE id='#id#'
 		</cfquery>
 		
@@ -57,7 +57,7 @@
 	
 	<cffunction name="update" returntype="ptarmigan.payroll_event" access="public" output="false">
 		
-		<cfquery name="q_update_payroll_event" datasource="ptarmigan">
+		<cfquery name="q_update_payroll_event" datasource="#session.company.datasource#">
 			UPDATE	payroll_event
 			SET		employee_id='#this.employee_id#',
 					charged=#this.charged#,

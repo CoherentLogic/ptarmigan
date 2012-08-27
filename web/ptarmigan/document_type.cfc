@@ -9,7 +9,7 @@
 		
 		<cfset this.id = CreateUUID()>
 		
-		<cfquery name="q_create_document_type" datasource="ptarmigan">
+		<cfquery name="q_create_document_type" datasource="#session.company.datasource#">
 			INSERT INTO document_types
 						(id,
 						type_name,
@@ -26,7 +26,7 @@
 	<cffunction name="open" datatype="ptarmigan.document_type" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="odt" datasource="ptarmigan">
+		<cfquery name="odt" datasource="#session.company.datasource#">
 			SELECT * FROM document_types WHERE id='#id#'
 		</cfquery>
 		
@@ -40,7 +40,7 @@
 	
 	<cffunction name="update" datatype="ptarmigan.document_type" access="public" output="false">
 		
-		<cfquery name="q_update_document_type" datasource="ptarmigan">
+		<cfquery name="q_update_document_type" datasource="#session.company.datasource#">
 			UPDATE 	document_types
 			SET		type_name='#ucase(this.type_name)#',
 					type_key='#ucase(this.type_key)#'

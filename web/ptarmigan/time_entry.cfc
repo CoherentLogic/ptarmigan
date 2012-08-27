@@ -14,7 +14,7 @@
 	
 		<cfset this.id = CreateUUID()>
 		
-		<cfquery name="q_create_time_entry" datasource="ptarmigan">
+		<cfquery name="q_create_time_entry" datasource="#session.company.datasource#">
 			INSERT INTO time_entries
 						(id,
 						task_code_assignment_id,
@@ -40,7 +40,7 @@
 	<cffunction name="open" returntype="ptarmigan.time_entry" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="ote" datasource="ptarmigan">
+		<cfquery name="ote" datasource="#session.company.datasource#">
 			SELECT * FROM time_entries WHERE id='#id#'
 		</cfquery>
 		
@@ -59,7 +59,7 @@
 	
 	<cffunction name="update" returntype="ptarmigan.time_entry" access="public" output="false">
 	
-		<cfquery name="q_update_time_entry" datasource="ptarmigan">
+		<cfquery name="q_update_time_entry" datasource="#session.company.datasource#">
 			UPDATE time_entries
 			SET		task_code_assignment_id='#this.task_code_assignment_id#',
 					start_time=#CreateODBCDateTime(this.start_time)#,

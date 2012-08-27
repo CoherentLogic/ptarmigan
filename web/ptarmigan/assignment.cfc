@@ -20,7 +20,7 @@
 	
 		<cfset this.id = CreateUUID()>
 	
-		<cfquery name="q_create_assignment" datasource="ptarmigan">
+		<cfquery name="q_create_assignment" datasource="#session.company.datasource#">
 			INSERT INTO assignments
 						(id,
 						task_id,
@@ -57,7 +57,7 @@
 	<cffunction name="open" returntype="ptarmigan.assignment" access="public" output="false">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="ao" datasource="ptarmigan">
+		<cfquery name="ao" datasource="#session.company.datasource#">
 			SELECT * FROM assignments WHERE id='#id#'
 		</cfquery>
 	
@@ -81,7 +81,7 @@
 
 	<cffunction name="update" returntype="ptarmigan.assignment" access="public" output="false">
 	
-		<cfquery name="q_update_assignment" datasource="ptarmigan">
+		<cfquery name="q_update_assignment" datasource="#session.company.datasource#">
 			UPDATE assignments
 			SET		task_id='#this.task_id#',
 					employee_id='#this.employee_id#',
@@ -137,7 +137,7 @@
 	
 	<cffunction name="task_codes" returntype="array" access="public">
 		
-		<cfquery name="gtc" datasource="ptarmigan">
+		<cfquery name="gtc" datasource="#session.company.datasource#">
 			SELECT 		task_codes.id, 
 						task_codes.task_name,
 						task_code_assignments.id AS shit

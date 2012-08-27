@@ -12,7 +12,7 @@
 	<cffunction name="create" returntype="ptarmigan.code_assign" access="public">
 	
 		<cfset this.id = CreateUUID()>
-		<cfquery name="q_create_code_assign" datasource="ptarmigan">
+		<cfquery name="q_create_code_assign" datasource="#session.company.datasource#">
 			INSERT INTO task_code_assignments
 						(id,
 						task_code_id,
@@ -35,7 +35,7 @@
 	<cffunction name="open" returntype="ptarmigan.code_assign" access="public">
 		<cfargument name="id" type="string" required="true">
 		
-		<cfquery name="oca" datasource="ptarmigan">
+		<cfquery name="oca" datasource="#session.company.datasource#">
 			SELECT * FROM task_code_assignments WHERE id='#id#'
 		</cfquery>
 		
@@ -52,7 +52,7 @@
 
 	<cffunction name="update" returntype="ptarmigan.code_assign" access="public">
 
-		<cfquery name="q_update_code_assign" datasource="ptarmigan">
+		<cfquery name="q_update_code_assign" datasource="#session.company.datasource#">
 			UPDATE task_code_assignments
 			SET		task_code_id='#this.task_code_id#',
 					assignment_id='#this.assignment_id#',

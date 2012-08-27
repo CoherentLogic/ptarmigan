@@ -6,7 +6,7 @@
 
 
 
-<cfquery name="get_task_codes" datasource="ptarmigan">
+<cfquery name="get_task_codes" datasource="#session.company.datasource#">
 	SELECT id FROM task_codes ORDER BY task_name
 </cfquery>
 	
@@ -120,7 +120,7 @@
 		<cfloop array="#remove_codes#" index="code">
 			<cfset real_code = replace(code, "_", "-", "all")>
 			
-			<cfquery name="time_interlock" datasource="ptarmigan">
+			<cfquery name="time_interlock" datasource="#session.company.datasource#">
 				SELECT id FROM time_entries WHERE task_code_assignment_id='#real_code#'
 			</cfquery>
 			
@@ -128,7 +128,7 @@
 				<cfset cdel = CreateObject("component", "ptarmigan.code_assign").open(real_code)>
 				<cfset ctask = CreateObject("component", "ptarmigan.task_code").open(cdel.task_code_id)>
 				<li><span style="color:green;">REMOVING</span> <cfoutput>[#ctask.task_code#: #ctask.task_name#]</cfoutput></li>
-				<cfquery name="remove_code" datasource="ptarmigan">
+				<cfquery name="remove_code" datasource="#session.company.datasource#">
 					DELETE FROM task_code_assignments WHERE id='#real_code#'
 				</cfquery>
 			<cfelse>
@@ -143,7 +143,7 @@
 	
 </cfif> <!--- submit code assignment mods/removals --->
 
-<cfquery name="get_task_assigns" datasource="ptarmigan">
+<cfquery name="get_task_assigns" datasource="#session.company.datasource#">
 	SELECT id FROM task_code_assignments WHERE assignment_id='#url.id#'
 </cfquery>
 

@@ -15,7 +15,7 @@
 		
 		<cfset this.id = CreateUUID()>
 		
-		<cfquery name="q_milestone_create" datasource="ptarmigan">
+		<cfquery name="q_milestone_create" datasource="#session.company.datasource#">
 			INSERT INTO milestones
 						(id,
 						project_id,
@@ -43,7 +43,7 @@
 	<cffunction name="open" returntype="ptarmigan.milestone" access="public" output="false">
 		<cfargument name="id" type="string" required="yes">
 		
-		<cfquery name="mo" datasource="ptarmigan">
+		<cfquery name="mo" datasource="#session.company.datasource#">
 			SELECT * FROM milestones WHERE id='#id#'
 		</cfquery>
 		
@@ -63,7 +63,7 @@
 
 	<cffunction name="update" returntype="ptarmigan.milestone" access="public" output="false">
 		
-		<cfquery name="mu" datasource="ptarmigan">
+		<cfquery name="mu" datasource="#session.company.datasource#">
 			UPDATE milestones
 			SET		project_id='#this.project_id#',
 					milestone_number=#this.milestone_number#,
@@ -81,7 +81,7 @@
 	</cffunction>
 
 	<cffunction name="tasks" returntype="array" access="public" output="false">
-		<cfquery name="q_tasks" datasource="ptarmigan">
+		<cfquery name="q_tasks" datasource="#session.company.datasource#">
 			SELECT id FROM tasks WHERE milestone_id='#this.id#' ORDER BY ts
 		</cfquery>
 		

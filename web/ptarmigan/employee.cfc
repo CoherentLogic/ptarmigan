@@ -47,7 +47,7 @@
 	<cffunction name="create" returntype="ptarmigan.employee" access="public" output="false">
 		
 		<cfset this.id = CreateUUID()>
-		<cfquery name="employee_create" datasource="ptarmigan">
+		<cfquery name="employee_create" datasource="#session.company.datasource#">
 			INSERT INTO employees
 						(id,
 						username,
@@ -111,7 +111,7 @@
 	<cffunction name="open" returntype="ptarmigan.employee" access="public" output="false">
 		<cfargument name="id" datatype="string" required="true">
 		
-		<cfquery name="q_open" datasource="ptarmigan">
+		<cfquery name="q_open" datasource="#session.company.datasource#">
 			SELECT username FROM employees WHERE id='#id#'
 		</cfquery>
 		
@@ -121,7 +121,7 @@
 	<cffunction name="open_by_username" returntype="ptarmigan.employee" access="public" output="false">
 		<cfargument name="username" type="string" required="true">
 		
-		<cfquery name="obu" datasource="ptarmigan">
+		<cfquery name="obu" datasource="#session.company.datasource#">
 			SELECT * FROM employees WHERE username='#UCase(username)#'
 		</cfquery>
 		
@@ -163,7 +163,7 @@
 	
 	<cffunction name="update" returntype="boolean" access="public" output="false">
 		
-		<cfquery name="q_e_update" datasource="ptarmigan">
+		<cfquery name="q_e_update" datasource="#session.company.datasource#">
 			UPDATE employees
 			SET		username='#this.username#',
 					password_hash='#this.password_hash#',
@@ -203,12 +203,12 @@
 		
 		<cfif v EQ true>
 			<cfif this.is_admin() EQ false>
-				<cfquery name="set_admin_true" datasource="ptarmigan">
+				<cfquery name="set_admin_true" datasource="#session.company.datasource#">
 					INSERT INTO administrators(id) VALUES('#this.id#')
 				</cfquery>
 			</cfif>
 		<cfelse>
-			<cfquery name="set_admin_false" datasource="ptarmigan">
+			<cfquery name="set_admin_false" datasource="#session.company.datasource#">
 				DELETE FROM administrators WHERE id='#this.id#'
 			</cfquery>
 		</cfif>
@@ -219,12 +219,12 @@
 		
 		<cfif v EQ true>
 			<cfif this.is_time_approver() EQ false>
-				<cfquery name="set_time_approver_true" datasource="ptarmigan">
+				<cfquery name="set_time_approver_true" datasource="#session.company.datasource#">
 					INSERT INTO time_approvers(id) VALUES('#this.id#')
 				</cfquery>
 			</cfif>
 		<cfelse>
-			<cfquery name="set_time_approver_false" datasource="ptarmigan">
+			<cfquery name="set_time_approver_false" datasource="#session.company.datasource#">
 				DELETE FROM time_approvers WHERE id='#this.id#'
 			</cfquery>
 		</cfif>
@@ -235,12 +235,12 @@
 		
 		<cfif v EQ true>
 			<cfif this.is_billing_manager() EQ false>
-				<cfquery name="set_billing_manager_true" datasource="ptarmigan">
+				<cfquery name="set_billing_manager_true" datasource="#session.company.datasource#">
 					INSERT INTO billing_managers(id) VALUES('#this.id#')
 				</cfquery>
 			</cfif>
 		<cfelse>
-			<cfquery name="set_billing_managers_false" datasource="ptarmigan">
+			<cfquery name="set_billing_managers_false" datasource="#session.company.datasource#">
 				DELETE FROM billing_managers WHERE id='#this.id#'
 			</cfquery>
 		</cfif>
@@ -251,12 +251,12 @@
 		
 		<cfif v EQ true>
 			<cfif this.is_project_manager() EQ false>	
-				<cfquery name="set_project_manager_true" datasource="ptarmigan">
+				<cfquery name="set_project_manager_true" datasource="#session.company.datasource#">
 					INSERT INTO project_managers(id) VALUES('#this.id#')
 				</cfquery>
 			</cfif>
 		<cfelse>
-			<cfquery name="set_project_manager_false" datasource="ptarmigan">
+			<cfquery name="set_project_manager_false" datasource="#session.company.datasource#">
 				DELETE FROM project_managers WHERE id='#this.id#'
 			</cfquery>
 		</cfif>
@@ -265,7 +265,7 @@
 	
 	<cffunction name="is_admin" returntype="boolean" access="public" output="false">
 	
-		<cfquery name="q_is_admin" datasource="ptarmigan">
+		<cfquery name="q_is_admin" datasource="#session.company.datasource#">
 			SELECT * FROM administrators WHERE id='#this.id#'
 		</cfquery>
 		
@@ -278,7 +278,7 @@
 	
 	<cffunction name="is_time_approver" returntype="boolean" access="public" output="false">
 		
-		<cfquery name="q_is_time_approver" datasource="ptarmigan">
+		<cfquery name="q_is_time_approver" datasource="#session.company.datasource#">
 			SELECT * FROM time_approvers WHERE id='#this.id#'
 		</cfquery>
 		
@@ -292,7 +292,7 @@
 	
 	<cffunction name="is_project_manager" returntype="boolean" access="public" output="false">
 		
-		<cfquery name="q_is_project_manager" datasource="ptarmigan">
+		<cfquery name="q_is_project_manager" datasource="#session.company.datasource#">
 			SELECT * FROM project_managers WHERE id='#this.id#'
 		</cfquery>
 		
@@ -306,7 +306,7 @@
 	
 	<cffunction name="is_billing_manager" returntype="boolean" access="public" output="false">
 			
-		<cfquery name="q_is_billing_manager" datasource="ptarmigan">
+		<cfquery name="q_is_billing_manager" datasource="#session.company.datasource#">
 			SELECT * FROM billing_managers WHERE id='#this.id#'
 		</cfquery>
 		
@@ -321,7 +321,7 @@
 	<cffunction name="assignments" returntype="array" access="public" output="false">
 		<cfargument name="task_id" type="string" required="true">
 		
-		<cfquery name="q_asgn" datasource="ptarmigan">
+		<cfquery name="q_asgn" datasource="#session.company.datasource#">
 			SELECT		id AS asgn_id
 			FROM		assignments
 			WHERE		task_id='#task_id#'
@@ -342,7 +342,7 @@
 	
 	<cffunction name="all_open_assignments" returntype="array" access="public" output="false">
 	
-		<cfquery name="q_asgn" datasource="ptarmigan">
+		<cfquery name="q_asgn" datasource="#session.company.datasource#">
 			SELECT		id AS asgn_id
 			FROM		assignments			
 			WHERE		employee_id='#this.id#'
@@ -365,7 +365,7 @@
 		<cfargument name="from_date" datatype="string" required="true">
 		<cfargument name="to_date" datatype="string" required="true">
 
-		<cfquery name="q_asgn" datasource="ptarmigan">
+		<cfquery name="q_asgn" datasource="#session.company.datasource#">
 			SELECT		id AS asgn_id
 			FROM		assignments			
 			WHERE		employee_id='#this.id#'
@@ -415,7 +415,7 @@
 	
 	<cffunction name="pay_owed" returntype="numeric" access="public" output="false">
 	
-		<cfquery name="q_pay_owed" datasource="ptarmigan">
+		<cfquery name="q_pay_owed" datasource="#session.company.datasource#">
 			SELECT 	SUM(amount) AS PSUM 
 			FROM 	payroll_event 
 			WHERE	employee_id='#this.id#'
@@ -431,7 +431,7 @@
 	
 	<cffunction name="pay_paid" returntype="numeric" access="public" output="false">
 	
-		<cfquery name="q_pay_paid" datasource="ptarmigan">
+		<cfquery name="q_pay_paid" datasource="#session.company.datasource#">
 			SELECT 	SUM(paid) AS PSUM 
 			FROM 	payroll_event 
 			WHERE	employee_id='#this.id#'

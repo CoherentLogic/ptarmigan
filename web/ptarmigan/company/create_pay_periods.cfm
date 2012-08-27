@@ -24,7 +24,7 @@
 		 #ppcount#:	#dateFormat(period_start, "full")#-#dateFormat(period_end, "full")#<br>
 		</cfoutput>
 		
-		<cfquery name="add_pp" datasource="ptarmigan">			
+		<cfquery name="add_pp" datasource="#session.company.datasource#">			
 			INSERT INTO pay_periods
 				(id,
 				start_date,
