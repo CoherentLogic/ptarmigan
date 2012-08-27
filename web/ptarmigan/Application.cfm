@@ -3,10 +3,12 @@
 <cfparam name="session.user" default="">
 <cfparam name="session.logged_in" default="false">
 <cfparam name="session.message" default="">
+<cfparam name="session.company" default="">
+
+<cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
 
 <cfparam name="session.root_url" default="/ptarmigan">
-
 
 <html>
 <head>
@@ -18,10 +20,11 @@
 	</cfoutput>
 	
 
-
 </head>
 <cfif NOT IsDefined("url.suppress_headers")>
 <body>
+
+<cfdump var="#session.company#">
 
 <div id="header_bar">
 <cfinclude template="top.cfm">
