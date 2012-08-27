@@ -4,7 +4,6 @@
 
 
 
-<cfset return_url = "#url.return#?id=#url.id#">
 
 
 <cfif IsDefined("form.submit_milestone")>
@@ -28,7 +27,7 @@
 	
 	
 	
-	<cflocation url="#return_url#">
+	
 <cfelse>
 
 	<h1>Add Milestone</h1>
@@ -36,7 +35,7 @@
 	
 	<cfoutput>
 	<p><em>Project date range: #dateFormat(project.start_date, 'm/dd/yyyy')#-#dateFormat(project.due_date, 'm/dd/yyyy')#</em></p>
-	<form name="add_milestone" action="add_milestone.cfm?return=#url.return#&id=#url.id#" method="post">
+	<form name="add_milestone" action="add_milestone.cfm?id=#url.id#" method="post">
 		<table>
 			<tr>
 				<td>Milestone number:</td>

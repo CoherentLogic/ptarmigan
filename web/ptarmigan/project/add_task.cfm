@@ -1,18 +1,17 @@
 
 <cfmodule template="../security/require.cfm" type="project">
 
-<cfset return_url = "#url.return#?id=#url.id#">
 
-<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(form.milestone_id)>
+<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
 
 
 <cfif IsDefined("form.set_milestone")>
-	<cfset ms = CreateObject("component", "ptarmigan.milestone").open(form.milestone_id)>
+	<cfset ms = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
 	<cfset p = CreateObject("component", "ptarmigan.project").open(url.id)>
 	<cfset p.current_milestone = ms.milestone_number>
 	<cfset p.update()>
 	
-	<cflocation url="#return_url#">
+	
 </cfif>
 
 <cfif IsDefined("form.submit_add")>
@@ -33,14 +32,14 @@
 	
 	<cfset t.create()>
 	
-	<cflocation url="#return_url#">
+	
 <cfelse>
 
 	<h1>Add Task</h1>
 	<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
-	<cfoutput><a href="#return_url#">Return to project</a></cfoutput>
+	<cfoutput><a href="##">Return to project</a></cfoutput>
 	<cfoutput>
-	<form name="add_task" method="post" action="add_task.cfm?return=#url.return#&id=#url.id#">
+	<form name="add_task" method="post" action="add_task.cfm?return=#url.return#&id=#url.id#&milestone_id=#url.milestone_id#">
 	<input type="hidden" name="milestone_id" value="#form.milestone_id#">
 	</cfoutput>
 	
