@@ -5,6 +5,8 @@
 	<cfset this.project_name = "">
 	<cfset this.instructions = "">
 	<cfset this.due_date = "">
+	<cfset this.due_date_optimistic = "">
+	<cfset this.due_date_pessimistic = "">
 	<cfset this.current_milestone = 1>
 	<cfset this.customer_id = "">
 	<cfset this.created_by = "">
@@ -28,6 +30,8 @@
 							project_name,
 							instructions,
 							due_date,
+							due_date_pessimistic,
+							due_date_optimistic,
 							current_milestone,
 							customer_id,
 							created_by,
@@ -39,6 +43,8 @@
 							'#this.project_name#',
 							'#this.instructions#',
 							#this.due_date#,
+							#this.due_date_pessimistic#,
+							#this.due_date_optimistic#,
 							#this.current_milestone#,
 							'#this.customer_id#',
 							'#this.created_by#',
@@ -101,6 +107,8 @@
 		<cfset this.project_name = op.project_name>		
 		<cfset this.instructions = op.instructions>
 		<cfset this.due_date = op.due_date>
+		<cfset this.due_date_pessimistic = op.due_date_pessimistic>
+		<cfset this.due_date_optimistic = op.due_date_optimistic>
 		<cfset this.current_milestone = op.current_milestone>
 		<cfset this.customer_id = op.customer_id>
 		<cfset this.created_by = op.created_by>
@@ -120,6 +128,8 @@
 					project_name='#this.project_name#',
 					instructions='#this.instructions#',
 					due_date=#this.due_date#,
+					due_date_pessimistic=#this.due_date_pessimistic#,
+					due_date_optimistic=#this.due_date_optimistic#,
 					current_milestone=#this.current_milestone#,
 					customer_id='#this.customer_id#',
 					tax_rate=#this.tax_rate#,
@@ -152,5 +162,32 @@
 		</cfoutput>
 		
 		<cfreturn oa>
+	</cffunction>
+	
+	<cffunction name="duration" returntype="numeric" access="public" output="false">
+		<cfargument name="type" type="string" required="true">
+		
+		<cfswitch expression="#type#">
+			<cfcase value="normal">
+				<cfset d = dateDiff("d", this.start_date, this.due_date) + 1>
+			</cfcase>
+			<cfcase value="optimistic">
+				<cfset d = dateDiff("d", this.start_date, this.due_date_optimistic) + 1>
+			</cfcase>
+			<cfcase value="pessimistic">
+				<cfset d = dateDiff("d", this.start_date, this.due_date_pessimistic) + 1>
+			</cfcase>
+			<cfcase value="estimated">			
+				<cfset d = int((this.duration("optimistic") + (4 * this.duration("normal")) + this.duration("pessimistic")) / 6) + 1>				
+			</cfcase>
+		</cfswitch>
+		
+		<cfreturn d>
+	</cffunction>
+	
+	<cffunction name="end_date_estimated" returntype="string" access="public" output="false">		
+		<cfset d = DateAdd("d", this.duration("estimated") - 1, this.start_date)>
+		
+		<cfreturn d>
 	</cffunction>
 </cfcomponent>

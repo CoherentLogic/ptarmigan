@@ -1,3 +1,5 @@
+<cfajaximport tags="cfwindow,cfform,cfinput-datefield">
+
 <cfmodule template="../security/require.cfm" type="project">
 
 <cfif NOT IsDefined("form.submit_header")>
@@ -84,8 +86,20 @@
 			</tr>
 			<tr>
 				<cfoutput>
-				<td>Due date</td>
+				<td>End date (normal)</td>
 				<td><input type="text" name="due_date" value="#dateFormat(p.due_date, 'MM/DD/YYYY')#"></td>
+				</cfoutput>
+			</tr>
+			<tr>
+				<cfoutput>
+				<td>End date (pessimistic)</td>
+				<td><input type="text" name="due_date_pessimistic" value="#dateFormat(p.due_date_pessimistic, 'MM/DD/YYYY')#"></td>
+				</cfoutput>
+			</tr>
+			<tr>
+				<cfoutput>
+				<td>End date (optimistic)</td>
+				<td><input type="text" name="due_date_optimistic" value="#dateFormat(p.due_date_optimistic, 'MM/DD/YYYY')#"></td>
 				</cfoutput>
 			</tr>
 			<tr>
@@ -181,10 +195,23 @@
 </div>
 <div id="content">
 <cflayout type="tab">
-	<cflayoutarea title="Overview">
-		<cfmodule template="gantt_chart.cfm" id="#project_id#">
+	<cflayoutarea title="Normal">
+		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="normal">
+		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="normal">
 	</cflayoutarea>
-	<cflayoutarea initHide="true" title="Milestones &amp; Tasks">
+	<cflayoutarea title="Pessimistic">
+		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="pessimistic">
+		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="pessimistic">
+	</cflayoutarea>
+	<cflayoutarea title="Optimistic">
+		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="optimistic">
+		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="optimistic">
+	</cflayoutarea>
+	<cflayoutarea title="Estimated Probability">
+		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
+		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
+	</cflayoutarea>
+	<!--- <cflayoutarea initHide="true" title="Milestones &amp; Tasks">
 		<a name="milestones">
 		<h2>Milestones</h2>
 		<p>Current milestone in <strong>bold</strong>. Click a milestone's name to edit the milestone.</p>
@@ -237,7 +264,7 @@
 			</blockquote>
 		</cfloop>
 		</form>
-	</cflayoutarea>
+	</cflayoutarea> --->
 </cflayout>
 </div>
 </div>

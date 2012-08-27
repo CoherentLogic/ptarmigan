@@ -41,6 +41,7 @@
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
+		<th>&nbsp;</th>
 		<cfif pre GT 0>
 			<cfoutput>
 			<th colspan="#pre#">&nbsp;</th>
@@ -61,10 +62,23 @@
 		</cfloop>
 	</tr>
 	<tr>
-		<th nowrap><cfoutput><strong style="font-weight:bolder;">#project.project_name# <cfmodule template="/ptarmigan/link_box.cfm" text="Milestone" symbol="+" href="add_milestone.cfm?id=#attributes.id#"></cfoutput></th>
+		<th nowrap style="font-weight:bolder;">
+			<cfoutput>
+				<cfif attributes.mode EQ "edit">
+					<cfmenu type="horizontal" bgcolor="gainsboro">
+						<cfmenuitem display="#project.project_name#">
+							<cfmenuitem display="Add milestone" href="add_milestone.cfm?id=#attributes.id#"/>
+						</cfmenuitem>
+					</cfmenu>
+				<cfelse>
+					#project.project_name#
+				</cfif>
+			</cfoutput>
+		</th>
 		<th>START</th>
 		<th>END</th>
 		<th>DAYS</th>
+		<th>%</th>
 		<cfset current_date = project.start_date>
 		<cfloop from="0" to="#days_in_project#" index="d">
 			<cfset date_working = dateFormat(current_date, "mm/dd/yyyy")>
@@ -80,24 +94,53 @@
 	</tr>
 	<cfif ArrayLen(milestones) GT 0>
 		<cfloop array="#milestones#" index="ms">
-			<cfset days_in_milestone = dateDiff("d", ms.start_date, ms.end_date) + 1>
 			<cfif ms.floating EQ 0>
 				<tr>					
-				<th nowrap style="font-weight:bold;"><cfoutput>#ms.milestone_number#: <a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a> 
-				<cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="add_task.cfm?id=#attributes.id#&milestone_id=#ms.id#"> 
-				<cfmodule template="/ptarmigan/link_box.cfm" text="Expense" symbol="+" href="##">
-				<cfmodule template="/ptarmigan/link_box.cfm" text="Document" symbol="+" href="##"></cfoutput>
+				<th nowrap style="font-weight:bold;">
+					<cfoutput>
+						<cfif attributes.mode EQ "edit">
+							<cfmenu type="horizontal" bgcolor="gainsboro">
+							<cfmenuitem display="#ms.milestone_number#: #ms.milestone_name#">
+								<cfmenuitem display="Edit milestone" href="javascript:edit_milestone('#session.root_url#', '#ms.id#');"/>								
+								<cfmenuitem divider />
+								<cfmenuitem display="Add task" href="javascript:add_task('#session.root_url#', '#attributes.id#', '#ms.id#');"/> 
+								<cfmenuitem display="Add expense" href="##"/>
+								<cfmenuitem display="Add document" href="##"/>
+								<cfmenuitem divider />
+								<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'milestones', '#ms.id#')"/>
+							</cfmenuitem>
+							</cfmenu>
+						<cfelse>
+							#ms.milestone_number#: #ms.milestone_name#
+						</cfif>
+					</cfoutput>
 				
 				</th>
 				
 				<td style="background-color:white;"><cfoutput>#dateFormat(ms.start_date, "m/dd/yyyy")#</cfoutput></td>
 				<td style="background-color:white;"><cfoutput>#dateFormat(ms.end_date, "m/dd/yyyy")#</cfoutput></td>
-				<td style="background-color:white;"><cfoutput>#days_in_milestone#</cfoutput></td>
-				
+				<td style="background-color:white;" nowrap><cfoutput>#ms.duration(attributes.durations)#</cfoutput></td>
+				<td style="background-color:white;"><cfoutput>#ms.percent_complete#%</cfoutput></td>
+				<cfswitch expression="#attributes.durations#">
+					<cfcase value="normal">
+						<cfset ms_end_date = ms.end_date>
+					</cfcase>
+					<cfcase value="pessimistic">
+						<cfset ms_end_date = ms.end_date_pessimistic>
+					</cfcase>
+					<cfcase value="optimistic">
+						<cfset ms_end_date = ms.end_date_optimistic>
+					</cfcase>
+					<cfcase value="estimated">
+						<cfset ms_end_date = ms.end_date_estimated()>
+					</cfcase>
+				</cfswitch>
 				<cfset current_date = project.start_date>
 				<cfloop from="0" to="#days_in_project#" index="d">
-					<cfif (current_date GE ms.start_date) AND (current_date LE ms.end_date)>
-						<td style="background-color:green;"></td>
+					<cfif (current_date GE ms.start_date) AND (current_date LE ms_end_date)>
+						<cfoutput>
+						<td style="background-color:#ms.color#;">&nbsp;</td>
+						</cfoutput>
 					<cfelse>
 						<td style="background-color:white;">&nbsp;</td>				
 					</cfif>
@@ -108,22 +151,49 @@
 				<cfset tasks = ms.tasks()>
 					<cfif ArrayLen(tasks) GT 0>
 						<cfloop array="#tasks#" index="task">
-						<cfset days_in_task = dateDiff("d", task.start_date, task.end_date)>
 							<tr>
 								<th nowrap>
-									<span style="padding-left:20px;">
+									
 										<cfoutput>
-											<a href="manage_task.cfm?id=#task.id#">#task.task_name#</a>
+											<cfif attributes.mode EQ "edit">
+												<cfmenu type="horizontal" bgcolor="gainsboro">
+													<cfmenuitem display="#task.task_name#">
+														<cfmenuitem display="Edit task" href="manage_task.cfm?id=#task.id#"/>
+														<cfmenuitem divider/>
+														<cfmenuitem display="Add expense" href="##"/>
+														<cfmenuitem display="Add document" href="##"/>
+													</cfmenuitem>
+												</cfmenu>
+											<cfelse>
+												#task.task_name#
+											</cfif>
 										</cfoutput>
-									</span>
+									
 								</th>
 								<td style="background-color:white;"><cfoutput>#dateFormat(task.start_date, "m/dd/yyyy")#</cfoutput></td>
 								<td style="background-color:white;"><cfoutput>#dateFormat(task.end_date, "m/dd/yyyy")#</cfoutput></td>
-								<td style="background-color:white;"><cfoutput>#days_in_task#</cfoutput></td>
+								<td style="background-color:white;" nowrap><cfoutput>#task.duration(attributes.durations)#</cfoutput></td>
+								<td style="background-color:white;"><cfoutput>#task.percent_complete#%</cfoutput></td>
+								<cfswitch expression="#attributes.durations#">
+									<cfcase value="normal">
+										<cfset t_end_date = task.end_date>
+									</cfcase>
+									<cfcase value="pessimistic">
+										<cfset t_end_date = task.end_date_pessimistic>
+									</cfcase>
+									<cfcase value="optimistic">
+										<cfset t_end_date = task.end_date_optimistic>
+									</cfcase>
+									<cfcase value="estimated">
+										<cfset t_end_date = task.end_date_estimated()>
+									</cfcase>
+								</cfswitch>
 								<cfset current_date = project.start_date>
 								<cfloop from="0" to="#days_in_project#" index="d">
-									<cfif (current_date GE task.start_date) AND (current_date LE task.end_date)>
-										<td style="background-color:blue;">&nbsp;</td>
+									<cfif (current_date GE task.start_date) AND (current_date LE t_end_date)>
+										<cfoutput>
+										<td style="background-color:#task.color#;">&nbsp;</td>
+										</cfoutput>
 									<cfelse>
 										<td style="background-color:white;">&nbsp;</td>				
 									</cfif>

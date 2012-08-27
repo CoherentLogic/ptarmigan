@@ -14,6 +14,8 @@
 	<cfset t.milestone_name = form.milestone_name>
 	<cfset t.start_date = CreateODBCDate(form.start_date)>
 	<cfset t.end_date = CreateODBCDate(form.end_date)>
+	<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
+	<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
 	<cfset t.budget = form.budget>
 	<cfif IsDefined("form.floating")>
 		<cfset t.floating = 1>
@@ -54,13 +56,51 @@
 				<td><input type="text" name="start_date"></td>
 			</tr>
 			<tr>
-				<td>End date (MM/DD/YYYY):</td>
+				<td>End date (normal) (MM/DD/YYYY):</td>
 				<td><input type="text" name="end_date"></td>		
 			</tr>			
+			<tr>
+				<td>End date (pessimistic) (MM/DD/YYYY):</td>
+				<td><input type="text" name="end_date_pessimistic"></td>
+			</tr>
+			<tr>
+				<td>End date (optimistic) (MM/DD/YYYY):</td>
+				<td><input type="text" name="end_date_optimistic"></td>
+			</tr>
+
 			<tr>
 				<td>Budget:</td>
 				<td>$<input type="text" name="budget"></td>
 			</tr>	
+			<tr>
+				<td>Color:</td>
+				<td>
+					<select name="color">
+						<option value="aqua">Aqua</option>
+						<option value="black">Black</option>
+						<option value="blue">Blue</option>
+						<option value="fuchsia">Fuchsia</option>
+						<option value="gray">Gray</option>
+						<option value="green">Green</option>
+						<option value="lime">Lime</option>
+						<option value="maroon">Maroon</option>
+						<option value="navy">Navy</option>
+						<option value="olive">Olive</option>
+						<option value="purple">Purple</option>
+						<option value="red">Red</option>
+						<option value="silver">Silver</option>
+						<option value="teal">Teal</option>
+						<option value="yellow">Yellow</option>
+						<option value="pink">Pink</option>
+						<option value="orange">Orange</option>
+						<option value="brown">Brown</option>
+						<option value="turquoise">Turquoise</option>
+						<option value="plum">Plum</option>
+						<option value="cyan">Cyan</option>
+						<option value="SteelBlue">Steel Blue</option>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td>&nbsp</td>
 				<td align="right"><input type="submit" name="submit_milestone" value="Submit"></td>

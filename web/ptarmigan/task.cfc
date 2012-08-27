@@ -8,6 +8,8 @@
 	<cfset this.start_date = "">
 	<cfset this.end_date = "">
 	<cfset this.budget = "">
+	<cfset this.color = "">
+	<cfset this.percent_complete = 0>
 	
 	
 	<cfset this.written = false>
@@ -23,17 +25,25 @@
 						task_name,
 						description,
 						completed,
+						percent_complete,
 						start_date,
 						end_date,
-						budget)
+						end_date_pessimistic,
+						end_date_optimistic,
+						budget,
+						color)
 			VALUES		('#this.id#',
 						'#this.milestone_id#',
 						'#UCase(this.task_name)#',
 						'#UCase(this.description)#',
 						#this.completed#,
+						#this.percent_complete#,
 						#this.start_date#,
 						#this.end_date#,
-						#this.budget#)
+						#this.end_date_pessimistic#,
+						#this.end_date_optimistic#,
+						#this.budget#,
+						'#this.color#')
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -53,9 +63,13 @@
 		<cfset this.task_name = t.task_name>
 		<cfset this.description = t.description>
 		<cfset this.completed = t.completed>
+		<cfset this.percent_complete = t.percent_complete>
 		<cfset this.start_date = t.start_date>
 		<cfset this.end_date = t.end_date>
+		<cfset this.end_date_pessimistic = t.end_date_pessimistic>
+		<cfset this.end_date_optimistic = t.end_date_optimistic>
 		<cfset this.budget = t.budget>
+		<cfset this.color = t.color>
 	
 		<cfset this.written = true>
 		<cfreturn this>
@@ -69,15 +83,47 @@
 					task_name='#UCase(this.task_name)#',
 					description='#UCase(this.description)#',
 					completed=#this.completed#,
+					percent_complete=#this.percent_complete#,
 					start_date=#this.start_date#,
 					end_date=#this.end_date#,
-					budget=#this.budget#
+					end_date_pessimistic=#this.end_date_pessimistic#,
+					end_date_optimistic=#this.end_date_optimistic#,
+					budget=#this.budget#,
+					color='#this.color#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		
 		<cfset this.written = true>
 	
 		<cfreturn this>
+	</cffunction>
+	
+	<cffunction name="duration" returntype="numeric" access="public" output="false">
+		<cfargument name="type" type="string" required="true">
+		
+		<cfswitch expression="#type#">
+			<cfcase value="normal">
+				<cfset d = dateDiff("d", this.start_date, this.end_date) + 1>
+			</cfcase>
+			<cfcase value="optimistic">
+				<cfset d = dateDiff("d", this.start_date, this.end_date_optimistic) + 1>
+			</cfcase>
+			<cfcase value="pessimistic">
+				<cfset d = dateDiff("d", this.start_date, this.end_date_pessimistic) + 1>
+			</cfcase>
+			<cfcase value="estimated">			
+				<cfset d = int((this.duration("optimistic") + (4 * this.duration("normal")) + this.duration("pessimistic")) / 6) + 1>				
+			</cfcase>
+		</cfswitch>
+		
+		<cfreturn d>
+
+	</cffunction>
+	
+	<cffunction name="end_date_estimated" returntype="string" access="public" output="false">		
+		<cfset d = DateAdd("d", this.duration("estimated") - 1, this.start_date)>
+		
+		<cfreturn d>
 	</cffunction>
 
 </cfcomponent>

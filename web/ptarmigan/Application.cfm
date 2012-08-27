@@ -23,7 +23,9 @@
 </head>
 <cfif NOT IsDefined("url.suppress_headers")>
 <body>
-
+<cfoutput>
+<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
+</cfoutput>
 <div id="header_bar">
 <cfinclude template="top.cfm">
 <cfinclude template="navigation.cfm">

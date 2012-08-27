@@ -1,4 +1,4 @@
-
+<div style="padding:20px;">
 <cfmodule template="../security/require.cfm" type="project">
 
 
@@ -22,6 +22,10 @@
 	<cfset t.milestone_id = form.milestone_id>
 	<cfset t.start_date = CreateODBCDate(form.start_date)>
 	<cfset t.end_date = CreateODBCDate(form.end_date)>
+	<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
+	<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
+	<cfset t.color = form.color>
+
 	<cfset t.budget = form.budget>
 	
 	<cfif IsDefined("form.completed")>
@@ -32,48 +36,87 @@
 	
 	<cfset t.create()>
 	
+	<h1>Reloading page...</h1>
 	
 <cfelse>
-
-	<h1>Add Task</h1>
+	<h3>Add task to <cfoutput>#milestone.milestone_name#</cfoutput></h3>
 	<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
-	<cfoutput><a href="##">Return to project</a></cfoutput>
+	
+	<cfform name="add_task" method="post" action="add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#&suppress_headers" onsubmit="window.location.reload();">
 	<cfoutput>
-	<form name="add_task" method="post" action="add_task.cfm?return=#url.return#&id=#url.id#&milestone_id=#url.milestone_id#">
-	<input type="hidden" name="milestone_id" value="#form.milestone_id#">
+	<input type="hidden" name="milestone_id" value="#url.milestone_id#">
 	</cfoutput>
 	
 	<table>
 		<tr>
 			<td>Task name:</td>
 			<td>
-				<input type="text" name="task_name"><br>
+				<cfinput type="text" name="task_name"><br>
 				<label><input type="checkbox" name="completed">Completed</input></label>
 			</td>
 		</tr>
 		<tr>
-			<td>Start date (MM/DD/YYYY):</td>
-			<td><input type="text" name="start_date"></td>
+			<td>Start date:</td>
+			<td><cfinput type="datefield" name="start_date"></td>
 		</tr>
 		<tr>
-			<td>End date (MM/DD/YYYY):</td>
-			<td><input type="text" name="end_date"></td>		
+			<td>End date (normal):</td>
+			<td><cfinput type="datefield" name="end_date"></td>		
+		</tr>
+		<tr>
+			<td>End date (pessimistic):</td>
+			<td><cfinput type="datefield" name="end_date_pessimistic"></td>		
+		</tr>
+		<tr>
+			<td>End date (optimistic):</td>
+			<td><cfinput type="datefield" name="end_date_optimistic"></td>		
 		</tr>			
 		<tr>
 			<td>Budget:</td>
-			<td>$<input type="text" name="budget"></td>
+			<td>$<cfinput type="text" name="budget"></td>
 		</tr>
 		<tr>
 			<td>Instructions:</td>
 			<td><textarea name="description" rows="5" cols="40"></textarea></td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td align="right">
-				<input type="submit" name="submit_add" value="Submit">
+			<td>Color:</td>
+			<td>
+				<select name="color">
+					<option value="aqua">Aqua</option>
+					<option value="black">Black</option>
+					<option value="blue">Blue</option>
+					<option value="fuchsia">Fuchsia</option>
+					<option value="gray">Gray</option>
+					<option value="green">Green</option>
+					<option value="lime">Lime</option>
+					<option value="maroon">Maroon</option>
+					<option value="navy">Navy</option>
+					<option value="olive">Olive</option>
+					<option value="purple">Purple</option>
+					<option value="red">Red</option>
+					<option value="silver">Silver</option>
+					<option value="teal">Teal</option>
+					<option value="yellow">Yellow</option>
+					<option value="pink">Pink</option>
+					<option value="orange">Orange</option>
+					<option value="brown">Brown</option>
+					<option value="turquoise">Turquoise</option>
+					<option value="plum">Plum</option>
+					<option value="cyan">Cyan</option>
+					<option value="SteelBlue">Steel Blue</option>
+				</select>
 			</td>
 		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="right">
+				<input type="submit" name="submit_add" value="Apply">
+			</td>
+		</tr>
+		
 	</table>			
-	</form>	
+	</cfform>	
 
 </cfif>
+</div>
