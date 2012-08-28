@@ -32,45 +32,46 @@
 	
 <cfelse>
 
-	<h1>Add Milestone</h1>
+	<div style="padding:20px;">
+	<h3>Add Milestone to <cfoutput>#project.project_name#</cfoutput></h3>
 	
 	
 	<cfoutput>
 	<p><em>Project date range: #dateFormat(project.start_date, 'm/dd/yyyy')#-#dateFormat(project.due_date, 'm/dd/yyyy')#</em></p>
-	<form name="add_milestone" action="add_milestone.cfm?id=#url.id#" method="post">
+	<cfform name="add_milestone" action="add_milestone.cfm?id=#url.id#" method="post" onsubmit="window.location.reload();">
 		<table>
 			<tr>
 				<td>Milestone number:</td>
-				<td><input type="text" name="milestone_number"></td>
+				<td><cfinput type="text" name="milestone_number"></td>
 			</tr>
 			<tr>
 				<td>Milestone name:</td>
-				<td><input type="text" name="milestone_name"></td>
+				<td><cfinput type="text" name="milestone_name"></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
 				<td><label><input type="checkbox" name="floating">Floating</td>
 			</tr>
 			<tr>
-				<td>Start date (MM/DD/YYYY):</td>
-				<td><input type="text" name="start_date"></td>
+				<td>Start date:</td>
+				<td><cfinput type="datefield" name="start_date"></td>
 			</tr>
 			<tr>
-				<td>End date (normal) (MM/DD/YYYY):</td>
-				<td><input type="text" name="end_date"></td>		
+				<td>End date (normal):</td>
+				<td><cfinput type="datefield" name="end_date"></td>		
 			</tr>			
 			<tr>
-				<td>End date (pessimistic) (MM/DD/YYYY):</td>
-				<td><input type="text" name="end_date_pessimistic"></td>
+				<td>End date (pessimistic):</td>
+				<td><cfinput type="datefield" name="end_date_pessimistic"></td>
 			</tr>
 			<tr>
-				<td>End date (optimistic) (MM/DD/YYYY):</td>
-				<td><input type="text" name="end_date_optimistic"></td>
+				<td>End date (optimistic):</td>
+				<td><cfinput type="datefield" name="end_date_optimistic"></td>
 			</tr>
 
 			<tr>
 				<td>Budget:</td>
-				<td>$<input type="text" name="budget"></td>
+				<td>$<cfinput type="text" name="budget"></td>
 			</tr>	
 			<tr>
 				<td>Color:</td>
@@ -101,12 +102,10 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
-				<td>&nbsp</td>
-				<td align="right"><input type="submit" name="submit_milestone" value="Submit"></td>
-			</tr>
 		</table>
-	</form>
+			<input type="submit" name="submit_milestone" value="Submit">
+			<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">
+	</cfform>
 	</cfoutput>
-
+	</div>
 </cfif>

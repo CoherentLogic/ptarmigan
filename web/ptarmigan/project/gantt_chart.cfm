@@ -67,7 +67,7 @@
 				<cfif attributes.mode EQ "edit">
 					<cfmenu type="horizontal" bgcolor="gainsboro">
 						<cfmenuitem display="#project.project_name#">
-							<cfmenuitem display="Add milestone" href="add_milestone.cfm?id=#attributes.id#"/>
+							<cfmenuitem display="Add milestone" href="javascript:add_milestone('#session.root_url#', '#attributes.id#');"/>
 						</cfmenuitem>
 					</cfmenu>
 				<cfelse>
@@ -104,7 +104,7 @@
 								<cfmenuitem display="Edit milestone" href="javascript:edit_milestone('#session.root_url#', '#ms.id#');"/>								
 								<cfmenuitem divider />
 								<cfmenuitem display="Add task" href="javascript:add_task('#session.root_url#', '#attributes.id#', '#ms.id#');"/> 
-								<cfmenuitem display="Add expense" href="##"/>
+								<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'milestones', '#ms.id#')"/>
 								<cfmenuitem display="Add document" href="##"/>
 								<cfmenuitem divider />
 								<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'milestones', '#ms.id#')"/>
@@ -158,9 +158,9 @@
 											<cfif attributes.mode EQ "edit">
 												<cfmenu type="horizontal" bgcolor="gainsboro">
 													<cfmenuitem display="#task.task_name#">
-														<cfmenuitem display="Edit task" href="manage_task.cfm?id=#task.id#"/>
+														<cfmenuitem display="Edit task" href="javascript:edit_task('#session.root_url#', '#task.id#', '#task.id#');"/>
 														<cfmenuitem divider/>
-														<cfmenuitem display="Add expense" href="##"/>
+														<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'tasks', '#task.id#')"/>
 														<cfmenuitem display="Add document" href="##"/>
 														<cfmenuitem divider />
 														<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>
@@ -216,7 +216,7 @@
 									<cfmenuitem display="Edit milestone" href="javascript:edit_milestone('#session.root_url#', '#ms.id#');"/>								
 									<cfmenuitem divider />
 									<cfmenuitem display="Add task" href="javascript:add_task('#session.root_url#', '#attributes.id#', '#ms.id#');"/> 
-									<cfmenuitem display="Add expense" href="##"/>
+									<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'milestones', '#ms.id#')"/>
 									<cfmenuitem display="Add document" href="##"/>
 									<cfmenuitem divider />
 									<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'milestones', '#ms.id#')"/>
@@ -242,7 +242,7 @@
 												<cfmenuitem display="#task.task_name#">
 													<cfmenuitem display="Edit task" href="manage_task.cfm?id=#task.id#"/>
 													<cfmenuitem divider/>
-													<cfmenuitem display="Add expense" href="##"/>
+													<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'tasks', '#task.id#')"/>
 													<cfmenuitem display="Add document" href="##"/>
 													<cfmenuitem divider />
 													<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>

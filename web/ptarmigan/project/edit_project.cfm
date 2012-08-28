@@ -2,15 +2,7 @@
 
 <cfmodule template="../security/require.cfm" type="project">
 
-<cfif NOT IsDefined("form.submit_header")>
-	<cfif IsDefined("form.id")>
-		<cfset project_id = form.id>
-	<cfelse>
-		<cfset project_id = url.id>
-	</cfif>
-</cfif>
-
-
+<cfset project_id = url.id>
 
 <cfquery name="get_customers" datasource="#session.company.datasource#">
 	SELECT id,company_name FROM customers ORDER BY company_name
@@ -23,6 +15,8 @@
 	<cfset p.project_name = ucase(form.project_name)>
 	<cfset p.customer_id = form.customer_id>
 	<cfset p.due_date = CreateODBCDate(form.due_date)>
+	<cfset p.due_date_pessimistic = CreateODBCDate(form.due_date_pessimistic)>
+	<cfset p.due_date_optimistic = CreateODBCDate(form.due_date_optimistic)>
 	<cfset p.tax_rate = form.tax_rate>
 	<cfset p.instructions = ucase(form.instructions)>
 	<cfset p.start_date = CreateODBCDate(form.start_date)>
@@ -34,25 +28,25 @@
 <cfset cn = "#c.last_name#, #c.honorific# #c.first_name# #c.middle_initial# #c.suffix#">
 <cfset milestones = p.milestones()>
 <div id="container">
-<!--- <div id="header">
+<div id="header">
 	<h1><cfoutput>#p.project_name#</cfoutput></h1>
 	
 	<cfif IsDefined("form.submit_header")>
 	<p><em>Changes saved.</em></p>
 	</cfif>
-</div> --->
+</div>
 <div id="navigation">
-		<form name="project_header" action="edit_project.cfm" method="post">
 		<cfoutput>
-		<input type="hidden" name="id" value="#project_id#">	
+		<form name="project_header" action="edit_project.cfm?id=#url.id#" method="post">
 		</cfoutput>
-		
 		
 		<!--- 
 		<cfoutput> | <a href="#header">Project Info</a> | <a href="#instructions">Instructions</a> | <a href="#milestones">Milestones</a>
 		 --->
 		<table class="property_dialog">
-			
+			<tr>
+				<th colspan="2">PROPERTIES</th>
+			</tr>
 			<tr>
 				<cfoutput>
 				<td>Project ##</td>
@@ -126,14 +120,11 @@
 				<td><textarea name="instructions" rows="4">#p.instructions#</textarea></td>
 				</cfoutput>
 			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td align="right">
-				<input type="submit" name="submit_header" value="Save">
-				</td>
-			</tr>
 		</table>
+		<input type="submit" name="submit_header" value="Save">
+
 		</form>
+		<cfmodule template="alerts.cfm" id="#project_id#">
 		<table class="property_dialog">
 			<tr>
 				<th>MILESTONE/TASK</th>
@@ -205,6 +196,12 @@
 		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
 		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
 	</cflayoutarea>	
+	<cflayoutarea title="Budget">
+	</cflayoutarea>
+	<cflayoutarea title="Expenses">
+	</cflayoutarea>
+	<cflayoutarea title="Alerts &amp; Solutions">
+	</cflayoutarea>
 </cflayout>
 </div>
 </div>

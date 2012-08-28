@@ -1,3 +1,4 @@
+<cfmodule template="../security/require.cfm" type="project">
 
 <cfquery name="get_audit_logs" datasource="#session.company.datasource#">
 	SELECT id FROM audits WHERE table_name='#url.table_name#' AND table_id='#url.table_id#' 
