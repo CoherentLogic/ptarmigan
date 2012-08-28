@@ -145,4 +145,46 @@
 		
 		<cfreturn d>
 	</cffunction>
+	
+	<cffunction name="total_expenses" returntype="numeric" access="public" output="false">
+		<cfquery name="te_milestone_exp" datasource="#session.company.datasource#">
+			SELECT SUM(amount) AS exp_this_milestone
+			FROM	project_expenses
+			WHERE	element_table='milestones'
+			AND 	element_id='#this.id#'
+		</cfquery>
+		
+		<cfset tsks = this.tasks()>
+		<cfset tsks_total = 0>
+		
+		<cfloop array="#tsks#" index="t">
+			<cfset tsks_total = tsks_total + t.total_expenses()>
+		</cfloop>
+		
+		<cfif te_milestone_exp.recordcount gt 0>
+			<cfif IsNumeric(te_milestone_exp.exp_this_milestone)>
+				<cfreturn te_milestone_exp.exp_this_milestone + tsks_total>
+			<cfelse>
+				<cfreturn 0>
+			</cfif>
+		<cfelse>
+			<cfreturn 0>
+		</cfif>
+	</cffunction>
+	
+	<cffunction name="expenses" returntype="array" access="public" output="false">
+		<cfquery name="expenses" datasource="#session.company.datasource#">
+			SELECT id FROM project_expenses
+			WHERE	element_table='milestones'
+			AND		element_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		<cfoutput query="expenses">
+			<cfset t = CreateObject("component", "ptarmigan.expense").open(expenses.id)>
+			<cfset ArrayAppend(oa, t)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
 </cfcomponent>

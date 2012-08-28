@@ -124,52 +124,26 @@
 		<input type="submit" name="submit_header" value="Save">
 
 		</form>
-		<cfmodule template="alerts.cfm" id="#project_id#">
+		
 		<table class="property_dialog">
 			<tr>
 				<th>MILESTONE/TASK</th>
 				<th>BUDGET</th>
-				<th>%</th>
 			</tr>
 		<cfloop array="#milestones#" index="ms">
-			<cfset pct = int((ms.budget * 100) / p.budget)>
-			<cfif pct GT 100>
-				<cfset col = "red">
-				<cfset pct = 100>
-			<cfelse>
-				<cfset col = "green">
-			</cfif>
 			<cfoutput>
 			<tr>
 				<td>#ms.milestone_name#</td>
 				<td>#numberFormat(ms.budget,",_$___.__")#</td>
-				<td>
-					<div style="width:50px;color:white;">
-					<div style="width:#pct#%;background-color:#col#;">&nbsp;</div>
-					<!---#pct#%--->
-					</div>
-				</td>
+				
 			</tr>
 			</cfoutput>
 			<cfset tasks = ms.tasks()>
 			<cfloop array="#tasks#" index="t">
-				<cfset pct = int((t.budget * 100) / ms.budget)>
-				<cfif pct GT 100>
-					<cfset col = "red">
-					<cfset pct = 100>
-				<cfelse>
-					<cfset col = "green">
-				</cfif>
 				<cfoutput>
 				<tr>
 					<td style="padding-left:5px;">#t.task_name#</td>
-					<td>#numberFormat(t.budget,",_$___.__")#</td>
-					<td>
-						<div style="width:50px;color:white;">
-						<div style="width:#pct#%;background-color:#col#;">&nbsp;</div>
-						<!---#pct#%--->
-						</div>
-					</td>
+					<td>#numberFormat(t.budget,",_$___.__")#</td>					
 				</tr>
 				</cfoutput>
 			</cfloop>
@@ -196,11 +170,14 @@
 		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
 		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
 	</cflayoutarea>	
-	<cflayoutarea title="Budget">
+	<cflayoutarea title="Budget Allocation">
+		<cfmodule template="budget.cfm" id="#project_id#" mode="edit">
 	</cflayoutarea>
 	<cflayoutarea title="Expenses">
+		<cfmodule template="expenses.cfm" id="#project_id#" mode="edit">
 	</cflayoutarea>
 	<cflayoutarea title="Alerts &amp; Solutions">
+		<cfmodule template="alerts.cfm" id="#project_id#">
 	</cflayoutarea>
 </cflayout>
 </div>

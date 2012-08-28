@@ -105,7 +105,6 @@
 								<cfmenuitem divider />
 								<cfmenuitem display="Add task" href="javascript:add_task('#session.root_url#', '#attributes.id#', '#ms.id#');"/> 
 								<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'milestones', '#ms.id#')"/>
-								<cfmenuitem display="Add document" href="##"/>
 								<cfmenuitem divider />
 								<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'milestones', '#ms.id#')"/>
 							</cfmenuitem>
@@ -161,7 +160,6 @@
 														<cfmenuitem display="Edit task" href="javascript:edit_task('#session.root_url#', '#task.id#', '#task.id#');"/>
 														<cfmenuitem divider/>
 														<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'tasks', '#task.id#')"/>
-														<cfmenuitem display="Add document" href="##"/>
 														<cfmenuitem divider />
 														<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>
 													</cfmenuitem>
@@ -243,7 +241,6 @@
 													<cfmenuitem display="Edit task" href="manage_task.cfm?id=#task.id#"/>
 													<cfmenuitem divider/>
 													<cfmenuitem display="Add expense" href="javascript:add_expense('#session.root_url#', 'tasks', '#task.id#')"/>
-													<cfmenuitem display="Add document" href="##"/>
 													<cfmenuitem divider />
 													<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>
 												</cfmenuitem>

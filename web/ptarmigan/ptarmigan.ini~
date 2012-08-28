@@ -1,0 +1,6 @@
+[Database]
+type=MySQL
+host=localhost
+database=ptarmigan
+user=root
+password=VkrP15a1

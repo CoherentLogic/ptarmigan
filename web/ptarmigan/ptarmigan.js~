@@ -68,7 +68,7 @@ function add_expense(root_url, element_table, element_id)
 
 	ColdFusion.Window.create('add_expense', 'Add Expense',
 	        url,
-	        {height:480,width:400,modal:true,closable:false,
+	        {height:380,width:400,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 	
 }

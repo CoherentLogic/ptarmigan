@@ -127,13 +127,6 @@
 									<option value="silver" <cfif t.color EQ "silver">selected</cfif>>Silver</option>
 									<option value="teal" <cfif t.color EQ "teal">selected</cfif>>Teal</option>
 									<option value="yellow" <cfif t.color EQ "yellow">selected</cfif>>Yellow</option>
-									<option value="pink" <cfif t.color EQ "pink">selected</cfif>>Pink</option>
-									<option value="orange" <cfif t.color EQ "orange">selected</cfif>>Orange</option>
-									<option value="brown" <cfif t.color EQ "brown">selected</cfif>>Brown</option>
-									<option value="turquoise" <cfif t.color EQ "turquoise">selected</cfif>>Turquoise</option>
-									<option value="plum" <cfif t.color EQ "plum">selected</cfif>>Plum</option>
-									<option value="cyan" <cfif t.color EQ "cyan">selected</cfif>>Cyan</option>
-									<option value="SteelBlue" <cfif t.color EQ "SteelBlue">selected</cfif>>Steel Blue</option>
 								</select>
 							</td>
 						</tr>					

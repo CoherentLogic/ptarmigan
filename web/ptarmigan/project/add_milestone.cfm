@@ -91,14 +91,7 @@
 						<option value="red">Red</option>
 						<option value="silver">Silver</option>
 						<option value="teal">Teal</option>
-						<option value="yellow">Yellow</option>
-						<option value="pink">Pink</option>
-						<option value="orange">Orange</option>
-						<option value="brown">Brown</option>
-						<option value="turquoise">Turquoise</option>
-						<option value="plum">Plum</option>
-						<option value="cyan">Cyan</option>
-						<option value="SteelBlue">Steel Blue</option>
+						<option value="yellow">Yellow</option>						
 					</select>
 				</td>
 			</tr>
