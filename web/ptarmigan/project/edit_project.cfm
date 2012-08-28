@@ -189,11 +189,6 @@
 <cflayout type="tab">
 	
 	
-	
-	
-	
-	
-	
 	<cflayoutarea title="Normal">
 		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="normal">
 		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="normal">
