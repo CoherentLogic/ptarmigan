@@ -202,61 +202,7 @@
 	<cflayoutarea title="Estimated Probability">
 		<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
 		<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
-	</cflayoutarea>
-	<!--- <cflayoutarea initHide="true" title="Milestones &amp; Tasks">
-		<a name="milestones">
-		<h2>Milestones</h2>
-		<p>Current milestone in <strong>bold</strong>. Click a milestone's name to edit the milestone.</p>
-		<cfoutput>
-		<form name="add_milestone" action="add_milestone.cfm?return=edit_project.cfm&id=#project_id#" method="post">
-		<input type="hidden" name="project_id" value="#p.id#"> 
-		<input type="submit" name="submit" value="Add Milestone">
-		</form>
-		</cfoutput>
-		<cfloop array="#milestones#" index="ms">	
-			
-			<cfif ms.milestone_number EQ p.current_milestone><strong></cfif>
-				<cfoutput>
-					<form name="add_task_#ms.id#" action="add_task.cfm?return=edit_project.cfm&id=#project_id#" method="post">
-					#ms.milestone_number#.&nbsp;&nbsp;
-					<a href="edit_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a>&nbsp; <cfif ms.floating EQ 0>(#dateFormat(ms.start_date, 'm/dd/yyyy')#-#dateFormat(ms.end_date, 'm/dd/yyyy')#)</cfif>
-					<cfif ms.floating EQ 1>
-						[FLOATING]
-					<cfelse>
-						[FIXED]
-					</cfif>
-					
-						<input type="hidden" name="milestone_id" value="#ms.id#">
-						<input type="submit" name="submit" value="Add Task">
-						<cfif ms.floating EQ 0>
-						<input type="submit" name="set_milestone" value="Make Current">
-						</cfif>
-					</form>
-				</cfoutput>
-			<cfif ms.milestone_number EQ p.current_milestone></strong></cfif>
-			<blockquote>		
-				<cfset m_tasks = ms.tasks()>
-				<cfif ArrayLen(m_tasks) GT 0>
-					<ol>			
-					<cfloop array="#m_tasks#" index="c_task">
-							<cfoutput>
-							<li><a href="manage_task.cfm?id=#c_task.id#">#c_task.task_name#</a> (#dateFormat(c_task.start_date,'m/dd/yyyy')#-#dateFormat(c_task.end_date,'m/dd/yyyy')#)&nbsp;&nbsp;
-									<cfif c_task.completed EQ 1>
-										[COMPLETE]
-									<cfelse>
-										[INCOMPLETE]
-									</cfif></li>
-								
-							</cfoutput>			
-					</cfloop>
-					</ol>
-				<cfelse>
-					<em>No tasks have been added for this milestone.</em>
-				</cfif>
-			</blockquote>
-		</cfloop>
-		</form>
-	</cflayoutarea> --->
+	</cflayoutarea>	
 </cflayout>
 </div>
 </div>
