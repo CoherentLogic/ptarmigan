@@ -34,13 +34,13 @@
 <cfset cn = "#c.last_name#, #c.honorific# #c.first_name# #c.middle_initial# #c.suffix#">
 <cfset milestones = p.milestones()>
 <div id="container">
-<div id="header">
+<!--- <div id="header">
 	<h1><cfoutput>#p.project_name#</cfoutput></h1>
 	
 	<cfif IsDefined("form.submit_header")>
 	<p><em>Changes saved.</em></p>
 	</cfif>
-</div>
+</div> --->
 <div id="navigation">
 		<form name="project_header" action="edit_project.cfm" method="post">
 		<cfoutput>

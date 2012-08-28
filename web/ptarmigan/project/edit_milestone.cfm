@@ -165,6 +165,7 @@
 		</cflayoutarea>
 		</cflayout>		
 		<input type="submit" name="submit_milestone" value="Apply">
+		<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">
 	</cfform>
 	</cfoutput>
 	

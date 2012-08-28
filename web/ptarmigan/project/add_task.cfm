@@ -40,8 +40,11 @@
 	
 <cfelse>
 	<h3>Add task to <cfoutput>#milestone.milestone_name#</cfoutput></h3>
-	<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
-	
+	<cfif milestone.floating EQ 0>
+		<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
+	<cfelse>
+		<p><em>This is a floating milestone. Start and end dates will not be available for this task.</em></p>
+	</cfif>
 	<cfform name="add_task" method="post" action="add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#&suppress_headers" onsubmit="window.location.reload();">
 	<cfoutput>
 	<input type="hidden" name="milestone_id" value="#url.milestone_id#">
@@ -55,22 +58,29 @@
 				<label><input type="checkbox" name="completed">Completed</input></label>
 			</td>
 		</tr>
-		<tr>
-			<td>Start date:</td>
-			<td><cfinput type="datefield" name="start_date"></td>
-		</tr>
-		<tr>
-			<td>End date (normal):</td>
-			<td><cfinput type="datefield" name="end_date"></td>		
-		</tr>
-		<tr>
-			<td>End date (pessimistic):</td>
-			<td><cfinput type="datefield" name="end_date_pessimistic"></td>		
-		</tr>
-		<tr>
-			<td>End date (optimistic):</td>
-			<td><cfinput type="datefield" name="end_date_optimistic"></td>		
-		</tr>			
+		<cfif milestone.floating EQ 0>
+			<tr>
+				<td>Start date:</td>
+				<td><cfinput type="datefield" name="start_date"></td>
+			</tr>
+			<tr>
+				<td>End date (normal):</td>
+				<td><cfinput type="datefield" name="end_date"></td>		
+			</tr>
+			<tr>
+				<td>End date (pessimistic):</td>
+				<td><cfinput type="datefield" name="end_date_pessimistic"></td>		
+			</tr>
+			<tr>
+				<td>End date (optimistic):</td>
+				<td><cfinput type="datefield" name="end_date_optimistic"></td>		
+			</tr>			
+		<cfelse>
+			<input type="hidden" name="start_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
+			<input type="hidden" name="end_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
+			<input type="hidden" name="end_date_pessimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
+			<input type="hidden" name="end_date_optimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
+		</cfif>			
 		<tr>
 			<td>Budget:</td>
 			<td>$<cfinput type="text" name="budget"></td>

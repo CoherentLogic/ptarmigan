@@ -208,10 +208,55 @@
 					</cfif>
 			<cfelse><!--- ms.floating EQ 1 --->
 				<tr>					
-					<th nowrap><cfoutput><em style="font-style:italic;"><a href="edit_milestone.cfm?id=#ms.id#&suppress_headers">#ms.milestone_name#</a></em></cfoutput> [FLOATING] <cfmodule template="/ptarmigan/link_box.cfm" text="Task" symbol="+" href="add_task.cfm?id=#attributes.id#&milestone_id=#ms.id#"></th>
-					<th style="background-color:white;" colspan="<cfoutput>#days_in_project+4#</cfoutput>"></th>
+					<th nowrap>
+						<cfif attributes.mode EQ "edit">
+							<cfoutput>
+								<cfmenu type="horizontal" bgcolor="gainsboro">
+									<cfmenuitem display="#ms.milestone_number#: #ms.milestone_name# [FLOATING]">
+									<cfmenuitem display="Edit milestone" href="javascript:edit_milestone('#session.root_url#', '#ms.id#');"/>								
+									<cfmenuitem divider />
+									<cfmenuitem display="Add task" href="javascript:add_task('#session.root_url#', '#attributes.id#', '#ms.id#');"/> 
+									<cfmenuitem display="Add expense" href="##"/>
+									<cfmenuitem display="Add document" href="##"/>
+									<cfmenuitem divider />
+									<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'milestones', '#ms.id#')"/>
+									</cfmenuitem>
+								</cfmenu>
+							</cfoutput> 
+						<cfelse>
+							<cfoutput>#ms.milestone_name# [FLOATING]</cfoutput>
+						</cfif>
+					</th>
+					<th style="background-color:white;" colspan="<cfoutput>#days_in_project+5#</cfoutput>"></th>
 					
 				</tr>
+				<cfset tasks = ms.tasks()>
+				<cfif ArrayLen(tasks) GT 0>
+					<cfloop array="#tasks#" index="task">
+						<tr>
+							<th nowrap>
+								
+									<cfoutput>
+										<cfif attributes.mode EQ "edit">
+											<cfmenu type="horizontal" bgcolor="gainsboro">
+												<cfmenuitem display="#task.task_name#">
+													<cfmenuitem display="Edit task" href="manage_task.cfm?id=#task.id#"/>
+													<cfmenuitem divider/>
+													<cfmenuitem display="Add expense" href="##"/>
+													<cfmenuitem display="Add document" href="##"/>
+													<cfmenuitem divider />
+													<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>
+												</cfmenuitem>
+											</cfmenu>
+										<cfelse>
+											#task.task_name#
+										</cfif>
+									</cfoutput>
+								
+							</th>
+						</tr>
+					</cfloop>
+				</cfif>
 			</cfif> <!--- ms.floating EQ 0 --->
 		</cfloop>			
 	</cfif>

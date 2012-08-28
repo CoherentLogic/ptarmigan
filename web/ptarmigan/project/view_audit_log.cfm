@@ -22,7 +22,7 @@
 		<cfset e = CreateObject("component", "ptarmigan.employee").open(audit.employee_id)>		
 			<cfoutput>
 			<tr>
-				<td>#dateFormat(audit.audit_date, "mm/dd/yyyy")#</td>
+				<td>#dateFormat(audit.audit_date, "mm/dd/yyyy")# #timeFormat(audit.audit_date, "h:mm tt")#</td>
 				<td>#e.full_name()#</td>
 				<td>#audit.change_order_number#</td>
 			</tr>
