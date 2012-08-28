@@ -5,10 +5,10 @@
 <cfparam name="session.message" default="">
 <cfparam name="session.company" default="">
 
-<cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
 
 <cfparam name="session.root_url" default="/ptarmigan">
+<cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
 <html>
 <head>
