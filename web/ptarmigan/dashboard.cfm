@@ -60,8 +60,6 @@
 	</div>
 	
 	<div id="navigation">
-		<cflayout type="accordion">	
-			<cflayoutarea title="PAY PERIOD">
 				<form name="change_pay_period" action="dashboard.cfm" method="post">
 				<table class="property_dialog">
 					<tr>
@@ -136,12 +134,10 @@
 				<input type="submit" name="change_pay_period" value="Update">
 				</form>
 			
-			</cflayoutarea>
-		</cflayout>
+			
 		
 		<cfif session.user.clocked_in EQ 1>
-			<cflayout type="accordion">	
-				<cflayoutarea title="CURRENT TIME ENTRY">
+			
 				<cfset ctcai = CreateObject("component", "ptarmigan.code_assign").open(session.user.clocked_task_code_asgn_id)>
 				<cfset task_code = CreateObject("component", "ptarmigan.task_code").open(ctcai.task_code_id)>
 				<cfset asgnm = CreateObject("component", "ptarmigan.assignment").open(ctcai.assignment_id)>
@@ -214,9 +210,7 @@
 				</cfoutput>
 				<form name="clock_out" method="post" action="time/clock_out.cfm">
 				<input type="submit" name="submit" value="Clock Out">
-				</form>
-				</cflayoutarea>
-			</cflayout>
+				</form>				
 		</cfif>
 	</div>
 

@@ -162,6 +162,8 @@
 														<cfmenuitem divider/>
 														<cfmenuitem display="Add expense" href="##"/>
 														<cfmenuitem display="Add document" href="##"/>
+														<cfmenuitem divider />
+														<cfmenuitem display="View audit log" href="javascript:view_audit_log('#session.root_url#', 'tasks', '#task.id#')"/>
 													</cfmenuitem>
 												</cfmenu>
 											<cfelse>

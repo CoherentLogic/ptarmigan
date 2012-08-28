@@ -3,9 +3,7 @@
 
 <cfif IsDefined("form.submit")>
 	<cfmail from="#session.user.email#" to="#form.recipient#" subject="#form.subject#" type="text/html">
-		<html>
-		<head>
-			<title><cfoutput>#form.subject#</cfoutput></title>
+		
 		<style type="text/css">
 		table.pretty {
 		 margin: 1em 1em 1em 2em;
@@ -32,16 +30,13 @@
 		 color:navy;
 		}
 		</style>
-		</head>
-		<body>
 		<cfmodule template="gantt_chart.cfm" id="#url.project_id#" mode="view" durations="#url.durations#">
 		<hr>
 		<center>
 			Powered by ptarmigan<br>
 			Copyright &copy; 2012 Coherent Logic Development LLC
 		</center>
-		</body>
-		</html>
+		
 		
 	</cfmail>
 <cfelse>

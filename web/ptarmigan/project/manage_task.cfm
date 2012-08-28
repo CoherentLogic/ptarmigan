@@ -37,8 +37,6 @@
 	</cfoutput>
 </div>
 <div id="navigation">
-<cflayout type="accordion">
-	<cflayoutarea title="PROPERTIES">
 		<cfoutput>
 		<form name="manage_task" action="manage_task.cfm?id=#url.id#" method="post">
 			<table class="property_dialog" style="margin:0;padding:0;">
@@ -126,8 +124,7 @@
 			</table>
 		</form>
 		</cfoutput>
-	</cflayoutarea>
-</cflayout>
+	
 </div>
 <div id="content">
 <cflayout type="tab">

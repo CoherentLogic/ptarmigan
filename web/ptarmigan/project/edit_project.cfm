@@ -42,8 +42,6 @@
 	</cfif>
 </div>
 <div id="navigation">
-<cflayout type="accordion">
-	<cflayoutarea title="PROPERTIES">
 		<form name="project_header" action="edit_project.cfm" method="post">
 		<cfoutput>
 		<input type="hidden" name="id" value="#project_id#">	
@@ -136,10 +134,6 @@
 			</tr>
 		</table>
 		</form>
-	</cflayoutarea>
-</cflayout>
-<cflayout type="accordion">
-	<cflayoutarea title="BUDGET OVERVIEW" initcollapsed="false">
 		<table class="property_dialog">
 			<tr>
 				<th>MILESTONE/TASK</th>
@@ -190,8 +184,6 @@
 			</cfloop>
 		</cfloop>
 		</table>
-	</cflayoutarea>
-</cflayout>
 </div>
 <div id="content">
 <cflayout type="tab">

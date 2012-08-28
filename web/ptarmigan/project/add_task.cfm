@@ -112,6 +112,7 @@
 			<td>&nbsp;</td>
 			<td align="right">
 				<input type="submit" name="submit_add" value="Apply">
+				<input type="button" value="Cancel" onclick="window.location.reload()">
 			</td>
 		</tr>
 		
