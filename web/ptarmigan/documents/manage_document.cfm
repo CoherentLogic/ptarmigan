@@ -23,7 +23,7 @@
 <div id="container">
 	<div id="header">
 		<cfoutput>
-			<h1>#document.document_name#</h1> #document.content_type()# : #document.content_sub_type()#
+			<h1>#document.document_name#</h1>
 		</cfoutput>
 	</div>
 	<div id="navigation">

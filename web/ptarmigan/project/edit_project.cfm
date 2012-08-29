@@ -185,7 +185,7 @@
 	<cflayoutarea title="Expenses">
 		<cfmodule template="expenses.cfm" id="#project_id#" mode="edit">
 	</cflayoutarea>
-	<cflayoutarea title="Alerts &amp; Solutions">
+	<cflayoutarea title="Alerts">
 		<cfmodule template="alerts.cfm" id="#project_id#">
 	</cflayoutarea>
 </cflayout>
