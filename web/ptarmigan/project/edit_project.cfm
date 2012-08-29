@@ -43,9 +43,17 @@
 		<!--- 
 		<cfoutput> | <a href="#header">Project Info</a> | <a href="#instructions">Instructions</a> | <a href="#milestones">Milestones</a>
 		 --->
+		 <table class="property_dialog">
+			<tr>
+				<th>PROJECT BROWSER</th>
+			</tr>
+		 </table>
+		<div style="width:100%;height:300px;font-family:Arial,Helvetica,sans-serif;color:black;overflow:auto;" class="tree">
+		<cfmodule template="project_browser.cfm" id="#project_id#">	
+		</div>			
 		<table class="property_dialog">
 			<tr>
-				<th colspan="2">PROPERTIES</th>
+				<th colspan="2">PROJECT PROPERTIES</th>
 			</tr>
 			<tr>
 				<cfoutput>
@@ -124,6 +132,7 @@
 		<input type="submit" name="submit_header" value="Save">
 
 		</form>
+		
 		
 		<table class="property_dialog">
 			<tr>

@@ -213,3 +213,13 @@ a:hover {
 	color:blue;
 }
 
+.tree td {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:black;
+}
+.tree td:hover {
+	background-color:white;
+}
+	
+

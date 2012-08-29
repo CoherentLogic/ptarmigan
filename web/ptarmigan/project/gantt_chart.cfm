@@ -1,3 +1,9 @@
+<cfif attributes.mode EQ "view">
+	<style type="text/css">
+	<cfinclude template="#session.root_url#/ptarmigan.css">
+	</style>
+</cfif>
+
 <cfset project = CreateObject("component", "ptarmigan.project").open(attributes.id)>
 <cfset milestones = project.milestones()>
 

@@ -1,3 +1,5 @@
+<cfajaximport tags="cfwindow,cfform,cfinput-datefield">
+
 <cfmodule template="../security/require.cfm" type="project">
 
 <cfset document = CreateObject("component", "ptarmigan.document").open(url.id)>
@@ -6,6 +8,7 @@
 	<cfif IsDefined("form.upload_file")>
 		<cffile action="upload" filefield="form.upload_file" destination="#session.upload_path#" nameconflict="makeunique">
 		<cfset document.path = cffile.serverfile>
+		<cfset document.mime_type = cffile.ContentType & "/" & cffile.ContentSubType>
 	</cfif>
 	
 	<cfset document.document_name = form.document_name>
@@ -20,7 +23,7 @@
 <div id="container">
 	<div id="header">
 		<cfoutput>
-			<h1>#document.document_name#</h1>
+			<h1>#document.document_name#</h1> #document.content_type()# : #document.content_sub_type()#
 		</cfoutput>
 	</div>
 	<div id="navigation">
@@ -54,6 +57,15 @@
 				<td>File</td>
 				<td><a href="#session.root_url#/uploads/#document.path#" target="_blank">Open file</a></td>
 			</tr>
+			<tr>
+				<td>File type</td>
+				<td>#ucase(document.content_type())#</td>
+			</tr>
+			<tr>
+				<td>File subtype</td>
+				<td>#ucase(document.content_sub_type())#</td>
+			</tr>
+
 			</cfif>
 		</table>
 		<input type="submit" name="submit" value="Apply">
@@ -68,6 +80,11 @@
 	
 	<div id="content">
 		<cflayout type="tab">
+			<cflayoutarea title="Preview">
+				<div style="width:100%;height:400px;overflow:auto;">
+					<cfmodule template="preview.cfm" id="#document.id#">
+				</div>
+			</cflayoutarea>
 			<cflayoutarea title="Employees">
 				<cfmodule template="associations.cfm" type="employees" id="#document.id#">
 			</cflayoutarea>

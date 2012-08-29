@@ -27,7 +27,7 @@ function edit_milestone(root_url, id)
 	
 	ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:530,width:830,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
@@ -53,7 +53,7 @@ function edit_task(root_url, task_id, milestone_id)
 
 	ColdFusion.Window.create('edit_task', 'Edit Task',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:530,width:830,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 

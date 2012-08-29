@@ -4,6 +4,7 @@
 	<cfset this.document_name = "">
 	<cfset this.description = "">
 	<cfset this.document_number = "">
+	<cfset this.mime_type = "">
 	
 	<cfset this.written = false>
 	
@@ -16,12 +17,14 @@
 							path,
 							document_name,
 							description,
-							document_number)
+							document_number,
+							mime_type)
 			VALUES			('#this.id#',
 							'#this.path#',
 							'#this.document_name#',
 							'#this.description#',
-							'#this.document_number#')
+							'#this.document_number#',
+							'#this.mime_type#')
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -42,6 +45,7 @@
 		<cfset this.document_name = od.document_name>
 		<cfset this.description = od.description>
 		<cfset this.document_number = od.document_number>
+		<cfset this.mime_type = od.mime_type>
 		
 		<cfset this.written = true>
 		<cfreturn this>
@@ -54,7 +58,8 @@
 			SET		path='#this.path#',
 					document_name='#this.document_name#',
 					description='#this.description#',
-					document_number='#this.document_number#'
+					document_number='#this.document_number#',
+					mime_type='#this.mime_type#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		
@@ -113,4 +118,24 @@
 		</cfquery>
 
 	</cffunction>	
+
+	<cffunction name="content_type" returntype="string" access="public" output="false">	
+		<cfif find("/", this.mime_type) NEQ 0>
+			<cfset ctype = left(this.mime_type, find("/", this.mime_type) - 1)>
+		<cfelse>
+			<cfset ctype = "">
+		</cfif>
+				
+		<cfreturn ctype>
+	</cffunction>
+	
+	<cffunction name="content_sub_type" returntype="string" access="public" output="false">	
+		<cfif find("/", this.mime_type) NEQ 0>
+			<cfset ctype = mid(this.mime_type, find("/", this.mime_type) + 1, len(this.mime_type))>
+		<cfelse>
+			<cfset ctype = "">
+		</cfif>
+		
+		<cfreturn ctype>
+	</cffunction>
 </cfcomponent>

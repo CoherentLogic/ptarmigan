@@ -1,36 +1,18 @@
 
 <cfset p = CreateObject("component", "ptarmigan.project").open(url.project_id)>
 
+
+
 <cfif IsDefined("form.submit")>
-	<cfmail from="#session.user.email#" to="#form.recipient#" subject="#form.subject#" type="text/html">
-		
-		<style type="text/css">
-		table.pretty {
-		 margin: 1em 1em 1em 2em;
-		 background: whitesmoke;
-		 border-collapse: collapse;
-		}
-		table.pretty th, table.pretty td {
-		 border: 1px gainsboro solid;
-		 padding: 0.2em;
-		 
-		}
-		table.pretty th {
-		 background: gainsboro;
-		 text-align: left;
-		 color:navy;
-		}
-		table.pretty caption {
-		 margin-left: inherit;
-		 margin-right: inherit;
-		}
-		
-		table.pretty tr:hover {
-		 background-color:gainsboro;
-		 color:navy;
-		}
-		</style>
+	<cfset output_file = "#p.id#_#url.durations#.pdf">
+	<cfset output_file_path = "#session.upload_path#/#output_file#">
+	
+	<cfdocument format="PDF" filename="#output_file_path#" overwrite="true" pagetype="custom" pagewidth="40" pageheight="36">
 		<cfmodule template="gantt_chart.cfm" id="#url.project_id#" mode="view" durations="#url.durations#">
+	</cfdocument>
+	<cfmail from="#session.user.email#" to="#form.recipient#" subject="#form.subject#" type="text/html" mimeattach="#output_file_path#">
+		
+		Attached: Gantt chart (#url.durations#) for #p.project_name#<br>
 		<hr>
 		<center>
 			Powered by ptarmigan<br>

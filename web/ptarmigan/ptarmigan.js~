@@ -137,7 +137,7 @@ function associate_file(root_url, ctl_id, document_id, element_table, element_id
 	url = url + "&element_table=" + escape(element_table) + "&element_id=" + escape(element_id);
 	url = url + "&assoc=" + escape(assoc) + "&suppress_headers";
 
-	alert(request(url));
+	return request(url);
 }
 
 

@@ -70,4 +70,22 @@
 		<cfreturn this>
 	</cffunction>
 	
+	<cffunction name="documents" returntype="array" access="public" output="false">
+		<cfquery name="q_docs" datasource="#session.company.datasource#">
+			SELECT	document_id
+			FROM	document_associations
+			WHERE	element_table='customers'
+			AND		element_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_docs">
+			<cfset d = CreateObject("component", "ptarmigan.document").open(document_id)>
+			<cfset ArrayAppend(oa, d)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
+	
 </cfcomponent>
