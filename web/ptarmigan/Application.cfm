@@ -8,6 +8,7 @@
 
 
 <cfparam name="session.root_url" default="/ptarmigan">
+<cfparam name="session.upload_path" default="/var/www/html/ptarmigan/uploads">
 <cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
 <html>

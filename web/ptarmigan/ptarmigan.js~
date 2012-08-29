@@ -68,7 +68,7 @@ function add_expense(root_url, element_table, element_id)
 
 	ColdFusion.Window.create('add_expense', 'Add Expense',
 	        url,
-	        {height:380,width:400,modal:true,closable:false,
+	        {height:480,width:400,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 	
 }
@@ -81,8 +81,15 @@ function edit_expense(root_url, expense_id)
 //
 // DOCUMENTS
 //
-function add_document(root_url, id)
+function add_document(root_url)
 {
+	var url = root_url + "/documents/add_document.cfm?suppress_headers";
+
+	ColdFusion.Window.create('add_document', 'Add Document',
+	        url,
+	        {height:270,width:400,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});	
+
 
 }
 
@@ -114,3 +121,68 @@ function email_chart(root_url, project_id, durations)
 	        draggable:true,resizable:true,center:true,initshow:true});
 
 }
+
+//
+// FILE ASSOCIATION
+//
+function associate_file(root_url, ctl_id, document_id, element_table, element_id)
+{
+	var assoc = 0;
+
+	if (is_checked(ctl_id)) {
+		assoc = 1;		
+	}
+
+	var url = root_url + "/documents/set_association.cfm?document_id=" + escape(document_id);
+	url = url + "&element_table=" + escape(element_table) + "&element_id=" + escape(element_id);
+	url = url + "&assoc=" + escape(assoc) + "&suppress_headers";
+
+	alert(request(url));
+}
+
+
+//
+// AJAX
+//
+
+function http_request_object()
+{
+        var xmlHttp;
+        
+        try {
+                xmlHttp = new XMLHttpRequest();
+        }
+        catch (e) {
+                try {
+                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                }
+                catch (e) {
+                        try {
+                                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (e) {
+                                return false;
+                        }
+                }
+        }
+        
+        return xmlHttp;
+}
+
+function request(url)
+{
+        var xmlHttp;
+        xmlHttp = http_request_object();
+        xmlHttp.open("GET", url, false);
+        xmlHttp.send(null);
+        
+	return xmlHttp.responseText;
+}
+
+function is_checked(ctl_id)
+{
+        return document.getElementById(ctl_id).checked;
+}
+
+
+

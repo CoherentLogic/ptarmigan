@@ -30,7 +30,7 @@
 			</cfif>
 		</cfmenuitem>
 		<cfmenuitem name="Documents" display="Documents">
-			<cfmenuitem display="Add document" href="#session.root_url#/documents/add_document.cfm"/>	
+			<cfmenuitem display="Add document" href="javascript:add_document('#session.root_url#');"/>	
 		</cfmenuitem>
 		<cfif session.user.is_admin() EQ true>
 			<cfmenuitem name="Customers" display="Customers">

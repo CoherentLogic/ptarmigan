@@ -1,7 +1,7 @@
 <cfcomponent output="false">
 	<cfset this.id = "">
 	<cfset this.path = "">
-	<cfset this.name = "">
+	<cfset this.document_name = "">
 	<cfset this.description = "">
 	<cfset this.document_number = "">
 	
@@ -14,12 +14,12 @@
 			INSERT INTO	documents
 							(id,
 							path,
-							name,
+							document_name,
 							description,
 							document_number)
 			VALUES			('#this.id#',
 							'#this.path#',
-							'#this.name#',
+							'#this.document_name#',
 							'#this.description#',
 							'#this.document_number#')
 		</cfquery>
@@ -39,7 +39,7 @@
 		
 		<cfset this.id = id>
 		<cfset this.path = od.path>
-		<cfset this.name = od.name>
+		<cfset this.document_name = od.document_name>
 		<cfset this.description = od.description>
 		<cfset this.document_number = od.document_number>
 		
@@ -52,7 +52,7 @@
 		<cfquery name="q_update_document" datasource="#session.company.datasource#">
 			UPDATE	documents
 			SET		path='#this.path#',
-					name='#this.name#',
+					document_name='#this.document_name#',
 					description='#this.description#',
 					document_number='#this.document_number#'
 			WHERE	id='#this.id#'
