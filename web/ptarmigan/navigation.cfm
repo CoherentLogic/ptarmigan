@@ -45,6 +45,10 @@
 				<cfmenuitem display="View employee" href="#session.root_url#/employee/choose_employee.cfm?action=view"/>								
 			</cfmenuitem>
 		</cfif>
+		<cfmenuitem name="Land" display="Land">
+			<cfmenuitem display="Define parcel" href="#session.root_url#/parcels/define_parcel.cfm"/>
+			<cfmenuitem display="Parcel map" href="#session.root_url#/parcels/parcel_map.cfm"/>
+		</cfmenuitem>
 	</cfif>
 </cfmenu>
 </div>
