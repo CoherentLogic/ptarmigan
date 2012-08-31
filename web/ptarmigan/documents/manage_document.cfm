@@ -159,7 +159,7 @@
 				<cfmodule template="associate_parcel.cfm" id="#document.id#">
 			</cflayoutarea>
 			<cflayoutarea title="Current Parcels">
-				<cfmodule template="associations.cfm" type="parcels" id="#document.id#">
+				<!---><cfmodule template="associations.cfm" type="parcels" id="#document.id#">--->
 			</cflayoutarea>
 		</cflayout>		
 	</div>

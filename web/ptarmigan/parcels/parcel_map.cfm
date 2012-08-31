@@ -1,68 +1,56 @@
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
-<cfquery name="get_parcels" datasource="#session.company.datasource#">
-	SELECT id FROM parcels
-</cfquery>
 
-<cfset parcels = ArrayNew(1)>
-<cfoutput query="get_parcels">
-	<cfset p = CreateObject("component", "ptarmigan.parcel").open(id)>
-	<cfset ArrayAppend(parcels, p)>
-</cfoutput>
 
 <head>
-	<script type="text/javascript">
-		function draw_parcels()
-		{
-			var mapOptions = {
-	          center: new google.maps.LatLng(32.3197, -106.7653),
-	          zoom: 16,
-	          mapTypeId: google.maps.MapTypeId.ROADMAP
-	        };
-	
-	        var map = new google.maps.Map(document.getElementById('map'),
-	          mapOptions);
-	          
-	        var parcel = [];
-	        
-	        var polygon = "";
-	        
-	        <cfloop array="#parcels#" index="p">
-	        	<cfset parcel_points = p.get_points()>
-		        var coords = [
-					<cfoutput query="parcel_points">
-				   		new google.maps.LatLng(#latitude#, #longitude#),
-				   	</cfoutput>
-				 ];
-				 
-				 polygon = new google.maps.Polygon({paths: coords})
-				 
-				 parcel.push(polygon);
-				
-				 parcel[parcel.length-1].setMap(map);
-				 parcel = [];
-			 </cfloop>
-	         
-			
-		}
-	</script>
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+	<script type="text/javascript" src="gis.js"></script>
+	<script type="text/javascript" src="../ptarmigan.js"></script>
+	<cfajaximport tags="cfwindow,cflayout-tab">
 </head>
 
-<body onload="draw_parcels();">
-	<div id="container">
-		<div id="header">
-			<h1>Parcel Map</h1>
-		</div>
-		<div id="navigation">
+<body onload="init_map('map', 33.1283, -107.2522);" style="height:100%;width:100%;">
 			
-		</div>
-		<div id="content">
-			<cflayout type="tab">
-				<cflayoutarea title="Map">
-					<div id="map" style="width:100%;height:400px;">
+			<div id="map" style="width:100%;height:100%;">
 						
-					</div>
-				</cflayoutarea>
-			</cflayout>
+			</div>					
+	<div id="loading_div" style="width:400px;height:300px;position:absolute;display:none;opacity:0.7;border:1px solid gainsboro;">
+		<img src="../images/loading_parcel.gif" width="400" height="300" alt="Loading Parcel...">
+	</div>
+	<div id="load_status">
+		<span style="font-family:Arial,Helvetica,sans-serif; margin-bottom:20px; font-size:20px; color:navy; opacity:0.4; letter-spacing:8px;">PTARMIGAN PARCEL MAP</span>
+		<hr>
+		<table border="0" cellpadding="20" cellspacing="0" width="100%" style="margin:0;" class="pretty">
+			<tr>
+				<th>APN</th>
+				<th>ACCT</th>
+				<th>RCPT</th>
+				<th>OWNER</th>
+				<th>MAIL ADDR</th>
+				<th>PHYS ADDR</th>
+				<th>SECTION</th>
+				<th>SUBDIVISION</th>
+				<th>LAND VALUE</th>
+				<th>BLDG VALUE</th>
+				<th>AREA</th>
+				<th>SURVEY</th>
+			</tr>
+			<tr>
+				<td><span id="PARCEL_ID"></span></td>
+				<td><span id="ACCOUNT_NUMBER"></span></td>
+				<td><span id="RECEPTION_NUMBER"></span></td>
+				<td><span id="OWNER_NAME"></span></td>
+				<td><span id="MAILING_ADDRESS"></span></td>
+				<td><span id="PHYSICAL_ADDRESS"></span></td>				
+				<td><span id="LEGAL_SECTION"></span></td>
+				<td><span id="SUBDIVISION"></span></td>
+				<td><span id="LAND_VALUE"></span></td>
+				<td><span id="BUILDING_VALUE"></span></td>
+				<td><span id="AREA"></span></td>
+				<td><span id="GROUND_SURVEY"></span></td>
+			</tr>
+		</table>
+	
+		<div id="loader" style="position:fixed; bottom:0px; width:100%; height:24px;border-top:1px grooved silver;">
+			
 		</div>
 	</div>
 </body>
