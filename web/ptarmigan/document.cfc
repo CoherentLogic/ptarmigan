@@ -5,6 +5,12 @@
 	<cfset this.description = "">
 	<cfset this.document_number = "">
 	<cfset this.mime_type = "">
+	<cfset this.filing_category = "FILE">
+	<cfset this.filing_container = "CABINET">
+	<cfset this.filing_division = "">
+	<cfset this.filing_material_type = "FOLDER">
+	<cfset this.filing_number = "">
+	<cfset this.filing_date = CreateODBCDate(Now())>
 	
 	<cfset this.written = false>
 	
@@ -18,13 +24,25 @@
 							document_name,
 							description,
 							document_number,
-							mime_type)
+							mime_type,
+							filing_category,
+							filing_container,
+							filing_division,
+							filing_material_type,
+							filing_number,
+							filing_date)
 			VALUES			('#this.id#',
 							'#this.path#',
 							'#this.document_name#',
 							'#this.description#',
 							'#this.document_number#',
-							'#this.mime_type#')
+							'#this.mime_type#',
+							'#this.filing_category#',
+							'#this.filing_container#',
+							'#this.filing_division#',
+							'#this.filing_material_type#',
+							'#this.filing_number#',
+							#this.filing_date#)
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -46,7 +64,13 @@
 		<cfset this.description = od.description>
 		<cfset this.document_number = od.document_number>
 		<cfset this.mime_type = od.mime_type>
-		
+		<cfset this.filing_category = od.filing_category>
+		<cfset this.filing_container = od.filing_container>
+		<cfset this.filing_division = od.filing_division>
+		<cfset this.filing_material_type = od.filing_material_type>
+		<cfset this.filing_number = od.filing_number>
+		<cfset this.filing_date = od.filing_date>
+				
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -59,7 +83,13 @@
 					document_name='#this.document_name#',
 					description='#this.description#',
 					document_number='#this.document_number#',
-					mime_type='#this.mime_type#'
+					mime_type='#this.mime_type#',
+					filing_category='#this.filing_category#',
+					filing_container='#this.filing_container#',
+					filing_division='#this.filing_division#',
+					filing_material_type='#this.filing_material_type#',
+					filing_number='#this.filing_number#',
+					filing_date=#this.filing_date#
 			WHERE	id='#this.id#'
 		</cfquery>
 		

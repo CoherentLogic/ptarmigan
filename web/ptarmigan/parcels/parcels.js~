@@ -57,7 +57,7 @@ function define_parcel()
 		document.getElementById("center_latitude").value = bounds.getCenter().lat();
 		document.getElementById("center_longitude").value = bounds.getCenter().lng();
 				
-		document.forms['parcel_properties'].submit();
+		//document.forms['parcel_properties'].submit();
 	});
 
 }

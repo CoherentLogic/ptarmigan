@@ -27,7 +27,7 @@ function edit_milestone(root_url, id)
 	
 	ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:530,width:830,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
@@ -53,7 +53,7 @@ function edit_task(root_url, task_id, milestone_id)
 
 	ColdFusion.Window.create('edit_task', 'Edit Task',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:530,width:830,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 
@@ -87,11 +87,62 @@ function add_document(root_url)
 
 	ColdFusion.Window.create('add_document', 'Add Document',
 	        url,
-	        {height:270,width:400,modal:true,closable:false,
+	        {height:370,width:500,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
 }
+
+//
+// PARCELS
+//
+function search_parcels(root_url)
+{
+	var url = root_url + "/parcels/parcel_search_wrapper.cfm?suppress_headers"
+
+	ColdFusion.Window.create('parcel_search', 'Parcel Search',
+	        url,
+	        {height:780,width:1024,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});	
+
+
+}	
+
+function select_parcel(id, apn)
+{
+	document.getElementById("selected_parcel").value = id;
+	document.getElementById("selected_parcel_apn").innerHTML = "Parcel " + apn + " selected.";
+}
+
+function associate_parcel_with_document(root_url, parcel_id, document_id)
+{
+	var url = root_url + "/documents/set_association.cfm?document_id=" + escape(document_id);
+	url = url + "&element_table=parcels&element_id=" + escape(parcel_id);
+	url = url + "&assoc=1&suppress_headers";
+
+	var ret_val = request(url);
+
+	window.location.reload();
+}
+
+function associate_parcel(root_url, ctl_id, parcel_id, element_table, element_id)
+{
+	var assoc = 0;
+
+	if (is_checked(ctl_id)) {
+		assoc = 1;		
+	}
+
+	var url = root_url + "/parcels/set_association.cfm?parcel_id=" + escape(parcel_id);
+	url = url + "&element_table=" + escape(element_table) + "&element_id=" + escape(element_id);
+	url = url + "&assoc=" + escape(assoc) + "&suppress_headers";
+
+
+	alert(url);
+	return request(url);
+}
+
+
 
 //
 // AUDITS

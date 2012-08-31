@@ -1,6 +1,6 @@
 <cfset project = CreateObject("component", "ptarmigan.project").open(attributes.id)>
 <cfset milestones = project.milestones()>
-
+<cfset parcels = project.parcels()>
 
 <cfform>
 	<cftree format="html" name="all_objects" width="400">
@@ -44,5 +44,9 @@
 		<cfloop array="#documents#" index="d">
 			<cftreeitem value="#d.id#" parent="documents_parent" display="#d.document_number#: #d.document_name#" img="../images/document.png" href="#session.root_url#/documents/manage_document.cfm?id=#d.id#">
 		</cfloop> <!--- documents within project --->
+		<cftreeitem display="Parcels" value="parcels_parent" img="folder">
+		<cfloop array="#parcels#" index="parc">
+			<cftreeitem value="#parc.id#" parent="parcels_parent" display="#parc.parcel_id#" img="../images/parcel.png" href="#session.root_url#/parcels/manage_parcel.cfm?id=#parc.id#">
+		</cfloop>
 	</cftree>
 </cfform>

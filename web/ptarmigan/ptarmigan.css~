@@ -121,6 +121,31 @@ table.pretty-nohover caption {
  margin-right: inherit;
 }
 
+/* PRETTY SMALL */
+table.pretty-small {
+ margin: 1em 1em 1em 2em;
+ background: whitesmoke;
+ border-collapse: collapse;
+}
+
+
+table.pretty-small th, table.pretty td {
+ border: 1px gainsboro solid;
+ padding: 0.2em;
+ font-size:12px;
+ 
+}
+table.pretty-small th {
+ background: gainsboro;
+ text-align: left;
+ color:navy;
+}
+table.pretty-small caption {
+ margin-left: inherit;
+ margin-right: inherit;
+}
+
+
 /* PROPERTY DIALOG */
 
 table.property_dialog {
@@ -219,7 +244,7 @@ a:hover {
 	color:black;
 }
 .tree td:hover {
-	color:black;
+	background-color:white;
 }
 	
 

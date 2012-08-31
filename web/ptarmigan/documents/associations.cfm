@@ -1,6 +1,11 @@
 <cfmodule template="../security/require.cfm" type="project">
 <cfset document = CreateObject("component", "ptarmigan.document").open(attributes.id)>
 <cfswitch expression="#attributes.type#">
+	<cfcase value="parcels">
+		<cfquery name="q" datasource="#session.company.datasource#">
+			SELECT id, parcel_id AS field_name FROM parcels ORDER BY parcel_id
+		</cfquery>
+	</cfcase>
 	<cfcase value="customers">
 		<cfquery name="q" datasource="#session.company.datasource#">
 			SELECT id, company_name AS field_name FROM customers ORDER BY company_name
@@ -51,6 +56,9 @@
 			<cfif attributes.type EQ "expenses">			
 				PROJECT
 			</cfif>
+			<cfif attributes.type EQ "parcels">
+				PHYSICAL ADDRESS
+			</cfif>
 
 		</th>
 		<th>
@@ -59,6 +67,9 @@
 			</cfif>
 			<cfif attributes.type EQ "expenses">
 				MILESTONE/TASK
+			</cfif>
+			<cfif attributes.type EQ "parcels">
+				LINK
 			</cfif>
 		</th>
 	</tr>
@@ -106,6 +117,11 @@
 						#p.project_name# [TASK EXPENSE]												
 					</cfif>
 				</cfif>
+				<cfif attributes.type EQ "parcels">
+					<cfset p = CreateObject("component", "ptarmigan.parcel").open(id)>
+					#p.owner_name#<br>
+					#p.physical_address#<br>#p.physical_city# #p.physical_state# #p.physical_zip#
+				</cfif>
 			</td>
 			<td>
 				<cfif attributes.type EQ "tasks">
@@ -126,6 +142,9 @@
 						#t.task_name# [TASK]												
 					</cfif>
 				</cfif>			
+				<cfif attributes.type EQ "parcels">
+					<a href="#session.root_url#/parcels/manage_parcel.cfm?id=#id#">View parcel</a>
+				</cfif>
 			</td>
 		</tr>
 	</cfoutput>

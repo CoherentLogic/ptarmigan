@@ -1,4 +1,3 @@
-<cfajaximport tags="cfwindow,cfform,cfinput-datefield">
 
 <cfmodule template="../security/require.cfm" type="project">
 

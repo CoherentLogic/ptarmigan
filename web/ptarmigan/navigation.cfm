@@ -48,6 +48,7 @@
 		<cfmenuitem name="Land" display="Land">
 			<cfmenuitem display="Define parcel" href="#session.root_url#/parcels/define_parcel.cfm"/>
 			<cfmenuitem display="Parcel map" href="#session.root_url#/parcels/parcel_map.cfm"/>
+			<cfmenuitem display="Parcel search" href="javascript:search_parcels('#session.root_url#');"/>
 		</cfmenuitem>
 	</cfif>
 </cfmenu>

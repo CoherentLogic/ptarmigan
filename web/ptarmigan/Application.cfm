@@ -28,6 +28,8 @@
 <script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 </cfoutput>
 <div id="header_bar">
+<cfajaximport tags="cfwindow,cfform,cfinput-datefield">
+	
 <cfinclude template="top.cfm">
 <cfinclude template="navigation.cfm">
 </div>
