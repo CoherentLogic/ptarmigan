@@ -21,7 +21,7 @@
 				<cftreeitem display="Expenses" value="#t.id#_expenses" parent="#t.id#_parent" expand="false" img="folder">
 				<cfset expenses = t.expenses()>
 				<cfloop array="#expenses#" index="e">
-					<cftreeitem value="#e.id#" parent="#t.id#_expenses" display="#dateFormat(e.expense_date, 'm/dd/yyyy')#: #e.recipient# (#numberFormat(e.amount, ',_$___.__')#)" img="../images/expense.png">
+					<cftreeitem value="#e.id#" href="javascript:edit_expense('#session.root_url#', '#e.id#');" parent="#t.id#_expenses" display="#dateFormat(e.expense_date, 'm/dd/yyyy')#: #e.recipient# (#numberFormat(e.amount, ',_$___.__')#)" img="../images/expense.png">
 				</cfloop> <!--- expenses within task --->
 				
 			</cfloop> <!--- tasks within milestone --->
@@ -35,7 +35,7 @@
 			<cftreeitem display="Expenses" value="#ms.id#_ms_expenses" parent="#ms.id#_ms_parent" expand="false" img="folder">
 			<cfset expenses = ms.expenses()>
 			<cfloop array="#expenses#" index="e">
-				<cftreeitem value="#e.id#" parent="#ms.id#_ms_expenses" display="#dateFormat(e.expense_date, 'm/dd/yyyy')#: #e.recipient# (#numberFormat(e.amount, ',_$___.__')#)" img="../images/expense.png">
+				<cftreeitem value="#e.id#"  href="javascript:edit_expense('#session.root_url#', '#e.id#');"  parent="#ms.id#_ms_expenses" display="#dateFormat(e.expense_date, 'm/dd/yyyy')#: #e.recipient# (#numberFormat(e.amount, ',_$___.__')#)" img="../images/expense.png">
 			</cfloop> <!--- expenses within milestone --->			
 		</cfloop> <!--- milestones within project --->
 		
