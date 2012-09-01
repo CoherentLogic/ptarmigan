@@ -138,6 +138,7 @@ function display_info(parcel_index)
 {
     var p = current_parcels.PARCELS[parcel_index];
 
+    try {
     load_it("PARCEL_ID", p.PARCEL_ID);
     load_it("ACCOUNT_NUMBER", p.ACCOUNT_NUMBER);
     load_it("RECEPTION_NUMBER", p.RECEPTION_NUMBER);
@@ -149,7 +150,9 @@ function display_info(parcel_index)
     load_it("LAND_VALUE", "$" + p.ASSESSED_LAND_VALUE);
     load_it("BUILDING_VALUE", "$" + p.ASSESSED_BUILDING_VALUE);
     load_it("AREA", p.AREA_ACRES);
-
+    }
+    catch(ex)
+	{}
 }
 
 function open_window(parcel_index)
