@@ -37,6 +37,38 @@
 	</cfif>
 </cfif>
 
+<cfif IsDefined("form.submit")>
+	<cfset parcel.parcel_id = form.parcel_id>
+	<cfset parcel.area_sq_ft = form.area_sq_ft>
+	<cfset parcel.area_sq_yd = form.area_sq_yd>
+	<cfset parcel.area_acres = form.area_acres>
+	<cfset parcel.account_number = form.account_number>
+	<cfset parcel.mailing_address = form.mailing_address>
+	<cfset parcel.mailing_city = form.mailing_city>
+	<cfset parcel.mailing_state = form.mailing_state>
+	<cfset parcel.mailing_zip = form.mailing_zip>
+	<cfset parcel.physical_address = form.physical_address>
+	<cfset parcel.physical_city = form.physical_city>
+	<cfset parcel.physical_state = form.physical_state>
+	<cfset parcel.physical_zip = form.physical_zip>
+	<cfset parcel.subdivision = form.subdivision>
+	<cfset parcel.lot = form.lot>
+	<cfset parcel.block = form.block>
+	<cfset parcel.assessed_land_value = form.assessed_land_value>
+	<cfset parcel.assessed_building_value = form.assessed_building_value>
+	<cfset parcel.section = form.section>
+	<cfset parcel.township = form.township & form.township_direction>
+	<cfset parcel.range = form.range & form.range_direction>
+	<cfset parcel.reception_number = form.reception_number>
+	<cfset parcel.owner_name = form.owner_name>
+	<cfset parcel.metes_and_bounds = form.metes_and_bounds>
+	<cfset parcel.ground_survey = form.ground_survey>
+
+	<cfset parcel.update()>
+	
+	
+</cfif>
+
 <head>
 	<script type="text/javascript">
 		function draw_parcels()
@@ -80,7 +112,7 @@
 		
 		<div id="navigation">
 			<cfoutput>
-			<form name="parcel_properties" action="insert_parcel.cfm" method="post">
+			<form name="parcel_properties" action="manage_parcel.cfm?id=#url.id#" method="post">
 			<table class="property_dialog">
 				<tr>
 					<th colspan="2">PROPERTIES</th>

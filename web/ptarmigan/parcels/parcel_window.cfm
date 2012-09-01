@@ -111,6 +111,7 @@
 								<th>FILING DATE</th>
 								<th>DESCRIPTION</th>
 								<th>FILING INFORMATION</th>
+								<th>ACTIONS</th>
 							</tr>
 							<cfloop array="#docs#" index="d">
 								<tr>
@@ -119,6 +120,7 @@
 									<td>#dateFormat(d.filing_date, "m/dd/yyyy")#</td>
 									<td>#d.description#</td>
 									<td>#d.filing_category# #d.filing_container# #d.filing_division# #d.filing_material_type# #d.filing_number#</td>
+									<td><a href="../documents/manage_document.cfm?id=#d.id#" target="_blank">Open Document</a></td>
 								</tr>
 							</cfloop>							
 						</table>

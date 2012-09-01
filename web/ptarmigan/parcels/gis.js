@@ -30,7 +30,6 @@ function init_map(control_id, center_latitude, center_longitude)
     map = new google.maps.Map(document.getElementById(control_id), map_options);
 
     google.maps.event.addListener(map, 'idle', redraw);
-    //google.maps.event.addListener(map, 'zoom_changed', redraw);
     
 }
 
@@ -67,7 +66,7 @@ function redraw()
 }
 
 
-function retrieve_parcels(center_latitude, center_longitude, radius)
+function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 {
     var url = "/ptarmigan/parcels/json/parcels.cfm?nw_latitude=" + escape(nw_latitude);
     url = url + "&nw_longitude=" + escape(nw_longitude);
