@@ -23,7 +23,14 @@
 								<td>Owner(s):</td>
 								<td><input type="text" size="50" readonly="readonly" disabled="disabled" value="#parcel.owner_name#"></td>
 							</tr>
-
+							<tr>
+								<td>Assessed land value:</td>
+								<td><input type="text" readonly="readonly" disabled="disabled" value="#numberFormat(parcel.assessed_land_value, ',_$___.__')#"></td>
+							</tr>
+							<tr>
+								<td>Assessed building value:</td>
+								<td><input type="text" readonly="readonly" disabled="disabled" value="#numberFormat(parcel.assessed_building_value, ',_$___.__')#"></td>
+							</tr>
 							<tr>
 								<td>&nbsp;</td>
 								<td>

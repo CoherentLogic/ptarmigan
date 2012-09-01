@@ -1,24 +1,22 @@
 <cfcomponent output="true">
 
-	<cfset this.center_latitude = 0>
-	<cfset this.center_longitude = 0>
-	<cfset this.radius = 0>
+	<cfset this.nw_latitude = 0>
+	<cfset this.nw_longitude = 0>
+	<cfset this.se_latitude = 0>
+	<cfset this.se_longitude = 0>
+	
 	<cfset this.parcels = ArrayNew(1)>
 	
 	<cffunction name="create" returntype="ptarmigan.parcels.area" access="public" output="false">
 		
 		<cfquery name="get_parcels" datasource="#session.company.datasource#">
-			SELECT ((ACOS(SIN(#this.center_latitude# * PI() / 180) * SIN(`center_latitude` * PI() / 180) + COS(#this.center_latitude# * PI() / 180) * COS(`center_latitude` * PI() / 180) * COS((#this.center_longitude# - `center_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance,
-	            parcels.id 		AS parcel_id
-	            FROM			parcels              
-	            HAVING             distance<=#this.radius# 
-	            ORDER BY    		distance 
-	            ASC
+			SELECT id FROM parcels 
+			WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))		
 		</cfquery>
 		
 		<cfset this.parcels = ArrayNew(1)>
 		<cfoutput query="get_parcels">
-			<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(get_parcels.parcel_id)>
+			<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(get_parcels.id)>
 			<cfset ArrayAppend(this.parcels, parcel)>
 		</cfoutput>
 		
@@ -30,3 +28,12 @@
 	</cffunction>
 
 </cfcomponent>
+
+		<!--->	SELECT ((ACOS(SIN(#this.center_latitude# * PI() / 180) * SIN(`center_latitude` * PI() / 180) + COS(#this.center_latitude# * PI() / 180) * COS(`center_latitude` * PI() / 180) * COS((#this.center_longitude# - `center_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance,
+	            parcels.id 		AS parcel_id
+	            FROM			parcels              
+			WHERE			parcels.center_latitude!=0
+			AND				parcels.center_longitude!=0
+	            HAVING             distance<=#this.radius# 			
+	            ORDER BY    		distance 
+	            ASC--->

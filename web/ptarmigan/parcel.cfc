@@ -64,7 +64,8 @@
 							`range`,
 							reception_number,
 							center_latitude,
-							center_longitude)
+							center_longitude,
+							center)
 			VALUES			('#this.id#',
 							'#this.parcel_id#',
 							#this.area_sq_ft#,
@@ -92,7 +93,8 @@
 							'#this.range#',
 							'#this.reception_number#',
 							#this.center_latitude#,
-							#this.center_longitude#)
+							#this.center_longitude#,
+							POINT(#this.center_latitude#, #this.center_longitude#))
 		</cfquery>
 		
 		<cfset this.written = true>
@@ -190,7 +192,8 @@
 					metes_and_bounds='#this.metes_and_bounds#',
 					ground_survey=#this.ground_survey#,
 					center_latitude=#this.center_latitude#,
-					center_longitude=#this.center_longitude#
+					center_longitude=#this.center_longitude#,
+					center=GeomFromText('POINT(#this.center_latitude# #this.center_longitude#)')
 			WHERE	id='#this.id#'			
 		</cfquery>
 		

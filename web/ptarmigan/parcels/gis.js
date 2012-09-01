@@ -9,11 +9,12 @@
 var current_parcels = "";
 var current_parcel_count = 0;
 var map = "";
-var current_center = "";
-var current_radius = "";
+var nw_latitude = 0;
+var nw_longitude = 0;
+var se_latitude = 0;
+var se_longitude = 0;
 var overlays = [];
 var current_control_id;
-var redraw_needed = true;
 
 function init_map(control_id, center_latitude, center_longitude)
 {
@@ -21,15 +22,16 @@ function init_map(control_id, center_latitude, center_longitude)
 
     var map_options = {
 	center:new google.maps.LatLng(center_latitude, center_longitude),
-	zoom: 14,
-	mapTypeId: google.maps.MapTypeId.ROADMAP
+	zoom: 16,
+	minZoom: 15,
+	mapTypeId: google.maps.MapTypeId.SATELLITE
     };
 
     map = new google.maps.Map(document.getElementById(control_id), map_options);
 
-    google.maps.event.addListener(map, 'dragend', redraw);
-    google.maps.event.addListener(map, 'zoom_changed', redraw);
-
+    google.maps.event.addListener(map, 'idle', redraw);
+    //google.maps.event.addListener(map, 'zoom_changed', redraw);
+    
 }
 
 
@@ -61,17 +63,17 @@ function redraw()
 {
 
     update_viewport_parameters();
-    if(redraw_needed) {
-	retrieve_parcels(current_center.lat(), current_center.lng(), current_radius);
-    }
+    retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude);
 }
 
 
 function retrieve_parcels(center_latitude, center_longitude, radius)
 {
-    var url = "/ptarmigan/parcels/json/parcels.cfm?center_latitude=" + escape(center_latitude);
-    url = url + "&center_longitude=" + escape(center_longitude);
-    url = url + "&radius=" + escape(radius) + "&suppress_everything";
+    var url = "/ptarmigan/parcels/json/parcels.cfm?nw_latitude=" + escape(nw_latitude);
+    url = url + "&nw_longitude=" + escape(nw_longitude);
+    url = url + "&se_latitude=" + escape(se_latitude);
+    url = url + "&se_longitude=" + escape(se_longitude);
+    url = url + "&suppress_everything";
 
     var xml_http;
     xml_http = http_request_object();
@@ -91,14 +93,24 @@ function retrieve_parcels(center_latitude, center_longitude, radius)
 	var point_count = 0;
 	var coords = [];
 	var polygon = "";	
-	
+	var percent = 0;
+
 	//clear all overlays
 	while(overlays[0]) {
 	    overlays.pop().setMap(null);
 	}
-      
+	
+	document.getElementById('loader').innerHTML = "Adding parcels to map...";
+
+	loading(false);
+
 	//loop through the parcels array
 	for(i = 0; i < current_parcel_count; i++) {
+
+	    percent = Math.round((i * 100) / current_parcel_count);
+
+	    set_progress(percent);
+	   
 	    point_count = current_parcels.PARCELS[i].POLYGONS.length;
 	    
 	    coords.length = point_count;
@@ -108,7 +120,7 @@ function retrieve_parcels(center_latitude, center_longitude, radius)
 	    }
 	    
 	    current_parcel = current_parcels[i]
-	    polygon = new google.maps.Polygon({paths: coords, parcel_index: i});
+		polygon = new google.maps.Polygon({paths: coords, parcel_index: i, fillColor: 'blue', strokeColor: 'red', strokeWeight: 1});
 	    parcel_id = current_parcels.PARCELS[i].ID;
 	    google.maps.event.addListener(polygon, 'mouseover', function () {	    
 		    display_info(this.parcel_index);
@@ -120,7 +132,8 @@ function retrieve_parcels(center_latitude, center_longitude, radius)
 	    overlays.push(polygon);	 
 	    overlays[overlays.length - 1].setMap(map);	    	    
 	}
-	loading(false);
+	document.getElementById('loader').innerHTML =  current_parcel_count + " PARCELS IN VIEWPORT";
+	set_progress(0);
 
 	break;
 	case 1:
@@ -134,25 +147,26 @@ function retrieve_parcels(center_latitude, center_longitude, radius)
     xml_http.send(null);
 }
 
+function set_progress(value)
+{
+    document.getElementById('progress_bar').style.width = value + "%";
+}
+
 function display_info(parcel_index) 
 {
     var p = current_parcels.PARCELS[parcel_index];
 
-    try {
-    load_it("PARCEL_ID", p.PARCEL_ID);
-    load_it("ACCOUNT_NUMBER", p.ACCOUNT_NUMBER);
-    load_it("RECEPTION_NUMBER", p.RECEPTION_NUMBER);
-    load_it("OWNER_NAME", p.OWNER_NAME);
-    load_it("MAILING_ADDRESS", p.MAILING_ADDRESS + "<br>" + p.MAILING_CITY + " " + p.MAILING_STATE + " " + p.MAILING_ZIP);
-    load_it("PHYSICAL_ADDRESS", p.PHYSICAL_ADDRESS + "<br>" + p.PHYSICAL_CITY + " " + p.PHYSICAL_STATE + " " + p.PHYSICAL_ZIP);
-    load_it("LEGAL_SECTION", p.SECTION + " T" + p.TOWNSHIP + " R" + p.RANGE);
-    load_it("SUBDIVISION", p.SUBDIVISION + " LOT " + p.LOT + " BLOCK " + p.BLOCK);
-    load_it("LAND_VALUE", "$" + p.ASSESSED_LAND_VALUE);
-    load_it("BUILDING_VALUE", "$" + p.ASSESSED_BUILDING_VALUE);
-    load_it("AREA", p.AREA_ACRES);
-    }
-    catch(ex)
-	{}
+    load("PARCEL_ID", p.PARCEL_ID);
+    load("ACCOUNT_NUMBER", p.ACCOUNT_NUMBER);
+    load("RECEPTION_NUMBER", p.RECEPTION_NUMBER);
+    load("OWNER_NAME", p.OWNER_NAME);
+    load("MAILING_ADDRESS", p.MAILING_ADDRESS + "<br>" + p.MAILING_CITY + " " + p.MAILING_STATE + " " + p.MAILING_ZIP);
+    load("PHYSICAL_ADDRESS", p.PHYSICAL_ADDRESS + "<br>" + p.PHYSICAL_CITY + " " + p.PHYSICAL_STATE + " " + p.PHYSICAL_ZIP);
+    load("LEGAL_SECTION", p.SECTION + " T" + p.TOWNSHIP + " R" + p.RANGE);
+    load("SUBDIVISION", p.SUBDIVISION + " LOT " + p.LOT + " BLOCK " + p.BLOCK);
+    load("LAND_VALUE", "$" + p.ASSESSED_LAND_VALUE);
+    load("BUILDING_VALUE", "$" + p.ASSESSED_BUILDING_VALUE);
+    load("AREA", p.AREA_ACRES);
 }
 
 function open_window(parcel_index)
@@ -166,7 +180,7 @@ function open_window(parcel_index)
 
 }
 
-function load_it(span_id, value)
+function load(span_id, value)
 {
     document.getElementById(span_id).innerHTML = value;
 }
@@ -174,23 +188,14 @@ function load_it(span_id, value)
 function update_viewport_parameters()
 {
     var bounds = map.getBounds();    
-    var center = bounds.getCenter();
-    var ne = bounds.getNorthEast();
+    var nw = bounds.getNorthEast();
+    var se = bounds.getSouthWest();
 
-    // r = radius of the earth in statute miles
-    var r = 3963.0;  
-
-    // Convert lat or lng from decimal degrees into radians (divide by 57.2958)
-    var lat1 = center.lat() / 57.2958; 
-    var lon1 = center.lng() / 57.2958;
-    var lat2 = ne.lat() / 57.2958;
-    var lon2 = ne.lng() / 57.2958;
-
-    // distance = circle radius from center to Northeast corner of bounds
-    current_radius = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + 
-			    Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
-
-    current_center = center;
+    nw_latitude = nw.lat();
+    nw_longitude = nw.lng();
+    se_latitude = se.lat();
+    se_longitude = se.lng();
+ 
 }
 
 

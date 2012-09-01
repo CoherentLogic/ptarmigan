@@ -48,9 +48,14 @@
 				<td><span id="GROUND_SURVEY"></span></td>
 			</tr>
 		</table>
-	
-		<div id="loader" style="position:fixed; bottom:0px; width:100%; height:24px;border-top:1px grooved silver;">
-			
+		
+		<div style="position:fixed; bottom:0px; width:100%; height:24px;border-top:1px grooved silver;">
+		<div style="height:10px;margin:3px;float:left;">
+		<div style="width:150px; height:100%; border:1px solid gray;">
+			<div id="progress_bar" style="background-color:navy; width:0%; height:100%;"></div>
+		</div>
+		</div>
+		<span id="loader"></span>
 		</div>
 	</div>
 </body>
