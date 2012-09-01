@@ -107,7 +107,7 @@
 <body onload="draw_parcels();">
 	<div id="container">
 		<div id="header">
-			<h1>Parcel Viewer</h1>
+			<h1>Manage Parcel</h1>
 		</div>
 		
 		<div id="navigation">
@@ -237,6 +237,7 @@
 					</td>
 				</tr>
 			</table>
+			<input type="submit" name="submit" value="Apply">
 			</form>
 			</cfoutput>
 		</div>

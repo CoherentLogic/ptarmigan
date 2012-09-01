@@ -75,7 +75,12 @@ function add_expense(root_url, element_table, element_id)
 
 function edit_expense(root_url, expense_id)
 {
+	var url = root_url + "/project/edit_expense.cfm?id=" + escape(expense_id) + "&suppress_headers";
 
+	ColdFusion.Window.create('edit_expense', 'Edit Expense',
+	        url,
+	        {height:480,width:400,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});		
 }
 
 //
