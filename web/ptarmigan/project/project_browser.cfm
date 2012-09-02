@@ -3,7 +3,7 @@
 <cfset parcels = project.parcels()>
 
 <cfform>
-	<cftree format="html" name="all_objects" width="400">
+	<cftree format="html" name="all_objects" >
 		<cftreeitem display="Milestones" value="milestones_parent" expand="true" img="folder">
 		<cfloop array="#milestones#" index="ms">
 			<cftreeitem display="#ms.milestone_name#" value="#ms.id#_ms_parent" parent="milestones_parent" expand="false" img="../images/milestone.png" href="javascript:edit_milestone('#session.root_url#', '#ms.id#');">
