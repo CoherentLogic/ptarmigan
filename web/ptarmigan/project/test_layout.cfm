@@ -42,7 +42,7 @@
 	
 	
 	<!--- BEGIN LAYOUT --->
-	<cflayout type="border">
+	<cflayout type="border" fitToWindow="true">
 		<cflayoutarea position="top">
 			<cfinclude template="../top.cfm">
 		</cflayoutarea>	
