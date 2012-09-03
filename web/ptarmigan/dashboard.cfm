@@ -95,82 +95,19 @@
 		</div>	
 		<div id="navigation">			
 			<div id="accordion">
-				<p><a href="##">Pay Period</a></p>
-				<div>
-					
-					<form name="change_pay_period" action="dashboard.cfm" method="post">
-					<table class="property_dialog">
-						<tr>
-							<td>Date range</td>
-							<td>
-								<select name="current_pay_period" onchange="this.form.submit();">
-									<cfoutput query="get_pay_periods">
-										<option value="#id#" <cfif selected_pay_period_id EQ id>selected</cfif>>#dateFormat(start_date, 'm/dd/yyyy')#-#dateFormat(end_date, 'm/dd/yyyy')#</option>
-									</cfoutput>
-								</select>
-							</td>						
-						</tr>
-						<tr>
-							<td>Status</td>
-							<td><cfoutput>#period_status#</cfoutput></td>					
-						</tr>
-						<tr>
-							<td>Hours worked (me)</td>
-							<td><cfoutput>#stats.hours_worked(open_date, close_date, session.user.id)#</cfoutput></td>
-						</tr>
-						<cfif session.user.is_time_approver() EQ true>
-						<tr>
-							<td>Hours worked (company)</td>
-							<td><cfoutput>#stats.hours_worked(open_date, close_date)#</cfoutput></td>
-						</tr>
-						</cfif>
-						<cfif session.user.is_project_manager() EQ true>
-						<tr>
-							<td>Projects active</td>
-							<td>
-								<cfoutput>
-									#stats.projects_open(open_date, close_date)#
-								</cfoutput>	
-							</td>
-						</tr>
-						</cfif>
-						<tr>
-							<td>Assignments (me)</td>
-							<td>
-								<cfoutput>
-									#stats.assignments_open(open_date, close_date, session.user.id)#
-								</cfoutput>
-							</td>
-						</tr>
-						<cfif session.user.is_project_manager() EQ true>
-						<tr>
-							<td>Assignments (company)</td>
-							<td>
-								<cfoutput>
-									#stats.assignments_open(open_date, close_date)#								
-								</cfoutput>
-							</td>
-						</tr>
-						<tr>
-							<td>Milestones active</td>
-							<td>
-								<cfoutput>
-									#stats.milestones_open(open_date, close_date)#
-								</cfoutput>
-							</td>						
-						</tr>
-						<tr>
-							<td>Tasks active</td>
-							<td>
-								<cfoutput>
-									#stats.tasks_open(open_date, close_date)#
-								</cfoutput>
-							</td>
-						</tr>
-						</cfif>
-					</table>
-					<input type="submit" name="change_pay_period" value="Update">
-					</form>
+				<p><a href="##">Browser</a></p>
+				<div>					
+					<div style="height:300px;width:100%;overflow:auto;">
+					<cfset projects = session.company.projects()>
+					<cfform>
+						<cftree format="html" name="all_objects" >
+						<cftreeitem display="Projects" value="projects_parent" expand="true" img="folder">
+						<cfloop array="#projects#" index="p">
+							<cftreeitem value="#p.id#" display="#p.project_name#" parent="projects_parent" expand="false" href="#session.root_url#/edit_project.cfm?id=#p.id#" img="images/stats.png">
+						</cfloop>
+						</cftree>
+					</cfform>
+					</div>
 				</div> <!--- pay period section --->
 			</div>
 		</div>
