@@ -1,11 +1,16 @@
 body,html {
-	height:100%;
+	
+}
+
+body {
+	background-image:url(images/body-bg.png);
+
 }
 body,html,td {
 	margin:0;
 	padding:0;
-	font-family:Garamond, Georgia, "Times New Roman", Times, serif;
-	/*font-family:Arial,Helvetica,sans-serif;*/
+	/*font-family:Garamond, Georgia, "Times New Roman", Times, serif;*/
+	font-family:Arial,Helvetica,sans-serif;
 	font-size:14px;
 }
 
@@ -75,17 +80,17 @@ em {
 /* PRETTY TABLE WITH HOVER EFFECT */
 
 table.pretty {
- margin: 1em 1em 1em 2em;
- background: whitesmoke;
+ margin: 0;
+ background: white;
  border-collapse: collapse;
 }
 table.pretty th, table.pretty td {
- border: 1px gainsboro solid;
+ border: none;
  padding: 0.2em;
  
 }
 table.pretty th {
- background: gainsboro;
+ background-image:url(images/glass.png);
  text-align: left;
  color:navy;
 }
@@ -156,17 +161,15 @@ table.property_dialog {
 }
 
 table.property_dialog th, table.property_dialog td {
- border: 1px gainsboro solid;
- padding: 0;
+ border: none;
+ padding: 3px;
  
 }
 
 table.property_dialog input, table.property_dialog select, table.property_dialog textarea{
 	padding:0px;
 	margin:0px;
-	border:none;
-	width:100%;
-	height:100%;
+	border:1px solid navy;
 	font-size:12px;
 }
 
@@ -181,10 +184,6 @@ table.property_dialog caption {
  margin-right: inherit;
 }
 
-table.property_dialog tr:hover {
- background-color:gainsboro;
- color:navy;
-}
 
 
 /* PAGE LAYOUT DIVS */
@@ -197,27 +196,38 @@ table.property_dialog tr:hover {
 
 #container {
 	padding: 20px;	
+	width: 1200px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:20px;
+	background-color:#ffffff;
+	border-radius:4px;
+	border:1px solid navy;
+	overflow:hidden;
 }
 
 #navigation {
 	float: left;
-	width: 400px;
-	border: solid 1px gainsboro;
+	width: 300px;
+	border: none;
 	list-style: none;
 	/*height:100%;*/
 }
 
 #content {
-	margin-left: 442px;
+	margin-left: 340px;
 	border: none;
 	padding: 0px;
+	
+	overflow:hidden;
+	
 	/*height:100%;*/
 }
 
 #header {
-	background-color: whitesmoke;
+	background-color: #ffffff;
 	padding: 10px;
-	border: 1px solid gainsboro;
+	border: none;
 	margin-bottom:20px;
 }
 
@@ -264,3 +274,46 @@ a:hover {
 #load_status td {
 	font-family:Arial,Helvetica,sans-serif;
 }
+
+/*
+.ui-tabs .ui-tabs-nav {
+	overflow:hidden;
+}*/
+
+/* GORGEOUS BUTTONS */
+
+a.button {
+    background: transparent url('images/bg_button_a.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+
+}
+
+a.button span {
+    background: transparent url('images/bg_button_span.png') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+        font-family:"Segoe UI", Verdana, Arial, Helvetica, sans-serif;
+        color:#2957a2;
+        font-weight:lighter;
+        font-size:12px;
+} 
+
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 
+

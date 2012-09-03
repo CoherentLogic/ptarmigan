@@ -1,4 +1,4 @@
-<cfif NOT IsDefined("url.suppress_everything")>
+<!---<cfif NOT IsDefined("url.suppress_everything")>
 	<cfif NOT IsDefined("url.suppress_headers")>
 		</div>
 		
@@ -6,4 +6,4 @@
 		</body>
 		</html>
 	</cfif>
-</cfif>
+</cfif>--->

@@ -11,6 +11,7 @@
 <cfparam name="session.upload_path" default="/var/www/html/ptarmigan/uploads">
 <cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
+<!---
 <cfif NOT IsDefined("url.suppress_everything")>
 
 <html>
@@ -39,3 +40,4 @@
 		<div style="width:100%;">
 	</cfif>
 </cfif>
+--->

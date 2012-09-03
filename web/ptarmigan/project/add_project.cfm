@@ -1,92 +1,68 @@
 <cfmodule template="../security/require.cfm" type="project">
 
-<cfif IsDefined("form.submit")>
-	<cfset t = CreateObject("component", "ptarmigan.project")>
-
-	<cfset t.project_name = UCase(form.project_name)>
-	<cfset t.instructions = UCase(form.instructions)>
-	<cfset t.due_date = CreateODBCDate(form.due_date)>
-	<cfset t.due_date_pessimistic = CreateODBCDate(form.due_date_pessimistic)>
-	<cfset t.due_date_optimistic = CreateODBCDate(form.due_date_optimistic)>
-	
-	<cfset t.customer_id = form.customer_id>
-	<cfset t.current_milestone = 1>
-	<cfset t.created_by = session.user.id>
-	<cfset t.tax_rate = form.tax_rate>
-	<cfset t.start_date = CreateODBCDate(form.start_date)>
-	<cfset t.budget = form.budget>
-	
-	<cfset t.create()>
-	
-	<cfset session.message = "Created project " & t.project_number>
-	
-	<cfoutput>
-		<center>
-		<h1>Project Created</h1>
-		<a href="view_project.cfm?id=#t.id#">View</a> | <a href="edit_project.cfm?id=#t.id#">Edit</a>
-		</center>
-	</cfoutput>
-	
-	
-
-<cfelse>
-
 <cfquery name="customers" datasource="#session.company.datasource#">
 	SELECT company_name,id FROM customers ORDER BY company_name
 </cfquery>
 
-<h1>Add Project</h1>
 
-<form name="add_project" id="add_project" action="add_project.cfm" method="post">
-<table width="100%">
-	<tr>
-		<td>Project name:</td>
-		<td><input type="text" maxlength="255" name="project_name"></td>
-	</tr>
-	<tr>
-		<td>Customer:</td>
-		<td>
-			<select name="customer_id">
-				<cfoutput query="customers">
-					<option value="#id#">#company_name#</option>
-				</cfoutput>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Budget:</td>
-		<td><input type="text" name="budget"></td>
-	</tr>
-	<tr>
-		<td>Tax rate:</td>
-		<td><input type="text" name="tax_rate" size="4"><strong>%</strong></td>
-	</tr>
-	<tr>
-		<td>Instructions:</td>
-		<td><textarea name="instructions" cols="80" rows="10"></textarea>
-	</tr>
-	<tr>
-		<td>Start date (MM/DD/YYYY):</td>
-		<td><input type="text" name="start_date">
-	</tr>
-	<tr>
-		<td>End date (normal) (MM/DD/YYYY):</td>
-		<td><input type="text" name="due_date"></td>
-	</tr>
-	<tr>
-		<td>End date (pessimistic) (MM/DD/YYYY):</td>
-		<td><input type="text" name="due_date_pessimistic"></td>
-	</tr>
-	<tr>
-		<td>End date (optimistic) (MM/DD/YYYY):</td>
-		<td><input type="text" name="due_date_optimistic"></td>
-	</tr>
-	
-	<tr>
-		<td>&nbsp;</td>
-		<td align="right"><input type="submit" name="submit" value="Submit"></td>
-	</tr>
-</table>
-</form>
+<div style="position:relative; height:100%; width:100%; background-color:white;">
+<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Project" icon="#session.root_url#/images/project_dialog.png">
 
-</cfif>
+<cfform name="add_project" id="add_project" action="#session.root_url#/project/add_project_submit.cfm" method="post">
+	<div style="padding:20px;">
+		<table width="100%">
+			<tr>
+				<td>Project name:</td>
+				<td><cfinput type="text" maxlength="255" name="project_name"></td>
+			</tr>
+			<tr>
+				<td>Customer:</td>
+				<td>
+					<select name="customer_id">
+						<cfoutput query="customers">
+							<option value="#id#">#company_name#</option>
+						</cfoutput>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Start date:</td>
+				<td><cfinput type="datefield" name="start_date">
+			</tr>
+			<tr>
+				<td>End date (normal):</td>
+				<td><cfinput type="datefield" name="due_date"></td>
+			</tr>
+			<tr>
+				<td>End date (pessimistic):</td>
+				<td><cfinput type="datefield" name="due_date_pessimistic"></td>
+			</tr>
+			<tr>
+				<td>End date (optimistic):</td>
+				<td><cfinput type="datefield" name="due_date_optimistic"></td>
+			</tr>
+			<tr>
+				<td>Budget:</td>
+				<td><cfinput type="text" name="budget"></td>
+			</tr>
+			<tr>
+				<td>Tax rate:</td>
+				<td><cfinput type="text" name="tax_rate" size="4"><strong>%</strong></td>
+			</tr>
+			<tr>
+				<td>Instructions:</td>
+				<td><textarea name="instructions" cols="40" rows="3"></textarea>
+			</tr>						
+		</table>
+	</div>
+	<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+    	<div style="padding:8px; float:right;" id="create_project_buttons" >
+        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>
+			<cfoutput>
+			<a class="button" href="##" onclick="document.forms['add_project'].submit();"><span>Apply</span></a>
+		    </cfoutput>       	
+		</div>
+	</div>
+
+</cfform>
+</div>

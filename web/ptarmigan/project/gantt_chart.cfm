@@ -6,15 +6,10 @@
 
 <cfset project = CreateObject("component", "ptarmigan.project").open(attributes.id)>
 <cfset milestones = project.milestones()>
-
 <cfset days_in_project = dateDiff("d", project.start_date, project.due_date)>
 <cfset current_date = project.start_date>
 <cfset today_date = dateFormat(now(), "mm/dd/yyyy")>
-
-
-
 <cfset start_project_day = DateFormat(project.start_date, "ddd")>
-
 
 <cfswitch expression="#start_project_day#">
 	<cfcase value="Mon">
@@ -37,11 +32,13 @@
 	</cfcase>
 	<cfcase value="Sun">
 		<cfset pre = 1>
-	</cfcase>
-		
+	</cfcase>		
 </cfswitch>
 
-<table class="pretty" border="1" cellpadding="5" style="width:100%;margin:0px;">
+<cfif attributes.mode EQ "edit">
+<div style="width:100%; overflow:auto; margin:0px;padding:0px;">
+</cfif>
+<table class="pretty" style="width:100%;margin:0px;margin-bottom:20px;">
 	<tr>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
@@ -264,6 +261,6 @@
 		</cfloop>			
 	</cfif>
 </table>
-
-</body>
-</html>
+<cfif attributes.mode EQ "edit">
+	</div>
+</cfif>

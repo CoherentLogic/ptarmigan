@@ -3,17 +3,16 @@
 <head>
 	<title>Ptarmigan</title>
 </head>
-
-
+<body>
 
 
 <cfif session.logged_in EQ true>
-	<cfinclude template="dashboard.cfm">
+	<cflocation url="dashboard.cfm">
 <cfelse>
-	<cfinclude template="about.cfm">
+	<cflocation url="login.cfm">
 </cfif>
 
 
 
-
+</body>
 </html>

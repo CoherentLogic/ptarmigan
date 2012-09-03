@@ -62,8 +62,8 @@
 		SELECT * FROM milestones WHERE project_id='#ms.project_id#' ORDER BY milestone_number
 	</cfquery>
 	
-	<div id="container">
-		<div id="navigation" style="width:300px;">
+	<div id="container" style="width:auto; height:auto; border:none; margin:0; background-color:gainsboro;">
+		<div id="navigation" style="width:300px;background-color:white;">
 			<table class="property_dialog">
 				<tr>
 					<th>SCHEDULE</th>

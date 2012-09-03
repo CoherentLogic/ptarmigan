@@ -88,4 +88,20 @@
 		<cfreturn oa>
 	</cffunction>
 	
+	<cffunction name="projects" returntype="array" access="public" output="false">
+		<cfquery name="q_projects" datasource="#session.company.datasource#">
+			SELECT id FROM projects WHERE customer_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_projects">
+			<cfset p = CreateObject("component", "ptarmigan.project").open(id)>
+			<cfset ArrayAppend(oa, p)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
+	
+	
 </cfcomponent>

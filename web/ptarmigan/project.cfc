@@ -62,6 +62,8 @@
 		<cfset t.floating = 1>
 		<cfset t.start_date = CreateODBCDate(Now())>
 		<cfset t.end_date = CreateODBCDate(Now())>
+		<cfset t.end_date_optimistic = CreateODBCDate(Now())>
+		<cfset t.end_date_pessimistic = CreateODBCDate(Now())>
 		
 		<cfset t.create()>
 		

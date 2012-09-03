@@ -8,6 +8,46 @@
 
 
 //
+// EMPLOYEES
+//
+function add_employee(root_url)
+{
+	var url = root_url + "/employee/add_employee.cfm?suppress_headers";
+	
+	ColdFusion.Window.create('add_employee', 'Add Employee',
+	        url,
+	        {height:530,width:630,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+}
+
+
+//
+// PROJECTS
+//
+
+function add_project(root_url)
+{
+	var url = root_url + "/project/add_project.cfm";
+	
+	ColdFusion.Window.create('add_project', 'Add Project',
+	        url,
+	        {height:560,width:630,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+}
+
+function open_project(root_url)
+{
+	var url = root_url + "/project/choose_project.cfm?action=edit";
+
+	
+	ColdFusion.Window.create('add_project', 'Add Project',
+	        url,
+	        {height:460,width:630,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+}
+
+
+//
 // MILESTONES
 //
 function add_milestone(root_url, project_id)

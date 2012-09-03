@@ -2,15 +2,20 @@
 	#toolbar {
 		width:100%;
 		height:auto;
-		background-color:gainsboro;
-		border-bottom:1px solid white;
+		background-color:white;
+		//border:1px solid navy;
 		padding:3px;
+		border-radius:4px;
+		//background-image:url(/ptarmigan/jquery_ui/css/redmond/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png);
+		margin-bottom:5px;
 	}
 	#toolbar img
 	{
 		margin:3px;
 		border:1px solid gainsboro;
 		padding:3px;
+		border-radius:4px;
+		background-color:gainsboro;
 		
 	}
 	
