@@ -322,7 +322,7 @@ a.button:active span {
 /* DASHBOARD ELEMENTS */
 
 .dashboard_element {
-	margin-bottom:30px;	
+	margin-bottom:20px;	
 	color:navy;
 	background-color:white;
 	border:none;
