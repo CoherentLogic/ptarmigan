@@ -321,7 +321,7 @@ a.button:active span {
 
 /* DASHBOARD ELEMENTS */
 
-table.dashboard_element td:hover {
+table.dashboard_table tr:hover {
 	background-color:#A6C9E2;
 }
 
