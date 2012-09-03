@@ -160,7 +160,26 @@
 					<table width="100%">
 						<tr>
 							<td width="70%" valign="top">
+								<cfset active_projects = session.company.active_projects()>
+								<div class="dashboard_element" style="width:100%;overflow:hidden;">
+									<div class="dashboard_element_header" style="background-color:#e17009; color:white;"><p>Active Projects</p></div>	
+									<table width="100%" cellpadding="0" cellspacing="0">		
+									<tr>
+										<th>Project</th>
+										<th>Due Date</th>			
+									</tr>							
+									<cfloop array="#active_projects#" index="p">
+										<cfoutput>
+											<tr>
+												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#p.id#">#p.project_name#</td>
+												<td width="30%" style="padding:3px;">#dateFormat(p.due_date, "m/dd")#</td>
+											</tr>
+										</cfoutput>
+									</cfloop>
+									</table>
+								</div>	
 								<cfset active_milestones = session.company.active_milestones()>
+								
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
 									<table width="100%" cellpadding="0" cellspacing="0">		

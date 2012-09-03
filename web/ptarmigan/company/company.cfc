@@ -110,5 +110,20 @@
 		<cfreturn oa>
 	</cffunction>
 	
+	<cffunction name="active_projects" returntype="array" output="false" access="public">
+		<cfquery name="q_active_projects" datasource="#session.company.datasource#">
+			SELECT id FROM projects WHERE (NOW() BETWEEN start_date AND due_date) 
+		</cfquery>
+
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_active_projects">
+			<cfset p = CreateObject("component", "ptarmigan.project").open(q_active_projects.id)>
+			<cfset ArrayAppend(oa, p)>
+		</cfoutput>
+	
+		<cfreturn oa>
+	</cffunction>
+	
 
 </cfcomponent>
