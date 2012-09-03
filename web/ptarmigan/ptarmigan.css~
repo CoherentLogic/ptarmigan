@@ -321,6 +321,10 @@ a.button:active span {
 
 /* DASHBOARD ELEMENTS */
 
+table.dashboard_element td:hover {
+	background-color:#A6C9E2;
+}
+
 .dashboard_element {
 	padding:0;
 	margin-top:0;
@@ -361,6 +365,11 @@ table.calendar {
 
 table.calendar th {
 	background-color: silver;
+	font-weight:bold;
+	text-align:center;
+}
+.dashboard_element th {
+	background-color:silver;
 	font-weight:bold;
 	text-align:center;
 }

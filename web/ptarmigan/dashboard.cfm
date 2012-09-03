@@ -141,6 +141,9 @@
 							<cfelse>
 								<cfset bgc = "white">
 							</cfif>
+							<cfif dateFormat(Now(), "mm/dd/yyyy") EQ dateFormat(next_day, "mm/dd/yyyy")>
+								<cfset bgc = "##ffef00">
+							</cfif>
 							
 							<td <cfoutput>style="background-color:#bgc#;"</cfoutput>>
 								
@@ -163,7 +166,7 @@
 								<cfset active_projects = session.company.active_projects()>
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header" style="background-color:#e17009; color:white;"><p>Active Projects</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0">		
+									<table width="100%" cellpadding="0" cellspacing="0" class="dashboard_table">		
 									<tr>
 										<th>Project</th>
 										<th>Due Date</th>			
@@ -182,7 +185,7 @@
 								
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0">		
+									<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
 									<tr>
 										<th>Milestone</th>
 										<th>Due Date</th>			
@@ -201,7 +204,7 @@
 									<cfset active_tasks = session.company.active_tasks()>
 								
 									<div class="dashboard_element_header" style="background-color:blue; color:white;"><p>Active Tasks</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0">		
+									<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
 									<tr>
 										<th>Task</th>
 										<th>Due Date</th>			

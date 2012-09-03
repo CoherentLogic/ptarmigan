@@ -321,6 +321,10 @@ a.button:active span {
 
 /* DASHBOARD ELEMENTS */
 
+table.dashboard_table tr:hover {
+	background-color:#A6C9E2;
+}
+
 .dashboard_element {
 	padding:0;
 	margin-top:0;
