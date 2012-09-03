@@ -103,7 +103,7 @@
 						<cftree format="html" name="all_objects" >
 						<cftreeitem display="Projects" value="projects_parent" expand="true" img="folder">
 						<cfloop array="#projects#" index="p">
-							<cftreeitem value="#p.id#" display="#p.project_name#" parent="projects_parent" expand="false" href="#session.root_url#/edit_project.cfm?id=#p.id#" img="images/stats.png">
+							<cftreeitem value="#p.id#" display="#p.project_name#" parent="projects_parent" expand="false" href="#session.root_url#/project/edit_project.cfm?id=#p.id#" img="images/stats.png">
 						</cfloop>
 						</cftree>
 					</cfform>
