@@ -1,7 +1,5 @@
 <cfsilent>
-<!--- 
 	<cfmodule template="../security/require.cfm" type="">
- --->
 
 	<cfset document = CreateObject("component", "ptarmigan.document").open(url.id)>
 	<cfif IsDefined("form.submit")>	
@@ -76,7 +74,7 @@
 			<div id="accordion">
 				<p><a href="##">Document Properties</a></p>
 				<div>
-				<!---<cfoutput>
+				<cfoutput>
 					<form name="document_properties" action="manage_document.cfm?id=#url.id#" method="post" enctype="multipart/form-data">
 						<table class="property_dialog">
 							<tr>
@@ -160,8 +158,9 @@
 						</table>
 						<input type="submit" name="submit" value="Apply">
 					</form>
-				</cfoutput>--->
+				</cfoutput>
 			</div>			
+		</div>
 		</div>
 		<div id="content">		
 			<div id="tabs">

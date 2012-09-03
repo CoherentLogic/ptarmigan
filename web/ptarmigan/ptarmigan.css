@@ -318,3 +318,67 @@ a.button:active span {
     padding: 6px 0 4px 18px; /* push text down 1px */
 } 
 
+
+/* DASHBOARD ELEMENTS */
+
+.dashboard_element {
+	margin-bottom:20px;	
+	color:navy;
+	background-color:white;
+	border:none;
+	box-shadow:2px 2px 2px #a6c9e2;
+}
+
+.dashboard_element_header
+{
+	background-color:navy;	
+	color:white;
+	font-weight:bold;
+	font-size:10pt;
+	width:100%;
+	border-bottom:#a6c9e2;	
+	border-left:1px solid gainsboro;
+	border-right:1px solid gainsboro;
+	border-top:1px solid gainsboro;
+
+}
+.dashboard_element_header p {
+	padding:3px;
+}
+
+.dashboard_element_text
+{
+	padding:10px;
+}
+
+table.calendar {
+	border-collapse: collapse;
+}
+
+table.calendar th {
+	background-color: silver;
+	font-weight:bold;
+	text-align:center;
+}
+table.calendar div {
+	min-height:114px;
+	min-width:110px;
+	font-size:10px;
+	max-width:112px;
+}
+
+table.calendar th, table.calendar td {
+ border: 1px gainsboro solid;
+ 
+}
+.date_bar {
+	background-color:#efefef;
+	width:100%;
+	text-align:right;
+	padding:0;
+	margin:0;
+	font-size:12px;
+	font-weight:normal;
+	height:16px;
+	display:block;
+}

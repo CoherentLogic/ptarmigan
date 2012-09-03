@@ -97,6 +97,7 @@
 			<div id="accordion">
 				<p><a href="##">Pay Period</a></p>
 				<div>
+					
 					<form name="change_pay_period" action="dashboard.cfm" method="post">
 					<table class="property_dialog">
 						<tr>
@@ -176,11 +177,68 @@
 		<div id="content">
 			<div id="tabs">
 				<ul>
-					<li><a href="#tab1">Tab 1</a></li>
+					<li><a href="#tab1">Quick View</a></li>
 					<li><a href="#tab2">Tab 2</a></li>
 				</ul>
 				<div id="tab1">
-					Tab 1 content
+					<div class="dashboard_element" style="width:100%;overflow:hidden;">
+						<div class="dashboard_element_header"><p>This Week's Priority Projects</p></div>
+						<table width="100%" class="calendar">
+						<tr>
+							<th>Sun</th>
+							<th>Mon</th>
+							<th>Tue</th>
+							<th>Wed</th>
+							<th>Thu</th>
+							<th>Fri</th>
+							<th>Sat</th>
+						</tr>
+						<cfset next_day = DateAdd("d", "-#DayOfWeek(Now()) - 1#", Now())>
+						<tr>
+						<cfloop from="1" to="7" index="dayNum">
+							<cfif dayNum EQ 1 or dayNum EQ 7>
+								<cfset bgc = "whitesmoke">
+							<cfelse>
+								<cfset bgc = "white">
+							</cfif>
+							
+							<td <cfoutput>style="background-color:#bgc#;"</cfoutput>>
+								
+								<span class="date_bar"><cfoutput>#dateFormat(next_day, "d")#</cfoutput></span>
+								<div>									
+								<cfset priority_projects = CreateObject("component", "ptarmigan.company.company").priority_projects(next_day, next_day)>
+								<cfloop array="#priority_projects#" index="p">
+									<cfoutput><a href="project/edit_project.cfm?id=#p.id#">#p.project_name# DUE</a><br></cfoutput>
+								</cfloop>
+								</div>
+							</td>
+							<cfset next_day = dateAdd("d", 1, next_day)>
+						</cfloop>
+						</tr>
+						</table>
+					</div>
+					<table width="100%">
+						<tr>
+							<td width="60%" valign="top">
+								<div class="dashboard_element" style="width:100%;overflow:hidden;">
+									<div class="dashboard_element_header"><p>Active Milestones</p></div>	
+							
+								</div>						
+								<div class="dashboard_element" style="width:100%;overflow:hidden;">
+									<div class="dashboard_element_header"><p>Active Tasks</p></div>	
+							
+								</div>						
+
+							</td>
+							<td width="40%" valign="top" style="padding-left:30px;">
+								<div class="dashboard_element" style="width:100%;overflow:hidden;">
+									<div class="dashboard_element_header"><p>Active Tasks</p></div>	
+							
+								</div>
+							</td>
+						</tr>
+					</table>
+					
 				</div>
 				<div id="tab2">
 					Tab 2 content

@@ -38,7 +38,7 @@
 	</cfcase>
 </cfswitch>
 
-<table style="margin:0;" class="pretty">
+<table style="margin:0; width:100%;" class="pretty">
 	<tr>
 		<th>&nbsp;</th>
 		<th>NAME</th>
