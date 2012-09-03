@@ -11,6 +11,10 @@
 <cfparam name="session.upload_path" default="/var/www/html/ptarmigan/uploads">
 <cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 
+<link rel="icon" 
+      type="image/ico" 
+      href="#root_url#/favicon.ico">
+
 <!---
 <cfif NOT IsDefined("url.suppress_everything")>
 
