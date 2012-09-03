@@ -48,6 +48,8 @@
 						#this.percent_complete#)
 		</cfquery>
 		
+		<cfset session.message = "Milestone #this.milestone_name# added.">
+		
 		<cfset this.written = true>
 		
 		<cfreturn this>
@@ -97,6 +99,9 @@
 					percent_complete=#this.percent_complete#
 			WHERE	id='#this.id#'
 		</cfquery>
+		
+		<cfset session.message = "Milestone #this.milestone_name# updated.">
+		
 		
 		<cfset this.written = true>
 		

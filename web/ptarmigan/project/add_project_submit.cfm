@@ -15,7 +15,6 @@
 	
 	<cfset t.create()>
 	
-	<cfset session.message = "Created project " & t.project_number>
 	
 	
 	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.id#">

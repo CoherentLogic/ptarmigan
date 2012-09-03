@@ -45,9 +45,10 @@
 						#this.budget#,
 						'#this.color#')
 		</cfquery>
+		<cfset session.message = "Task #this.task_name# added.">
 		
 		<cfset this.written = true>
-	
+		
 		<cfreturn this>
 	</cffunction>
 	
@@ -70,7 +71,8 @@
 		<cfset this.end_date_optimistic = t.end_date_optimistic>
 		<cfset this.budget = t.budget>
 		<cfset this.color = t.color>
-	
+		
+		
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -92,6 +94,8 @@
 					color='#this.color#'
 			WHERE	id='#this.id#'
 		</cfquery>
+		
+		<cfset session.message = "Task #this.task_name# updated.">
 		
 		<cfset this.written = true>
 	

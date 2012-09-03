@@ -67,6 +67,8 @@
 		
 		<cfset t.create()>
 		
+		<cfset session.message = "Project #this.project_name# added.">
+		
 		
 
 		<cfreturn this>
@@ -118,6 +120,7 @@
 		<cfset this.budget = op.budget>
 		
 		<cfset this.written = true>
+		<cfset session.message = "Project #this.project_name# opened.">
 		
 		<cfreturn this>
 	</cffunction>
@@ -139,6 +142,7 @@
 					budget=#this.budget#
 			WHERE	id='#this.id#'
 		</cfquery>
+		<cfset session.message = "Project #this.project_name# updated.">
 		
 		<cfset this.written = true>
 		<cfreturn this>

@@ -1,75 +1,13 @@
 <cfmodule template="../security/require.cfm" type="admin">
 
+<div style="position:relative; height:100%; width:100%; background-color:white;">
+	<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Employee" icon="#session.root_url#/images/project_dialog.png">
 
-<cfif IsDefined("form.submit")>
-	<cfset t = CreateObject("component", "ptarmigan.employee")>
-	
-	<cfset t.username = UCase(form.t_username)>
-	<cfset t.password_hash = hash(form.t_password)>
-	
-	<cfif IsDefined("form.active")>
-		<cfset t.active = 1>
-	<cfelse>
-		<cfset t.active = 0>
-	</cfif>
-	
-	<cfset t.honorific = form.honorific>
-	<cfset t.first_name = UCase(form.first_name)>
-	<cfset t.middle_initial = UCase(form.middle_initial)>
-	<cfset t.last_name = UCase(form.last_name)>
-	<cfset t.suffix = UCase(form.suffix)>
-	
-	<cfset t.title = UCase(form.title)>
-	<cfset t.hire_date = CreateODBCDate(form.hire_date)>
-	<cfif trim(form.term_date) NEQ "">
-		<cfset t.term_date = CreateODBCDate(form.term_date)>
-	<cfelse>
-		<cfset t.term_date = 0>
-	</cfif>
-	
-	<cfset t.mail_address = UCase(form.mail_address)>
-	<cfset t.mail_city = UCase(form.mail_city)>
-	<cfset t.mail_state = UCase(form.mail_state)>
-	<cfset t.mail_zip = UCase(form.mail_zip)>
-	
-	<cfset t.email = form.email>
-	<cfset t.work_phone = UCase(form.work_phone)>
-	<cfset t.home_phone = UCase(form.home_phone)>
-	<cfset t.mobile_phone = UCase(form.mobile_phone)>
-	
-	<cfset emp_id = t.create()> 
-	
-	<cfif IsDefined("form.admin")>
-		<cfset t.admin(true)>
-	<cfelse>
-		<cfset t.admin(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.time_approver")>
-		<cfset t.time_approver(true)>
-	<cfelse>
-		<cfset t.time_approver(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.project_manager")>
-		<cfset t.project_manager(true)>
-	<cfelse>
-		<cfset t.project_manager(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.billing_manager")>
-		<cfset t.billing_manager(true)>
-	<cfelse>
-		<cfset t.billing_manager(false)>
-	</cfif>
-		
-
-<cfelse>
 	<div style="padding:20px;">
-		<cfform name="add_employee" id="add_employee" action="add_employee.cfm" method="post" onsubmit="window.location.reload();">
+		<cfform name="add_employee" id="add_employee" action="#session.root_url#/employee/add_employee_submit.cfm" method="post" onsubmit="window.location.reload();">
 			<cflayout type="tab">
 				<cflayoutarea title="Authentication">		
-					<div style="height:400px; width:500px;">
+					<div style="height:300px; width:450px;">
 						<table width="100%">
 						<tr>
 						<td>Username:</td>
@@ -87,7 +25,7 @@
 					</div>
 				</cflayoutarea>
 				<cflayoutarea title="Roles">		
-					<div style="height:400px; width:500px;">
+					<div style="height:300px; width:450px;">
 						<label><input type="checkbox" name="admin">Site administrator</label><br>
 						<label><input type="checkbox" name="time_approver">Time collection manager</label><br>
 						<label><input type="checkbox" name="project_manager">Project manager</label><br>
@@ -95,7 +33,7 @@
 					</div>
 				</cflayoutarea>
 				<cflayoutarea title="Identity">
-					<div style="height:400px; width:500px;">
+					<div style="height:300px; width:450px;">
 						<table>
 						<tr>
 						<td>Gender:</td>
@@ -143,7 +81,7 @@
 					</div>
 				</cflayoutarea>
 				<cflayoutarea title="Employment">
-					<div style="height:400px; width:500px;">					
+					<div style="height:300px; width:450px;">					
 						<table>
 						<tr>
 						<td>Title:</td>
@@ -161,7 +99,7 @@
 					</div>
 				</cflayoutarea>
 				<cflayoutarea title="Contact Information">
-					<div style="height:400px; width:500px;">					
+					<div style="height:300px; width:450px;">					
 						<table>
 						<tr>
 						<td>Mailing Address:</td>
@@ -199,8 +137,17 @@
 					</div>
 				</cflayoutarea>
 			</cflayout>
-			<input type="submit" name="submit" value="Apply">		
-			<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">
+			<!---<input type="submit" name="submit" value="Apply">		
+			<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">--->
+			
 		</cfform>
-	</div>
-</cfif>
+		</div>
+		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+	    	<div style="padding:8px; float:right;" id="create_project_buttons" >
+	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>
+				<cfoutput>
+				<a class="button" href="##" onclick="document.forms['add_employee'].submit();"><span>Apply</span></a>
+			    </cfoutput>       	
+			</div>
+		</div>	
+</div>

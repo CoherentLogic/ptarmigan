@@ -16,7 +16,7 @@ function add_employee(root_url)
 	
 	ColdFusion.Window.create('add_employee', 'Add Employee',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:550,width:630,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
@@ -235,6 +235,15 @@ function associate_file(root_url, ctl_id, document_id, element_table, element_id
 	return request(url);
 }
 
+
+//
+// DIALOG UTILITIES
+//
+function form_submit(form_id)
+{
+	document.getElementById('self_post').value="submit";
+	document.forms[form_id].submit();
+}
 
 //
 // AJAX

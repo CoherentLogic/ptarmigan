@@ -28,7 +28,7 @@
 						#this.electronic_billing#,
 						'#this.phone_number#')
 		</cfquery>
-		
+		<cfset session.message = "Customer #this.company_name# added.">
 		<cfset this.written = true>
 		
 		<cfreturn this>
@@ -46,6 +46,7 @@
 					phone_number='#this.phone_number#'
 			WHERE	id='#this.id#'
 		</cfquery>
+		<cfset session.message = "Customer #this.company_name# updated.">
 		
 		<cfset this.written = true>
 		

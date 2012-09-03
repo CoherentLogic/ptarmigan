@@ -45,6 +45,9 @@
 							#this.filing_date#)
 		</cfquery>
 		
+		<cfset session.message = "Document #this.document_name# added.">
+
+		
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -92,7 +95,8 @@
 					filing_date=#this.filing_date#
 			WHERE	id='#this.id#'
 		</cfquery>
-		
+		<cfset session.message = "Document #this.document_name# updated.">
+
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -133,7 +137,7 @@
 							'#element_id#',
 							'#this.id#')
 		</cfquery>
-
+		
 	</cffunction>
 	
 	<cffunction name="disassociate" returntype="void" access="public" output="false">

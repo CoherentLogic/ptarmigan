@@ -7,7 +7,9 @@
 			<td align="right" valign="bottom">
 				
 					<cfoutput>
+						<span style="color:navy;">
 						#session.user.full_name()#
+						</span>
 								
 						<cfif session.user.is_admin() EQ true>
 							<img align="absmiddle" src="#session.root_url#/images/site_admin.png" onmouseover="Tip('Administrator');" onmouseout="UnTip();">
@@ -18,16 +20,10 @@
 						</cfif>
 						<cfif session.user.is_billing_manager() EQ true>
 							<img align="absmiddle" src="#session.root_url#/images/expense.png" onmouseover="Tip('Billing Manager');" onmouseout="UnTip();">
-						</cfif>
+						</cfif><br>
+						<span style="color:navy;">#session.message#</span>
 					</cfoutput>							
 			</td>
 		</tr>
 	</table>
-	<cfif session.logged_in NEQ true>
-		<center>
-		
-		<p><cfoutput>#session.message#</cfoutput></p>
-		</center>
-	<cfelse>
-		
-	</cfif>
+	

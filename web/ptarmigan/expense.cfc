@@ -45,6 +45,7 @@
 							'#this.poc#',
 							#this.amount#)
 		</cfquery>
+		<cfset session.message = "Expense for #this.recipient# added.">
 		
 		<cfset this.written = true>
 		<cfreturn this>
@@ -69,7 +70,7 @@
 		<cfset this.zip = x.zip>
 		<cfset this.poc = x.poc>
 		<cfset this.amount = x.amount>
-		
+	
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -89,7 +90,7 @@
 						amount=#this.amount#
 			WHERE		id='#this.id#'			
 		</cfquery>
-		
+		<cfset session.message = "Expense for #this.recipient# updated.">
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>

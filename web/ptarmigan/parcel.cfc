@@ -96,7 +96,8 @@
 							#this.center_longitude#,
 							POINT(#this.center_latitude#, #this.center_longitude#))
 		</cfquery>
-		
+		<cfset session.message = "Parcel #this.parcel_id# added.">
+
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>		
@@ -196,7 +197,9 @@
 					center=GeomFromText('POINT(#this.center_latitude# #this.center_longitude#)')
 			WHERE	id='#this.id#'			
 		</cfquery>
-		
+
+		<cfset session.message = "Parcel #this.parcel_id# updated.">
+
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>

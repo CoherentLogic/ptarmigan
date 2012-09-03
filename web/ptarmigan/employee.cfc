@@ -103,6 +103,7 @@
 						#this.clocked_in#)
 		</cfquery>
 		
+		<cfset session.message = "Employee #this.full_name()# added.">
 		<cfset this.written = true>
 		
 		<cfreturn this>
@@ -151,7 +152,7 @@
 			<cfset this.clocked_task_code_asgn_id = obu.clocked_task_code_asgn_id>
 			<cfset this.clocked_timestamp = obu.clocked_timestamp>
 			<cfset this.clocked_in = obu.clocked_in>
-			
+			<cfset session.message = "Employee #this.full_name()# updated.">
 			
 			<cfset this.written = true>
 		<cfelse>

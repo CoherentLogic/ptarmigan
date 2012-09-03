@@ -52,7 +52,7 @@
 <head>
 	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cflayout-border">
 	<cfoutput>	
-		<title>DOC TITLE - ptarmigan</title>
+		<title>Dashboard - Ptarmigan</title>
 		
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
