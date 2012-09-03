@@ -219,7 +219,7 @@
 					</div>
 					<table width="100%">
 						<tr>
-							<td width="75%" valign="top">
+							<td width="65%" valign="top">
 								<cfset active_milestones = session.company.active_milestones()>
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
@@ -259,7 +259,7 @@
 								</div>						
 
 							</td>
-							<td width="25%" valign="top" style="padding-left:30px;">
+							<td width="35%" valign="top" style="padding-left:30px;">
 									<cfform>
 									<cfcalendar name="cal">
 									</cfform>
