@@ -9,17 +9,10 @@
 	<cfset t.task_name = form.task_name>
 	<cfset t.description = form.description>
 	<cfset t.milestone_id = url.milestone_id>
-	<cfif milestone.floating NEQ 0>
 		<cfset t.start_date = CreateODBCDate(form.start_date)>
 		<cfset t.end_date = CreateODBCDate(form.end_date)>
 		<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
 		<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
-	<cfelse>
-		<cfset t.start_date = CreateODBCDate(Now())>
-		<cfset t.end_date = CreateODBCDate(Now())>
-		<cfset t.end_date_pessimistic = CreateODBCDate(Now())>
-		<cfset t.end_date_optimistic = CreateODBCDate(Now())>
-	</cfif>
 	<cfset t.color = form.color>
 
 	<cfset t.budget = form.budget>
