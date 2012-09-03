@@ -113,7 +113,8 @@
 			SELECT MAX(end_date) AS last_date FROM tasks WHERE milestone_id='#this.id#'
 		</cfquery>
 		
-		<cfif this.floating EQ 0>
+		
+		<cfif this.floating EQ 0 AND q_last_task_date.recordcount NEQ 0>
 			<cfreturn q_last_task_date.last_date>
 		<cfelse>
 			<cfreturn Now()>
