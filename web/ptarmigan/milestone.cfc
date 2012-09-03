@@ -115,7 +115,11 @@
 		
 		
 		<cfif this.floating EQ 0 AND q_last_task_date.recordcount NEQ 0>
-			<cfreturn q_last_task_date.last_date>
+			<cfif IsDate(q_last_task_date.last_date)>
+				<cfreturn q_last_task_date.last_date>
+			<cfelse>
+				<cfreturn Now()>
+			</cfif>
 		<cfelse>
 			<cfreturn Now()>
 		</cfif>
