@@ -141,9 +141,9 @@
 							<cfelse>
 								<cfset bgc = "white">
 							</cfif>
-							<cfif dateFormat(Now(), "mm/dd/yyyy") EQ dateFormat(next_day, "mm/dd/yyyy")>
+							<!--- <cfif dateFormat(Now(), "mm/dd/yyyy") EQ dateFormat(next_day, "mm/dd/yyyy")>
 								<cfset bgc = "white">
-							</cfif>
+							</cfif> --->
 							
 							<td <cfoutput>style="background-color:#bgc#;"</cfoutput>>
 								
