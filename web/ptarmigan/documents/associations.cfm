@@ -38,8 +38,7 @@
 	</cfcase>
 </cfswitch>
 
-<div style="width:100%;height:400px;overflow:auto;">
-<table width="100%" style="margin:0;" class="pretty">
+<table style="margin:0;" class="pretty">
 	<tr>
 		<th>&nbsp;</th>
 		<th>NAME</th>
@@ -149,4 +148,3 @@
 		</tr>
 	</cfoutput>
 </table>
-</div>

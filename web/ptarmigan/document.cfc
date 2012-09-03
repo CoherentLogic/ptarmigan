@@ -73,6 +73,9 @@
 		<cfset this.filing_material_type = od.filing_material_type>
 		<cfset this.filing_number = od.filing_number>
 		<cfset this.filing_date = od.filing_date>
+		
+		<cfset session.message = "Document #this.document_name# opened.">
+
 				
 		<cfset this.written = true>
 		<cfreturn this>

@@ -40,15 +40,15 @@
 				<li>
 					<a href="##Customers">Customers</a>
 					<ul>
-						<li><a href="#session.root_url#/customer/add_customer.cfm">Add</a></li>
-						<li><a href="#session.root_url#/customer/choose_customer.cfm?action=edit">Open</a></li>
+						<li><a href="javascript:add_customer('#session.root_url#');">Add</a></li>
+						<li><a href="javascript:open_customer('#session.root_url#');">Open</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="##Employees">Employees</a>
 					<ul>
 						<li><a href="javascript:add_employee('#session.root_url#');">Add</a></li>
-						<li><a href="#session.root_url#/employee/choose_employee.cfm?action=edit">Open</a></li>
+						<li><a href="javascript:open_employee('#session.root_url#');">Open</a></li>
 					</ul>
 				</li>				
 			</cfif>

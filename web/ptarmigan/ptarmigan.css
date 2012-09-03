@@ -204,6 +204,7 @@ table.property_dialog caption {
 	border-radius:4px;
 	border:1px solid navy;
 	overflow:hidden;
+	box-shadow:2px 2px 2px gray;
 }
 
 #navigation {

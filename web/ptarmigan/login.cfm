@@ -33,7 +33,7 @@
 </head>
 <body style="width:100%;height:100%;">
 	<div style="height:100%;">
-		<div style="margin-left:auto; margin-right:auto; margin-top:50px; height:auto; width:400px; border:1px solid navy; border-radius:4px; background-color:white; box-shadow:2px 2px 2px navy;">		
+		<div style="margin-left:auto; margin-right:auto; margin-top:50px; height:auto; width:400px; border:1px solid navy; border-radius:4px; background-color:white; box-shadow:2px 2px 2px gray;">		
 			<div style="padding:40px;">
 				<center>
 					<cfoutput>

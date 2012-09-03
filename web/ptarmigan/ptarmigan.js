@@ -20,6 +20,20 @@ function add_employee(root_url)
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
+//
+// CUSTOMERS
+//
+function add_customer(root_url)
+{
+	var url = root_url + "/customer/add_customer.cfm";
+
+
+	ColdFusion.Window.create('add_customer', 'Add Customer',
+	        url,
+	        {height:550,width:630,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+
+}
 
 //
 // PROJECTS
@@ -132,7 +146,7 @@ function add_document(root_url)
 
 	ColdFusion.Window.create('add_document', 'Add Document',
 	        url,
-	        {height:370,width:500,modal:true,closable:false,
+	        {height:560,width:630,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
