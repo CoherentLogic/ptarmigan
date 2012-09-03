@@ -96,7 +96,7 @@ function add_task(root_url, project_id, milestone_id)
 
 	ColdFusion.Window.create('add_task', 'Add Task',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:590,width:630,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 

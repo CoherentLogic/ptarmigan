@@ -107,6 +107,18 @@
 		
 		<cfreturn this>
 	</cffunction>
+	
+	<cffunction name="last_task_end_date" returntype="date" access="public" output="false">
+		<cfquery name="q_last_task_date" datasource="#session.company.datasource#">
+			SELECT MAX(end_date) AS last_date FROM tasks WHERE milestone_id='#this.id#'
+		</cfquery>
+		
+		<cfif this.floating EQ 0>
+			<cfreturn q_last_task_date.last_date>
+		<cfelse>
+			<cfreturn Now()>
+		</cfif>
+	</cffunction>
 
 	<cffunction name="tasks" returntype="array" access="public" output="false">
 		<cfquery name="q_tasks" datasource="#session.company.datasource#">

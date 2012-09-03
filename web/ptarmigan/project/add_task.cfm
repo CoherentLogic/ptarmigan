@@ -1,29 +1,25 @@
-<div style="padding:20px;">
-<cfmodule template="../security/require.cfm" type="project">
-
-
-<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
-
-
-<cfif IsDefined("form.set_milestone")>
-	<cfset ms = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
-	<cfset p = CreateObject("component", "ptarmigan.project").open(url.id)>
-	<cfset p.current_milestone = ms.milestone_number>
-	<cfset p.update()>
+<cfsilent>
+	<cfmodule template="../security/require.cfm" type="project">
+	<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
+</cfsilent>
+<cfif IsDefined("form.self_post")>
 	
-	
-</cfif>
-
-<cfif IsDefined("form.submit_add")>
 	<cfset t = CreateObject("component", "ptarmigan.task")>
 	
 	<cfset t.task_name = form.task_name>
 	<cfset t.description = form.description>
-	<cfset t.milestone_id = form.milestone_id>
-	<cfset t.start_date = CreateODBCDate(form.start_date)>
-	<cfset t.end_date = CreateODBCDate(form.end_date)>
-	<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
-	<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
+	<cfset t.milestone_id = url.milestone_id>
+	<cfif milestone.floating NEQ 0>
+		<cfset t.start_date = CreateODBCDate(form.start_date)>
+		<cfset t.end_date = CreateODBCDate(form.end_date)>
+		<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
+		<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
+	<cfelse>
+		<cfset t.start_date = CreateODBCDate(Now())>
+		<cfset t.end_date = CreateODBCDate(Now())>
+		<cfset t.end_date_pessimistic = CreateODBCDate(Now())>
+		<cfset t.end_date_optimistic = CreateODBCDate(Now())>
+	</cfif>
 	<cfset t.color = form.color>
 
 	<cfset t.budget = form.budget>
@@ -36,91 +32,97 @@
 	
 	<cfset t.create()>
 	
-	<h1>Reloading page...</h1>
-	
+	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.project().id#" addtoken="false">
 <cfelse>
-	<h3>Add task to <cfoutput>#milestone.milestone_name#</cfoutput></h3>
-	<cfif milestone.floating EQ 0>
-		<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
-	<cfelse>
-		<p><em>This is a floating milestone. Start and end dates will not be available for this task.</em></p>
-	</cfif>
-	<cfform name="add_task" method="post" action="add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#&suppress_headers" onsubmit="window.location.reload();">
-	<cfoutput>
-	<input type="hidden" name="milestone_id" value="#url.milestone_id#">
-	</cfoutput>
+	<div style="position:relative; height:100%; width:100%; background-color:white;">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">
 	
-	<table>
-		<tr>
-			<td>Task name:</td>
-			<td>
-				<cfinput type="text" name="task_name"><br>
-				<label><input type="checkbox" name="completed">Completed</input></label>
-			</td>
-		</tr>
-		<cfif milestone.floating EQ 0>
-			<tr>
-				<td>Start date:</td>
-				<td><cfinput type="datefield" name="start_date"></td>
-			</tr>
-			<tr>
-				<td>End date (normal):</td>
-				<td><cfinput type="datefield" name="end_date"></td>		
-			</tr>
-			<tr>
-				<td>End date (pessimistic):</td>
-				<td><cfinput type="datefield" name="end_date_pessimistic"></td>		
-			</tr>
-			<tr>
-				<td>End date (optimistic):</td>
-				<td><cfinput type="datefield" name="end_date_optimistic"></td>		
-			</tr>			
-		<cfelse>
-			<input type="hidden" name="start_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
-			<input type="hidden" name="end_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
-			<input type="hidden" name="end_date_pessimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
-			<input type="hidden" name="end_date_optimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
-		</cfif>			
-		<tr>
-			<td>Budget:</td>
-			<td>$<cfinput type="text" name="budget"></td>
-		</tr>
-		<tr>
-			<td>Instructions:</td>
-			<td><textarea name="description" rows="5" cols="40"></textarea></td>
-		</tr>
-		<tr>
-			<td>Color:</td>
-			<td>
-				<select name="color">
-					<option value="aqua">Aqua</option>
-					<option value="black">Black</option>
-					<option value="blue">Blue</option>
-					<option value="fuchsia">Fuchsia</option>
-					<option value="gray">Gray</option>
-					<option value="green">Green</option>
-					<option value="lime">Lime</option>
-					<option value="maroon">Maroon</option>
-					<option value="navy">Navy</option>
-					<option value="olive">Olive</option>
-					<option value="purple">Purple</option>
-					<option value="red">Red</option>
-					<option value="silver">Silver</option>
-					<option value="teal">Teal</option>
-					<option value="yellow">Yellow</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td align="right">
-				<input type="submit" name="submit_add" value="Apply">
-				<input type="button" value="Cancel" onclick="window.location.reload()">
-			</td>
-		</tr>
+		<cfform name="add_task" id="add_task" action="#session.root_url#/project/add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#" method="post">
+			<div style="padding:20px; font-size:12pt;">				
+				<cfset proposed_start_date = dateAdd("d", 1, milestone.last_task_end_date())>
+				<cfif milestone.floating EQ 0>
+					<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
+					<p><em>Last entered task had an end date of <cfoutput>#dateFormat(milestone.last_task_end_date(), 'm/dd/yyyy')#</cfoutput></em></p>
+				<cfelse>
+					<p><em>This is a floating milestone. Start and end dates will not be available for this task.</em></p>
+				</cfif>
+				
+				
+				<table style="margin-top:20px;">
+					<tr>
+						<td>Milestone:</td>
+						<td><cfoutput>#milestone.milestone_name#</cfoutput></td>
+					</tr>
+					<tr>		
+						<td>Task name:</td>
+						<td>
+							<cfinput type="text" name="task_name"><br>
+							<label><input type="checkbox" name="completed">Completed</input></label>
+						</td>
+					</tr>
+					<cfif milestone.floating EQ 0>
+						<tr>
+							<td>Start date:</td>
+							<td><cfinput type="datefield" name="start_date" value="#proposed_start_date#"></td>
+						</tr>
+						<tr>
+							<td>End date (normal):</td>
+							<td><cfinput type="datefield" name="end_date"></td>		
+						</tr>
+						<tr>
+							<td>End date (pessimistic):</td>
+							<td><cfinput type="datefield" name="end_date_pessimistic"></td>		
+						</tr>
+						<tr>
+							<td>End date (optimistic):</td>
+							<td><cfinput type="datefield" name="end_date_optimistic"></td>		
+						</tr>			
+					<cfelse>
+						<input type="hidden" name="start_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
+						<input type="hidden" name="end_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
+						<input type="hidden" name="end_date_pessimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
+						<input type="hidden" name="end_date_optimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
+					</cfif>			
+					<tr>
+						<td>Budget:</td>
+						<td>$<cfinput type="text" name="budget"></td>
+					</tr>
+					<tr>
+						<td>Instructions:</td>
+						<td><textarea name="description" rows="5" cols="40"></textarea></td>
+					</tr>
+					<tr>
+						<td>Color:</td>
+						<td>
+							<select name="color">
+								<option value="aqua">Aqua</option>
+								<option value="black">Black</option>
+								<option value="blue">Blue</option>
+								<option value="fuchsia">Fuchsia</option>
+								<option value="gray">Gray</option>
+								<option value="green">Green</option>
+								<option value="lime">Lime</option>
+								<option value="maroon">Maroon</option>
+								<option value="navy">Navy</option>
+								<option value="olive">Olive</option>
+								<option value="purple">Purple</option>
+								<option value="red">Red</option>
+								<option value="silver">Silver</option>
+								<option value="teal">Teal</option>
+								<option value="yellow">Yellow</option>
+							</select>
+						</td>
+					</tr>
+				</table>						
+			</div>
+			<input type="hidden" name="self_post" id="self_post" value="">
+		</cfform>
 		
-	</table>			
-	</cfform>	
-
+		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+	    	<div style="padding:8px; float:right;">
+	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
+				<a class="button" href="##" onclick="form_submit('add_task');"><span>Apply</span></a>
+			</div>
+		</div>
+	</div>
 </cfif>
-</div>
