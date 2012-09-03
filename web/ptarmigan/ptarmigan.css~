@@ -322,6 +322,8 @@ a.button:active span {
 /* DASHBOARD ELEMENTS */
 
 .dashboard_element {
+	padding:0;
+	margin-top:0;
 	margin-bottom:20px;	
 	color:navy;
 	background-color:white;
@@ -331,6 +333,7 @@ a.button:active span {
 
 .dashboard_element_header
 {
+	padding:0;
 	background-color:navy;	
 	color:white;
 	font-weight:bold;
