@@ -82,7 +82,7 @@
 					</tr>
 					<tr>
 						<td>Instructions:</td>
-						<td><textarea name="description" rows="5" cols="40"></textarea></td>
+						<td><textarea name="description" rows="2" cols="40"></textarea></td>
 					</tr>
 					<tr>
 						<td>Color:</td>
