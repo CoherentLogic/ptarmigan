@@ -142,7 +142,7 @@
 								<cfset bgc = "white">
 							</cfif>
 							<cfif dateFormat(Now(), "mm/dd/yyyy") EQ dateFormat(next_day, "mm/dd/yyyy")>
-								<cfset bgc = "##ffef00">
+								<cfset bgc = "white">
 							</cfif>
 							
 							<td <cfoutput>style="background-color:#bgc#;"</cfoutput>>
