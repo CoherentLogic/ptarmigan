@@ -117,8 +117,8 @@
 		<div id="content">
 			<div id="tabs">
 				<ul>
-					<li><a href="#tab1">Quick View</a></li>
-					
+					<li><a href="#tab1"><cfoutput><img src="#session.root_url#/images/zoom.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Quick View</a></li>
+					<li><a href="#tab2#"><cfoutput><img src="#session.root_url#/images/note.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Notes</li>
 				</ul>
 				<div id="tab1">
 					<div class="dashboard_element" style="width:100%;overflow:hidden;">
