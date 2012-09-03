@@ -171,8 +171,8 @@
 									<cfloop array="#active_milestones#" index="ms">
 										<cfoutput>
 											<tr>
-												<td width="70%"><a href="#session.root_url#/project/edit_project.cfm?id=#ms.project().id#">#ms.project().project_name#</a>: #ms.milestone_name#</td>
-												<td width="30%">#dateFormat(ms.end_date, "m/dd")# (#ms.percent_complete#%)</td>
+												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#ms.project().id#">#ms.project().project_name#</a>: #ms.milestone_name#</td>
+												<td width="30%" style="padding:3px;">#dateFormat(ms.end_date, "m/dd")# (#ms.percent_complete#%)</td>
 											</tr>
 										</cfoutput>
 									</cfloop>
@@ -190,8 +190,8 @@
 									<cfloop array="#active_tasks#" index="t">
 										<cfoutput>
 											<tr>
-												<td width="70%"><a href="#session.root_url#/project/edit_project.cfm?id=#t.project().id#">#t.project().project_name#</a>: #t.task_name#</td>
-												<td width="30%">#dateFormat(t.end_date, "m/dd")# (#t.percent_complete#%)</td>
+												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#t.project().id#">#t.project().project_name#</a>: #t.task_name#</td>
+												<td width="30%" style="padding:3px;">#dateFormat(t.end_date, "m/dd")# (#t.percent_complete#%)</td>
 											</tr>
 										</cfoutput>
 									</cfloop>
