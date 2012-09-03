@@ -346,6 +346,7 @@ a.button:active span {
 
 }
 .dashboard_element_header p {
+	margin:0;
 	padding:3px;
 }
 

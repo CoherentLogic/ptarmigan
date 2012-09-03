@@ -178,7 +178,7 @@
 			<div id="tabs">
 				<ul>
 					<li><a href="#tab1">Quick View</a></li>
-					<li><a href="#tab2">Tab 2</a></li>
+					
 				</ul>
 				<div id="tab1">
 					<div class="dashboard_element" style="width:100%;overflow:hidden;">
@@ -220,29 +220,56 @@
 					<table width="100%">
 						<tr>
 							<td width="60%" valign="top">
+								<cfset active_milestones = session.company.active_milestones()>
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
-									<div class="dashboard_element_header"><p>Active Milestones</p></div>	
-							
+									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
+									<table width="100%" cellpadding="0" cellspacing="0">		
+									<tr>
+										<th>Milestone</th>
+										<th>Due Date</th>			
+									</tr>							
+									<cfloop array="#active_milestones#" index="ms">
+										<cfoutput>
+											<tr>
+												<td width="60%"><a href="#session.root_url#/project/edit_project.cfm?id=#ms.project().id#">#ms.project().project_name#</a>: #ms.milestone_name#</td>
+												<td width="40%">#dateFormat(ms.end_date, "m/dd")# (#ms.percent_complete#%)</td>
+											</tr>
+										</cfoutput>
+									</cfloop>
+									</table>
 								</div>						
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
-									<div class="dashboard_element_header"><p>Active Tasks</p></div>	
-							
+									<cfset active_tasks = session.company.active_tasks()>
+								
+									<div class="dashboard_element_header" style="background-color:blue; color:white;"><p>Active Tasks</p></div>	
+									<table width="100%" cellpadding="0" cellspacing="0">		
+									<tr>
+										<th>Task</th>
+										<th>Due Date</th>			
+									</tr>							
+									<cfloop array="#active_tasks#" index="t">
+										<cfoutput>
+											<tr>
+												<td width="60%"><a href="#session.root_url#/project/edit_project.cfm?id=#t.project().id#">#t.project().project_name#</a>: #t.task_name#</td>
+												<td width="40%">#dateFormat(t.end_date, "m/dd")# (#t.percent_complete#%)</td>
+											</tr>
+										</cfoutput>
+									</cfloop>
+									</table>
 								</div>						
 
 							</td>
 							<td width="40%" valign="top" style="padding-left:30px;">
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header"><p>Active Tasks</p></div>	
-							
+									
 								</div>
 							</td>
 						</tr>
 					</table>
 					
 				</div>
-				<div id="tab2">
-					Tab 2 content
-				</div>
+				
 			</div>
 		</div>
 	</div>

@@ -364,6 +364,11 @@ table.calendar th {
 	font-weight:bold;
 	text-align:center;
 }
+.dashboard_element th {
+	background-color:silver;
+	font-weight:bold;
+	text-align:center;
+}
 table.calendar div {
 	min-height:114px;
 	min-width:110px;

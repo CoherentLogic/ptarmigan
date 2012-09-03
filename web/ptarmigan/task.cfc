@@ -183,4 +183,9 @@
 		
 		<cfreturn oa>
 	</cffunction>
+	
+	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">
+		<cfset ms = CreateObject("component", "ptarmigan.milestone").open(this.milestone_id)>
+		<cfreturn ms.project()>
+	</cffunction>
 </cfcomponent>

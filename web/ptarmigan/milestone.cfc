@@ -210,4 +210,8 @@
 		
 		<cfreturn oa>
 	</cffunction>
+	
+	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">
+		<cfreturn CreateObject("component", "ptarmigan.project").open(this.project_id)>
+	</cffunction>
 </cfcomponent>

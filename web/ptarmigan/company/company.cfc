@@ -79,6 +79,36 @@
 		<cfreturn oa>
 	</cffunction>
 	
+	<cffunction name="active_milestones" returntype="array" output="false" access="public">
+		<cfquery name="q_active_milestones" datasource="#session.company.datasource#">
+			SELECT id FROM milestones WHERE (NOW() BETWEEN start_date AND end_date) 
+			AND completed=0
+		</cfquery>
+
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_active_milestones">
+			<cfset ms = CreateObject("component", "ptarmigan.milestone").open(q_active_milestones.id)>
+			<cfset ArrayAppend(oa, ms)>
+		</cfoutput>
+	
+		<cfreturn oa>
+	</cffunction>
+	<cffunction name="active_tasks" returntype="array" output="false" access="public">
+		<cfquery name="q_active_tasks" datasource="#session.company.datasource#">
+			SELECT id FROM tasks WHERE (NOW() BETWEEN start_date AND end_date) 
+			AND completed=0
+		</cfquery>
+
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_active_tasks">
+			<cfset t = CreateObject("component", "ptarmigan.task").open(q_active_tasks.id)>
+			<cfset ArrayAppend(oa, t)>
+		</cfoutput>
+	
+		<cfreturn oa>
+	</cffunction>
 	
 
 </cfcomponent>
