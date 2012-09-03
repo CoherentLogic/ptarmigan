@@ -232,7 +232,7 @@
 										<cfoutput>
 											<tr>
 												<td width="70%"><a href="#session.root_url#/project/edit_project.cfm?id=#ms.project().id#">#ms.project().project_name#</a>: #ms.milestone_name#</td>
-												<td width="30%">#dateFormat(ms.end_date, "m/dd")# (#t.percent_complete#%)</td>
+												<td width="30%">#dateFormat(ms.end_date, "m/dd")# (#ms.percent_complete#%)</td>
 											</tr>
 										</cfoutput>
 									</cfloop>
