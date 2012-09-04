@@ -28,51 +28,53 @@
 					<tr>
 						<td>Apply to:</td>
 						<td>	
-							<p><label><input type="radio" name="apply_to" value="new_task" checked="checked" onclick="set_apply_controls();">New task</option></p>
-							<div style="margin:20px; display:block;" id="new_task_controls">
-							<table>
-								<tr>
-									<td>Task name:</td>
-									<td><input type="text" name="new_task_name"></td>							
-								</tr>
-								<tr>
-									<td>Start date:</td>
-									<td><cfinput type="datefield" name="new_task_start_date"></td>
-								</tr>
-							</table>
-							</div>
-							
-							<p><label><input type="radio" name="apply_to" value="existing_task" onclick="set_apply_controls();">Existing task</label></p>
-							<div style="margin:20px; display:none;" id="existing_task_controls">
-								<select name="existing_task">
-									<option value="task_name">Task</option>
-								</select>
-							</div>
-							
-							<p><label><input type="radio" name="apply_to" value="new_milestone" onclick="set_apply_controls();">New milestone</label></p>
-							<div style="margin:20px; display:none;" id="new_milestone_controls">
+							<div style="height:215px;">
+								<p><label><input type="radio" name="apply_to" value="new_task" checked="checked" onclick="set_apply_controls();">New task</option></p>
+								<div style="margin:20px; display:block;" id="new_task_controls">
 								<table>
 									<tr>
-										<td>Milestone name:</td>
-										<td><input type="text" name="new_milestone_name"></td>							
+										<td>Task name:</td>
+										<td><input type="text" name="new_task_name"></td>							
 									</tr>
 									<tr>
 										<td>Start date:</td>
-										<td><cfinput type="datefield" name="new_milestone_start_date"></td>
+										<td><cfinput type="datefield" name="new_task_start_date"></td>
 									</tr>
 								</table>
-							</div>
-
-							
-							<p><label><input type="radio" name="apply_to" value="existing_milestone" onclick="set_apply_controls();">Existing milestone</label></p>
-							<div style="margin:20px; display:none;" id="existing_milestone_controls">
-								<select name="existing_milestone">
-									<cfloop array="#milestones#" index="ms">
-										<cfoutput>
-											<option value="#ms.id#">#ms.milestone_name#</option>
-										</cfoutput>
-									</cfloop>
-								</select>
+								</div>
+								
+								<p><label><input type="radio" name="apply_to" value="existing_task" onclick="set_apply_controls();">Existing task</label></p>
+								<div style="margin:20px; display:none;" id="existing_task_controls">
+									<select name="existing_task">
+										<option value="task_name">Task</option>
+									</select>
+								</div>
+								
+								<p><label><input type="radio" name="apply_to" value="new_milestone" onclick="set_apply_controls();">New milestone</label></p>
+								<div style="margin:20px; display:none;" id="new_milestone_controls">
+									<table>
+										<tr>
+											<td>Milestone name:</td>
+											<td><input type="text" name="new_milestone_name"></td>							
+										</tr>
+										<tr>
+											<td>Start date:</td>
+											<td><cfinput type="datefield" name="new_milestone_start_date"></td>
+										</tr>
+									</table>
+								</div>
+	
+								
+								<p><label><input type="radio" name="apply_to" value="existing_milestone" onclick="set_apply_controls();">Existing milestone</label></p>
+								<div style="margin:20px; display:none;" id="existing_milestone_controls">
+									<select name="existing_milestone">
+										<cfloop array="#milestones#" index="ms">
+											<cfoutput>
+												<option value="#ms.id#">#ms.milestone_name#</option>
+											</cfoutput>
+										</cfloop>
+									</select>
+								</div>
 							</div>
 							
 						</td>
