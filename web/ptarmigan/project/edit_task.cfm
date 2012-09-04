@@ -153,7 +153,8 @@
 							</table>
 						</td>   <!--- end sidebar layout table cell --->
 						<td width="460" style="width:460px;" valign="top">
-							<cflayout type="tab" width="460">
+							<div style="width:460px;">
+							<cflayout type="tab">
 								<cflayoutarea title="Task">
 									<table>
 										<tr>
@@ -244,6 +245,7 @@
 									</div>
 								</cflayoutarea>
 							</cflayout>
+							</div>
 						</td>	<!--- end content layout table cell --->
 					</tr>					
 				</table>
