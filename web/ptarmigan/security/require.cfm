@@ -3,13 +3,13 @@
 
 <cfif IsDefined("session.logged_in")>
 	<cfif session.logged_in EQ false>
-		<h1>Not Logged In</h1>
-		<p>You must be logged in to view this page.</p>
+		<cfset session.message = "You must be logged in to view this page">
+		<cflocation url="#session.root_url#/login.cfm">
 		<cfabort>
 	</cfif>
 <cfelse>
-		<h1>Not Logged In</h1>
-		<p>You must be logged in to view this page.</p>
+		<cfset session.message = "You must be logged in to view this page">
+		<cflocation url="#session.root_url#/login.cfm">
 		<cfabort>
 </cfif>
 
