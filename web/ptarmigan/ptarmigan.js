@@ -107,8 +107,69 @@ function edit_task(root_url, task_id, milestone_id)
 
 	ColdFusion.Window.create('edit_task', 'Edit Task',
 	        url,
-	        {height:530,width:830,modal:true,closable:false,
+	        {height:650,width:830,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
+}
+
+//
+// CHANGE ORDERS
+//
+function add_change_order(root_url, project_id)
+{
+	var url = root_url + "/project/add_change_order.cfm?id=" + escape(project_id);
+
+	ColdFusion.Window.create('add_change_order', 'Add Change Order',
+	        url,
+	        {height:650-230,width:830-329,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});	
+}
+
+function edit_change_order(root_url)
+{
+	
+}
+
+function apply_change_order(root_url, project_id)
+{
+	var url = root_url + "/project/apply_change_order.cfm?project_id=" + escape(project_id);
+
+	ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
+	        url,
+	        {height:650-150,width:830-240,modal:true,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+	
+}
+
+function set_apply_controls() 
+{
+	var radio_obj = document.getElementsByName('apply_to');
+
+	reset_apply_controls();
+
+	switch(radio_checked(radio_obj)) 
+	{
+	case 'new_task':
+		document.getElementById('new_task_controls').style.display = 'block';
+		break;
+	case 'existing_task':
+		document.getElementById('existing_task_controls').style.display = 'block';
+		break;
+	case 'new_milestone':
+		document.getElementById('new_milestone_controls').style.display = 'block';
+		break;
+	case 'existing_milestone':
+		document.getElementById('existing_milestone_controls').style.display = 'block';
+		break;
+	}
+}
+
+function reset_apply_controls()
+{
+	document.getElementById('new_milestone_controls').style.display = "none";
+	document.getElementById('new_task_controls').style.display = "none";
+	document.getElementById('existing_milestone_controls').style.display = "none";
+	document.getElementById('existing_task_controls').style.display = "none";
+
 }
 
 //
@@ -301,6 +362,25 @@ function is_checked(ctl_id)
 {
         return document.getElementById(ctl_id).checked;
 }
+
+function radio_checked(radioObj) 
+{
+	if(!radioObj)
+		return "";
+	var radioLength = radioObj.length;
+	if(radioLength == undefined)
+		if(radioObj.checked)
+			return radioObj.value;
+		else
+			return "";
+	for(var i = 0; i < radioLength; i++) {
+		if(radioObj[i].checked) {
+			return radioObj[i].value;
+		}
+	}
+	return "";
+}
+
 
 
 

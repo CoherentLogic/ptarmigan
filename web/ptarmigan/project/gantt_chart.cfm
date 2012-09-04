@@ -38,7 +38,7 @@
 <cfif attributes.mode EQ "edit">
 <div style="width:100%; overflow:auto; margin:0px;padding:0px;">
 </cfif>
-<table class="pretty" style="width:100%;margin:0px;margin-bottom:20px;">
+<table class="pretty" style="width:100%;margin:0px;margin-bottom:120px;">
 	<tr>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
@@ -71,6 +71,8 @@
 					<cfmenu type="horizontal" bgcolor="gainsboro">
 						<cfmenuitem display="#project.project_name#">
 							<cfmenuitem display="Add milestone" href="javascript:add_milestone('#session.root_url#', '#attributes.id#');"/>
+							<cfmenuitem display="Add change order" href="javascript:add_change_order('#session.root_url#', '#project.id#')"/>
+							<cfmenuitem display="Apply change order" href="javascript:apply_change_order('#session.root_url#', '#project.id#');"/>
 						</cfmenuitem>
 					</cfmenu>
 				<cfelse>
