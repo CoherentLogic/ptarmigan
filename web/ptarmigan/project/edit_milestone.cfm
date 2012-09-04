@@ -1,14 +1,12 @@
 <cfmodule template="../security/require.cfm" type="project">
 
-<cfoutput>
-<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
-</cfoutput>
+<cfsilent>
+	<cfset t = CreateObject("component", "ptarmigan.milestone").open(url.id)>
+</cfsilent>
 
-<cfset t = CreateObject("component", "ptarmigan.milestone").open(url.id)>
+<cfif IsDefined("form.self_post")>
 	
-<cfif IsDefined("form.submit_milestone")>
-
-	<cfif (t.start_date NEQ CreateODBCDate(form.start_date)) OR
+		<cfif (t.start_date NEQ CreateODBCDate(form.start_date)) OR
 		  (t.end_date NEQ CreateODBCDate(form.end_date)) OR
 		  (t.end_date_optimistic NEQ CreateODBCDate(form.end_date_optimistic)) OR
 		  (t.end_date_pessimistic NEQ CreateODBCDate(form.end_date_pessimistic))>
@@ -60,107 +58,115 @@
 
 	<cfset t.update()>
 	
-	<cfset session.message="Milestone updated">	
-
 	
-
+	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.project().id#" addtoken="false">
 <cfelse>
-	<div style="padding:20px;">
+	<div style="position:relative; height:100%; width:100%; background-color:white;">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Edit Milestone" icon="#session.root_url#/images/project_dialog.png">
 	
-	<cfoutput>
-	<cfform name="edit_milestone" action="edit_milestone.cfm?id=#url.id#&suppress_headers" method="post" onsubmit="window.location.reload();">
-		<cflayout type="tab">
-		<cflayoutarea title="Milestone">	
-		<div style="height:370px;padding:10px;">
-		<table>
-			<tr>
-				<td>Milestone number:</td>
-				<td><cfinput type="text" name="milestone_number" value="#t.milestone_number#"></td>
-			</tr>
-			<tr>
-				<td>Milestone name:</td>
-				<td><cfinput type="text" name="milestone_name" value="#t.milestone_name#"></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>					
-					<label><input type="checkbox" name="floating" <cfif t.floating EQ 1>checked</cfif>>Floating</td>
-			</tr>
-			<tr>
-				<td>Start date:</td>
-				<td><cfinput type="datefield" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
-			</tr>
-			<tr>
-				<td>End date (normal):</td>
-				<td><cfinput type="datefield" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
-			</tr>			
-			<tr>
-				<td>End date (pessimistic):</td>
-				<td><cfinput type="datefield" name="end_date_pessimistic" value="#dateFormat(t.end_date_pessimistic, 'mm/dd/yyyy')#"></td>		
-			</tr>			
-			<tr>
-				<td>End date (optimistic):</td>
-				<td><cfinput type="datefield" name="end_date_optimistic" value="#dateFormat(t.end_date_optimistic, 'mm/dd/yyyy')#"></td>		
-			</tr>			
-			<tr>
-				<td>Completion:</td>
-				<td>
-					<label>Percentage: <cfinput type="text" name="percent_complete" value="#t.percent_complete#"></label><br>
-					<label><input type="checkbox" name="completed" <cfif t.completed EQ 1>checked</cfif>>Completed</label>
-				</td>
-			</tr>
-			<tr>
-				<td>Budget:</td>
-				<td>$<cfinput type="text" name="budget" value="#t.budget#"></td>
-			</tr>	
-			<tr>
-				<td>Color:</td>
-				<td>
-					<select name="color">
-						<option value="aqua" <cfif t.color EQ "aqua">selected</cfif>>Aqua</option>
-						<option value="black" <cfif t.color EQ "black">selected</cfif>>Black</option>
-						<option value="blue" <cfif t.color EQ "blue">selected</cfif>>Blue</option>
-						<option value="fuchsia" <cfif t.color EQ "fuchsia">selected</cfif>>Fuchsia</option>
-						<option value="gray" <cfif t.color EQ "gray">selected</cfif>>Gray</option>
-						<option value="green" <cfif t.color EQ "green">selected</cfif>>Green</option>
-						<option value="lime" <cfif t.color EQ "lime">selected</cfif>>Lime</option>
-						<option value="maroon" <cfif t.color EQ "maroon">selected</cfif>>Maroon</option>
-						<option value="navy" <cfif t.color EQ "navy">selected</cfif>>Navy</option>
-						<option value="olive" <cfif t.color EQ "olive">selected</cfif>>Olive</option>
-						<option value="purple" <cfif t.color EQ "purple">selected</cfif>>Purple</option>
-						<option value="red" <cfif t.color EQ "red">selected</cfif>>Red</option>
-						<option value="silver" <cfif t.color EQ "silver">selected</cfif>>Silver</option>
-						<option value="teal" <cfif t.color EQ "teal">selected</cfif>>Teal</option>
-						<option value="yellow" <cfif t.color EQ "yellow">selected</cfif>>Yellow</option>
-					</select>
-				</td>
-			</tr>
-		</table>
+		<cfform name="edit_milestone" id="edit_milestone" action="#session.root_url#/project/edit_milestone.cfm?id=#url.id#" method="post">
+			<div style="padding:20px;">
+				<cflayout type="tab">
+					<cflayoutarea title="Milestone">	
+					<div style="height:370px;padding:10px;">
+					<table>
+						<tr>
+							<td>Milestone number:</td>
+							<td><cfinput type="text" name="milestone_number" value="#t.milestone_number#"></td>
+						</tr>
+						<tr>
+							<td>Milestone name:</td>
+							<td><cfinput type="text" name="milestone_name" value="#t.milestone_name#"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>					
+								<label><input type="checkbox" name="floating" <cfif t.floating EQ 1>checked</cfif>>Floating</td>
+						</tr>
+						<tr>
+							<td>Start date:</td>
+							<td><cfinput type="datefield" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
+						</tr>
+						<tr>
+							<td>End date (normal):</td>
+							<td><cfinput type="datefield" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
+						</tr>			
+						<tr>
+							<td>End date (pessimistic):</td>
+							<td><cfinput type="datefield" name="end_date_pessimistic" value="#dateFormat(t.end_date_pessimistic, 'mm/dd/yyyy')#"></td>		
+						</tr>			
+						<tr>
+							<td>End date (optimistic):</td>
+							<td><cfinput type="datefield" name="end_date_optimistic" value="#dateFormat(t.end_date_optimistic, 'mm/dd/yyyy')#"></td>		
+						</tr>			
+						<tr>
+							<td>Completion:</td>
+							<td>
+								<label>Percentage: <cfinput type="text" name="percent_complete" value="#t.percent_complete#"></label><br>
+								<label><input type="checkbox" name="completed" <cfif t.completed EQ 1>checked</cfif>>Completed</label>
+							</td>
+						</tr>
+						<tr>
+							<td>Budget:</td>
+							<td>$<cfinput type="text" name="budget" value="#t.budget#"></td>
+						</tr>	
+						<tr>
+							<td>Color:</td>
+							<td>
+								<select name="color">
+									<option value="aqua" <cfif t.color EQ "aqua">selected</cfif>>Aqua</option>
+									<option value="black" <cfif t.color EQ "black">selected</cfif>>Black</option>
+									<option value="blue" <cfif t.color EQ "blue">selected</cfif>>Blue</option>
+									<option value="fuchsia" <cfif t.color EQ "fuchsia">selected</cfif>>Fuchsia</option>
+									<option value="gray" <cfif t.color EQ "gray">selected</cfif>>Gray</option>
+									<option value="green" <cfif t.color EQ "green">selected</cfif>>Green</option>
+									<option value="lime" <cfif t.color EQ "lime">selected</cfif>>Lime</option>
+									<option value="maroon" <cfif t.color EQ "maroon">selected</cfif>>Maroon</option>
+									<option value="navy" <cfif t.color EQ "navy">selected</cfif>>Navy</option>
+									<option value="olive" <cfif t.color EQ "olive">selected</cfif>>Olive</option>
+									<option value="purple" <cfif t.color EQ "purple">selected</cfif>>Purple</option>
+									<option value="red" <cfif t.color EQ "red">selected</cfif>>Red</option>
+									<option value="silver" <cfif t.color EQ "silver">selected</cfif>>Silver</option>
+									<option value="teal" <cfif t.color EQ "teal">selected</cfif>>Teal</option>
+									<option value="yellow" <cfif t.color EQ "yellow">selected</cfif>>Yellow</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					</div>
+					</cflayoutarea>
+					<cflayoutarea title="Auditing">
+					<div style="height:370px;padding:10px;">
+					<table>
+						<tr>
+							<td>Employee:</td>
+							<td>#session.user.full_name()#</td>
+						</tr>
+						<tr>
+							<td>Change order ##:</td>
+							<td><cfinput type="text" name="change_order_number"></td>
+						</tr>
+						<tr>
+							<td>Comments:</td>
+							<td><textarea rows="5" cols="40" name="comment"></textarea></td>
+						</tr>
+					</table>
+					</div>
+					</cflayoutarea>
+				</cflayout>					
+			</div>
+			<input type="hidden" name="self_post" id="self_post" value="">
+		</cfform>
+		
+		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+	    	<div style="padding:8px; float:right;">
+	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
+				<a class="button" href="##" onclick="form_submit('edit_milestone');"><span>Apply</span></a>
+			</div>
 		</div>
-		</cflayoutarea>
-		<cflayoutarea title="Auditing">
-		<div style="height:370px;padding:10px;">
-		<table>
-			<tr>
-				<td>Employee:</td>
-				<td>#session.user.full_name()#</td>
-			</tr>
-			<tr>
-				<td>Change order ##:</td>
-				<td><cfinput type="text" name="change_order_number"></td>
-			</tr>
-			<tr>
-				<td>Comments:</td>
-				<td><textarea rows="5" cols="40" name="comment"></textarea></td>
-			</tr>
-		</table>
-		</div>
-		</cflayoutarea>
-		</cflayout>		
-		<input type="submit" name="submit_milestone" value="Apply">
-		<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">
-	</cfform>
-	</cfoutput>
-	
 	</div>
 </cfif>
+
+
+	
+
