@@ -135,7 +135,7 @@ function apply_change_order(root_url, project_id)
 
 	ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
 	        url,
-	        {height:650-150,width:830-240,modal:true,closable:false,
+	        {height:650,width:830-240,modal:true,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
