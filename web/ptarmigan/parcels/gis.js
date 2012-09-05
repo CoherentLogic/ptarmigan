@@ -24,7 +24,7 @@ function init_map(control_id, center_latitude, center_longitude)
 	center:new google.maps.LatLng(center_latitude, center_longitude),
 	zoom: 16,
 	minZoom: 15,
-	mapTypeId: google.maps.MapTypeId.SATELLITE
+	mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
     map = new google.maps.Map(document.getElementById(control_id), map_options);
@@ -42,12 +42,12 @@ function loading(value)
     var map_height = map_div.offsetHeight;
     var loading_width = 400;
     var loading_height = 300;
-    var map_div_left = 442;
+    var map_div_left = getPos(map_div).x;
     var loading_left = 0;
     var loading_right = 0;
-
+	
     if(value) {
-	loading_div.style.left = (((map_width) / 2) - (loading_width / 2)) + "px";
+	loading_div.style.left = (((map_width / 2) - (loading_width / 2)) + map_div_left) + "px";
 	loading_div.style.top = (((map_height - 200) / 2) - (loading_height / 2)) + "px";
 	loading_div.style.display = "block";
     }
@@ -119,7 +119,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    }
 	    
 	    current_parcel = current_parcels[i]
-		polygon = new google.maps.Polygon({paths: coords, parcel_index: i, fillColor: 'blue', strokeColor: 'red', strokeWeight: 1});
+		polygon = new google.maps.Polygon({paths: coords, parcel_index: i, fillColor: 'silver', strokeColor: 'gray', strokeWeight: 1});
 	    parcel_id = current_parcels.PARCELS[i].ID;
 	    google.maps.event.addListener(polygon, 'mouseover', function () {	    
 		    display_info(this.parcel_index);
@@ -196,5 +196,14 @@ function update_viewport_parameters()
     se_longitude = se.lng();
  
 }
+
+function getPos(el) {
+    // yay readability
+    for (var lx=0, ly=0;
+         el != null;
+         lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
+    return {x: lx,y: ly};
+}
+
 
 

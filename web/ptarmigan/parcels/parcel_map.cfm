@@ -1,17 +1,24 @@
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="width:100%; height:100%;">
 
 <head>
+	<title>Parcel Map - ptarmigan</title>
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
-	<script type="text/javascript" src="gis.js"></script>
-	<script type="text/javascript" src="../ptarmigan.js"></script>
+	<cfoutput>
+	<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
+	<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
+	<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
+	<script type="text/javascript" src="#session.root_url#/ptarmigan.js"></script>
+	</cfoutput>
 	<cfajaximport tags="cfwindow,cflayout-tab">
 </head>
-
+<!---  --->
 <body onload="init_map('map', 33.1283, -107.2522);" style="height:100%;width:100%;">
-			
-			<div id="map" style="width:100%;height:100%;">
-						
-			</div>					
+	<div id="container" style="height:100%;">
+		<div id="map" style="width:100%;height:100%;">
+							
+		</div>					
+	</div>
 	<div id="loading_div" style="width:400px;height:300px;position:absolute;display:none;opacity:0.7;border:1px solid gainsboro;">
 		<img src="../images/loading_parcel.gif" width="400" height="300" alt="Loading Parcel...">
 	</div>
@@ -59,3 +66,4 @@
 		</div>
 	</div>
 </body>
+</html>

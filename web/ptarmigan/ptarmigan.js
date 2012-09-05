@@ -337,10 +337,18 @@ function form_submit(form_id)
 	document.forms[form_id].submit();
 }
 
+function add_days(root_url, start_date_control, end_date_control, days_control)
+{
+	var start_date = document.getElementById(start_date_control).value;
+	var days = document.getElementById(days_control).value;
+	var url = root_url + "/utilities/add_days.cfm?start_date=" + escape(start_date) + "&days=" + escape(days);
+
+	document.getElementById(end_date_control).value = request(url);
+}
+
 //
 // AJAX
 //
-
 function http_request_object()
 {
         var xmlHttp;

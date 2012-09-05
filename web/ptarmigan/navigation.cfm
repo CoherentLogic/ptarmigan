@@ -52,14 +52,14 @@
 					</ul>
 				</li>				
 			</cfif>
-			<!---<li>
+			<li>
 				<a href="##Parcels">Parcels</a>
 				<ul>
 					<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
-					<li><a href="#session.root_url#/parcels/parcel_map.cfm">Map</a></li>
+					<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">Map</a></li>
 					<li><a href="javascript:search_parcels('#session.root_url#');">Search</a></li>
 				</ul>
-			</li>--->
+			</li>
 		</cfif>
 	</ul>
 </cfoutput>
