@@ -26,10 +26,16 @@
 				</cflayoutarea>
 				<cflayoutarea title="Roles">		
 					<div style="height:300px; width:450px;">
+						<table width="100%">
+						<tr>
+						<td>
 						<label><input type="checkbox" name="admin">Site administrator</label><br>
 						<label><input type="checkbox" name="time_approver">Time collection manager</label><br>
 						<label><input type="checkbox" name="project_manager">Project manager</label><br>
 						<label><input type="checkbox" name="billing_manager">Billing manager</label>
+						</td>
+						</tr>
+						</table>
 					</div>
 				</cflayoutarea>
 				<cflayoutarea title="Identity">

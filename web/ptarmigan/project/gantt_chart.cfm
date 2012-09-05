@@ -101,7 +101,7 @@
 		<cfloop array="#milestones#" index="ms">
 			<cfif ms.floating EQ 0>
 				<tr>					
-				<th nowrap style="font-weight:bold;">
+				<th nowrap style="font-weight:bold;padding:12px;">
 					<cfoutput>
 						<cfif attributes.mode EQ "edit">
 							<cfmenu type="horizontal" bgcolor="gainsboro">
@@ -160,7 +160,7 @@
 									
 										<cfoutput>
 											<cfif attributes.mode EQ "edit">
-												<cfmenu type="horizontal" bgcolor="gainsboro">
+												<cfmenu type="horizontal" bgcolor="gainsboro" menustyle="margin-left:8px;">
 													<cfmenuitem display="#task.task_name#">
 														<cfmenuitem display="Edit task" href="javascript:edit_task('#session.root_url#', '#task.id#', '#task.id#');"/>
 														<cfmenuitem divider/>

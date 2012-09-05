@@ -16,7 +16,7 @@ function add_employee(root_url)
 	
 	ColdFusion.Window.create('add_employee', 'Add Employee',
 	        url,
-	        {height:550,width:630,modal:true,closable:false,
+	        {height:550,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
@@ -30,7 +30,7 @@ function add_customer(root_url)
 
 	ColdFusion.Window.create('add_customer', 'Add Customer',
 	        url,
-	        {height:550,width:630,modal:true,closable:false,
+	        {height:550,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 
 }
@@ -45,7 +45,7 @@ function add_project(root_url)
 	
 	ColdFusion.Window.create('add_project', 'Add Project',
 	        url,
-	        {height:560,width:630,modal:true,closable:false,
+	        {height:560,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
@@ -56,7 +56,7 @@ function open_project(root_url)
 	
 	ColdFusion.Window.create('add_project', 'Add Project',
 	        url,
-	        {height:460,width:630,modal:true,closable:false,
+	        {height:460,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
@@ -70,7 +70,7 @@ function add_milestone(root_url, project_id)
 	
 	ColdFusion.Window.create('add_milestone', 'Add Milestone',
 	        url,
-	        {height:530,width:630,modal:true,closable:false,
+	        {height:530,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
@@ -81,7 +81,7 @@ function edit_milestone(root_url, id)
 	
 	ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
 	        url,
-	        {height:530+90,width:830,modal:true,closable:false,
+	        {height:530+90,width:830,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
@@ -96,7 +96,7 @@ function add_task(root_url, project_id, milestone_id)
 
 	ColdFusion.Window.create('add_task', 'Add Task',
 	        url,
-	        {height:600,width:630,modal:true,closable:false,
+	        {height:600,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 
@@ -107,7 +107,7 @@ function edit_task(root_url, task_id, milestone_id)
 
 	ColdFusion.Window.create('edit_task', 'Edit Task',
 	        url,
-	        {height:650,width:830,modal:true,closable:false,
+	        {height:650,width:830,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 
@@ -120,7 +120,7 @@ function add_change_order(root_url, project_id)
 
 	ColdFusion.Window.create('add_change_order', 'Add Change Order',
 	        url,
-	        {height:650-230,width:830-329,modal:true,closable:false,
+	        {height:650-230,width:830-329,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 }
 
@@ -135,7 +135,7 @@ function apply_change_order(root_url, project_id)
 
 	ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
 	        url,
-	        {height:650,width:830-240,modal:true,closable:false,
+	        {height:650,width:830-240,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});
 	
 }
@@ -183,7 +183,7 @@ function add_expense(root_url, element_table, element_id)
 
 	ColdFusion.Window.create('add_expense', 'Add Expense',
 	        url,
-	        {height:480,width:400,modal:true,closable:false,
+	        {height:480,width:400,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 	
 }
@@ -194,7 +194,7 @@ function edit_expense(root_url, expense_id)
 
 	ColdFusion.Window.create('edit_expense', 'Edit Expense',
 	        url,
-	        {height:480,width:400,modal:true,closable:false,
+	        {height:480,width:400,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});		
 }
 
@@ -207,7 +207,7 @@ function add_document(root_url)
 
 	ColdFusion.Window.create('add_document', 'Add Document',
 	        url,
-	        {height:560,width:630,modal:true,closable:false,
+	        {height:560,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
@@ -222,7 +222,7 @@ function search_parcels(root_url)
 
 	ColdFusion.Window.create('parcel_search', 'Parcel Search',
 	        url,
-	        {height:780,width:1024,modal:true,closable:false,
+	        {height:780,width:1024,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
@@ -273,7 +273,7 @@ function view_audit_log(root_url, table_name, table_id)
 
 	ColdFusion.Window.create('view_audit_log', 'View Audit Log',
 	        url,
-	        {height:530,width:900,modal:true,closable:false,
+	        {height:530,width:900,modal:false,closable:false,
 	        draggable:true,resizable:true,center:true,initshow:true});
 }
 
@@ -287,7 +287,7 @@ function email_chart(root_url, project_id, durations)
 
 	ColdFusion.Window.create('email_chart', 'E-Mail Chart',
 	        url,
-	        {height:300,width:500,modal:true,closable:false,
+	        {height:300,width:500,modal:false,closable:false,
 	        draggable:true,resizable:true,center:true,initshow:true});
 
 }
@@ -398,6 +398,21 @@ function radio_checked(radioObj)
 	return "";
 }
 
+//
+// HELP
+//
 
+function open_help(root_url, page) 
+{
+	var url = "http://www.coherent-logic.com/ptarmigan/wiki/index.php/" + escape(page);
+
+	window.open(url, page, "width=1024,height=768");
+
+	/*ColdFusion.Window.create('add_document', 'Add Document',
+	        url,
+	        {height:560,width:630,modal:false,closable:false,
+	        draggable:true,resizable:true,center:true,initshow:true});*/
+
+}
 
 

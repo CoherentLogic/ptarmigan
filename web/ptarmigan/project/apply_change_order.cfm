@@ -38,6 +38,18 @@
 								<div style="margin:20px; display:block;" id="new_task_controls">
 								<table>
 									<tr>
+										<td>Milestone:</td>
+										<td>
+											<select name="new_task_milestone">
+												<cfloop array="#milestones#" index="ms">
+													<cfoutput>
+														<option value="#ms.id#">#ms.milestone_name#</option>
+													</cfoutput>
+												</cfloop>
+											</select>
+										</td>
+									</tr>
+									<tr>
 										<td>Task name:</td>
 										<td><input type="text" name="new_task_name"></td>							
 									</tr>

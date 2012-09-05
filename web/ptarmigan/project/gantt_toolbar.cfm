@@ -35,9 +35,9 @@
 	}
 </style>
 <div id="toolbar">
-	<cfoutput>
+	<cfoutput>	
 	<img src="../images/download.png" onclick="download_chart('#session.root_url#', '#attributes.project_id#', '#attributes.durations#')"  onmouseover="Tip('Download this chart');" onmouseout="UnTip();">
 	<img src="../images/print.png" onclick="print_chart('#session.root_url#', '#attributes.project_id#', '#attributes.durations#')" onmouseover="Tip('Print this chart');" onmouseout="UnTip();"> 
-	<img src="../images/e-mail.png" onclick="email_chart('#session.root_url#', '#attributes.project_id#', '#attributes.durations#')" onmouseover="Tip('E-mail this chart');" onmouseout="UnTip();">
+	<img src="../images/e-mail.png" onclick="email_chart('#session.root_url#', '#attributes.project_id#', '#attributes.durations#')" onmouseover="Tip('E-mail this chart');" onmouseout="UnTip();">	
 	</cfoutput>
 </div>

@@ -140,10 +140,10 @@
 					<table>
 						<tr>
 							<td>Employee:</td>
-							<td>#session.user.full_name()#</td>
+							<td><cfoutput>#session.user.full_name()#</cfoutput></td>
 						</tr>
 						<tr>
-							<td>Change order ##:</td>
+							<td>Change order #:</td>
 							<td><cfinput type="text" name="change_order_number"></td>
 						</tr>
 						<tr>
