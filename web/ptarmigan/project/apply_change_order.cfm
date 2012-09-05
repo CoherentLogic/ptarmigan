@@ -1,6 +1,7 @@
 <cfsilent>
 	<cfset project = CreateObject("component", "ptarmigan.project").open(url.project_id)>
 	<cfset milestones = project.milestones()>
+	<cfset change_orders = project.change_orders()>
 </cfsilent>
 
 <cfif IsDefined("form.self_post")>
@@ -21,7 +22,11 @@
 						<td width="20%">Change order:</td>
 						<td width="80%">
 							<select name="change_order_number">
-								<option value="">134-234918</option>
+								<cfloop array="#change_orders#" index="co">
+									<cfoutput>
+										<option value="#co.id#">#co.change_order_number#</option>
+									</cfoutput>
+								</cfloop>
 							</select>
 						</td>
 					</tr>

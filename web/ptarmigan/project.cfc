@@ -232,4 +232,19 @@
 		
 		<cfreturn d>
 	</cffunction>
+	
+	<cffunction name="change_orders" returntype="array" access="public" output="false">
+		<cfquery name="q_change_orders" datasource="#session.company.datasource#">
+			SELECT id FROM change_orders WHERE project_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		
+		<cfoutput query="q_change_orders">
+			<cfset c = CreateObject("component", "ptarmigan.change_order").open(id)>
+			<cfset ArrayAppend(oa, c)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
 </cfcomponent>

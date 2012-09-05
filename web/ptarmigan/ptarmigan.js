@@ -292,6 +292,23 @@ function email_chart(root_url, project_id, durations)
 
 }
 
+function print_chart(root_url, project_id, durations)
+{
+	var url = root_url + "/project/print_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
+
+	window.open(url);	
+
+
+}
+
+function download_chart(root_url, project_id, durations)
+{
+	var url = root_url + "/project/download_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
+
+	window.open(url);
+}
+
+
 //
 // FILE ASSOCIATION
 //
