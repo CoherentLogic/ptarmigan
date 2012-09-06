@@ -33,6 +33,7 @@
 			<li>
 				<a href="##Documents">Documents</a>
 				<ul>
+					<li><a href="javascript:search_documents('#session.root_url#');">Search</a></li>
 					<li><a href="javascript:add_document('#session.root_url#');">Add</a></li>
 				</ul>
 			</li>
@@ -55,9 +56,9 @@
 			<li>
 				<a href="##Parcels">Parcels</a>
 				<ul>
-					<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
-					<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">Map</a></li>
 					<li><a href="javascript:search_parcels('#session.root_url#');">Search</a></li>
+					<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">View Map</a></li>
+					<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
 				</ul>
 			</li>
 		</cfif>

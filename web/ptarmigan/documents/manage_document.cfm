@@ -27,7 +27,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
+	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cftooltip">
 	<cfoutput>	
 		<title>#document.document_name# (Document) - ptarmigan</title>
 		
@@ -172,7 +172,7 @@
 					<li><a href="#aMilestones">Milestones</a></li>
 					<li><a href="#aTasks">Tasks</a></li>
 					<li><a href="#aExpenses">Expenses</a></li>
-				
+					<li><a href="#aParcels#">Parcels</li>
 				</ul>
 				<div id="aPreview">
 					<cfmodule template="preview.cfm" id="#document.id#">
@@ -195,6 +195,89 @@
 				<div id="aExpenses">
 					<cfmodule template="associations.cfm" type="expenses" id="#document.id#">
 				</div>
+				<div id="aParcels">
+					<cfoutput>
+						<div style="margin-bottom:30px;">
+							<a class="button" href="##" onclick="search_parcels('#session.root_url#', '#document.id#')"><span>Find and Attach</span></a>
+						</div>
+					</cfoutput>
+					<table width="100%" class="pretty" style="margin:0;">
+						<tr>
+							<th>APN/ACCT/RCPT</th>
+							<th>OWNER</th>
+							<th>SUBDIVISION</th>
+							<th>LOT</th>
+							<th>BLOCK</th>
+							<th>LEGAL SECTION</th>
+							<th>AREA</th>
+							<th>VALUE</th>
+							<th>GRND SURVEY</th>			
+						</tr>
+					<cfloop array="#document.parcels()#" index="p">
+						<tr>
+							<td>
+								<cfoutput>
+									APN:  #p.parcel_id#<br>
+									RCPT: #p.reception_number#<br>
+									ACCT: #p.account_number#
+								</cfoutput>
+							</td>
+							<td><cfoutput>#p.owner_name#</cfoutput></td>
+							<td><cfoutput>#p.subdivision#</cfoutput></td>
+							<td><cfoutput>#p.lot#</cfoutput></td>
+							<td><cfoutput>#p.block#</cfoutput></td>
+							<td>
+								<cfif p.section NEQ "">
+									<cfoutput>SEC #p.section# T#p.township# R#p.range#</cfoutput>
+								</cfif>
+							</td>
+							<td>
+								<cfoutput>
+									#p.area_sq_ft# SQ. FT.<br>
+									#p.area_sq_yd# SQ. YD.<br>
+									#p.area_acres# ACRES
+								</cfoutput>
+							</td>
+							<td>
+								<cfoutput>
+									LAND: #numberFormat(p.assessed_land_value, ",_$___.__")#<br>
+									BLDG: #numberFormat(p.assessed_building_value, ",_$___.__")#
+								</cfoutput>
+							</td>
+							<td>
+								<cfif p.ground_survey EQ 1>Y<cfelse>N</cfif>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9">
+								<table width="100%">
+									<tr>
+										<td>
+											<strong>PHYSICAL LOCATION:</strong><br>
+											<cfoutput>
+												#p.physical_address#<br>
+												#p.physical_city# #p.physical_state# #p.physical_zip#
+											</cfoutput>
+										</td>
+										<td>
+											<strong>MAILING ADDRESS:</strong><br>
+											<cfoutput>
+												#p.mailing_address#<br>
+												#p.physical_city# #p.physical_state# #p.physical_zip#
+											</cfoutput>
+										</td>
+										<td valign="bottom" align="right">
+											<cfoutput>
+												<a class="button" href="#session.root_url#/parcels/manage_parcel.cfm?id=#p.id#"><span>View parcel</span></a><br>												
+											</cfoutput>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</cfloop>
+					</table>
+				</div> <!--- aParcels --->
 			</div> <!--- tabs --->		
 		</div> <!--- content --->
 	</div> <!--- container --->

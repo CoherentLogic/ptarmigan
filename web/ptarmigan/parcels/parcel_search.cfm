@@ -1,5 +1,8 @@
+<cfif IsDefined("url.document_id")>
+	<cfset document = CreateObject("component", "ptarmigan.document").open(url.document_id)>
+</cfif>
 
-<cfif IsDefined("form.submit")>
+<cfif IsDefined("form.self_post")>	
 	<cfquery name="parcel_search" datasource="#session.company.datasource#">
 		SELECT * FROM parcels
 		WHERE id!=''
@@ -147,10 +150,12 @@
 								#p.physical_city# #p.physical_state# #p.physical_zip#
 							</cfoutput>
 						</td>
-						<td valign="bottom" align="right">
+						<td valign="bottom" align="right" nowrap>
 							<cfoutput>
-								<a href="#session.root_url#/parcels/manage_parcel.cfm?id=#p.id#">View parcel</a><br>								
-								<input type="button" name="select_#p.id#" value="Select Parcel" onclick="select_parcel('#p.id#', '#p.parcel_id#');">
+								<a class="button" href="#session.root_url#/parcels/manage_parcel.cfm?id=#p.id#"><span>View parcel</span></a>															
+								<cfif IsDefined("form.document_id")>
+									<a class="button" href="##" onclick="associate_parcel_with_document('#session.root_url#', '#p.id#', '#form.document_id#')"><span>Attach</span></a>
+								</cfif>
 							</cfoutput>
 						</td>
 					</tr>
@@ -158,14 +163,19 @@
 			</td>
 		</tr>
 		</cfloop>
-	</table>
-	<input type="button" name="search_again" value="Search Again" onclick="window.location.reload();">
-<cfelse>
-	<div style="width:615px;height:auto;">
-		<cfform id="parcel_search" name="parcel_search" action="#session.root_url#/parcels/parcel_search.cfm?suppress_headers" method="post">
-			<div style="width:605px; height:600px;">
-				<table width="100%" border="0" cellpadding="6">
-					
+	</table>		
+<cfelse> <!--- IsDefined("form.self_post") --->
+	<div style="position:relative; height:100%; width:100%; background-color:white;">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Parcels" icon="#session.root_url#/images/project_dialog.png">
+	
+		<cfform name="parcel_search" id="parcel_search" action="#session.root_url#/parcels/parcel_search.cfm" method="post">
+			<div style="padding:20px; width:960px; height:600px; overflow:auto;" id="results_area">
+				<cfif IsDefined("url.document_id")>
+					<cfoutput>
+						<input type="hidden" name="document_id" value="#url.document_id#">
+					</cfoutput>
+				</cfif>
+				<table width="100%" border="0" cellpadding="6">					
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_parcel_id">Parcel number</label></td>
 						<td><cfinput type="text" name="parcel_id">
@@ -318,10 +328,18 @@
 							</select>
 						</td>
 					</tr>
-				</table>												
+				</table>
 			</div>
-			<input type="submit" name="submit" value="Search">
-			<input type="button" name="cancel" value="Cancel" onclick="window.location.reload()">
-		</cfform>		
+			<input type="hidden" name="self_post" id="self_post" value="">
+		</cfform>
+		
+		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+	    	<div style="padding:8px; float:right;">
+	        	<a class="button" id="cancel_button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
+				<cfoutput>
+				<a class="button" id="submit_link" href="##" onclick="document.getElementById('self_post').value='true'; ColdFusion.Ajax.submitForm('parcel_search', '#session.root_url#/parcels/parcel_search.cfm', search_documents_complete);"><span>Apply</span></a>
+				</cfoutput>
+			</div>
+		</div>
 	</div>
 </cfif>

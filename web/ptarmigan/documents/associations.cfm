@@ -72,7 +72,7 @@
 			</cfif>
 		</th>
 	</tr>
-	<cfoutput query="q">
+	<cfoutput query="q" startrow="1">
 		<cfset c_id = CreateUUID()>
 		<tr>
 			<td><input type="checkbox" id="#c_id#" <cfif document.associated(attributes.type, q.id) EQ true>checked</cfif> 

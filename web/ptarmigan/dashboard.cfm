@@ -51,7 +51,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cflayout-border">
+	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cflayout-border,cftooltip">
 	<cfoutput>	
 		<title>Dashboard - Ptarmigan</title>
 		<link rel="icon" 

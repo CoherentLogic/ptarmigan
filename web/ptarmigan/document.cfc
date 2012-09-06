@@ -175,4 +175,18 @@
 		
 		<cfreturn ctype>
 	</cffunction>
+	
+	<cffunction name="parcels" returntype="array" access="public" output="false">
+		<cfquery name="doc_parcels" datasource="#session.company.datasource#">
+			SELECT element_id FROM document_associations WHERE element_table='parcels' AND document_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		<cfoutput query="doc_parcels">
+			<cfset p = CreateObject("component", "ptarmigan.parcel").open(doc_parcels.element_id)>
+			<cfset ArrayAppend(oa, p)>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
 </cfcomponent>

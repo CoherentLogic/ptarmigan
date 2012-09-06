@@ -213,27 +213,55 @@ function add_document(root_url)
 
 }
 
+function search_documents(root_url, parcel_to_attach)
+{
+	var url = root_url + "/documents/document_search.cfm";
+	
+	if(parcel_to_attach) {
+		url += "?parcel_id=" + escape(parcel_to_attach);
+	}	
+
+	ColdFusion.Window.create('document_search', 'Document Search',
+	        url,
+	        {height:780-380,width:1024-350,modal:false,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});	
+}	
+
+function search_documents_complete(response_text)
+{
+	document.getElementById('results_area').innerHTML = response_text;
+	document.getElementById('submit_link').style.display = "none";
+	document.getElementById('cancel_button').innerHTML = "<span>Close</span>";
+}
+
 //
 // PARCELS
 //
-function search_parcels(root_url)
+function search_parcels(root_url, document_to_attach)
 {
-	var url = root_url + "/parcels/parcel_search_wrapper.cfm?suppress_headers"
+	var url = root_url + "/parcels/parcel_search_wrapper.cfm";
+
+	if(document_to_attach) {
+		url += "?document_id=" + escape(document_to_attach);
+	}	
 
 	ColdFusion.Window.create('parcel_search', 'Parcel Search',
 	        url,
-	        {height:780,width:1024,modal:false,closable:false,
+	        {height:800,width:1024,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
 }	
 
-function select_parcel(id, apn)
+function search_parcels_complete(response_text)
 {
-	document.getElementById("selected_parcel").value = id;
-	document.getElementById("selected_parcel_apn").innerHTML = "Parcel " + apn + " selected.";
+	document.getElementById('results_area').innerHTML = response_text;
+	document.getElementById('submit_link').style.display = "none";
+	document.getElementById('cancel_button').innerHTML = "<span>Close</span>";
 }
 
+
+// documents only
 function associate_parcel_with_document(root_url, parcel_id, document_id)
 {
 	var url = root_url + "/documents/set_association.cfm?document_id=" + escape(document_id);
@@ -245,6 +273,7 @@ function associate_parcel_with_document(root_url, parcel_id, document_id)
 	window.location.reload();
 }
 
+// for associating parcels with projects, etc.
 function associate_parcel(root_url, ctl_id, parcel_id, element_table, element_id)
 {
 	var assoc = 0;
