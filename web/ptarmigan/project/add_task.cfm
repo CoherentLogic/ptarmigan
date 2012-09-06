@@ -59,9 +59,13 @@
 							<td><cfinput type="datefield" size="10" name="start_date" id="start_date" value="#proposed_start_date#"></td>
 						</tr>
 						<tr>
+							<td>Weekends:</td>
+							<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from task duration</label></td>
+						</tr>
+						<tr>
 							<td>End date (normal):</td>
 							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days" id="end_date_days" onblur="add_days('#session.root_url#', 'start_date', 'end_date', 'end_date_days')"></label>
+								<label>Days from start: <cfinput type="text" size="3" name="end_date_days" id="end_date_days" onblur="add_days('#session.root_url#', 'start_date', 'end_date', 'end_date_days', 'exclude_weekends')"></label>
 								<label><cfinput type="datefield" size="10" name="end_date" id="end_date"></label>
 								
 							</td>		
@@ -69,13 +73,13 @@
 						<tr>
 							<td>End date (pessimistic):</td>
 							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_pessimistic" id="end_date_days_pessimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_pessimistic', 'end_date_days_pessimistic')"></label>
+								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_pessimistic" id="end_date_days_pessimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_pessimistic', 'end_date_days_pessimistic', 'exclude_weekends')"></label>
 								<cfinput type="datefield" size="10" id="end_date_pessimistic" name="end_date_pessimistic"></td>		
 						</tr>
 						<tr>
 							<td>End date (optimistic):</td>
 							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_optimistic" id="end_date_days_optimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_optimistic', 'end_date_days_optimistic')"></label>
+								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_optimistic" id="end_date_days_optimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_optimistic', 'end_date_days_optimistic', 'exclude_weekends')"></label>
 								<cfinput type="datefield" size="10" id="end_date_optimistic" name="end_date_optimistic"></td>		
 						</tr>			
 					<cfelse>

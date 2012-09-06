@@ -33,6 +33,7 @@
 <cfset t.home_phone = UCase(form.home_phone)>
 <cfset t.mobile_phone = UCase(form.mobile_phone)>
 
+<cfset emp_id = t.create()> 
 
 <cfif IsDefined("form.admin")>
 	<cfset t.admin(true)>
@@ -57,6 +58,6 @@
 <cfelse>
 	<cfset t.billing_manager(false)>
 </cfif>
-<cfset emp_id = t.create()> 
+
 
 <cflocation url="#session.root_url#/dashboard.cfm">

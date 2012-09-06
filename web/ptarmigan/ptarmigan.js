@@ -337,11 +337,12 @@ function form_submit(form_id)
 	document.forms[form_id].submit();
 }
 
-function add_days(root_url, start_date_control, end_date_control, days_control)
+function add_days(root_url, start_date_control, end_date_control, days_control, exclude_weekends_control)
 {
 	var start_date = document.getElementById(start_date_control).value;
 	var days = document.getElementById(days_control).value;
-	var url = root_url + "/utilities/add_days.cfm?start_date=" + escape(start_date) + "&days=" + escape(days);
+	var exclude_weekends = is_checked(exclude_weekends_control);
+	var url = root_url + "/utilities/add_days.cfm?start_date=" + escape(start_date) + "&days=" + escape(days) + "&exclude_weekends=" + escape(exclude_weekends);
 
 	document.getElementById(end_date_control).value = request(url);
 }
