@@ -100,7 +100,7 @@
 								<option value="black">Black</option>
 								<option value="blue">Blue</option>
 								<option value="fuchsia">Fuchsia</option>
-								<option value="gray">Gray</option>
+								<option value="gray" selected="selected">Gray</option>
 								<option value="green">Green</option>
 								<option value="lime">Lime</option>
 								<option value="maroon">Maroon</option>
