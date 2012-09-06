@@ -247,7 +247,7 @@ function search_parcels(root_url, document_to_attach)
 
 	ColdFusion.Window.create('parcel_search', 'Parcel Search',
 	        url,
-	        {height:800,width:1024,modal:false,closable:false,
+	        {height:850,width:1024,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});	
 
 
