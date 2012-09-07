@@ -270,20 +270,27 @@
 			
 			<cfset s_val.customClass = "ganttRed">			
 			<cfset s_val.label = ms.milestone_name>
-			<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">
 			<cfset s_val.dataObj = s_data>
 			
-			<cfswitch expression="#durations#">
-				<cfcase value="pessimistic">
-					<cfset s_val.to = "/Date(" & ms.end_date_pessimistic.getTime() & ")/">
-				</cfcase>
-				<cfcase value="optimistic">
-					<cfset s_val.to = "/Date(" & ms.end_date_optimistic.getTime() & ")/">
-				</cfcase>
-				<cfcase value="normal">			
-					<cfset s_val.to = "/Date(" & ms.end_date.getTime() & ")/">
-				</cfcase>
-			</cfswitch>
+			<cfif ms.floating EQ 0>
+				<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">			
+				
+				<cfswitch expression="#durations#">
+					<cfcase value="pessimistic">
+						<cfset s_val.to = "/Date(" & ms.end_date_pessimistic.getTime() & ")/">
+					</cfcase>
+					<cfcase value="optimistic">
+						<cfset s_val.to = "/Date(" & ms.end_date_optimistic.getTime() & ")/">
+					</cfcase>
+					<cfcase value="normal">			
+						<cfset s_val.to = "/Date(" & ms.end_date.getTime() & ")/">
+					</cfcase>
+				</cfswitch>
+			<cfelse>
+				<cfset s_val.from = "/Date(" & ms.project().start_date.getTime() & ")/">
+				<cfset s_val.to = "/Date(" & ms.project().due_date.getTime() & ")/">
+				<cfset s_val.customClass = "ganttOrange">
+			</cfif>
 			
 			<cfset ArrayAppend(s_src.values, s_val)>
 			<cfset ArrayAppend(source, s_src)>
