@@ -71,7 +71,7 @@ function render_gantt(root_url, project_id, durations)
 		scale: "days",
 		maxScale: "months",
 		minScale: "days",
-		itemsPerPage: 10,
+		itemsPerPage: 20,
 		onItemClick: function(data) {
 			alert("Item clicked - show some details");
 		},
