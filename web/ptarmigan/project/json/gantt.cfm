@@ -7,7 +7,11 @@
         <cfset var ai= 0>
         <cfloop array="#aKeys#" index="i">
             <cfif isStruct(st[i])>
-				<cfset stN['#lCase(i)#'] = convertStructToLower(st[i])>
+				<cfif i NEQ "DATAOBJ">
+					<cfset stN['#lCase(i)#'] = convertStructToLower(st[i])>
+				<cfelse>
+					<cfset stN['dataObj'] = convertStructToLower(st[i])>
+				</cfif>
             <cfelseif isArray(st[i])>
                 <cfloop from=1 to="#arraylen(st[i])#" index="ai">
                     <cfif isStruct(st[i][ai])>
@@ -21,10 +25,7 @@
 				<cfswitch expression="#i#">
 					<cfcase value="CUSTOMCLASS">
 						<cfset stN['customClass'] = st[i]>
-					</cfcase>
-					<cfcase value="DATAOBJ">
-						<cfset stN['dataObj'] = st[i]>
-					</cfcase>
+					</cfcase>					
 					<cfdefaultcase>
    		            	<cfset stN['#lcase(i)#'] = st[i]>
 					</cfdefaultcase>
@@ -38,5 +39,9 @@
 <cfset d_struct = DeserializeJSON(project.jquery_gantt(url.durations))>
 <cfset m_struct = StructNew()>
 <cfset m_struct.json = d_struct>
-<cfcontent type="application/json">
+<cfif NOT IsDefined("url.testing")>
+	<cfcontent type="application/json">
+<cfelse>
+	<cfdump var="#convertStructToLower(m_struct)#">
+</cfif>
 <cfoutput>#SerializeJSON(convertStructToLower(m_struct))#</cfoutput>

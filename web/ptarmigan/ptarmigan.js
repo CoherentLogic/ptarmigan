@@ -73,10 +73,16 @@ function render_gantt(root_url, project_id, durations)
 		minScale: "days",
 		itemsPerPage: 20,
 		onItemClick: function(data) {
-			alert("Item clicked - show some details");
+			switch(data.element_table) {
+			case 'milestones':
+				edit_milestone(root_url, data.element_id);
+				break;
+			case 'tasks':
+				edit_task(root_url, data.element_id);
+				break;
+			}
 		},
 		onAddClick: function(dt, rowId) {
-			alert("Empty space clicked - add an item!");
 		}
 	});				
 }

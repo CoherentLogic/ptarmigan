@@ -259,14 +259,19 @@
 		<cfloop array="#milestones#" index="ms">
 			<cfset s_src = StructNew()>
 			<cfset s_val = StructNew()>	
+			<cfset s_data = StructNew()>
 			
 			<cfset s_src.name = ms.milestone_name>
 			<cfset s_src.desc = "MILESTONE">
 			<cfset s_src.values = ArrayNew(1)>
-			<cfset s_val.customClass = "ganttRed">
 			
+			<cfset s_data.element_table = "milestones">
+			<cfset s_data.element_id = ms.id>
+			
+			<cfset s_val.customClass = "ganttRed">			
 			<cfset s_val.label = ms.milestone_name>
 			<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">
+			<cfset s_val.dataObj = s_data>
 			
 			<cfswitch expression="#durations#">
 				<cfcase value="pessimistic">
@@ -288,15 +293,19 @@
 			<cfloop array="#tasks#" index="t">
 				<cfset s_src = StructNew()>
 				<cfset s_val = StructNew()>	
+				<cfset s_data = StructNew()>
 				
 				<cfset s_src.name = t.task_name>
 				<cfset s_src.desc = "TASK">
 				<cfset s_src.values = ArrayNew(1)>
 				
-				
+				<cfset s_data.element_table = "tasks">
+				<cfset s_data.element_id = t.id>
+	
 				<cfset s_val.label = t.task_name>
 				<cfset s_val.from = "/Date(" & t.start_date.getTime() & ")/">
 				<cfset s_val.customClass = "ganttBlue">
+				<cfset s_val.dataObj = s_data>
 				
 				<cfswitch expression="#durations#">
 					<cfcase value="pessimistic">
