@@ -65,13 +65,29 @@
 					menuIcon:true,
 					buttons:false
 				});			
-				
 				$("#navigation_bar").css("color", "black");
+
+				$("#current_element_menu").menubar({
+					autoExpand:false,
+					menuIcon:true,
+					buttons:false
+				});
+				
+
 				$(".ui-state-default").css("color", "black");
 				$("#view").buttonset();
+				$("#view").css("float", "right");
 				
 				<cfif IsDefined("url.newview")>
 				<cfoutput>
+				select_element('#session.root_url#', 'projects', '#project_id#', '#p.project_name#');
+				
+				$("##current_element_menu").css("color", "black");
+				$("##current_element_menu").css("float", "left");				
+				$("##current_element_menu .ui-menu").css("width", "500px");
+				
+				
+				
 				$("##normal").click(function () {
 					render_gantt('#session.root_url#', '#p.id#', 'normal')	
 				});			
@@ -86,28 +102,7 @@
 				});											
 				</cfoutput>
 				
-				
-				$( "#current_element" )
-							.button()
-							.click(function() {
-							<cfoutput>
-								edit_current_element('#session.root_url#');
-							</cfoutput>
-							})
-							.next()
-								.button( {
-									text: false,
-									icons: {
-										primary: "ui-icon-triangle-1-s"
-									}
-								})
-								.click(function() {
-									<cfoutput>
-									menu_current_element('#session.root_url#');
-									</cfoutput>
-								})
-								.parent()
-									.buttonset();
+								
 				
 				<cfoutput>
 				render_gantt('#session.root_url#', '#p.id#', 'normal');				
@@ -121,6 +116,7 @@
 	<cfoutput>
 	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 	</cfoutput>
+	
 	<!--- BEGIN LAYOUT --->
 	<div id="container">
 		<div id="header">
@@ -243,7 +239,7 @@
 				</ul>
 				<cfif IsDefined("url.newview")>
 					<div id="testing">
-						<input type="hidden" id="current_element_table" value="project">
+						<input type="hidden" id="current_element_table" value="projects">
 						<cfoutput>
 						<input type="hidden" id="current_element_id" value="#project_id#">
 						</cfoutput>
@@ -255,8 +251,19 @@
 								<input type="radio" id="estimated" name="view" /><label for="estimated">Estimated</label>
 							</span>
 							<cfoutput>
-							<button id="current_element">#p.project_name#</button>
-							<button id="current_element_menu">Select an action</button>
+							
+							<ul id="current_element_menu" class="menubar-icons">
+								<li>
+										<a href="##CurrentElement">#p.project_name#</a>
+										<ul>
+											<li>
+												<div id="current_element_menubox" style="height:320px;width:500px;">
+													testing 1 2 3
+												</div>
+											</li>
+										</ul>
+								</li>
+							</ul>
 							</cfoutput>
 						</div>
 					

@@ -61,6 +61,7 @@
 					<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
 				</ul>
 			</li>
+			
 		</cfif>
 	</ul>
 </cfoutput>

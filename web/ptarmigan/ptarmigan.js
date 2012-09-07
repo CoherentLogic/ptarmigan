@@ -73,18 +73,23 @@ function render_gantt(root_url, project_id, durations)
 		minScale: "days",
 		itemsPerPage: 20,
 		onItemClick: function(data) {
-			select_element(data.element_table, data.element_id, data.button_caption);
+			select_element(root_url, data.element_table, data.element_id, data.button_caption);
 		},
 		onAddClick: function(dt, rowId) {
 		}
 	});				
 }
 
-function select_element(table, id, button_caption)
+function select_element(root_url, table, id, button_caption)
 {
+	var url = root_url + "/project/element_menu.cfm?current_element_table=" + escape(table) + "&current_element_id=" + escape(id);
+
 	$("#current_element_table").val(table);
 	$("#current_element_id").val(id);
-	$("#current_element .ui-button-text").text(button_caption);
+	$("#current_element_menu .ui-button-text").text(button_caption);
+
+	$("#current_element_menubox").html(request(url));
+
 }
 
 function edit_current_element(root_url)
@@ -108,7 +113,7 @@ function edit_current_element(root_url)
 
 function menu_current_element(root_url)
 {
-
+	
 }
 
 //
