@@ -34,6 +34,7 @@
 		<title>#p.project_name# - ptarmigan</title>
 		
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
+		<link rel="stylesheet" type="text/css" href="#session.root_url#/jquery_ui/css/style.css">
 		<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
 		
 		<link rel="stylesheet" href="http://view.jqueryui.com/menubar/themes/base/jquery.ui.menu.css" />
@@ -44,6 +45,8 @@
 		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menu.js"></script>
 		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menubar.js"></script>
 		<script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
+		<script src="#session.root_url#/jquery_ui/js/jquery.fn.gantt.js"></script>
+		
 	</cfoutput>		
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
@@ -59,6 +62,10 @@
 				
 				$("#navigation_bar").css("color", "black");
 				$(".ui-state-default").css("color", "black");
+				
+				<cfoutput>
+				render_gantt('#session.root_url#', '#p.id#', 'normal');				
+				</cfoutput>
    		 });
 	</script>
 </head>
@@ -181,6 +188,7 @@
 					<li><a href="#tabs-budget">Budget</a></li>
 					<li><a href="#tabs-expenses">Expenses</a></li>
 					<li><a href="#tabs-alerts">Alerts</a></li>
+					<li><a href="#testing">Beta View</a></li>
 				</ul>
 				<div id="tabs-normal">
 					
@@ -207,6 +215,11 @@
 				</div>
 				<div id="tabs-alerts">
 					<cfmodule template="alerts.cfm" id="#project_id#">
+				</div>
+				<div id="testing">
+					<div class="gantt">
+					
+					</div>
 				</div>
 			</div> <!--- tabs --->
 		</div> <!---content --->

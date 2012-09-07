@@ -247,4 +247,71 @@
 		
 		<cfreturn oa>
 	</cffunction>
+	
+	<cffunction name="jquery_gantt" returntype="string" access="public" output="false">
+		<cfargument name="durations" type="string" required="true">
+		
+		<cfset source = ArrayNew(1)>		
+		
+		<cfset milestones = this.milestones()>		
+		
+		
+		<cfloop array="#milestones#" index="ms">
+			<cfset s_src = StructNew()>
+			<cfset s_val = StructNew()>	
+			
+			<cfset s_src.name = ms.milestone_name>
+			<cfset s_src.desc = "(MILESTONE)">
+			<cfset s_src.values = ArrayNew(1)>
+			
+			<cfset s_val.label = ms.milestone_name>
+			<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">
+			
+			<cfswitch expression="#durations#">
+				<cfcase value="pessimistic">
+					<cfset s_val.to = "/Date(" & ms.end_date_pessimistic.getTime() & ")/">
+				</cfcase>
+				<cfcase value="optimistic">
+					<cfset s_val.to = "/Date(" & ms.end_date_optimistic.getTime() & ")/">
+				</cfcase>
+				<cfcase value="normal">			
+					<cfset s_val.to = "/Date(" & ms.end_date.getTime() & ")/">
+				</cfcase>
+			</cfswitch>
+			
+			<cfset ArrayAppend(s_src.values, s_val)>
+			<cfset ArrayAppend(source, s_src)>
+			
+			<cfset tasks = ms.tasks()>
+			
+			<cfloop array="#tasks#" index="t">
+				<cfset s_src = StructNew()>
+				<cfset s_val = StructNew()>	
+				
+				<cfset s_src.name = t.task_name>
+				<cfset s_src.desc = "(TASK)">
+				<cfset s_src.values = ArrayNew(1)>
+				
+				<cfset s_val.label = t.task_name>
+				<cfset s_val.from = "/Date(" & t.start_date.getTime() & ")/">
+				
+				<cfswitch expression="#durations#">
+					<cfcase value="pessimistic">
+						<cfset s_val.to = "/Date(" & t.end_date_pessimistic.getTime() & ")/">
+					</cfcase>
+					<cfcase value="optimistic">
+						<cfset s_val.to = "/Date(" & t.end_date_optimistic.getTime() & ")/">
+					</cfcase>
+					<cfcase value="normal">			
+						<cfset s_val.to = "/Date(" & t.end_date.getTime() & ")/">
+					</cfcase>
+				</cfswitch>
+				
+				<cfset ArrayAppend(s_src.values, s_val)>
+				<cfset ArrayAppend(source, s_src)>
+			</cfloop> <!--- tasks inner loop --->									
+		</cfloop> <!--- milestones outer loop --->
+		
+		<cfreturn SerializeJSON(source)>
+	</cffunction>
 </cfcomponent>

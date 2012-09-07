@@ -60,6 +60,26 @@ function open_project(root_url)
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
+function render_gantt(root_url, project_id, durations)
+{
+	var url = root_url + "/project/json/gantt.cfm?id=" + escape(project_id) + "&durations=" + escape(durations);
+	var source_var =  eval('(' + request(url) + ')');
+		
+	$(".gantt").gantt({
+		source: source_var.json,
+		navigate: "scroll",
+		scale: "days",
+		maxScale: "months",
+		minScale: "days",
+		itemsPerPage: 10,
+		onItemClick: function(data) {
+			alert("Item clicked - show some details");
+		},
+		onAddClick: function(dt, rowId) {
+			alert("Empty space clicked - add an item!");
+		}
+	});				
+}
 
 //
 // MILESTONES
