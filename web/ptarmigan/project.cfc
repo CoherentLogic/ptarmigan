@@ -277,18 +277,23 @@
 				
 				<cfswitch expression="#durations#">
 					<cfcase value="pessimistic">
-						<cfset s_val.to = "/Date(" & ms.end_date_pessimistic.getTime() & ")/">
+						<cfset t_date = dateAdd("d", -1 , ms.end_date_pessimistic)>
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 					</cfcase>
 					<cfcase value="optimistic">
-						<cfset s_val.to = "/Date(" & ms.end_date_optimistic.getTime() & ")/">
+						<cfset t_date = dateAdd("d", -1 , ms.end_date_optimistic)>
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 					</cfcase>
 					<cfcase value="normal">			
-						<cfset s_val.to = "/Date(" & ms.end_date.getTime() & ")/">
+						<cfset t_date = dateAdd("d", -1 , ms.end_date)>
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 					</cfcase>
 				</cfswitch>
 			<cfelse>
-				<cfset s_val.from = "/Date(" & ms.project().start_date.getTime() & ")/">
-				<cfset s_val.to = "/Date(" & ms.project().due_date.getTime() & ")/">
+				<cfset t_date = dateAdd("d", -1 , ms.project().start_date)>
+				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+				<cfset t_date = dateAdd("d", -1, ms.project().due_date)>
+				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 				<cfset s_val.customClass = "ganttOrange">
 			</cfif>
 			
@@ -316,13 +321,16 @@
 				
 				<cfswitch expression="#durations#">
 					<cfcase value="pessimistic">
-						<cfset s_val.to = "/Date(" & t.end_date_pessimistic.getTime() & ")/">
+						<cfset t_date = dateAdd("d", -1 , t.end_date_pessimistic)>
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 					</cfcase>
 					<cfcase value="optimistic">
-						<cfset s_val.to = "/Date(" & t.end_date_optimistic.getTime() & ")/">
+						<cfset t_date = dateAdd("d", -1 , t.end_date_optimistic)>
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">						
 					</cfcase>
-					<cfcase value="normal">			
-						<cfset s_val.to = "/Date(" & t.end_date.getTime() & ")/">
+					<cfcase value="normal">	
+						<cfset t_date = dateAdd("d", -1, t.end_date)>		
+						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
 					</cfcase>
 				</cfswitch>
 				
