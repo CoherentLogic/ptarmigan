@@ -263,6 +263,7 @@
 			<cfset s_src.name = ms.milestone_name>
 			<cfset s_src.name = "MILESTONE">
 			<cfset s_src.values = ArrayNew(1)>
+			<cfset s_val.customClass = "ganttRed">
 			
 			<cfset s_val.desc = ms.milestone_name>
 			<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">
@@ -292,8 +293,10 @@
 				<cfset s_src.name = "TASK">
 				<cfset s_src.values = ArrayNew(1)>
 				
+				
 				<cfset s_val.label = t.task_name>
 				<cfset s_val.from = "/Date(" & t.start_date.getTime() & ")/">
+				<cfset s_val.customClass = "ganttBlue">
 				
 				<cfswitch expression="#durations#">
 					<cfcase value="pessimistic">

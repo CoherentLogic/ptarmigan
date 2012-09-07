@@ -7,7 +7,7 @@
         <cfset var ai= 0>
         <cfloop array="#aKeys#" index="i">
             <cfif isStruct(st[i])>
-                <cfset stN['#lCase(i)#'] = convertStructToLower(st[i])>
+				<cfset stN['#lCase(i)#'] = convertStructToLower(st[i])>
             <cfelseif isArray(st[i])>
                 <cfloop from=1 to="#arraylen(st[i])#" index="ai">
                     <cfif isStruct(st[i][ai])>
@@ -18,7 +18,17 @@
                 </cfloop>
                 <cfset stN['#lcase(i)#'] = st[i]>
             <cfelse>
-                <cfset stN['#lcase(i)#'] = st[i]>
+				<cfswitch expression="#i#">
+					<cfcase value="CUSTOMCLASS">
+						<cfset stN['customClass'] = st[i]>
+					</cfcase>
+					<cfcase value="DATAOBJ">
+						<cfset stN['dataObj'] = st[i]>
+					</cfcase>
+					<cfdefaultcase>
+   		            	<cfset stN['#lcase(i)#'] = st[i]>
+					</cfdefaultcase>
+				</cfswitch>
             </cfif>
         </cfloop>
         <cfreturn stn>
