@@ -261,7 +261,7 @@
 			<cfset s_val = StructNew()>	
 			
 			<cfset s_src.name = ms.milestone_name>
-			<cfset s_src.name = "MILESTONE">
+			<cfset s_src.desc = "MILESTONE">
 			<cfset s_src.values = ArrayNew(1)>
 			<cfset s_val.customClass = "ganttRed">
 			
@@ -289,8 +289,8 @@
 				<cfset s_src = StructNew()>
 				<cfset s_val = StructNew()>	
 				
-				<cfset s_src.desc = t.task_name>
-				<cfset s_src.name = "TASK">
+				<cfset s_src.name = t.task_name>
+				<cfset s_src.desc = "TASK">
 				<cfset s_src.values = ArrayNew(1)>
 				
 				
