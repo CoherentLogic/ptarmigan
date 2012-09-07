@@ -265,7 +265,7 @@
 			<cfset s_src.values = ArrayNew(1)>
 			<cfset s_val.customClass = "ganttRed">
 			
-			<cfset s_val.desc = ms.milestone_name>
+			<cfset s_val.label = ms.milestone_name>
 			<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">
 			
 			<cfswitch expression="#durations#">
