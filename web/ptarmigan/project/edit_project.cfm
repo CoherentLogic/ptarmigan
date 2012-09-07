@@ -70,6 +70,7 @@
 				$(".ui-state-default").css("color", "black");
 				$("#view").buttonset();
 				
+				<cfif IsDefined("url.newview")>
 				<cfoutput>
 				$("##normal").click(function () {
 					render_gantt('#session.root_url#', '#p.id#', 'normal')	
@@ -111,6 +112,7 @@
 				<cfoutput>
 				render_gantt('#session.root_url#', '#p.id#', 'normal');				
 				</cfoutput>
+				</cfif>
    		 });
 	</script>
 </head>
@@ -226,55 +228,61 @@
 			
 			<div id="tabs">
 				<ul>
-					<li><a href="#testing">Project</a></li>
-					<!---<li><a href="#tabs-normal">Normal</a></li>
-					<li><a href="#tabs-pessimistic">Pessimistic</a></li>
-					<li><a href="#tabs-optimistic">Optimistic</a></li>
-					<li><a href="#tabs-estimated">Estimated</a></li>--->
+					<cfif IsDefined("url.newview")>
+						<li><a href="#testing">Project</a></li>
+					<cfelse>
+						<li><a href="#tabs-normal">Normal</a></li>
+						<li><a href="#tabs-pessimistic">Pessimistic</a></li>
+						<li><a href="#tabs-optimistic">Optimistic</a></li>
+						<li><a href="#tabs-estimated">Estimated</a></li>
+					</cfif>
 					<li><a href="#tabs-budget">Budget</a></li>
 					<li><a href="#tabs-expenses">Expenses</a></li>
 					<li><a href="#tabs-alerts">Alerts</a></li>
 					
 				</ul>
-				<div id="testing">
-					<input type="hidden" id="current_element_table" value="project">
-					<cfoutput>
-					<input type="hidden" id="current_element_id" value="#project_id#">
-					</cfoutput>
-					<div id="toolbar" class="ui-widget-header ui-corner-all" >																		
-						<span id="view">
-							<input type="radio" id="normal" name="view" checked="checked" /><label for="normal">Normal</label>
-							<input type="radio" id="pessimistic" name="view" /><label for="pessimistic">Pessimistic</label>
-							<input type="radio" id="optimistic" name="view" /><label for="optimistic">Optimistic</label>
-							<input type="radio" id="estimated" name="view" /><label for="estimated">Estimated</label>
-						</span>
+				<cfif IsDefined("url.newview")>
+					<div id="testing">
+						<input type="hidden" id="current_element_table" value="project">
 						<cfoutput>
-						<button id="current_element">#p.project_name#</button>
-						<button id="current_element_menu">Select an action</button>
+						<input type="hidden" id="current_element_id" value="#project_id#">
 						</cfoutput>
-					</div>
-				
-					<div class="gantt">
+						<div id="toolbar" class="ui-widget-header ui-corner-all" >																		
+							<span id="view">
+								<input type="radio" id="normal" name="view" checked="checked" /><label for="normal">Normal</label>
+								<input type="radio" id="pessimistic" name="view" /><label for="pessimistic">Pessimistic</label>
+								<input type="radio" id="optimistic" name="view" /><label for="optimistic">Optimistic</label>
+								<input type="radio" id="estimated" name="view" /><label for="estimated">Estimated</label>
+							</span>
+							<cfoutput>
+							<button id="current_element">#p.project_name#</button>
+							<button id="current_element_menu">Select an action</button>
+							</cfoutput>
+						</div>
 					
+						<div class="gantt">
+						
+						</div>
 					</div>
-				</div>
-				<!---<div id="tabs-normal">
-					
-					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="normal">
-					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="normal">
-				</div>
-				<div id="tabs-pessimistic">
-					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="pessimistic">
-					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="pessimistic">
-				</div>
-				<div id="tabs-optimistic">
-					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="optimistic">
-					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="optimistic">
-				</div>
-				<div id="tabs-estimated">
-					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
-					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
-				</div>--->
+				<cfelse>
+					<div id="tabs-normal">
+						
+						<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="normal">
+						<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="normal">
+					</div>
+					<div id="tabs-pessimistic">
+						<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="pessimistic">
+						<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="pessimistic">
+					</div>
+					<div id="tabs-optimistic">
+						<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="optimistic">
+						<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="optimistic">
+					</div>
+					<div id="tabs-estimated">
+						<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
+						<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
+					</div>
+				</cfif>
 				<div id="tabs-budget">
 					<cfmodule template="budget.cfm" id="#project_id#" mode="edit">
 				</div>
