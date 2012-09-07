@@ -73,18 +73,42 @@ function render_gantt(root_url, project_id, durations)
 		minScale: "days",
 		itemsPerPage: 20,
 		onItemClick: function(data) {
-			switch(data.element_table) {
-			case 'milestones':
-				edit_milestone(root_url, data.element_id);
-				break;
-			case 'tasks':
-				edit_task(root_url, data.element_id);
-				break;
-			}
+			select_element(data.element_table, data.element_id, data.button_caption);
 		},
 		onAddClick: function(dt, rowId) {
 		}
 	});				
+}
+
+function select_element(table, id, button_caption)
+{
+	$("#current_element_table").val(table);
+	$("#current_element_id").val(id);
+	$("#current_element .ui-button-text").text(button_caption);
+}
+
+function edit_current_element(root_url)
+{
+	var element_table = $("#current_element_table").val();
+	var element_id = $("#current_element_id").val();
+	
+
+	switch(element_table) {
+	case 'projects':
+		break;
+	case 'milestones':
+		edit_milestone(root_url, element_id);
+		break;
+	case 'tasks':
+		edit_task(root_url, element_id);
+		break;
+	}
+	
+}
+
+function menu_current_element(root_url)
+{
+
 }
 
 //

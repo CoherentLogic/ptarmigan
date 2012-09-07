@@ -251,10 +251,45 @@
 	<cffunction name="jquery_gantt" returntype="string" access="public" output="false">
 		<cfargument name="durations" type="string" required="true">
 		
-		<cfset source = ArrayNew(1)>		
-		
+		<cfset source = ArrayNew(1)>				
 		<cfset milestones = this.milestones()>		
 		
+		<cfset s_src = StructNew()>
+		<cfset s_val = StructNew()>	
+		<cfset s_data = StructNew()>
+				
+		<cfset s_src.name = this.project_name>
+		<cfset s_src.desc = "Project">
+		<cfset s_src.values = ArrayNew(1)>
+		
+		<cfset s_data.element_table = "projects">
+		<cfset s_data.element_id = this.id>
+		<cfset s_data.button_caption = this.project_name>
+
+		<cfset s_val.customClass = "ganttGreen">
+		<cfset s_val.label = this.project_name>		
+		<cfset s_val.dataObj = s_data>
+		
+		<cfset t_date = dateAdd("d", -1, this.start_date)>
+		<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+
+		<cfswitch expression="#durations#">
+			<cfcase value="pessimistic">
+				<cfset t_date = dateAdd("d", -1 , this.due_date_pessimistic)>
+				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+			</cfcase>
+			<cfcase value="optimistic">
+				<cfset t_date = dateAdd("d", -1 , this.due_date_optimistic)>
+				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+			</cfcase>
+			<cfcase value="normal">			
+				<cfset t_date = dateAdd("d", -1 , this.due_date)>
+				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+			</cfcase>
+		</cfswitch>
+		
+		<cfset ArrayAppend(s_src.values, s_val)>
+		<cfset ArrayAppend(source, s_src)>
 		
 		<cfloop array="#milestones#" index="ms">
 			<cfset s_src = StructNew()>
@@ -262,18 +297,20 @@
 			<cfset s_data = StructNew()>
 			
 			<cfset s_src.name = ms.milestone_name>
-			<cfset s_src.desc = "MILESTONE">
+			<cfset s_src.desc = "Milestone">
 			<cfset s_src.values = ArrayNew(1)>
 			
 			<cfset s_data.element_table = "milestones">
 			<cfset s_data.element_id = ms.id>
+			<cfset s_data.button_caption = ms.milestone_name>
 			
 			<cfset s_val.customClass = "ganttRed">			
 			<cfset s_val.label = ms.milestone_name>
 			<cfset s_val.dataObj = s_data>
 			
 			<cfif ms.floating EQ 0>
-				<cfset s_val.from = "/Date(" & ms.start_date.getTime() & ")/">			
+				<cfset t_date = dateAdd("d", -1, ms.start_date)>
+				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">			
 				
 				<cfswitch expression="#durations#">
 					<cfcase value="pessimistic">
@@ -308,14 +345,16 @@
 				<cfset s_data = StructNew()>
 				
 				<cfset s_src.name = t.task_name>
-				<cfset s_src.desc = "TASK">
+				<cfset s_src.desc = "Task">
 				<cfset s_src.values = ArrayNew(1)>
 				
 				<cfset s_data.element_table = "tasks">
 				<cfset s_data.element_id = t.id>
+				<cfset s_data.button_caption = t.task_name>
 	
 				<cfset s_val.label = t.task_name>
-				<cfset s_val.from = "/Date(" & t.start_date.getTime() & ")/">
+				<cfset t_date = dateAdd("d", -1, t.start_date)>
+				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
 				<cfset s_val.customClass = "ganttBlue">
 				<cfset s_val.dataObj = s_data>
 				

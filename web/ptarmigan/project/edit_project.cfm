@@ -48,6 +48,12 @@
 		<script src="#session.root_url#/jquery_ui/js/jquery.fn.gantt.js"></script>
 		
 	</cfoutput>		
+	<style>
+	#toolbar {
+		padding: 10px 4px;
+		overflow: hidden;
+	}
+	</style>
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
@@ -62,6 +68,45 @@
 				
 				$("#navigation_bar").css("color", "black");
 				$(".ui-state-default").css("color", "black");
+				$("#view").buttonset();
+				
+				<cfoutput>
+				$("##normal").click(function () {
+					render_gantt('#session.root_url#', '#p.id#', 'normal')	
+				});			
+				$("##optimistic").click(function () {
+					render_gantt('#session.root_url#', '#p.id#', 'optimistic')	
+				});			
+				$("##pessimistic").click(function () {
+					render_gantt('#session.root_url#', '#p.id#', 'pessimistic')	
+				});			
+				$("##estimated").click(function () {
+					render_gantt('#session.root_url#', '#p.id#', 'estimated')	
+				});											
+				</cfoutput>
+				
+				
+				$( "#current_element" )
+							.button()
+							.click(function() {
+							<cfoutput>
+								edit_current_element('#session.root_url#');
+							</cfoutput>
+							})
+							.next()
+								.button( {
+									text: false,
+									icons: {
+										primary: "ui-icon-triangle-1-s"
+									}
+								})
+								.click(function() {
+									<cfoutput>
+									menu_current_element('#session.root_url#');
+									</cfoutput>
+								})
+								.parent()
+									.buttonset();
 				
 				<cfoutput>
 				render_gantt('#session.root_url#', '#p.id#', 'normal');				
@@ -181,16 +226,39 @@
 			
 			<div id="tabs">
 				<ul>
-					<li><a href="#tabs-normal">Normal</a></li>
+					<li><a href="#testing">Project</a></li>
+					<!---<li><a href="#tabs-normal">Normal</a></li>
 					<li><a href="#tabs-pessimistic">Pessimistic</a></li>
 					<li><a href="#tabs-optimistic">Optimistic</a></li>
-					<li><a href="#tabs-estimated">Estimated</a></li>
+					<li><a href="#tabs-estimated">Estimated</a></li>--->
 					<li><a href="#tabs-budget">Budget</a></li>
 					<li><a href="#tabs-expenses">Expenses</a></li>
 					<li><a href="#tabs-alerts">Alerts</a></li>
-					<li><a href="#testing">Beta View</a></li>
+					
 				</ul>
-				<div id="tabs-normal">
+				<div id="testing">
+					<input type="hidden" id="current_element_table" value="project">
+					<cfoutput>
+					<input type="hidden" id="current_element_id" value="#project_id#">
+					</cfoutput>
+					<div id="toolbar" class="ui-widget-header ui-corner-all" >																		
+						<span id="view">
+							<input type="radio" id="normal" name="view" checked="checked" /><label for="normal">Normal</label>
+							<input type="radio" id="pessimistic" name="view" /><label for="pessimistic">Pessimistic</label>
+							<input type="radio" id="optimistic" name="view" /><label for="optimistic">Optimistic</label>
+							<input type="radio" id="estimated" name="view" /><label for="estimated">Estimated</label>
+						</span>
+						<cfoutput>
+						<button id="current_element">#p.project_name#</button>
+						<button id="current_element_menu">Select an action</button>
+						</cfoutput>
+					</div>
+				
+					<div class="gantt">
+					
+					</div>
+				</div>
+				<!---<div id="tabs-normal">
 					
 					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="normal">
 					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="normal">
@@ -206,7 +274,7 @@
 				<div id="tabs-estimated">
 					<cfmodule template="gantt_toolbar.cfm" project_id="#project_id#" durations="estimated">
 					<cfmodule template="gantt_chart.cfm" id="#project_id#" mode="edit" durations="estimated">
-				</div>	
+				</div>--->
 				<div id="tabs-budget">
 					<cfmodule template="budget.cfm" id="#project_id#" mode="edit">
 				</div>
@@ -216,11 +284,7 @@
 				<div id="tabs-alerts">
 					<cfmodule template="alerts.cfm" id="#project_id#">
 				</div>
-				<div id="testing">
-					<div class="gantt">
-					
-					</div>
-				</div>
+				
 			</div> <!--- tabs --->
 		</div> <!---content --->
 	</div>	<!--- container --->
