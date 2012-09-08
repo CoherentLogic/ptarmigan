@@ -131,13 +131,20 @@
 							</td>
 							</tr>
 							<tr>
-							<td>Name:</td>		
-							<td>
-							<label>First:<input type="text" name="first_name" value="#t.first_name#"></label>
-							<label>Middle Initial:<input type="text" name="middle_initial" size="1" value="#t.middle_initial#"></label>
-							<label>Last:<input type="text" name="last_name" value="#t.last_name#"></label>
-							<label>Suffix:<input type="text" name="suffix" size="3" value="#t.suffix#"></label>
-							</td>
+							<td>First name:</td>		
+							<td><input type="text" name="first_name" value="#t.first_name#"></td>
+							</tr>
+							<tr>
+							<td>Middle initial:</td>
+							<td><input type="text" name="middle_initial" size="1" value="#t.middle_initial#"></td>
+							</tr>
+							<tr>
+							<td>Last name:</td>
+							<td><input type="text" name="last_name" value="#t.last_name#"></td>
+							</tr>
+							<tr>
+							<td>Suffix:</td>
+							<td><input type="text" name="suffix" size="3" value="#t.suffix#"></td>
 							</tr>
 							</table>
 						</div>
@@ -151,11 +158,11 @@
 							</tr>
 							<tr>
 							<td>Hire date (MM/DD/YYYY):</td>
-							<td><input type="text" name="hire_date" value="#dateFormat(t.hire_date, 'mm/dd/yyyy')#"></td>
+							<td><cfinput type="datefield" name="hire_date" value="#dateFormat(t.hire_date, 'mm/dd/yyyy')#"></td>
 							</tr>
 							<tr>
 							<td>Termination date (MM/DD/YYYY):</td>
-							<td><input type="text" name="term_date" value="#dateFormat(t.term_date, 'mm/dd/yyyy')#"></td>
+							<td><cfinput type="datefield" name="term_date" value="#dateFormat(t.term_date, 'mm/dd/yyyy')#"></td>
 							</tr>
 							</table>
 						</div>

@@ -14,9 +14,7 @@
 	<cfset t.phone_number = form.phone_number>
 	
 	<cfset t.update()>
-	
 
-	
 	<cflocation url="#session.root_url#/dashboard.cfm">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">

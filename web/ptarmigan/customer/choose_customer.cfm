@@ -2,34 +2,22 @@
 <cfquery name="get_customers" datasource="#session.company.datasource#">
 	SELECT id FROM customers ORDER BY company_name
 </cfquery>
-
-<cfswitch expression="#url.action#">
-	<cfcase value="edit">
-		<cfset e_action="edit_customer.cfm">
-	</cfcase>
-	<cfcase value="view">
-		<cfset e_action="view_customer.cfm">
-	</cfcase>
-</cfswitch>
-
-<table width="100%" border="1" class="pretty">
-	<tr>
-		<th>CUSTOMER NAME</th>
-		<th>POINT OF CONTACT</th>
-		<th>ACTIONS</th>
-	</tr>	
-	<cfoutput query="get_customers">
-
-		<cfset t = CreateObject("component", "ptarmigan.customer").open(id)>
-		<form name="e_#id#" method="post" action="#e_action#">
-		<input type="hidden" name="id" value="#t.id#">
-		<tr>		
-			<td>#t.company_name#</td>
-			<td>#t.poc#</td>
-			<td><input type="submit" name="submit_#t.id#" value="#ucase(url.action)#"></td>
-		</tr>
-		</form>
-	</cfoutput>
-	
-
-</table>
+<div style="width:100%; height:100%; position:relative; background-color:white;">
+	<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Open Customer" icon="#session.root_url#/images/project_dialog.png">
+	<div style="padding:30px; height:200px; width:500px;overflow:auto">	
+		<table width="100%" style="margin:0;" class="pretty">			
+			<cfoutput query="get_customers">		
+				<cfset t = CreateObject("component", "ptarmigan.customer").open(id)>
+				<tr>		
+					<td style="border:none;">#t.company_name#</td>					
+					<td style="border:none;"><a class="button" href="javascript:edit_customer('#session.root_url#', '#t.id#')"><span>Open</span></a></td>
+				</tr>				
+			</cfoutput>					
+		</table>
+	</div>
+	<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+    	<div style="padding:8px; float:right;" id="create_project_buttons" >
+        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>                    	
+    	</div>
+	</div>
+</div>

@@ -95,11 +95,11 @@
 						</tr>
 						<tr>
 						<td>Hire date (MM/DD/YYYY):</td>
-						<td><input type="text" name="hire_date"></td>
+						<td><cfinput type="datefield" name="hire_date"></td>
 						</tr>
 						<tr>
 						<td>Termination date (MM/DD/YYYY):</td>
-						<td><input type="text" name="term_date"></td>
+						<td><cfinput type="datefield" name="term_date"></td>
 						</tr>
 						</table>
 					</div>
