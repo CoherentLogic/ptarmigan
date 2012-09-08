@@ -107,7 +107,9 @@
 					render_gantt('#session.root_url#', '#p.id#', 'estimated')	
 				});											
 	
-				render_gantt('#session.root_url#', '#p.id#', 'normal');				
+				render_gantt('#session.root_url#', '#p.id#', 'normal');	
+				
+				
 				</cfoutput>
 	   		 });
 	</script>
@@ -171,16 +173,12 @@
 			</div>			
 		</div>	
 		<div id="navigation">			
-			<div id="accordion">			
-				<p><a href="##">Project Browser</a></p>
-				<div>
-					<div style="width:100%;height:300px;font-family:Arial,Helvetica,sans-serif;color:black;overflow:auto;" class="tree">
-					<cfmodule template="project_browser.cfm" id="#project_id#">	
-					</div>			
-				</div>
+			<h3>Project Browser</h3>
+			<blockquote>
+				<cfmodule template="project_browser.cfm" id="#project_id#">	
+			</blockquote>
 				
-				
-				<h3><a href="##">Project Properties</a></h3>
+			<!---	<h3><a href="##">Project Properties</a></h3>
 				<div>
 					<cfoutput>
 					<form name="project_header" action="edit_project.cfm?id=#url.id#" method="post">
@@ -263,9 +261,7 @@
 					</table>
 					<input type="submit" name="submit_header" value="Save">		
 					</form>
-				</div>
-				
-			</div>
+				</div> --->							
 		</div>
 		<div id="content">
 			

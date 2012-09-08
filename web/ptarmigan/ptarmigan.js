@@ -60,6 +60,18 @@ function open_project(root_url)
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
+function edit_project(root_url, project_id)
+{
+	var url = root_url + "/project/project_properties.cfm?id=" + escape(project_id);
+
+	
+	ColdFusion.Window.create('edit_project', 'Edit Project',
+	        url,
+	        {height:460,width:630,modal:false,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+}
+
+
 function render_gantt(root_url, project_id, durations)
 {
 	var url = root_url + "/project/json/gantt.cfm?id=" + escape(project_id) + "&durations=" + escape(durations);

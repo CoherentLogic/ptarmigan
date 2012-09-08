@@ -2,7 +2,7 @@
 	<cfswitch expression="#url.current_element_table#">
 		<cfcase value="projects">
 			<cfset p = CreateObject("component", "ptarmigan.project").open(url.current_element_id)>
-			<h3>Project</h3>
+			<h3>Project QuickEdit</h3>
 			<hr>
 			<cfoutput>				
 				<strong>Scheduled Duration:</strong>  #dateDiff("d", p.start_date, p.due_date_optimistic)#-#dateDiff("d", p.start_date, p.due_date_pessimistic)# days<br>
@@ -17,10 +17,12 @@
 		</cfcase>
 		<cfcase value="milestones">
 			<cfset ms = CreateObject("component", "ptarmigan.milestone").open(url.current_element_id)>
-			<h3>Milestone (<cfif ms.floating EQ 0>fixed<cfelse>floating</cfif>)</h3>
+			<h3>Milestone QuickEdit (<cfif ms.floating EQ 0>Fixed Duration<cfelse>Floating Duration</cfif>)</h3>
 			<hr>
 			<cfoutput>				
+				<cfif ms.floating EQ 0>
 				<strong>Schedule cost:</strong>  #dateDiff("d", ms.start_date, ms.end_date_optimistic)#-#dateDiff("d", ms.start_date, ms.end_date_pessimistic)# days<br>
+				</cfif>
 				<strong>Budget:</strong> #numberFormat(ms.budget, ",_$___.__")#<br>
 				<strong>Completion:</strong> #ms.percent_complete#%				
 			</cfoutput>
@@ -34,7 +36,7 @@
 		</cfcase>
 		<cfcase value="tasks">
 			<cfset t = CreateObject("component", "ptarmigan.task").open(url.current_element_id)>
-			<h3>Task</h3>
+			<h3>Task QuickEdit</h3>
 			<hr>
 			<cfoutput>				
 				<strong>Schedule cost:</strong>  #dateDiff("d", t.start_date, t.end_date_optimistic)#-#dateDiff("d", t.start_date, t.end_date_pessimistic)# days<br>

@@ -3,7 +3,10 @@ body,html {
 }
 
 body {
-	background-image:url(images/body-bg.png);
+	background-image:url('images/bg.png');
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-position:left bottom; 
 
 }
 body,html,td {
@@ -16,7 +19,7 @@ body,html,td {
 
 h1 {
 	font-weight:normal;
-	font-size:46px;
+	font-size:36px;
 	color:navy;
 	padding:0!important;
 	padding:16px 0 0 0;
@@ -26,7 +29,7 @@ h1 {
 
 h2 {
 	font-weight:normal;
-	font-size:36px;
+	font-size:26px;
 	color:#000;
 	padding:0!important;
 	padding:16px 0 0 0;
@@ -35,11 +38,12 @@ h2 {
 
 h3 {
 	font-weight:normal;
-	font-size:26px;
+	font-size:16px;
+	letter-spacing:-1px;
 	color:#000;
 	padding:0!important;
-	padding:16px 0 0 0;
-	margin:15px 0 0 0;
+	margin-bottom:10px;
+
 }
 
 h4 {
@@ -207,12 +211,16 @@ table.property_dialog caption {
 	width: 1200px;
 	margin-left:auto;
 	margin-right:auto;
-	margin-top:20px;
-	background-color:#ffffff;
+	margin-top:0px;
+	height:100%;
+	background-color:antiquewhite;
+	
+
+	/*background-color:#ffffff;
 	border-radius:4px;
-	border:1px solid gray;
+	border:1px solid gray;*/
 	overflow:hidden;
-	box-shadow:1px 1px 1px gray;
+	/*box-shadow:1px 1px 1px gray;*/
 }
 
 #navigation {
