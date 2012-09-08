@@ -4,7 +4,7 @@
 <cfparam name="session.logged_in" default="false">
 <cfparam name="session.message" default="">
 <cfparam name="session.company" default="">
-
+<cfparam name="session.current_object" default="">
 
 
 <cfparam name="session.root_url" default="/ptarmigan">

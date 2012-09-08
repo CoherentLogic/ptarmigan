@@ -66,7 +66,7 @@
 							<td>End date (normal):</td>
 							<td>
 								<label>Days from start: <cfinput type="text" size="3" name="end_date_days" id="end_date_days" onblur="add_days('#session.root_url#', 'start_date', 'end_date', 'end_date_days', 'exclude_weekends')"></label>
-								<label><cfinput type="datefield" size="10" name="end_date" id="end_date"></label>
+								<label><input class="pt_dates" type="text" size="10" name="end_date" id="end_date"></label>
 								
 							</td>		
 						</tr>
@@ -74,13 +74,13 @@
 							<td>End date (pessimistic):</td>
 							<td>
 								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_pessimistic" id="end_date_days_pessimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_pessimistic', 'end_date_days_pessimistic', 'exclude_weekends')"></label>
-								<cfinput type="datefield" size="10" id="end_date_pessimistic" name="end_date_pessimistic"></td>		
+								<input class="pt_dates" type="text" size="10" id="end_date_pessimistic" name="end_date_pessimistic"></td>		
 						</tr>
 						<tr>
 							<td>End date (optimistic):</td>
 							<td>
 								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_optimistic" id="end_date_days_optimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_optimistic', 'end_date_days_optimistic', 'exclude_weekends')"></label>
-								<cfinput type="datefield" size="10" id="end_date_optimistic" name="end_date_optimistic"></td>		
+								<input class="pt_dates" type="text" size="10" id="end_date_optimistic" name="end_date_optimistic"></td>		
 						</tr>			
 					<cfelse>
 						<input type="hidden" name="start_date" value="#dateFormat(today, ''mm/dd/yyyy')#">

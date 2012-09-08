@@ -40,7 +40,7 @@
 					</tr>
 					<tr>
 						<td>Expense date:</td>
-						<td><cfinput type="datefield" required="true" name="expense_date" validateat="onblur" validate="date"></td>
+						<td><input class="pt_dates" type="text" required="true" name="expense_date" validateat="onblur" validate="date"></td>
 					</tr>
 					<tr>
 						<td>Recipient:</td>

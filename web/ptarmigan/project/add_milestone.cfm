@@ -58,19 +58,19 @@
 						<td>End date (normal):</td>
 						<td>
 							<label>Days from start: <cfinput type="text" size="3" name="end_date_days" id="end_date_days" onblur="add_days('#session.root_url#', 'start_date', 'end_date', 'end_date_days', 'exclude_weekends')"></label>								
-							<cfinput type="datefield" name="end_date" id="end_date" size="10" required="true" validate="date"></td>		
+							<input class="pt_dates" type="text" name="end_date" id="end_date" size="10" required="true" validate="date"></td>		
 					</tr>			
 					<tr>
 						<td>End date (pessimistic):</td>
 						<td>
 							<label>Days from start: <cfinput type="text" size="3" name="end_date_days_pessimistic" id="end_date_days_pessimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_pessimistic', 'end_date_days_pessimistic', 'exclude_weekends')"></label>															
-							<cfinput type="datefield" name="end_date_pessimistic" id="end_date_pessimistic" size="10" required="true" validate="date"></td>
+							<input class="pt_dates" type="text" name="end_date_pessimistic" id="end_date_pessimistic" size="10" required="true" validate="date"></td>
 					</tr>
 					<tr>
 						<td>End date (optimistic):</td>
 						<td>
 							<label>Days from start: <cfinput type="text" size="3" name="end_date_days_optimistic" id="end_date_days_optimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_optimistic', 'end_date_days_optimistic', 'exclude_weekends')"></label>																		
-							<cfinput type="datefield" name="end_date_optimistic" id="end_date_optimistic" size="10" required="true" validate="date"></td>
+							<input class="pt_dates" type="text" name="end_date_optimistic" id="end_date_optimistic" size="10" required="true" validate="date"></td>
 					</tr>
 		
 					<tr>

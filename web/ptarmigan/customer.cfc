@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 
 	<cfset this.id = "">
 	<cfset this.company_name = "">
@@ -30,6 +30,13 @@
 		</cfquery>
 		<cfset session.message = "Customer #this.company_name# added.">
 		<cfset this.written = true>
+
+		<cfset obj = CreateObject("component", "ptarmigan.object")>	
+		<cfset obj.id = this.id>		
+		<cfset obj.class_id = "OBJ_CUSTOMER">
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.create()>
 		
 		<cfreturn this>
 		
@@ -47,6 +54,11 @@
 			WHERE	id='#this.id#'
 		</cfquery>
 		<cfset session.message = "Customer #this.company_name# updated.">
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>			
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.update()>		
 		
 		<cfset this.written = true>
 		
@@ -104,5 +116,14 @@
 		<cfreturn oa>
 	</cffunction>
 	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d" datasource="#session.company.datasource#">
+			DELETE FROM customers WHERE id='#this.id#'
+		</cfquery>
+	</cffunction>
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.company_name>
+	</cffunction>
 	
 </cfcomponent>

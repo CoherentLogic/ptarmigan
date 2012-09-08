@@ -2,6 +2,7 @@
 	<cfmodule template="../security/require.cfm" type="">
 
 	<cfset document = CreateObject("component", "ptarmigan.document").open(url.id)>
+	<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfif IsDefined("form.submit")>	
 		<cfif IsDefined("form.upload_file")>
 			<cffile action="upload" filefield="form.upload_file" destination="#session.upload_path#" nameconflict="makeunique">

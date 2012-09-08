@@ -65,51 +65,57 @@
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Edit Milestone" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="edit_milestone" id="edit_milestone" action="#session.root_url#/project/edit_milestone.cfm?id=#url.id#" method="post">
-			<div style="padding:20px;">
+			<div style="padding:20px;">				
 				<cflayout type="tab">
-					<cflayoutarea title="Milestone">	
+					<cflayoutarea title="Milestone">						
 					<div style="height:370px;padding:10px;">
 					<table>
+						<cfoutput>
 						<tr>
 							<td>Milestone number:</td>
-							<td><cfinput type="text" name="milestone_number" value="#t.milestone_number#"></td>
+							<td><input type="text" name="milestone_number" value="#t.milestone_number#"></td>
 						</tr>
 						<tr>
 							<td>Milestone name:</td>
-							<td><cfinput type="text" name="milestone_name" value="#t.milestone_name#"></td>
+							<td><input type="text" name="milestone_name" value="#t.milestone_name#"></td>
 						</tr>
+						</cfoutput>
 						<tr>
 							<td>&nbsp;</td>
 							<td>					
 								<label><input type="checkbox" name="floating" <cfif t.floating EQ 1>checked</cfif>>Floating</td>
 						</tr>
+						<cfoutput>
 						<tr>
 							<td>Start date:</td>
-							<td><cfinput type="datefield" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
+							<td><input class="pt_dates" type="text" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
 						</tr>
 						<tr>
 							<td>End date (normal):</td>
-							<td><cfinput type="datefield" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
+							<td><input class="pt_dates" type="text" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>		
 						</tr>			
 						<tr>
 							<td>End date (pessimistic):</td>
-							<td><cfinput type="datefield" name="end_date_pessimistic" value="#dateFormat(t.end_date_pessimistic, 'mm/dd/yyyy')#"></td>		
+							<td><input class="pt_dates" type="text" name="end_date_pessimistic" value="#dateFormat(t.end_date_pessimistic, 'mm/dd/yyyy')#"></td>		
 						</tr>			
 						<tr>
 							<td>End date (optimistic):</td>
-							<td><cfinput type="datefield" name="end_date_optimistic" value="#dateFormat(t.end_date_optimistic, 'mm/dd/yyyy')#"></td>		
-						</tr>			
+							<td><input class="pt_dates" type="text" name="end_date_optimistic" value="#dateFormat(t.end_date_optimistic, 'mm/dd/yyyy')#"></td>		
+						</tr>	
+						</cfoutput>		
 						<tr>
 							<td>Completion:</td>
 							<td>
-								<label>Percentage: <cfinput type="text" name="percent_complete" value="#t.percent_complete#"></label><br>
+								<cfoutput><label>Percentage: <input type="text" name="percent_complete" value="#t.percent_complete#"></label><br></cfoutput>
 								<label><input type="checkbox" name="completed" <cfif t.completed EQ 1>checked</cfif>>Completed</label>
 							</td>
 						</tr>
+						<cfoutput>
 						<tr>
 							<td>Budget:</td>
-							<td>$<cfinput type="text" name="budget" value="#t.budget#"></td>
+							<td>$<input type="text" name="budget" value="#t.budget#"></td>
 						</tr>	
+						</cfoutput>
 						<tr>
 							<td>Color:</td>
 							<td>
@@ -134,8 +140,10 @@
 						</tr>
 					</table>
 					</div>
+					
 					</cflayoutarea>
 					<cflayoutarea title="Auditing">
+					
 					<div style="height:370px;padding:10px;">
 					<table>
 						<tr>
@@ -144,7 +152,7 @@
 						</tr>
 						<tr>
 							<td>Change order #:</td>
-							<td><cfinput type="text" name="change_order_number"></td>
+							<td><input type="text" name="change_order_number"></td>
 						</tr>
 						<tr>
 							<td>Comments:</td>
@@ -152,8 +160,9 @@
 						</tr>
 					</table>
 					</div>
+					
 					</cflayoutarea>
-				</cflayout>					
+				</cflayout>								
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
 		</cfform>

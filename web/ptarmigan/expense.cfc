@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 
 	<cfset this.id = "">
 	<cfset this.element_table = "">
@@ -46,7 +46,15 @@
 							#this.amount#)
 		</cfquery>
 		<cfset session.message = "Expense for #this.recipient# added.">
+
+		<cfset obj = CreateObject("component", "ptarmigan.object")>	
+		<cfset obj.id = this.id>		
+		<cfset obj.class_id = "OBJ_EXPENSE">
+		<cfset obj.parent_id = this.element_id>
+		<cfset obj.deleted = 0>
 		
+		<cfset obj.create()>
+				
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -90,6 +98,12 @@
 						amount=#this.amount#
 			WHERE		id='#this.id#'			
 		</cfquery>
+
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>			
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.update()>
+				
 		<cfset session.message = "Expense for #this.recipient# updated.">
 		<cfset this.written = true>
 		<cfreturn this>
@@ -112,5 +126,16 @@
 		
 		<cfreturn oa>
 	</cffunction>
-
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.recipient & ": " & dateFormat(this.expense_date, "m/dd/yyyy")>
+	</cffunction>
+	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d" datasource="#session.company.datasource#">
+			DELETE FROM project_expenses WHERE id='#this.id#'
+		</cfquery>
+		
+		<cfset this.written = false>
+	</cffunction>
 </cfcomponent>

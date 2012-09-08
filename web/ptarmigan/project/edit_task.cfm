@@ -182,22 +182,24 @@
 											<td>Description:</td>
 											<td><textarea name="description"><cfoutput>#t.description#</cfoutput></textarea></td>
 										</tr>
+										<cfoutput>
 										<tr>
 											<td>Start date:</td>
-											<td><cfinput type="datefield" name="start_date" value="#t.start_date#"></td>
+											<td><input class="pt_dates" type="text" name="start_date" value="#dateFormat(t.start_date, 'mm/dd/yyyy')#"></td>
 										</tr>
 										<tr>
 											<td>End date (normal):</td>
-											<td><cfinput type="datefield" name="end_date" value="#t.end_date#"></td>
+											<td><input class="pt_dates" type="text" name="end_date" value="#dateFormat(t.end_date, 'mm/dd/yyyy')#"></td>
 										</tr>
 										<tr>
 											<td>End date (pessimistic):</td>
-											<td><cfinput type="datefield" name="end_date_pessimistic" value="#t.end_date_pessimistic#"></td>
+											<td><input class="pt_dates" type="text" name="end_date_pessimistic" value="#dateFormat(t.end_date_pessimistic, 'mm/dd/yyyy')#"></td>
 										</tr>
 										<tr>
 											<td>End date (optimistic):</td>
-											<td><cfinput type="datefield" name="end_date_optimistic" value="#t.end_date_optimistic#"></td>
+											<td><input class="pt_dates" type="text" name="end_date_optimistic" value="#dateFormat(t.end_date_optimistic, 'mm/dd/yyyy')#"></td>
 										</tr>
+										</cfoutput>
 										<tr>
 											<td>Budget:</td>
 											<td>$<cfinput type="text" name="budget" value="#t.budget#"></td>

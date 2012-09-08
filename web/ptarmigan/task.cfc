@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 
 	<cfset this.id = "">
 	<cfset this.milestone_id = "">
@@ -46,6 +46,14 @@
 						'#this.color#')
 		</cfquery>
 		<cfset session.message = "Task #this.task_name# added.">
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object")>
+		<cfset obj.id = this.id>
+		<cfset obj.parent_id = this.milestone_id>
+		<cfset obj.class_id = "OBJ_TASK">
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.create()>
 		
 		<cfset this.written = true>
 		
@@ -98,6 +106,12 @@
 		<cfset session.message = "Task #this.task_name# updated.">
 		
 		<cfset this.written = true>
+	
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>
+		<cfset obj.parent_id = this.milestone_id>	
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.update()>
 	
 		<cfreturn this>
 	</cffunction>
@@ -187,5 +201,15 @@
 	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">
 		<cfset ms = CreateObject("component", "ptarmigan.milestone").open(this.milestone_id)>
 		<cfreturn ms.project()>
+	</cffunction>
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.task_name>
+	</cffunction>
+	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d" datasource="#session.company.datasource#">
+			DELETE FROM tasks WHERE id='#this.id#'
+		</cfquery>
 	</cffunction>
 </cfcomponent>

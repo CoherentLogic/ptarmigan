@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="i_object">
 
 	<cfset this.id = "">
 	<cfset this.project_id = "">
@@ -13,6 +13,10 @@
 	<cfset this.percent_complete = 0>
 	
 	<cfset this.written = false>
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.milestone_name>
+	</cffunction>
 	
 	<cffunction name="create" returntype="ptarmigan.milestone" access="public" output="false">
 		
@@ -49,6 +53,14 @@
 		</cfquery>
 		
 		<cfset session.message = "Milestone #this.milestone_name# added.">
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object")>
+		<cfset obj.id = this.id>
+		<cfset obj.parent_id = this.project_id>
+		<cfset obj.class_id = "OBJ_MILESTONE">
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.create()>
 		
 		<cfset this.written = true>
 		
@@ -102,6 +114,12 @@
 		
 		<cfset session.message = "Milestone #this.milestone_name# updated.">
 		
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>	
+		<cfset obj.parent_id = this.project_id>
+		<cfset obj.class_id = "OBJ_MILESTONE">
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.update()>
 		
 		<cfset this.written = true>
 		
@@ -230,5 +248,11 @@
 	
 	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">
 		<cfreturn CreateObject("component", "ptarmigan.project").open(this.project_id)>
+	</cffunction>
+	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d_m" datasource="#session.company.datasource#">
+			DELETE FROM milestones WHERE id='#this.id#'
+		</cfquery>
 	</cffunction>
 </cfcomponent>

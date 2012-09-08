@@ -1,5 +1,6 @@
 <cfsilent>
 	<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(url.id)>
+	<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfquery name="parcel_points" datasource="#session.company.datasource#">
 		SELECT * FROM parcel_points WHERE parcel_id='#url.id#'
 	</cfquery>

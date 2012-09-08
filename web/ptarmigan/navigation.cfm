@@ -14,6 +14,7 @@
 								</ul>
 							</li>
 						</cfif>
+						<li><a href="javascript:trash_can('#session.root_url#');">Trash Can</a></li>
 						<li><a href="#session.root_url#/logout.cfm">Log out</a></li>
 					</cfif>
 					<li><a href="#session.root_url#/about.cfm">About Ptarmigan</a></li>
@@ -58,6 +59,14 @@
 						<li><a href="javascript:search_parcels('#session.root_url#');">Search</a></li>
 						<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">View Map</a></li>
 						<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="##Object">#session.current_object.get().object_name()#</a>
+					<ul>
+						<li><a href="javascript:discuss_object('#session.root_url#', '#session.current_object.id#');">Discuss</a></li>
+						<li><a href="javascript:trash_object('#session.root_url#', '#session.current_object.id#');">Move to Trash Can</a></li>
+			
 					</ul>
 				</li>
 				

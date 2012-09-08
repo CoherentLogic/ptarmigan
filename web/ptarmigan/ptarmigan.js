@@ -569,13 +569,17 @@ function open_dialog(url, caption, width, height)
             url,		
 	    null,
             function (responseText, textStatus, XMLHttpRequest) {
-               // remove the loading class
-               dialog.removeClass('loading');
+		alert(responseText);               
+		// remove the loading class
+               	dialog.removeClass('loading');
+		$(".ui-dialog .ui-dialog-content").css("padding", "0");
+		$(".pt_tabs").tabs();
+		$(".pt_dates").datepicker();
             }
         );
 
 	
-	$(".ui-dialog .ui-dialog-content").css("padding", "0");
+	
 
         //prevent the browser to follow the link
         return false;

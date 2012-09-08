@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 	
 	<cfset this.id = "">
 	<cfset this.project_number = "">
@@ -66,6 +66,13 @@
 		<cfset t.end_date_pessimistic = CreateODBCDate(Now())>
 		
 		<cfset t.create()>
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object")>	
+		<cfset obj.id = this.id>		
+		<cfset obj.class_id = "OBJ_PROJECT">
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.create()>
 		
 		<cfset session.message = "Project #this.project_name# added.">
 		
@@ -143,6 +150,11 @@
 			WHERE	id='#this.id#'
 		</cfquery>
 		<cfset session.message = "Project #this.project_name# updated.">
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>			
+		<cfset obj.deleted = 0>
+		
+		<cfset obj.update()>
 		
 		<cfset this.written = true>
 		<cfreturn this>
@@ -389,5 +401,17 @@
 		</cfloop> <!--- milestones outer loop --->
 		
 		<cfreturn SerializeJSON(source)>
+	</cffunction>
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.project_name>
+	</cffunction>
+	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d" datasource="#session.company.datasource#">
+			DELETE FROM projects WHERE id='#this.id#'
+		</cfquery>
+		
+		<cfset this.written = false>
 	</cffunction>
 </cfcomponent>

@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 	
 	<cfset this.datasource = "">
 	<cfset this.company_name = "">	
@@ -10,6 +10,14 @@
 	<cfset this.phone = "">
 	<cfset this.fax = "">
 	<cfset this.ini_path = "">
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.company_name>
+	</cffunction>
+	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		
+	</cffunction>
 	
 	<cffunction name="open" returntype="ptarmigan.company.company" access="public" output="false">
 		<cfset this.ini_path = ExpandPath(session.root_url & "/ptarmigan.ini")>	

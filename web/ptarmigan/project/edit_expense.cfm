@@ -26,7 +26,7 @@
 					<table>
 						<tr>
 							<td>Expense date:</td>
-							<td><cfinput type="datefield" value="#dateFormat(e.expense_date, 'm/dd/yyyy')#" required="true" name="expense_date" validateat="onblur" validate="date"></td>
+							<td><input class="pt_dates" type="text" value="#dateFormat(e.expense_date, 'm/dd/yyyy')#" required="true" name="expense_date" validateat="onblur" validate="date"></td>
 						</tr>
 						<tr>
 							<td>Recipient:</td>

@@ -1,6 +1,7 @@
 <cfmodule template="../security/require.cfm" type="project">
 <cfsilent>
 <cfset project_id = url.id>
+<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(project_id)>
 
 <cfquery name="get_customers" datasource="#session.company.datasource#">
 	SELECT id,company_name FROM customers ORDER BY company_name

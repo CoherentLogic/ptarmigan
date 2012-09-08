@@ -1,4 +1,4 @@
-<cfcomponent output="false">
+<cfcomponent output="false" implements="ptarmigan.i_object">
 	<cfset this.id = "">
 	<cfset this.table_name = "">
 	<cfset this.table_id = "">
@@ -32,6 +32,13 @@
 							'#this.what_changed#')
 		</cfquery>
 		
+		<cfset obj = CreateObject("component", "ptarmigan.object")>
+		<cfset obj.id = this.id>
+		<cfset obj.parent_id = this.table_id>
+		<cfset obj.class_id = "OBJ_AUDIT">
+		<cfset obj.deleted = 0>
+		<cfset obj.create()>
+		
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
@@ -60,4 +67,13 @@
 		<cfreturn this>
 	</cffunction>
 	
+	<cffunction name="delete" returntype="void" access="public" output="false">
+		<cfquery name="d_audit" datasource="#session.company.datasource#">
+			DELETE FROM audits WHERE id='#this.id#'
+		</cfquery>
+	</cffunction>
+	
+	<cffunction name="object_name" returntype="string" access="public" output="false">
+		<cfreturn this.comment>
+	</cffunction>
 </cfcomponent>
