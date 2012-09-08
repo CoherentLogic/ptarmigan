@@ -304,7 +304,12 @@
 			<cfset s_data.element_id = ms.id>
 			<cfset s_data.button_caption = ms.milestone_name>
 			
-			<cfset s_val.customClass = "ganttRed">			
+			<cfif ms.completed EQ 0>
+				<cfset s_val.customClass = "ganttRed">			
+			<cfelse>
+				<cfset s_val.customClass = "ganttComplete">
+			</cfif>
+			
 			<cfset s_val.label = ms.milestone_name>
 			<cfset s_val.dataObj = s_data>
 			
@@ -355,7 +360,12 @@
 				<cfset s_val.label = t.task_name>
 				<cfset t_date = dateAdd("d", -1, t.start_date)>
 				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
-				<cfset s_val.customClass = "ganttBlue">
+				
+				<cfif t.completed EQ 0>
+					<cfset s_val.customClass = "ganttBlue">
+				<cfelse>
+					<cfset s_val.customClass = "ganttCompleted">
+				</cfif>
 				<cfset s_val.dataObj = s_data>
 				
 				<cfswitch expression="#durations#">

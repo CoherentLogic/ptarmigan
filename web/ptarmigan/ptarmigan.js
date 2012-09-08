@@ -13,21 +13,25 @@
 function add_employee(root_url)
 {
 	var url = root_url + "/employee/add_employee.cfm?suppress_headers";
+
+	open_dialog(url, 'Add Employee', 630, 550);
 	
-	ColdFusion.Window.create('add_employee', 'Add Employee',
+	/*ColdFusion.Window.create('add_employee', 'Add Employee',
 	        url,
 	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function open_employee(root_url)
 {
 	var url = root_url + "/employee/choose_employee.cfm";
 
-	ColdFusion.Window.create('open_employee', 'Open Employee',
+	open_dialog(url, 'Open Employee', 630, 460);
+	
+	/*ColdFusion.Window.create('open_employee', 'Open Employee',
 	        url,
 	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 
 }
 
@@ -35,10 +39,13 @@ function edit_employee(root_url, id)
 {
 	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
 
-	ColdFusion.Window.create('edit_employee', 'Edit Employee',
+	
+	open_dialog(url, 'Edit Employee', 630, 550);
+
+	/*ColdFusion.Window.create('edit_employee', 'Edit Employee',
 	        url,
 	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -49,10 +56,12 @@ function add_customer(root_url)
 	var url = root_url + "/customer/add_customer.cfm";
 
 
-	ColdFusion.Window.create('add_customer', 'Add Customer',
+	open_dialog(url, 'Add Customer', 630, 550);
+	/*ColdFusion.Window.create('add_customer', 'Add Customer',
 	        url,
 	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
+
 
 }
 
@@ -60,10 +69,12 @@ function open_customer(root_url)
 {
 	var url = root_url + "/customer/choose_customer.cfm";
 
-	ColdFusion.Window.create('open_customer', 'Open Customer',
+	open_dialog(url, 'Open Customer', 630, 460);
+
+	/*ColdFusion.Window.create('open_customer', 'Open Customer',
 	        url,
 	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 
 }
 
@@ -71,10 +82,12 @@ function edit_customer(root_url, id)
 {
 	var url = root_url + "/customer/edit_customer.cfm?id=" + escape(id);
 
-	ColdFusion.Window.create('edit_customer', 'Edit Customer',
+	open_dialog(url, 'Edit Customer', 630, 550);
+
+	/*ColdFusion.Window.create('edit_customer', 'Edit Customer',
 	        url,
 	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 
@@ -86,32 +99,34 @@ function add_project(root_url)
 {
 	var url = root_url + "/project/add_project.cfm";
 	
-	ColdFusion.Window.create('add_project', 'Add Project',
+	open_dialog(url, 'Add Project', 630, 560);
+	/*ColdFusion.Window.create('add_project', 'Add Project',
 	        url,
 	        {height:560,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function open_project(root_url)
 {
 	var url = root_url + "/project/choose_project.cfm?action=edit";
 
-	
-	ColdFusion.Window.create('open_project', 'Open Project',
+	open_dialog(url, 'Open Project', 630, 460);
+
+	/*ColdFusion.Window.create('open_project', 'Open Project',
 	        url,
 	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_project(root_url, project_id)
 {
 	var url = root_url + "/project/project_properties.cfm?id=" + escape(project_id);
 
-	
-	ColdFusion.Window.create('edit_project', 'Edit Project',
+	open_dialog(url, 'Edit Project', 630, 460);
+	/*ColdFusion.Window.create('edit_project', 'Edit Project',
 	        url,
 	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 
@@ -201,11 +216,14 @@ function menu_current_element(root_url)
 function add_milestone(root_url, project_id)
 {
 	var url = root_url + "/project/add_milestone.cfm?id=" + escape(project_id) + "&suppress_headers";
+
+
+	open_dialog(url, 'Add Milestone', 630, 530);
 	
-	ColdFusion.Window.create('add_milestone', 'Add Milestone',
+	/*ColdFusion.Window.create('add_milestone', 'Add Milestone',
 	        url,
 	        {height:530,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 	
 }
 
@@ -213,10 +231,12 @@ function edit_milestone(root_url, id)
 {
 	var url = root_url + "/project/edit_milestone.cfm?id=" + escape(id) + "&suppress_headers";
 	
-	ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
+
+	open_dialog(url, 'Edit Milestone', 830, 530 + 90);
+	/*ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
 	        url,
 	        {height:530+90,width:830,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 	
 }
 
@@ -228,10 +248,11 @@ function add_task(root_url, project_id, milestone_id)
 	var url = root_url + "/project/add_task.cfm?id=" + escape(project_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
 
 
-	ColdFusion.Window.create('add_task', 'Add Task',
+	open_dialog(url, 'Add Task', 630, 600);
+	/*ColdFusion.Window.create('add_task', 'Add Task',
 	        url,
 	        {height:600,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_task(root_url, task_id, milestone_id)
@@ -239,10 +260,11 @@ function edit_task(root_url, task_id, milestone_id)
 	var url = root_url + "/project/edit_task.cfm?id=" + escape(task_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
 
 
-	ColdFusion.Window.create('edit_task', 'Edit Task',
+	open_dialog(url, 'Edit Task', 830, 650);
+	/*ColdFusion.Window.create('edit_task', 'Edit Task',
 	        url,
 	        {height:650,width:830,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -252,10 +274,12 @@ function add_change_order(root_url, project_id)
 {
 	var url = root_url + "/project/add_change_order.cfm?id=" + escape(project_id);
 
-	ColdFusion.Window.create('add_change_order', 'Add Change Order',
+	open_dialog(url, 'Add Change Order', 830 - 329, 650 - 230);	
+
+	/*ColdFusion.Window.create('add_change_order', 'Add Change Order',
 	        url,
 	        {height:650-230,width:830-329,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_change_order(root_url)
@@ -267,10 +291,11 @@ function apply_change_order(root_url, project_id)
 {
 	var url = root_url + "/project/apply_change_order.cfm?project_id=" + escape(project_id);
 
-	ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
+	open_dialog(url, 'Apply Change Order', 830- 240, 650);
+	/*ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
 	        url,
 	        {height:650,width:830-240,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 	
 }
 
@@ -314,11 +339,11 @@ function add_expense(root_url, element_table, element_id)
 {
 	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&suppress_headers";
 
-
-	ColdFusion.Window.create('add_expense', 'Add Expense',
+	open_dialog(url, 'Add Expense', 400, 480);	
+	/*ColdFusion.Window.create('add_expense', 'Add Expense',
 	        url,
 	        {height:480,width:400,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 	
 }
 
@@ -326,10 +351,11 @@ function edit_expense(root_url, expense_id)
 {
 	var url = root_url + "/project/edit_expense.cfm?id=" + escape(expense_id) + "&suppress_headers";
 
-	ColdFusion.Window.create('edit_expense', 'Edit Expense',
+	open_dialog(url, 'Edit Expense', 400, 480);
+	/*ColdFusion.Window.create('edit_expense', 'Edit Expense',
 	        url,
 	        {height:480,width:400,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});		
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -339,10 +365,12 @@ function add_document(root_url)
 {
 	var url = root_url + "/documents/add_document.cfm?suppress_headers";
 
-	ColdFusion.Window.create('add_document', 'Add Document',
+	open_dialog(url, 'Add Document', 630, 560);
+	
+	/*ColdFusion.Window.create('add_document', 'Add Document',
 	        url,
 	        {height:560,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 
 
 }
@@ -354,11 +382,13 @@ function search_documents(root_url, parcel_to_attach)
 	if(parcel_to_attach) {
 		url += "?parcel_id=" + escape(parcel_to_attach);
 	}	
+	
+	open_dialog(url, 'Search Documents', 1024-350, 780-380);
 
-	ColdFusion.Window.create('document_search', 'Document Search',
+	/*ColdFusion.Window.create('document_search', 'Document Search',
 	        url,
 	        {height:780-380,width:1024-350,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 }	
 
 function search_documents_complete(response_text)
@@ -379,10 +409,12 @@ function search_parcels(root_url, document_to_attach)
 		url += "?document_id=" + escape(document_to_attach);
 	}	
 
-	ColdFusion.Window.create('parcel_search', 'Parcel Search',
+	open_dialog(url, 'Search Parcels', 1024, 850);
+
+	/*ColdFusion.Window.create('parcel_search', 'Parcel Search',
 	        url,
 	        {height:850,width:1024,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});	
+	        draggable:true,resizable:false,center:true,initshow:true});*/
 
 
 }	
@@ -433,11 +465,12 @@ function view_audit_log(root_url, table_name, table_id)
 {
 	var url = root_url + "/project/view_audit_log.cfm?table_name=" + escape(table_name) + "&table_id=" + escape(table_id) + "&suppress_headers";
 
+	open_dialog(url, 'View Audit Log', 900, 530);
 
-	ColdFusion.Window.create('view_audit_log', 'View Audit Log',
+	/*ColdFusion.Window.create('view_audit_log', 'View Audit Log',
 	        url,
 	        {height:530,width:900,modal:false,closable:false,
-	        draggable:true,resizable:true,center:true,initshow:true});
+	        draggable:true,resizable:true,center:true,initshow:true});*/
 }
 
 //
@@ -448,10 +481,11 @@ function email_chart(root_url, project_id, durations)
 	var url = root_url + "/project/email_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations) + "&suppress_headers";
 
 
-	ColdFusion.Window.create('email_chart', 'E-Mail Chart',
+	open_dialog(url, 'E-Mail Chart', 500, 300);
+	/*ColdFusion.Window.create('email_chart', 'E-Mail Chart',
 	        url,
 	        {height:300,width:500,modal:false,closable:false,
-	        draggable:true,resizable:true,center:true,initshow:true});
+	        draggable:true,resizable:true,center:true,initshow:true});*/
 
 }
 
@@ -509,6 +543,44 @@ function add_days(root_url, start_date_control, end_date_control, days_control, 
 
 	document.getElementById(end_date_control).value = request(url);
 }
+
+
+function open_dialog(url, caption, width, height)
+{
+	// show a spinner or something via css
+	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
+        // open the dialog
+        dialog.dialog({
+            // add a close listener to prevent adding multiple divs to the document
+            close: function(event, ui) {
+                // remove div with all data and events
+                dialog.remove();
+            },
+            modal: false,
+	    width: width,
+	    height: height,
+	    show: "fade",
+	    hide: "fade",
+	    title: caption,
+	    resizable: false
+        });
+        // load remote content
+        dialog.load(
+            url,		
+	    null,
+            function (responseText, textStatus, XMLHttpRequest) {
+               // remove the loading class
+               dialog.removeClass('loading');
+            }
+        );
+
+	
+	$(".ui-dialog .ui-dialog-content").css("padding", "0");
+
+        //prevent the browser to follow the link
+        return false;
+}
+
 
 //
 // AJAX
