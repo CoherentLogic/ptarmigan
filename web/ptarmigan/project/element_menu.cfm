@@ -4,10 +4,13 @@
 			<cfset p = CreateObject("component", "ptarmigan.project").open(url.current_element_id)>
 			<h3>Project</h3>
 			<hr>
-			<p>This is what goes in the project menu.</p>
-			<div style="position:absolute; bottom:0px; left:10px; border-top:1px solid gray; padding-top:5px; width:450px;">
+			<cfoutput>				
+				<strong>Scheduled Duration:</strong>  #dateDiff("d", p.start_date, p.due_date_optimistic)#-#dateDiff("d", p.start_date, p.due_date_pessimistic)# days<br>
+				<strong>Budget:</strong> #numberFormat(p.budget, ",_$___.__")#<br>								
+			</cfoutput>
+			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
 				<cfoutput>
-			 	<button onclick="add_milestone('#session.root_url#', '#p.id#');">+ Milestone</button> <button onclick="add_change_order('#session.root_url#', '#p.id#')"> + Change Order</button> <button onclick="apply_change_order('#session.root_url#', '#p.id#');">Apply C/O</button>
+			 	<button id="edit_proj" onclick="edit_project('#session.root_url#', '#p.id#');">Edit</button> <button onclick="add_milestone('#session.root_url#', '#p.id#');" id="add_ms">+ Milestone</button> <button id="add_co" onclick="add_change_order('#session.root_url#', '#p.id#')"> + Change Order</button> <button id="apply_co" onclick="apply_change_order('#session.root_url#', '#p.id#');">Apply C/O</button>
 			 	</cfoutput>
 			</div>
 			
@@ -19,10 +22,9 @@
 			<cfoutput>				
 				<strong>Schedule cost:</strong>  #dateDiff("d", ms.start_date, ms.end_date_optimistic)#-#dateDiff("d", ms.start_date, ms.end_date_pessimistic)# days<br>
 				<strong>Budget:</strong> #numberFormat(ms.budget, ",_$___.__")#<br>
-				<strong>Completion:</strong> #ms.percent_complete#%
-				
+				<strong>Completion:</strong> #ms.percent_complete#%				
 			</cfoutput>
-			<div style="position:absolute; bottom:0px; left:10px; border-top:1px solid gray; padding-top:5px; width:450px;">
+			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
 				<cfoutput>
 					<!--- edit_milestone('#session.root_url#', '#ms.id#'); --->
 			 	
@@ -31,13 +33,18 @@
 			</div>
 		</cfcase>
 		<cfcase value="tasks">
-			<cfset p = CreateObject("component", "ptarmigan.task").open(url.current_element_id)>
+			<cfset t = CreateObject("component", "ptarmigan.task").open(url.current_element_id)>
 			<h3>Task</h3>
 			<hr>
-			<p>This is what goes in the task menu.</p>
-			<div style="position:absolute; bottom:0px; left:10px; border-top:1px solid gray; padding-top:5px; width:450px;">
-			 	<button>+ Milestone</button> <button>+ Expense</button> <button> + C/O</button> <button>Apply C/O</button>
+			<cfoutput>				
+				<strong>Schedule cost:</strong>  #dateDiff("d", t.start_date, t.end_date_optimistic)#-#dateDiff("d", t.start_date, t.end_date_pessimistic)# days<br>
+				<strong>Budget:</strong> #numberFormat(t.budget, ",_$___.__")#<br>
+				<strong>Completion:</strong> #t.percent_complete#%				
+			
+			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
+			 	<button id="edit_task" onclick="edit_task('#session.root_url#', '#t.id#', '#t.id#');">Edit</button> <button id="add_expense_task" onclick="add_expense('#session.root_url#', 'tasks', '#t.id#');">+ Expense</button> <button id="view_task_audit_log" onclick="view_audit_log('#session.root_url#', 'tasks', '#t.id#');">Audit Log</button>
 			</div>
+			</cfoutput>
 		</cfcase>
 	</cfswitch>
 </div>

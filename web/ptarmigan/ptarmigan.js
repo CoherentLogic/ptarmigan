@@ -90,6 +90,30 @@ function select_element(root_url, table, id, button_caption)
 
 	$("#current_element_menubox").html(request(url));
 
+	switch(table) {
+	case 'projects':
+		$("#edit_proj").button();
+		$("#add_ms").button();
+		$("#add_co").button();
+		$("#apply_co").button();
+		break;
+	case 'milestones':
+		$("#edit_ms").button();
+		$("#add_task").button();
+		$("#add_expense").button();
+		$("#view_ms_audit_log").button();
+		break;
+	case 'tasks':
+		$("#edit_task").button();
+		$("#add_expense_task").button();
+		$("#view_task_audit_log").button();
+		break;
+	}
+}
+
+function durations()
+{
+	return radio_checked(document.getElementsByName("view_duration"));
 }
 
 function edit_current_element(root_url)

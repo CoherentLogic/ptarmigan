@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
+	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cftooltip">
 	<cfoutput>	
 		<title>Define Parcel - ptarmigan</title>
 		
@@ -14,7 +14,7 @@
 		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
 		<link rel="stylesheet" href="http://view.jqueryui.com/menubar/themes/base/jquery.ui.menu.css" />
 		<link rel="stylesheet" href="http://view.jqueryui.com/menubar/themes/base/jquery.ui.menubar.css" />
-		<link type="text/css" href="#session.root_url#/jquery_ui/css/redmond/jquery-ui-1.8.23.custom.css" rel="Stylesheet" />	
+		<link type="text/css" href="#session.root_url#/jquery_ui/css/smoothness/jquery-ui-1.8.23.custom.css" rel="Stylesheet" />	
 		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-ui.js"></script>
 		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menu.js"></script>
@@ -25,7 +25,7 @@
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
 				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "850px");
+				$("#tabs").css("width", "840px");
 				$("#accordion").accordion();		
 				$("#navigation_bar").menubar({
 					autoExpand:true,
@@ -34,6 +34,7 @@
 				});			
 				
 				$("#navigation_bar").css("color", "black");
+				$('#navigation_bar').css("float", "left");
 				$(".ui-state-default").css("color", "black");
 				
 				define_parcel();
@@ -45,11 +46,8 @@
 	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 	</cfoutput>
 	<!--- BEGIN LAYOUT --->
-	<div id="container">
-		<div id="header">
-			<cfinclude template="#session.root_url#/top.cfm">
-			<cfinclude template="#session.root_url#/navigation.cfm">			
-		</div>	
+	<cfinclude template="#session.root_url#/navigation.cfm">
+	<div id="container">		
 		<div id="navigation">			
 			<div id="accordion">
 				<p><a href="##">Parcel Properties</a></p>

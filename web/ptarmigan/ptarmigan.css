@@ -3,7 +3,10 @@ body,html {
 }
 
 body {
-	background-image:url(images/body-bg.png);
+	background-image:url('images/bg.png');
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-position:left bottom; 
 
 }
 body,html,td {
@@ -187,6 +190,14 @@ table.property_dialog caption {
 
 
 /* PAGE LAYOUT DIVS */
+
+#menu_header {
+	width:100%;
+	overflow:hidden;
+	background-color:#efefef;
+	box-shadow:2px 2px 2px gray;
+}
+
 #header_bar {
 	height:171px;
 	width:100%;
@@ -202,9 +213,9 @@ table.property_dialog caption {
 	margin-top:20px;
 	background-color:#ffffff;
 	border-radius:4px;
-	border:1px solid navy;
+	border:1px solid gray;
 	overflow:hidden;
-	box-shadow:2px 2px 2px gray;
+	box-shadow:1px 1px 1px gray;
 }
 
 #navigation {
@@ -218,8 +229,8 @@ table.property_dialog caption {
 #content {
 	margin-left: 340px;
 	border: none;
-	padding: 0px;
-	
+	padding: 0px;	
+	width:850px;
 	overflow:hidden;
 	
 	/*height:100%;*/
