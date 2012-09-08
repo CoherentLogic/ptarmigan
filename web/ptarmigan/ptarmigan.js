@@ -20,6 +20,27 @@ function add_employee(root_url)
 	        draggable:true,resizable:false,center:true,initshow:true});
 }
 
+function open_employee(root_url)
+{
+	var url = root_url + "/employee/choose_employee.cfm";
+
+	ColdFusion.Window.create('open_employee', 'Open Employee',
+	        url,
+	        {height:460,width:630,modal:false,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+
+}
+
+function edit_employee(root_url, id)
+{
+	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
+
+	ColdFusion.Window.create('edit_employee', 'Edit Employee',
+	        url,
+	        {height:550,width:730,modal:false,closable:false,
+	        draggable:true,resizable:false,center:true,initshow:true});
+}
+
 //
 // CUSTOMERS
 //
@@ -54,7 +75,7 @@ function open_project(root_url)
 	var url = root_url + "/project/choose_project.cfm?action=edit";
 
 	
-	ColdFusion.Window.create('add_project', 'Add Project',
+	ColdFusion.Window.create('open_project', 'Open Project',
 	        url,
 	        {height:460,width:630,modal:false,closable:false,
 	        draggable:true,resizable:false,center:true,initshow:true});

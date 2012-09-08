@@ -69,7 +69,7 @@
 				$('#navigation_bar').css("float", "left");
 
 				$("#current_element_menu").menubar({
-					autoExpand:true,
+					autoExpand:false,
 					menuIcon:true,
 					buttons:false
 				});
