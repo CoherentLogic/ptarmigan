@@ -61,17 +61,18 @@
 						<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
 					</ul>
 				</li>
-				<li>
-					<a href="##Object">#session.current_object.class_name#</a>
-					<ul>
-						<!---
-						<li><a href="javascript:discuss_object('#session.root_url#', '#session.current_object.id#');">Discuss</a></li>
-						--->
-						<li><a href="javascript:trash_object('#session.root_url#', '#session.current_object.id#');">Move to Trash Can</a></li>
-			
-					</ul>
-				</li>
+				<cfif session.current_object NEQ "">
+					<li>
+						<a href="##Object">#session.current_object.class_name#</a>
+						<ul>
+							<!---
+							<li><a href="javascript:discuss_object('#session.root_url#', '#session.current_object.id#');">Discuss</a></li>
+							--->
+							<li><a href="javascript:trash_object('#session.root_url#', '#session.current_object.id#');">Move to Trash Can</a></li>
 				
+						</ul>
+					</li>
+				</cfif>
 			</cfif>
 		</ul>
 	</cfoutput>
