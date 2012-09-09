@@ -4,7 +4,7 @@
 	<cfset change_orders = project.change_orders()>
 	<cfset tasks = project.tasks()>
 </cfsilent>
-
+   <!--- --->
 <cfif IsDefined("form.self_post")>	
 	<cfset co = CreateObject("component", "ptarmigan.change_order").open(form.change_order_number)>
 	<cfset co.apply(form)>
