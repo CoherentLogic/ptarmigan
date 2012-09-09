@@ -61,7 +61,7 @@
 						<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
 					</ul>
 				</li>
-				<cfif session.current_object NEQ "">
+				<cfif session.current_object.class_name NEQ "Company">
 					<li>
 						<a href="##Object">#session.current_object.class_name#</a>
 						<ul>
