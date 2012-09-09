@@ -11,36 +11,3 @@
 <cfparam name="session.upload_path" default="/var/www/html/ptarmigan/uploads">
 <cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 <cfset session.current_object = CreateObject("component", "ptarmigan.object").open(session.company.object_name())>
-
-
-
-<!---
-<cfif NOT IsDefined("url.suppress_everything")>
-
-<html>
-<head>
-	<title>ptarmigan</title>
-	<cfoutput>
-	<link rel="stylesheet" href="#session.root_url#/ptarmigan.css" type="text/css">
-	<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
-	
-	</cfoutput>
-	
-
-</head>
-	<cfif NOT IsDefined("url.suppress_headers")>
-		<body>
-		<cfoutput>
-		<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
-		</cfoutput>
-		<div id="header_bar">
-		<cfajaximport tags="cfwindow,cfform,cfinput-datefield">
-			
-		<cfinclude template="top.cfm">
-		<cfinclude template="navigation.cfm">
-		</div>
-		
-		<div style="width:100%;">
-	</cfif>
-</cfif>
---->

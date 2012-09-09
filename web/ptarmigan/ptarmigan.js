@@ -25,6 +25,21 @@ function trash_can(root_url)
 	open_dialog(url, 'Trash Can', 700, 500);
 }
 
+function restore_trashcan_event(root_url, id)
+{
+	var url = root_url + "/objects/restore_trashcan_event.cfm?id=" + escape(id);
+	var response = request(url);
+
+	window.location.reload();
+}
+
+function empty_trash(root_url)
+{
+	var url = root_url + "/objects/empty_trash.cfm";
+
+	window.location.reload();
+}
+
 //
 // EMPLOYEES
 //

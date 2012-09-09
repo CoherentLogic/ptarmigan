@@ -1,4 +1,5 @@
 <cfmodule template="#session.root_url#/security/require.cfm" type="admin">
+
 <cfset events = session.company.trashcan_events()>
 
 
