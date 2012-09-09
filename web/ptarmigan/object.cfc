@@ -4,6 +4,7 @@
 	<cfset this.class_id = "">
 	<cfset this.parent_id = session.company.object_name()>
 	<cfset this.deleted = 0>
+	<cfset this.trashcan_handle = "">
 	<cfset this.class_name = "">
 	<cfset this.component = "">
 	<cfset this.top_level = 0>
@@ -18,11 +19,13 @@
 							(id,
 							class_id,
 							parent_id,
-							deleted)
+							deleted,
+							trashcan_handle)
 			VALUES			('#this.id#',
 							'#this.class_id#',
 							'#this.parent_id#',
-							#this.deleted#)
+							#this.deleted#,
+							'#this.trashcan_handle#')
 		</cfquery>
 		
 		<cfset this.update_class_info()>
@@ -56,6 +59,7 @@
 		<cfset this.class_id = oo.class_id>
 		<cfset this.parent_id = oo.parent_id>
 		<cfset this.deleted = oo.deleted>
+		<cfset this.trashcan_handle = oo.trashcan_handle>
 		
 		<cfset this.update_class_info()>
 				
@@ -65,11 +69,12 @@
 
 	<cffunction name="update" returntype="ptarmigan.object" access="public" output="false">
 		
-		<cfquery name="q_update_XXXX" datasource="#session.company.datasource#">
+		<cfquery name="q_update_object" datasource="#session.company.datasource#">
 			UPDATE objects 
 			SET		class_id='#this.class_id#',
 					parent_id='#this.parent_id#',
-					deleted='#this.deleted#'
+					deleted='#this.deleted#',
+					trashcan_handle='#this.trashcan_handle#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		
@@ -78,16 +83,37 @@
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
+	
+	<cffunction name="get_trashcan_handle" returntype="string" access="public" output="false">
+		<cfreturn CreateUUID()>
+	</cffunction>	
 				
 	<cffunction name="mark_deleted" returntype="ptarmigan.object" access="public" output="false">
-		<cfif this.has_children EQ true>
+		<cfargument name="trashcan_handle" type="string" required="true">
+		
+		<cfif this.has_children() EQ true>
 			<cfset children = this.get_children()>
 			
 			<cfloop array="#children#" index="child">
-				<cfset child.mark_deleted()>
+				<cfset child.mark_deleted(trashcan_handle)>
 			</cfloop>
 		</cfif>
+		<cfset this.trashcan_handle = trashcan_handle>
 		<cfset this.deleted = 1>
+		<cfset this.update()>
+
+		<cfreturn this>
+	</cffunction>
+	
+	<cffunction name="unmark_deleted" returntype="ptarmigan.object" access="public" output="false">
+		<cfif this.has_children() EQ true>
+			<cfset children = this.get_children()>
+			
+			<cfloop array="#children#" index="child">
+				<cfset child.unmark_deleted()>
+			</cfloop>
+		</cfif>
+		<cfset this.deleted = 0>
 		<cfset this.update()>
 
 		<cfreturn this>

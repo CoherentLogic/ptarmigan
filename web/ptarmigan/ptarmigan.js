@@ -6,6 +6,24 @@
  *
  */
 
+$.fx.speeds._default = 1000;
+
+//
+// OBJECTS (GENERAL)
+//
+function trash_object(root_url, id)
+{
+	var url = root_url + "/objects/trash_object.cfm?id=" + escape(id);
+
+	open_dialog(url, 'Move to Trash', 500, 400);
+}
+
+function trash_can(root_url)
+{
+	var url = root_url + "/objects/trash_can.cfm";
+
+	open_dialog(url, 'Trash Can', 700, 500);
+}
 
 //
 // EMPLOYEES
@@ -166,17 +184,20 @@ function select_element(root_url, table, id, button_caption)
 		$("#add_ms").button();
 		$("#add_co").button();
 		$("#apply_co").button();
+		$("#delete_project").button();
 		break;
 	case 'milestones':
 		$("#edit_ms").button();
 		$("#add_task").button();
 		$("#add_expense").button();
 		$("#view_ms_audit_log").button();
+		$("#delete_ms").button()
 		break;
 	case 'tasks':
 		$("#edit_task").button();
 		$("#add_expense_task").button();
 		$("#view_task_audit_log").button();
+		$("#delete_task").button()
 		break;
 	}
 }
@@ -559,7 +580,7 @@ function open_dialog(url, caption, width, height)
             modal: false,
 	    width: width,
 	    height: height,
-	    show: "fade",
+	    show: "fold",
 	    hide: "fade",
 	    title: caption,
 	    resizable: false
@@ -568,10 +589,10 @@ function open_dialog(url, caption, width, height)
         dialog.load(
             url,		
 	    null,
-            function (responseText, textStatus, XMLHttpRequest) {
-		alert(responseText);               
+            function (responseText, textStatus, XMLHttpRequest) {		     
 		// remove the loading class
-               	dialog.removeClass('loading');
+		//alert(responseText);               	
+		dialog.removeClass('loading');
 		$(".ui-dialog .ui-dialog-content").css("padding", "0");
 		$(".pt_tabs").tabs();
 		$(".pt_dates").datepicker();

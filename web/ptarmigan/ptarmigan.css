@@ -9,6 +9,16 @@ body {
 	background-position:left bottom; 
 
 }
+
+p {
+	font-size:14px;
+	line-height:18px;
+}
+
+strong {
+	font-weight:bold;
+}
+
 body,html,td {
 	margin:0;
 	padding:0;

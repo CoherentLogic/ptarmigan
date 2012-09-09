@@ -176,7 +176,10 @@
 		
 		<cfoutput query="gm">
 			<cfset t = CreateObject("component", "ptarmigan.milestone").open(id)>
-			<cfset arrayAppend(oa, t)>
+			<cfset tobj = CreateObject("component", "ptarmigan.object").open(id)>
+			<cfif tobj.deleted EQ 0>
+				<cfset arrayAppend(oa, t)>
+			</cfif>
 		</cfoutput>
 		
 		<cfreturn oa>
@@ -304,100 +307,108 @@
 		<cfset ArrayAppend(source, s_src)>
 		
 		<cfloop array="#milestones#" index="ms">
-			<cfset s_src = StructNew()>
-			<cfset s_val = StructNew()>	
-			<cfset s_data = StructNew()>
+			<cfset milestone_object = CreateObject("component", "ptarmigan.object").open(ms.id)>
 			
-			<cfset s_src.name = ms.milestone_name>
-			<cfset s_src.desc = "Milestone">
-			<cfset s_src.values = ArrayNew(1)>
-			
-			<cfset s_data.element_table = "milestones">
-			<cfset s_data.element_id = ms.id>
-			<cfset s_data.button_caption = ms.milestone_name>
-			
-			<cfif ms.completed EQ 0>
-				<cfset s_val.customClass = "ganttRed">			
-			<cfelse>
-				<cfset s_val.customClass = "ganttComplete">
-			</cfif>
-			
-			<cfset s_val.label = ms.milestone_name>
-			<cfset s_val.dataObj = s_data>
-			
-			<cfif ms.floating EQ 0>
-				<cfset t_date = dateAdd("d", -1, ms.start_date)>
-				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">			
-				
-				<cfswitch expression="#durations#">
-					<cfcase value="pessimistic">
-						<cfset t_date = dateAdd("d", -1 , ms.end_date_pessimistic)>
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					</cfcase>
-					<cfcase value="optimistic">
-						<cfset t_date = dateAdd("d", -1 , ms.end_date_optimistic)>
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					</cfcase>
-					<cfcase value="normal">			
-						<cfset t_date = dateAdd("d", -1 , ms.end_date)>
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					</cfcase>
-				</cfswitch>
-			<cfelse>
-				<cfset t_date = dateAdd("d", -1 , ms.project().start_date)>
-				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
-				<cfset t_date = dateAdd("d", -1, ms.project().due_date)>
-				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-				<cfset s_val.customClass = "ganttOrange">
-			</cfif>
-			
-			<cfset ArrayAppend(s_src.values, s_val)>
-			<cfset ArrayAppend(source, s_src)>
-			
-			<cfset tasks = ms.tasks()>
-			
-			<cfloop array="#tasks#" index="t">
+			<cfif milestone_object.deleted EQ 0>
 				<cfset s_src = StructNew()>
 				<cfset s_val = StructNew()>	
 				<cfset s_data = StructNew()>
 				
-				<cfset s_src.name = t.task_name>
-				<cfset s_src.desc = "Task">
+				<cfset s_src.name = ms.milestone_name>
+				<cfset s_src.desc = "Milestone">
 				<cfset s_src.values = ArrayNew(1)>
 				
-				<cfset s_data.element_table = "tasks">
-				<cfset s_data.element_id = t.id>
-				<cfset s_data.button_caption = t.task_name>
-	
-				<cfset s_val.label = t.task_name>
-				<cfset t_date = dateAdd("d", -1, t.start_date)>
-				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+				<cfset s_data.element_table = "milestones">
+				<cfset s_data.element_id = ms.id>
+				<cfset s_data.button_caption = ms.milestone_name>
 				
-				<cfif t.completed EQ 0>
-					<cfset s_val.customClass = "ganttBlue">
+				<cfif ms.completed EQ 0>
+					<cfset s_val.customClass = "ganttRed">			
 				<cfelse>
-					<cfset s_val.customClass = "ganttCompleted">
+					<cfset s_val.customClass = "ganttComplete">
 				</cfif>
+				
+				<cfset s_val.label = ms.milestone_name>
 				<cfset s_val.dataObj = s_data>
 				
-				<cfswitch expression="#durations#">
-					<cfcase value="pessimistic">
-						<cfset t_date = dateAdd("d", -1 , t.end_date_pessimistic)>
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					</cfcase>
-					<cfcase value="optimistic">
-						<cfset t_date = dateAdd("d", -1 , t.end_date_optimistic)>
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">						
-					</cfcase>
-					<cfcase value="normal">	
-						<cfset t_date = dateAdd("d", -1, t.end_date)>		
-						<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					</cfcase>
-				</cfswitch>
+				<cfif ms.floating EQ 0>
+					<cfset t_date = dateAdd("d", -1, ms.start_date)>
+					<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">			
+					
+					<cfswitch expression="#durations#">
+						<cfcase value="pessimistic">
+							<cfset t_date = dateAdd("d", -1 , ms.end_date_pessimistic)>
+							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+						</cfcase>
+						<cfcase value="optimistic">
+							<cfset t_date = dateAdd("d", -1 , ms.end_date_optimistic)>
+							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+						</cfcase>
+						<cfcase value="normal">			
+							<cfset t_date = dateAdd("d", -1 , ms.end_date)>
+							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+						</cfcase>
+					</cfswitch>
+				<cfelse>
+					<cfset t_date = dateAdd("d", -1 , ms.project().start_date)>
+					<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+					<cfset t_date = dateAdd("d", -1, ms.project().due_date)>
+					<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+					<cfset s_val.customClass = "ganttOrange">
+				</cfif>
 				
 				<cfset ArrayAppend(s_src.values, s_val)>
 				<cfset ArrayAppend(source, s_src)>
-			</cfloop> <!--- tasks inner loop --->									
+				
+				<cfset tasks = ms.tasks()>
+				
+				<cfloop array="#tasks#" index="t">
+					<cfset task_object = CreateObject("component", "ptarmigan.object").open(t.id)>
+					
+					<cfif task_object.deleted EQ 0>
+						<cfset s_src = StructNew()>
+						<cfset s_val = StructNew()>	
+						<cfset s_data = StructNew()>
+						
+						<cfset s_src.name = t.task_name>
+						<cfset s_src.desc = "Task">
+						<cfset s_src.values = ArrayNew(1)>
+						
+						<cfset s_data.element_table = "tasks">
+						<cfset s_data.element_id = t.id>
+						<cfset s_data.button_caption = t.task_name>
+			
+						<cfset s_val.label = t.task_name>
+						<cfset t_date = dateAdd("d", -1, t.start_date)>
+						<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+						
+						<cfif t.completed EQ 0>
+							<cfset s_val.customClass = "ganttBlue">
+						<cfelse>
+							<cfset s_val.customClass = "ganttCompleted">
+						</cfif>
+						<cfset s_val.dataObj = s_data>
+						
+						<cfswitch expression="#durations#">
+							<cfcase value="pessimistic">
+								<cfset t_date = dateAdd("d", -1 , t.end_date_pessimistic)>
+								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+							</cfcase>
+							<cfcase value="optimistic">
+								<cfset t_date = dateAdd("d", -1 , t.end_date_optimistic)>
+								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">						
+							</cfcase>
+							<cfcase value="normal">	
+								<cfset t_date = dateAdd("d", -1, t.end_date)>		
+								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+							</cfcase>
+						</cfswitch>
+						
+						<cfset ArrayAppend(s_src.values, s_val)>
+						<cfset ArrayAppend(source, s_src)>
+					</cfif>
+				</cfloop> <!--- tasks inner loop --->									
+			</cfif> <!--- not-deleted check --->
 		</cfloop> <!--- milestones outer loop --->
 		
 		<cfreturn SerializeJSON(source)>

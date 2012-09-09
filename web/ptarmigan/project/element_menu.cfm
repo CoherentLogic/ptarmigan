@@ -10,8 +10,9 @@
 			</cfoutput>
 			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
 				<cfoutput>
-			 	<button id="edit_proj" onclick="edit_project('#session.root_url#', '#p.id#');">Edit</button> <button onclick="add_milestone('#session.root_url#', '#p.id#');" id="add_ms">+ Milestone</button> <button id="add_co" onclick="add_change_order('#session.root_url#', '#p.id#')"> + Change Order</button> <button id="apply_co" onclick="apply_change_order('#session.root_url#', '#p.id#');">Apply C/O</button>
-			 	</cfoutput>
+			 	<button id="edit_proj" onclick="edit_project('#session.root_url#', '#p.id#');">Edit</button> <button onclick="add_milestone('#session.root_url#', '#p.id#');" id="add_ms">+ Milestone</button> <button id="add_co" onclick="add_change_order('#session.root_url#', '#p.id#')"> + C/O</button> <button id="apply_co" onclick="apply_change_order('#session.root_url#', '#p.id#');">Apply C/O</button>
+			 	<button id="delete_project" onclick="trash_object('#session.root_url#', '#p.id#');">Trash</button>
+				</cfoutput>
 			</div>
 			
 		</cfcase>
@@ -31,7 +32,8 @@
 					<!--- edit_milestone('#session.root_url#', '#ms.id#'); --->
 			 	
 			 	<button id="edit_ms" onclick="edit_milestone('#session.root_url#', '#ms.id#');">Edit</button> <button id="add_task" onclick="add_task('#session.root_url#', '#ms.project().id#', '#ms.id#');">+ Task</button> <button id="add_expense" onclick="add_expense('#session.root_url#', 'milestones', '#ms.id#');">+ Expense</button> <button id="view_ms_audit_log" onclick="view_audit_log('#session.root_url#', 'milestones', '#ms.id#');">Audit Log</button>
-			 	</cfoutput>
+			 	<button id="delete_ms" onclick="trash_object('#session.root_url#', '#ms.id#')">Trash</button>
+				</cfoutput>
 			</div>
 		</cfcase>
 		<cfcase value="tasks">
@@ -45,6 +47,7 @@
 			
 			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
 			 	<button id="edit_task" onclick="edit_task('#session.root_url#', '#t.id#', '#t.id#');">Edit</button> <button id="add_expense_task" onclick="add_expense('#session.root_url#', 'tasks', '#t.id#');">+ Expense</button> <button id="view_task_audit_log" onclick="view_audit_log('#session.root_url#', 'tasks', '#t.id#');">Audit Log</button>
+				<button id="delete_task" onclick="trash_object('#session.root_url#', '#t.id#')">Trash</button>
 			</div>
 			</cfoutput>
 		</cfcase>

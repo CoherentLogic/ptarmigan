@@ -152,7 +152,11 @@
 		
 		<cfoutput query="q_tasks">
 			<cfset t = CreateObject("component", "ptarmigan.task").open(id)>
-			<cfset ArrayAppend(oa, t)>
+			<cfset tobj = CreateObject("component", "ptarmigan.object").open(id)>
+			
+			<cfif tobj.deleted EQ 0>
+				<cfset ArrayAppend(oa, t)>
+			</cfif>
 		</cfoutput>
 		
 		<cfreturn oa>

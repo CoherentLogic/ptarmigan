@@ -43,7 +43,11 @@
 		<cfset oa = ArrayNew(1)>
 		<cfoutput query="q_projects">
 			<cfset p = CreateObject("component", "ptarmigan.project").open(q_projects.id)>
-			<cfset ArrayAppend(oa, p)>
+			<cfset pobj = CreateObject("component", "ptarmigan.object").open(q_projects.id)>
+
+			<cfif pobj.deleted EQ 0>
+				<cfset ArrayAppend(oa, p)>
+			</cfif>
 		</cfoutput>
 		
 		<cfreturn oa>
@@ -97,7 +101,11 @@
 		
 		<cfoutput query="q_active_milestones">
 			<cfset ms = CreateObject("component", "ptarmigan.milestone").open(q_active_milestones.id)>
-			<cfset ArrayAppend(oa, ms)>
+			<cfset msobj = CreateObject("component", "ptarmigan.object").open(q_active_milestones.id)>
+			
+			<cfif msobj.deleted EQ 0>
+				<cfset ArrayAppend(oa, ms)>
+			</cfif>
 		</cfoutput>
 	
 		<cfreturn oa>
@@ -112,7 +120,11 @@
 		
 		<cfoutput query="q_active_tasks">
 			<cfset t = CreateObject("component", "ptarmigan.task").open(q_active_tasks.id)>
-			<cfset ArrayAppend(oa, t)>
+			<cfset tobj = CreateObject("component", "ptarmigan.object").open(q_active_tasks.id)>
+			
+			<cfif tobj.deleted EQ 0>
+				<cfset ArrayAppend(oa, t)>
+			</cfif>
 		</cfoutput>
 	
 		<cfreturn oa>
@@ -127,11 +139,28 @@
 		
 		<cfoutput query="q_active_projects">
 			<cfset p = CreateObject("component", "ptarmigan.project").open(q_active_projects.id)>
-			<cfset ArrayAppend(oa, p)>
+			<cfset pobj = CreateObject("component", "ptarmigan.object").open(q_active_projects.id)>
+			
+			<cfif pobj.deleted EQ 0>
+				<cfset ArrayAppend(oa, p)>
+			</cfif>
 		</cfoutput>
 	
 		<cfreturn oa>
 	</cffunction>
 	
-
+	<cffunction name="trashcan_events" returntype="array" output="false" access="public">
+		<cfquery name="te" datasource="#session.company.datasource#">
+			SELECT DISTINCT trashcan_handle FROM objects WHERE deleted=1
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		<cfoutput query="te">
+			<cfset t = CreateObject("component", "ptarmigan.trashcan_event").open(te.trashcan_handle)>			
+			<cfset ArrayAppend(oa, t)>
+		</cfoutput>
+		
+		<cfreturn oa>				
+	</cffunction>
+	
 </cfcomponent>
