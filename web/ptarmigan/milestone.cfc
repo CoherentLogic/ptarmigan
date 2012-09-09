@@ -125,6 +125,48 @@
 		
 		<cfreturn this>
 	</cffunction>
+
+	<cffunction name="extend_durations" returntype="ptarmigan.milestone" access="public" output="false">
+		<cfargument name="extension_count" type="numeric" required="true">
+		<cfargument name="change_order_number" type="string" required="true">
+		
+			<cfset a = CreateObject("component", "ptarmigan.audit")>
+		
+			<cfset a.table_name = "milestones">
+			<cfset a.table_id = this.id>
+			<cfset a.change_order_number = change_order_number>
+			<cfset a.employee_id = session.user.id>
+			<cfset a.audit_date = CreateODBCDate(Now())>
+						
+			<cfset a.what_changed = "MILESTONE DURATION EXTENDED BY " & extension_count & " DAYS">
+			<cfset a.create()>
+			
+			<cfset this.end_date = dateAdd("d", extension_count, this.end_date)>						
+			<cfset this.end_date_optimistic = dateAdd("d", extension_count, this.end_date_optimistic)>						
+			<cfset this.end_date_pessimistic = dateAdd("d", extension_count, this.end_date_pessimistic)>						
+			
+		<cfreturn this.update()>
+	</cffunction>
+	
+	<cffunction name="increase_budget" returntype="ptarmigan.milestone" access="public" output="false">
+		<cfargument name="amount" type="numeric" required="true">
+		<cfargument name="change_order_number" type="string" required="true">
+
+			<cfset a = CreateObject("component", "ptarmigan.audit")>
+		
+			<cfset a.table_name = "milestones">
+			<cfset a.table_id = this.id>
+			<cfset a.change_order_number = change_order_number>
+			<cfset a.employee_id = session.user.id>
+			<cfset a.audit_date = CreateODBCDate(Now())>
+						
+			<cfset a.what_changed = "MILESTONE BUDGET INCREASED BY " & amount & " DAYS">
+			<cfset a.create()>
+			
+			<cfset this.budget = this.budget + amount>
+		
+		<cfreturn this.update()>		
+	</cffunction>	
 	
 	<cffunction name="last_task_end_date" returntype="date" access="public" output="false">
 		<cfquery name="q_last_task_date" datasource="#session.company.datasource#">
@@ -145,7 +187,7 @@
 
 	<cffunction name="tasks" returntype="array" access="public" output="false">
 		<cfquery name="q_tasks" datasource="#session.company.datasource#">
-			SELECT id FROM tasks WHERE milestone_id='#this.id#' ORDER BY ts
+			SELECT id FROM tasks WHERE milestone_id='#this.id#'
 		</cfquery>
 		
 		<cfset oa = ArrayNew(1)>

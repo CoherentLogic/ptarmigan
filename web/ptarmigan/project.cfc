@@ -159,6 +159,48 @@
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
+
+	<cffunction name="extend_durations" returntype="ptarmigan.project" access="public" output="false">
+		<cfargument name="extension_count" type="numeric" required="true">
+		<cfargument name="change_order_number" type="string" required="true">
+		
+			<cfset a = CreateObject("component", "ptarmigan.audit")>
+		
+			<cfset a.table_name = "projects">
+			<cfset a.table_id = this.id>
+			<cfset a.change_order_number = change_order_number>
+			<cfset a.employee_id = session.user.id>
+			<cfset a.audit_date = CreateODBCDate(Now())>
+						
+			<cfset a.what_changed = "PROJECT DURATION EXTENDED BY " & extension_count & " DAYS">
+			<cfset a.create()>
+			
+			<cfset this.due_date = dateAdd("d", extension_count, this.due_date)>						
+			<cfset this.due_date_optimistic = dateAdd("d", extension_count, this.due_date_optimistic)>						
+			<cfset this.due_date_pessimistic = dateAdd("d", extension_count, this.due_date_pessimistic)>						
+			
+		<cfreturn this.update()>
+	</cffunction>
+
+	<cffunction name="increase_budget" returntype="ptarmigan.project" access="public" output="false">
+		<cfargument name="amount" type="numeric" required="true">
+		<cfargument name="change_order_number" type="string" required="true">
+
+			<cfset a = CreateObject("component", "ptarmigan.audit")>
+		
+			<cfset a.table_name = "project">
+			<cfset a.table_id = this.id>
+			<cfset a.change_order_number = change_order_number>
+			<cfset a.employee_id = session.user.id>
+			<cfset a.audit_date = CreateODBCDate(Now())>
+						
+			<cfset a.what_changed = "PROJECT BUDGET INCREASED BY " & amount & " DAYS">
+			<cfset a.create()>
+			
+			<cfset this.budget = this.budget + amount>
+		
+		<cfreturn this.update()>		
+	</cffunction>	
 	
 	<cffunction name="customer" returntype="ptarmigan.customer" access="public" output="false">
 		<cfset t = CreateObject("component", "ptarmigan.customer").open(this.customer_id)>
@@ -183,6 +225,20 @@
 		</cfoutput>
 		
 		<cfreturn oa>
+	</cffunction>
+	
+	<cffunction name="tasks" returntype="array" access="public" output="false">
+
+		<cfset oaa = ArrayNew(1)>
+		<cfset mss = this.milestones()>		
+		<cfloop array="#mss#" index="mso">
+			<cfset tskas = mso.tasks()>
+			<cfloop array="#tskas#" index="tov">
+					<cfset ArrayAppend(oaa, tov)>
+			</cfloop>
+		</cfloop>
+		
+		<cfreturn oaa>
 	</cffunction>
 	
 	<cffunction name="documents" returntype="array" access="public" output="false">
@@ -250,7 +306,7 @@
 	
 	<cffunction name="change_orders" returntype="array" access="public" output="false">
 		<cfquery name="q_change_orders" datasource="#session.company.datasource#">
-			SELECT id FROM change_orders WHERE project_id='#this.id#'
+			SELECT id FROM change_orders WHERE project_id='#this.id#' AND applied=0
 		</cfquery>
 		
 		<cfset oa = ArrayNew(1)>

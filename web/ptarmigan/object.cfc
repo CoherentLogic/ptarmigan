@@ -21,11 +21,11 @@
 							parent_id,
 							deleted,
 							trashcan_handle)
-			VALUES			('#this.id#',
-							'#this.class_id#',
-							'#this.parent_id#',
-							#this.deleted#,
-							'#this.trashcan_handle#')
+			VALUES			(<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">,
+							 <cfqueryparam value="#this.class_id#" cfsqltype="cf_sql_varchar">,
+							<cfqueryparam value="#this.parent_id#" cfsqltype="cf_sql_varchar">,
+							<cfqueryparam value="#this.deleted#" cfsqltype="cf_sql_tinyint">,
+							<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">)
 		</cfquery>
 		
 		<cfset this.update_class_info()>
@@ -52,7 +52,7 @@
 		<cfargument name="id" type="string" required="true">
 		
 		<cfquery name="oo" datasource="#session.company.datasource#">
-			SELECT * FROM objects WHERE id='#id#'
+			SELECT * FROM objects WHERE id=<cfqueryparam value="#id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		
 		<cfset this.id = id>
@@ -71,11 +71,11 @@
 		
 		<cfquery name="q_update_object" datasource="#session.company.datasource#">
 			UPDATE objects 
-			SET		class_id='#this.class_id#',
-					parent_id='#this.parent_id#',
-					deleted='#this.deleted#',
-					trashcan_handle='#this.trashcan_handle#'
-			WHERE	id='#this.id#'
+			SET		class_id=<cfqueryparam value="#this.class_id#" cfsqltype="cf_sql_varchar">,
+					parent_id=<cfqueryparam value="#this.parent_id#" cfsqltype="cf_sql_varchar">,
+					deleted=<cfqueryparam value="#this.deleted#" cfsqltype="cf_sql_integer">,
+					trashcan_handle=<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">
+			WHERE	id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		
 		<cfset this.update_class_info()>
@@ -118,10 +118,14 @@
 
 		<cfreturn this>
 	</cffunction>
+	
+	<cffunction name="get_parent" returntype="ptarmigan.object" access="public" output="false">
+		<cfreturn CreateObject("component", "ptarmigan.object").open(this.parent_id)>
+	</cffunction>
 		
 	<cffunction name="get_children" returntype="array" access="public" output="false">
 		<cfquery name="c_of" datasource="#session.company.datasource#">
-			SELECT id FROM objects WHERE parent_id='#this.id#'
+			SELECT id FROM objects WHERE parent_id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		
 		<cfset oa = ArrayNew(1)>
@@ -135,7 +139,7 @@
 	
 	<cffunction name="has_children" returntype="numeric" access="public" output="false">
 		<cfquery name="c_of" datasource="#session.company.datasource#">
-			SELECT id FROM objects WHERE parent_id='#this.id#'
+			SELECT id FROM objects WHERE parent_id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 
 		<cfif c_of.recordcount GT 0>
@@ -155,7 +159,7 @@
 		<cfset target.delete()>
 		
 		<cfquery name="delete_this" datasource="#session.company.datasource#">
-			DELETE FROM objects WHERE id='#this.id#'
+			DELETE FROM objects WHERE id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		<cfset this.written = false>
 		
