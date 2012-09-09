@@ -75,16 +75,17 @@ hr {
 }
 
 input,select,textarea {
-	border:1px solid #999999;
-	background-color:#efefef;
-	color:navy;
+	border:1px solid #efefef;
+	background-color:white;
+	color:gray;
 	padding:2px;
-	margin:2px;
-	border-radius:2px;
+	margin:4px;
+	border-radius:4px;
 }
 input:focus,select:focus,textarea:focus {
-	border:1px solid navy;
+	border:1px solid whitesmoke;
 	background-color:white;
+	color:navy;
 }
 
 em {

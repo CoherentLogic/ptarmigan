@@ -102,7 +102,8 @@ function open_project(root_url)
 function edit_project(root_url, project_id)
 {
 	var url = root_url + "/project/project_properties.cfm?id=" + escape(project_id);
-	open_dialog(url, 'Edit Project', 630, 460);
+
+	open_dialog(url, 'Edit Project', 630, 700);
 }
 
 

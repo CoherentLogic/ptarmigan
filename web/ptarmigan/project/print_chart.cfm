@@ -9,6 +9,11 @@
 		<title>#p.project_name#</title>
 		
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
+		<style type="text/css">
+			td {
+			-webkit-print-color-adjust:exact;
+			}
+		</style>
 	</cfoutput>		
 </head>
 <body onload="window.print();">

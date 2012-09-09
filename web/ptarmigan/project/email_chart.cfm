@@ -22,7 +22,7 @@
 	<cflocation url="#session.root_url#/dashboard.cfm" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
-		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Dialog Caption" icon="#session.root_url#/images/project_dialog.png">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="E-MAIL CHART" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="email_chart" id="email_chart" action="#session.root_url#/project/email_chart.cfm?project_id=#url.project_id#&durations=#url.durations#" method="post">
 			<div style="padding:20px;">
@@ -33,7 +33,7 @@
 					</tr>
 					<tr>
 						<td>Subject:</td>
-						<td><cfinput type="text" name="subject" value="#p.project_name# GANTT CHART (#ucase(url.durations)#)"></td>
+						<td><cfinput type="text" size="40" name="subject" value="#p.project_name# GANTT CHART (#ucase(url.durations)#)"></td>
 					</tr>
 				</table>
 			</div>
