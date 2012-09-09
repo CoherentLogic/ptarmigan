@@ -26,7 +26,8 @@
 			</cfoutput>
 		</cfloop>
 		</table>
-		<p><a class="button" href="##" onclick="restore_trashcan_event('#session.root_url#', '#e.id#');"><span>Restore</span></a></p>
-		
+		<cfoutput>
+		<p><a class="button" href="##" onclick="restore_trashcan_event('#session.root_url#', '#e.trashcan_handle#');"><span>Restore</span></a></p>
+		</cfoutput>
 	</cfloop>
 </div>

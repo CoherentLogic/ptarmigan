@@ -14,14 +14,12 @@ $.fx.speeds._default = 1000;
 function trash_object(root_url, id)
 {
 	var url = root_url + "/objects/trash_object.cfm?id=" + escape(id);
-
 	open_dialog(url, 'Move to Trash', 500, 400);
 }
 
 function trash_can(root_url)
 {
 	var url = root_url + "/objects/trash_can.cfm";
-
 	open_dialog(url, 'Trash Can', 700, 500);
 }
 
@@ -29,14 +27,13 @@ function restore_trashcan_event(root_url, id)
 {
 	var url = root_url + "/objects/restore_trashcan_event.cfm?id=" + escape(id);
 	var response = request(url);
-
 	window.location.reload();
 }
 
 function empty_trash(root_url)
 {
 	var url = root_url + "/objects/empty_trash.cfm";
-
+	var response = request(url);
 	window.location.reload();
 }
 
@@ -48,11 +45,6 @@ function add_employee(root_url)
 	var url = root_url + "/employee/add_employee.cfm?suppress_headers";
 
 	open_dialog(url, 'Add Employee', 630, 550);
-	
-	/*ColdFusion.Window.create('add_employee', 'Add Employee',
-	        url,
-	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function open_employee(root_url)
@@ -60,25 +52,13 @@ function open_employee(root_url)
 	var url = root_url + "/employee/choose_employee.cfm";
 
 	open_dialog(url, 'Open Employee', 630, 460);
-	
-	/*ColdFusion.Window.create('open_employee', 'Open Employee',
-	        url,
-	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 
 }
 
 function edit_employee(root_url, id)
 {
 	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
-
-	
 	open_dialog(url, 'Edit Employee', 630, 550);
-
-	/*ColdFusion.Window.create('edit_employee', 'Edit Employee',
-	        url,
-	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -87,40 +67,19 @@ function edit_employee(root_url, id)
 function add_customer(root_url)
 {
 	var url = root_url + "/customer/add_customer.cfm";
-
-
 	open_dialog(url, 'Add Customer', 630, 550);
-	/*ColdFusion.Window.create('add_customer', 'Add Customer',
-	        url,
-	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-
-
 }
 
 function open_customer(root_url)
 {
 	var url = root_url + "/customer/choose_customer.cfm";
-
 	open_dialog(url, 'Open Customer', 630, 460);
-
-	/*ColdFusion.Window.create('open_customer', 'Open Customer',
-	        url,
-	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-
 }
 
 function edit_customer(root_url, id)
 {
 	var url = root_url + "/customer/edit_customer.cfm?id=" + escape(id);
-
 	open_dialog(url, 'Edit Customer', 630, 550);
-
-	/*ColdFusion.Window.create('edit_customer', 'Edit Customer',
-	        url,
-	        {height:550,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 
@@ -131,35 +90,19 @@ function edit_customer(root_url, id)
 function add_project(root_url)
 {
 	var url = root_url + "/project/add_project.cfm";
-	
 	open_dialog(url, 'Add Project', 630, 560);
-	/*ColdFusion.Window.create('add_project', 'Add Project',
-	        url,
-	        {height:560,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function open_project(root_url)
 {
 	var url = root_url + "/project/choose_project.cfm?action=edit";
-
 	open_dialog(url, 'Open Project', 630, 460);
-
-	/*ColdFusion.Window.create('open_project', 'Open Project',
-	        url,
-	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_project(root_url, project_id)
 {
 	var url = root_url + "/project/project_properties.cfm?id=" + escape(project_id);
-
 	open_dialog(url, 'Edit Project', 630, 460);
-	/*ColdFusion.Window.create('edit_project', 'Edit Project',
-	        url,
-	        {height:460,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 
@@ -252,28 +195,13 @@ function menu_current_element(root_url)
 function add_milestone(root_url, project_id)
 {
 	var url = root_url + "/project/add_milestone.cfm?id=" + escape(project_id) + "&suppress_headers";
-
-
 	open_dialog(url, 'Add Milestone', 630, 530);
-	
-	/*ColdFusion.Window.create('add_milestone', 'Add Milestone',
-	        url,
-	        {height:530,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-	
 }
 
 function edit_milestone(root_url, id)
 {
 	var url = root_url + "/project/edit_milestone.cfm?id=" + escape(id) + "&suppress_headers";
-	
-
 	open_dialog(url, 'Edit Milestone', 830, 530 + 90);
-	/*ColdFusion.Window.create('edit_milestone', 'Edit Milestone',
-	        url,
-	        {height:530+90,width:830,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-	
 }
 
 //
@@ -282,25 +210,13 @@ function edit_milestone(root_url, id)
 function add_task(root_url, project_id, milestone_id)
 {
 	var url = root_url + "/project/add_task.cfm?id=" + escape(project_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-
-
 	open_dialog(url, 'Add Task', 630, 600);
-	/*ColdFusion.Window.create('add_task', 'Add Task',
-	        url,
-	        {height:600,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_task(root_url, task_id, milestone_id)
 {
 	var url = root_url + "/project/edit_task.cfm?id=" + escape(task_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-
-
 	open_dialog(url, 'Edit Task', 830, 650);
-	/*ColdFusion.Window.create('edit_task', 'Edit Task',
-	        url,
-	        {height:650,width:830,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -309,13 +225,7 @@ function edit_task(root_url, task_id, milestone_id)
 function add_change_order(root_url, project_id)
 {
 	var url = root_url + "/project/add_change_order.cfm?id=" + escape(project_id);
-
 	open_dialog(url, 'Add Change Order', 830 - 329, 650 - 230);	
-
-	/*ColdFusion.Window.create('add_change_order', 'Add Change Order',
-	        url,
-	        {height:650-230,width:830-329,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 function edit_change_order(root_url)
@@ -326,13 +236,7 @@ function edit_change_order(root_url)
 function apply_change_order(root_url, project_id)
 {
 	var url = root_url + "/project/apply_change_order.cfm?project_id=" + escape(project_id);
-
 	open_dialog(url, 'Apply Change Order', 830- 240, 650);
-	/*ColdFusion.Window.create('apply_change_order', 'Apply Change Order',
-	        url,
-	        {height:650,width:830-240,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-	
 }
 
 function set_apply_controls() 
@@ -374,24 +278,13 @@ function reset_apply_controls()
 function add_expense(root_url, element_table, element_id)
 {
 	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&suppress_headers";
-
 	open_dialog(url, 'Add Expense', 400, 480);	
-	/*ColdFusion.Window.create('add_expense', 'Add Expense',
-	        url,
-	        {height:480,width:400,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-	
 }
 
 function edit_expense(root_url, expense_id)
 {
 	var url = root_url + "/project/edit_expense.cfm?id=" + escape(expense_id) + "&suppress_headers";
-
 	open_dialog(url, 'Edit Expense', 400, 480);
-	/*ColdFusion.Window.create('edit_expense', 'Edit Expense',
-	        url,
-	        {height:480,width:400,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }
 
 //
@@ -400,15 +293,7 @@ function edit_expense(root_url, expense_id)
 function add_document(root_url)
 {
 	var url = root_url + "/documents/add_document.cfm?suppress_headers";
-
 	open_dialog(url, 'Add Document', 630, 560);
-	
-	/*ColdFusion.Window.create('add_document', 'Add Document',
-	        url,
-	        {height:560,width:630,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-
-
 }
 
 function search_documents(root_url, parcel_to_attach)
@@ -420,11 +305,6 @@ function search_documents(root_url, parcel_to_attach)
 	}	
 	
 	open_dialog(url, 'Search Documents', 1024-350, 780-380);
-
-	/*ColdFusion.Window.create('document_search', 'Document Search',
-	        url,
-	        {height:780-380,width:1024-350,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
 }	
 
 function search_documents_complete(response_text)
@@ -446,13 +326,6 @@ function search_parcels(root_url, document_to_attach)
 	}	
 
 	open_dialog(url, 'Search Parcels', 1024, 850);
-
-	/*ColdFusion.Window.create('parcel_search', 'Parcel Search',
-	        url,
-	        {height:850,width:1024,modal:false,closable:false,
-	        draggable:true,resizable:false,center:true,initshow:true});*/
-
-
 }	
 
 function search_parcels_complete(response_text)
@@ -502,15 +375,10 @@ function view_audit_log(root_url, table_name, table_id)
 	var url = root_url + "/project/view_audit_log.cfm?table_name=" + escape(table_name) + "&table_id=" + escape(table_id) + "&suppress_headers";
 
 	open_dialog(url, 'View Audit Log', 900, 530);
-
-	/*ColdFusion.Window.create('view_audit_log', 'View Audit Log',
-	        url,
-	        {height:530,width:900,modal:false,closable:false,
-	        draggable:true,resizable:true,center:true,initshow:true});*/
 }
 
 //
-// GANTT CHART TOOLBAR
+// GANTT CHART FUNCTIONS
 //
 function email_chart(root_url, project_id, durations)
 {
@@ -518,26 +386,17 @@ function email_chart(root_url, project_id, durations)
 
 
 	open_dialog(url, 'E-Mail Chart', 500, 300);
-	/*ColdFusion.Window.create('email_chart', 'E-Mail Chart',
-	        url,
-	        {height:300,width:500,modal:false,closable:false,
-	        draggable:true,resizable:true,center:true,initshow:true});*/
-
 }
 
 function print_chart(root_url, project_id, durations)
 {
 	var url = root_url + "/project/print_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
-
 	window.open(url);	
-
-
 }
 
 function download_chart(root_url, project_id, durations)
 {
 	var url = root_url + "/project/download_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
-
 	window.open(url);
 }
 
@@ -689,14 +548,7 @@ function radio_checked(radioObj)
 function open_help(root_url, page) 
 {
 	var url = "http://www.coherent-logic.com/ptarmigan/wiki/index.php/" + escape(page);
-
 	window.open(url, page, "width=1024,height=768");
-
-	/*ColdFusion.Window.create('add_document', 'Add Document',
-	        url,
-	        {height:560,width:630,modal:false,closable:false,
-	        draggable:true,resizable:true,center:true,initshow:true});*/
-
 }
 
 
