@@ -466,7 +466,7 @@ function open_dialog(url, caption, width, height)
 	    null,
             function (responseText, textStatus, XMLHttpRequest) {		     
 		// remove the loading class
-		alert(responseText);               	
+		//alert(responseText);               	
 		dialog.removeClass('loading');
 		$(".ui-dialog .ui-dialog-content").css("padding", "0");
 		$(".pt_tabs").tabs();
