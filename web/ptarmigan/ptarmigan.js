@@ -6,7 +6,7 @@
  *
  */
 
-$.fx.speeds._default = 1000;
+//$.fx.speeds._default = 1000;
 
 //
 // OBJECTS (GENERAL)
@@ -35,6 +35,35 @@ function empty_trash(root_url)
 	var url = root_url + "/objects/empty_trash.cfm";
 	var response = request(url);
 	window.location.reload();
+}
+
+
+//
+// REPORTS
+//
+function add_report(root_url)
+{
+	var url = root_url + "/reports/add_report.cfm";
+	open_dialog(url, 'Add Report', 500, 400);
+}
+
+function refresh_filters(root_url, report_id)
+{
+	var add_url = root_url + "/reports/criteria.cfm?mode=add&id=" + escape(report_id);
+	var edit_url = root_url + "/reports/criteria.cfm?mode=edit&id=" + escape(report_id);
+
+	$("#add_filter_iframe").attr("src", add_url);
+	$("#report_filters").html(request(edit_url));	
+}
+
+function render_report(root_url, selector, id)
+{
+	var url = root_url + "/reports/view_report.cfm?id=" + escape(id);
+	$(selector).html(request(url));
+	$(".report_viewer").dataTable({
+        	"bJQueryUI": true,
+        	"sPaginationType": "full_numbers"
+		});
 }
 
 //
@@ -441,7 +470,7 @@ function add_days(root_url, start_date_control, end_date_control, days_control, 
 }
 
 
-function open_dialog(url, caption, width, height)
+function open_dialog(url, caption, width, height, on_loaded)
 {
 	// show a spinner or something via css
 	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
@@ -471,6 +500,10 @@ function open_dialog(url, caption, width, height)
 		$(".ui-dialog .ui-dialog-content").css("padding", "0");
 		$(".pt_tabs").tabs();
 		$(".pt_dates").datepicker();
+
+		if(on_loaded) {
+			on_loaded();
+		}
             }
         );
 

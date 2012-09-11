@@ -154,6 +154,80 @@
 		<cfreturn CreateObject("component", this.component).open(this.id)>
 	</cffunction>		
 	
+	<cffunction name="json" returntype="string" access="public" output="false">
+		<cfset pt_object = StructNew()>
+		<cfset pt_object.class = DeserializeJSON(SerializeJSON(this))>
+		<cfset pt_object.implementation = DeserializeJSON(SerializeJSON(this.get()))>
+		<cfreturn SerializeJSON(pt_object)>
+	</cffunction>	
+	
+	<cffunction name="data" returntype="struct" access="public" output="false">
+		<cfreturn DeserializeJSON(this.json())>
+	</cffunction>
+	
+	<cffunction name="members" returntype="array" access="public" output="false">
+		<cfreturn ListToArray(StructKeyList(this.data().implementation.members))>
+	</cffunction>
+	
+	<cffunction name="member_type" returntype="string" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfreturn this.data().implementation.members[member_name].type>
+	</cffunction>
+
+	<cffunction name="member_class" returntype="string" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfreturn this.data().implementation.members[member_name].class>
+	</cffunction>	
+
+	<cffunction name="member_label" returntype="string" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfreturn this.data().implementation.members[member_name].label>
+	</cffunction>
+
+	
+	<cffunction name="member_value" returntype="any" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfset o = this.get()>
+		<cfset var_name = "##this.get()." & member_name & "##">
+		<cfset m = Evaluate(var_name)>
+		
+		<cfswitch expression="#this.member_type(member_name)#">
+			<cfcase value="date">
+				<cfreturn dateFormat(m, "m/dd/yyyy")>
+			</cfcase>
+			<cfcase value="text">
+				<cfreturn m>
+			</cfcase>
+			<cfcase value="number">
+				<cfreturn m>
+			</cfcase>
+			<cfcase value="money">
+				<cfreturn numberFormat(m, ",_$___.__")>
+			</cfcase>
+			<cfcase value="percentage">
+				<cfreturn m & "%">
+			</cfcase>
+			<cfcase value="object">
+				<cfset obj = CreateObject("component", "ptarmigan.object").open(m)>
+				<cfreturn obj.get().object_name()>
+			</cfcase>
+		</cfswitch>
+	</cffunction>
+	
+	<cffunction name="member_value_raw" returntype="string" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+
+		<cfset o = this.get()>
+		<cfset var_name = "##this.get()." & member_name & "##">
+		<cfset m = Evaluate(var_name)>
+
+		<cfreturn m>		
+	</cffunction>	
+	
 	<cffunction name="delete" returntype="ptarmigan.object" acnot cess="public" output="false">
 		<cfset target = CreateObject("component", this.component).open(this.id)>
 		<cfset target.delete()>
@@ -165,5 +239,7 @@
 		
 		<cfreturn this>
 	</cffunction>
+	
+	
 	
 </cfcomponent>

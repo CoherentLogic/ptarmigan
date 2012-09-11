@@ -11,8 +11,55 @@
 	<cfset this.color = "">
 	<cfset this.percent_complete = 0>
 	
+	<cfset this.fields = ArrayNew(1)>
+	<cfset field = StructNew()>
+	<cfscript>
+		this.members['MILESTONE_ID'] = StructNew();
+		this.members['MILESTONE_ID'].type = "object";
+		this.members['MILESTONE_ID'].class = "OBJ_PROJECT";
+		this.members['MILESTONE_ID'].label = "Milestone";
+		
+		this.members['TASK_NAME'] = StructNew();
+		this.members['TASK_NAME'].type = "text";
+		this.members['TASK_NAME'].label = "Task name";
+		
+		this.members['FLOATING'] = StructNew();
+		this.members['FLOATING'].type = "boolean";
+		this.members['FLOATING'].label = "Floating";
+		
+		this.members['END_DATE_OPTIMISTIC'] = StructNew();
+		this.members['END_DATE_OPTIMISTIC'].type = "date";
+		this.members['END_DATE_OPTIMISTIC'].label = "End date (optimistic)";
+		
+		this.members['END_DATE_PESSIMISTIC'] = StructNew();
+		this.members['END_DATE_PESSIMISTIC'].type = "date";
+		this.members['END_DATE_PESSIMISTIC'].label = "End date (pessimistic)";
+		
+		this.members['END_DATE'] = StructNew();
+		this.members['END_DATE'].type = "date";
+		this.members['END_DATE'].label = "End date (normal)";
+
+		this.members['START_DATE'] = StructNew();
+		this.members['START_DATE'].type = "date";
+		this.members['START_DATE'].label = "Start date";
+		
+		this.members['COLOR'] = StructNew();
+		this.members['COLOR'].type = "color";
+		this.members['COLOR'].label = "Chart color";
+		
+		this.members['BUDGET'] = StructNew();
+		this.members['BUDGET'].type = "money";
+		this.members['BUDGET'].label = "Budget";					
+	</cfscript>
+	<cfloop array="#this.fields#" index="field">
+		<cfset field.name = UCase(field.name)>
+	</cfloop>
 	
 	<cfset this.written = false>
+	
+	<cffunction name="member_count" returntype="numeric" access="public" output="false">
+		<cfreturn 9>
+	</cffunction>
 	
 	<cffunction name="create" returntype="ptarmigan.task" access="public" output="false">
 	

@@ -7,12 +7,66 @@
 	<cfset this.floating = 0>
 	<cfset this.start_date = "">
 	<cfset this.end_date = "">
+	<cfset this.end_date_optimistic = "">
+	<cfset this.end_date_pessimistic = "">
 	<cfset this.budget = 0>
 	<cfset this.color = "">
 	<cfset this.completed = 0>
 	<cfset this.percent_complete = 0>
 	
+	<cfset this.members = StructNew()>
+	<cfscript>
+		this.members['PROJECT_ID'] = StructNew();
+		this.members['PROJECT_ID'].type = "object";
+		this.members['PROJECT_ID'].class = "OBJ_PROJECT";
+		this.members['PROJECT_ID'].label = "Project";
+		
+		this.members['MILESTONE_NAME'] = StructNew();
+		this.members['MILESTONE_NAME'].type = "text";
+		this.members['MILESTONE_NAME'].label = "Milestone name";
+		
+		this.members['FLOATING'] = StructNew();
+		this.members['FLOATING'].type = "boolean";
+		this.members['FLOATING'].label = "Floating";
+		
+		this.members['END_DATE_OPTIMISTIC'] = StructNew();
+		this.members['END_DATE_OPTIMISTIC'].type = "date";
+		this.members['END_DATE_OPTIMISTIC'].label = "End date (optimistic)";
+		
+		this.members['END_DATE_PESSIMISTIC'] = StructNew();
+		this.members['END_DATE_PESSIMISTIC'].type = "date";
+		this.members['END_DATE_PESSIMISTIC'].label = "End date (pessimistic)";
+		
+		this.members['END_DATE'] = StructNew();
+		this.members['END_DATE'].type = "date";
+		this.members['END_DATE'].label = "End date (normal)";
+
+		this.members['START_DATE'] = StructNew();
+		this.members['START_DATE'].type = "date";
+		this.members['START_DATE'].label = "Start date";
+		
+		this.members['COLOR'] = StructNew();
+		this.members['COLOR'].type = "color";
+		this.members['COLOR'].label = "Color";
+		
+		this.members['BUDGET'] = StructNew();
+		this.members['BUDGET'].type = "money";
+		this.members['BUDGET'].label = "Budget";
+	
+		this.members['COMPLETED'] = StructNew();
+		this.members['COMPLETED'].type = "boolean";
+		this.members['COMPLETED'].label = "Completed";
+		
+		this.members['PERCENT_COMPLETE'] = StructNew();
+		this.members['PERCENT_COMPLETE'].type = "percentage";
+		this.members['PERCENT_COMPLETE'].label = "Percent complete";	
+	</cfscript>
+	
 	<cfset this.written = false>
+	
+	<cffunction name="member_count" returntype="numeric" access="public" output="false">
+		<cfreturn 11>
+	</cffunction>
 	
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.milestone_name>

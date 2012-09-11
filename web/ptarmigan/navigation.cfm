@@ -6,6 +6,7 @@
 				<ul>					
 					<cfif session.logged_in EQ true>
 						<li><a href="#session.root_url#/dashboard.cfm">Dashboard</a></li>
+						<li><a href="javascript:add_report('#session.root_url#');">Add report</a></li>
 						<cfif session.user.is_admin() EQ true>
 							<li>
 								<a href="##company">Company</a>

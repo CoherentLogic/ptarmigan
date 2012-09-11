@@ -4,17 +4,72 @@
 	<cfset this.project_number = "">
 	<cfset this.project_name = "">
 	<cfset this.instructions = "">
-	<cfset this.due_date = "">
-	<cfset this.due_date_optimistic = "">
-	<cfset this.due_date_pessimistic = "">
+	<cfset this.due_date = CreateODBCDate(Now())>
+	<cfset this.due_date_optimistic = CreateODBCDate(Now())>
+	<cfset this.due_date_pessimistic = CreateODBCDate(Now())>
 	<cfset this.current_milestone = 1>
 	<cfset this.customer_id = "">
 	<cfset this.created_by = "">
 	<cfset this.tax_rate = 0>
-	<cfset this.start_date = "">
+	<cfset this.start_date = CreateODBCDate(Now())>
 	<cfset this.budget = 0>
 	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['PROJECT_NUMBER'] = StructNew();
+		this.members['PROJECT_NUMBER'].type = "text";
+		this.members['PROJECT_NUMBER'].label = "Project number";
+		
+		this.members['PROJECT_NAME'] = StructNew();
+		this.members['PROJECT_NAME'].type = "text";
+		this.members['PROJECT_NAME'].label = "Project name";
+		
+		this.members['INSTRUCTIONS'] = StructNew();
+		this.members['INSTRUCTIONS'].type = "text";
+		this.members['INSTRUCTIONS'].label ="Instructions";
+		
+		this.members['DUE_DATE_OPTIMISTIC'] = StructNew();
+		this.members['DUE_DATE_OPTIMISTIC'].type = "date";
+		this.members['DUE_DATE_OPTIMISTIC'].label = "End date (optimistic)";
+		
+		this.members['DUE_DATE_PESSIMISTIC'] = StructNew();
+		this.members['DUE_DATE_PESSIMISTIC'].type = "date";
+		this.members['DUE_DATE_PESSIMISTIC'].label = "End date (pessimistic)";
+		
+		this.members['DUE_DATE'] = StructNew();
+		this.members['DUE_DATE'].type = "date";
+		this.members['DUE_DATE'].label = "End date (normal)";
+		
+		this.members['CUSTOMER_ID'] = StructNew();
+		this.members['CUSTOMER_ID'].type = "object";
+		this.members['CUSTOMER_ID'].class = "OBJ_CUSTOMER";
+		this.members['CUSTOMER_ID'].label = "Customer";		
+
+		this.members['CREATED_BY'] = StructNew();
+		this.members['CREATED_BY'].type = "object";
+		this.members['CREATED_BY'].class = "OBJ_EMPLOYEE";
+		this.members['CREATED_BY'].label = "Created by";		
+		
+		this.members['TAX_RATE'] = StructNew();
+		this.members['TAX_RATE'].type = "percentage";
+		this.members['TAX_RATE'].label = "Tax rate";
+
+		this.members['START_DATE'] = StructNew();
+		this.members['START_DATE'].type = "date";
+		this.members['START_DATE'].label = "Start date";
+
+		this.members['BUDGET'] = StructNew();
+		this.members['BUDGET'].type = "money";
+		this.members['BUDGET'].label = "Budget";
+	</cfscript>
+
 	<cfset this.written = false>
+	
+	<cffunction name="member_count" returntype="numeric" access="public" output="false">
+		<cfreturn 11>
+	</cffunction>
 	
 	
 	<cffunction name="create" returntype="ptarmigan.project" access="public" output="false">
