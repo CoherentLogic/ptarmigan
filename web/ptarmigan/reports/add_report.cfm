@@ -13,8 +13,6 @@
 	
 	<cfset rep.create()>
 	
-	<cfset rep.add_criteria(rep.id, "", "", "", "")>
-
 <!---
 <cffunction name="add_criteria" returntype="string" access="public" output="false">
 		<cfargument name="report_id" type="string" required="true">

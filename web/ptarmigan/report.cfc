@@ -107,8 +107,7 @@
 							report_id,
 							member_name,
 							operator,
-							literal_a,
-							literal_b)
+							literal_a)
 			VALUES			(<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#criteria_id#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">,
