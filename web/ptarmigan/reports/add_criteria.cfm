@@ -1,6 +1,6 @@
 <cfset report = CreateObject("component", "ptarmigan.report").open(url.id)>
 
-<cfset report.add_criteria(report.id, form.member_name, form.operator, form.literal_a, form.literal_b)>
+<cfset report.add_criteria(report.id, form.member_name, form.operator, form.literal_a)>
 
 <!---
 <cffunction name="add_criteria" returntype="string" access="public" output="false">

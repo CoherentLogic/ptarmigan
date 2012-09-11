@@ -98,8 +98,7 @@
 		<cfargument name="member_name" type="string" required="true">
 		<cfargument name="operator" type="string" required="true">
 		<cfargument name="literal_a" type="string" required="true">
-		<cfargument name="literal_b" type="string" required="true">
-		
+	
 		<cfset criteria_id = CreateUUID()>
 		
 		<cfquery name="add_criteria" datasource="#session.company.datasource#">
@@ -114,8 +113,7 @@
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="8" value="#operator#">,
-							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#literal_a#">,
-							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#literal_b#">)
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#literal_a#">)
 		</cfquery>
 		
 		<cfreturn criteria_id>		
@@ -136,7 +134,7 @@
 			<cfset t.member_name = q_get_criteria.member_name>
 			<cfset t.operator = q_get_criteria.operator>
 			<cfset t.literal_a = q_get_criteria.literal_a>
-			<cfset t.literal_b = q_get_criteria.literal_b>
+
 			
 			<cfset ArrayAppend(oa, t)>
 		</cfoutput>
