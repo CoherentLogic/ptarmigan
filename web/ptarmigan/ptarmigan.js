@@ -56,14 +56,51 @@ function refresh_filters(root_url, report_id)
 	$("#report_filters").html(request(edit_url));	
 }
 
-function render_report(root_url, selector, id)
+function render_report(root_url, selector, id, mode)
 {
 	var url = root_url + "/reports/view_report.cfm?id=" + escape(id);
 	$(selector).html(request(url));
-	$(".report_viewer").dataTable({
-        	"bJQueryUI": true,
-        	"sPaginationType": "full_numbers"
-		});
+
+	if (mode != "dashboard") {
+		$(".report_viewer").dataTable({
+        		"bJQueryUI": true,
+        		"sPaginationType": "full_numbers"
+			});
+	}
+	else {
+		$(".report_viewer").dataTable();
+	}
+}
+
+function update_filter(root_url, filter_id)
+{
+	var member_name = $("#member_name_" + filter_id).val();
+	var operator = $("#operator_" + filter_id).val();
+	var literal_a = $("#literal_a_" + filter_id).val();
+	var url = root_url + "/reports/update_filter.cfm?id=" + escape(filter_id);
+	url += "&member_name=" + escape(member_name);
+	url += "&operator=" + escape(operator);
+	url += "&literal_a=" + escape(literal_a);
+
+	var response = request(url);
+	alert(response);
+
+}
+
+function set_column(root_url, ctl_id, report_id, member_name)
+{
+	var included = 0;
+
+	if (is_checked(ctl_id)) {
+		included = 1;		
+	}
+
+	var url = root_url + "/reports/set_column.cfm?report_id=" + escape(report_id);
+	url = url + "&member_name=" + escape(member_name) + "&included=" + escape(included);
+
+	var response =  request(url);
+	
+	return response;
 }
 
 //
@@ -87,7 +124,9 @@ function open_employee(root_url)
 function edit_employee(root_url, id)
 {
 	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
-	open_dialog(url, 'Edit Employee', 630, 550);
+	//alert(request(url));
+
+	open_dialog(url, 'Edit Employee', 630, 580);
 }
 
 //

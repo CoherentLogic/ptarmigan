@@ -80,6 +80,11 @@
 						<cfreturn false>
 					</cfif>
 				</cfcase>
+				<cfcase value="[">
+					<cfif Find(literal, col_val) EQ 0>
+						<cfreturn false>
+					</cfif>
+				</cfcase>
 			</cfswitch>
 			
 		</cfloop>

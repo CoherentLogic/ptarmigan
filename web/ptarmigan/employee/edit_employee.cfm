@@ -67,12 +67,20 @@
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Edit Employee" icon="#session.root_url#/images/project_dialog.png">
 	
-		<cfform name="edit_employee" id="edit_employee" action="#session.root_url#/employee/edit_employee.cfm?id=#t.id#" method="post">
-			<div style="padding:20px;">
+		<form name="edit_employee" id="edit_employee" action="#session.root_url#/employee/edit_employee.cfm?id=#t.id#" method="post">
+			<div style="padding:20px;margin-top:40px;">
 				<cfoutput>
-				<cflayout type="tab">
-					<cflayoutarea title="Authentication">
-						<div style="height:300px; width:450px;">
+				<div id="tabs" class="pt_tabs">
+					<ul>
+						<li><a href="##tAuth">Authentication</a></li>
+						<li><a href="##tRoles">Roles</a></li>			
+						<li><a href="##tIdentity">Identity</a></li>			
+						<li><a href="##tEmployment">Employment</a></li>			
+						<li><a href="##tContact">Contact</a></li>			
+					
+					</ul>
+					<div id="tAuth">	
+						<div style="height:250px; width:450px;">
 							<table>				
 							<tr>
 							<td>Username:</td>
@@ -88,9 +96,9 @@
 							</tr>
 							</table>
 						</div>
-					</cflayoutarea>
-					<cflayoutarea title="Roles">
-						<div style="height:300px; width:450px;">
+					</div>
+					<div id="tRoles">
+						<div style="height:250px; width:450px;">
 							<table>
 							<tr>				
 							<td>
@@ -102,9 +110,9 @@
 							</tr>
 							</table>
 						</div>
-					</cflayoutarea>
-					<cflayoutarea title="Identity">
-						<div style="height:300px; width:450px;">
+					</div>
+					<div id="tIdentity">
+						<div style="height:250px; width:450px;">
 							<table>				
 							<tr>
 							<td>Gender:</td>
@@ -148,9 +156,9 @@
 							</tr>
 							</table>
 						</div>
-					</cflayoutarea>
-					<cflayoutarea title="Employment">
-						<div style="height:300px; width:450px;">
+					</div>
+					<div id="tEmployment">
+						<div style="height:250px; width:450px;">
 							<table>
 							<tr>
 							<td>Title:</td>
@@ -158,17 +166,17 @@
 							</tr>
 							<tr>
 							<td>Hire date (MM/DD/YYYY):</td>
-							<td><cfinput type="datefield" name="hire_date" value="#dateFormat(t.hire_date, 'mm/dd/yyyy')#"></td>
+							<td><input class="pt_dates" type="text" name="hire_date" value="#dateFormat(t.hire_date, 'mm/dd/yyyy')#"></td>
 							</tr>
 							<tr>
 							<td>Termination date (MM/DD/YYYY):</td>
-							<td><cfinput type="datefield" name="term_date" value="#dateFormat(t.term_date, 'mm/dd/yyyy')#"></td>
+							<td><input class="pt_dates" type="text" name="term_date" value="#dateFormat(t.term_date, 'mm/dd/yyyy')#"></td>
 							</tr>
 							</table>
 						</div>
-					</cflayoutarea>
-					<cflayoutarea title="Contact Information">
-						<div style="height:300px; width:450px;">
+					</div>
+					<div id="tContact">
+						<div style="height:250px; width:450px;">
 							<table>				
 							<tr>
 							<td>Mailing Address:</td>
@@ -204,12 +212,12 @@
 							</tr>				
 							</table>
 						</div>
-					</cflayoutarea>
-				</cflayout>
+					</div> <!--- tContact --->
+				</div> <!--- tabs --->				
 				</cfoutput>
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
-		</cfform>
+		</form>
 		
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
 	    	<div style="padding:8px; float:right;">

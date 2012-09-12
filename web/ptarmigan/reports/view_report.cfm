@@ -10,11 +10,13 @@
 	<thead>
 		<tr>
 			<th>Name</th>
-		<cfloop array="#cols#" index="col">
-			<cfoutput>
-				<th>#report_data[1].member_label(col)#</th>
-			</cfoutput>
-		</cfloop>
+			<cfif ArrayLen(report_data) GT 0>
+			<cfloop array="#cols#" index="col">
+				<cfoutput>
+					<th>#report_data[1].member_label(col)#</th>
+				</cfoutput>
+			</cfloop>
+			</cfif>
 		</tr>
 	</thead>
 	<tbody>

@@ -197,7 +197,7 @@
 		
 		<cfswitch expression="#this.member_type(member_name)#">
 			<cfcase value="date">
-				<cfreturn dateFormat(m, "m/dd/yyyy")>
+				<cfreturn dateFormat(m, "mm/dd/yyyy")>
 			</cfcase>
 			<cfcase value="text">
 				<cfreturn m>

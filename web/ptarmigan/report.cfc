@@ -166,6 +166,48 @@
 		<cfreturn out>
 	</cffunction>
 	
+	<cffunction name="column_included" returntype="boolean" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfquery name="q_column_included" datasource="#session.company.datasource#">
+			SELECT id FROM report_columns 
+			WHERE report_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			AND member_name=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">
+		</cfquery>
+		
+		<cfif q_column_included.recordcount GT 0>
+			<cfreturn true>
+		<cfelse>
+			<cfreturn false>
+		</cfif>
+	</cffunction>
+	
+	<cffunction name="include_column" returntype="void" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfset c_id = CreateUUID()>
+		
+		<cfquery name="q_include_column" datasource="#session.company.datasource#">
+			INSERT INTO report_columns
+						(id,
+						report_id,
+						member_name)
+			VALUES		(<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#c_id#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">)
+		</cfquery>
+	</cffunction>
+	
+	<cffunction name="exclude_column" returntype="void" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfquery name="q_exclude_column" datasource="#session.company.datasource#">
+			DELETE FROM report_columns
+			WHERE	report_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			AND		member_name=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">
+		</cfquery>
+	</cffunction>
+			
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.report_name>
 	</cffunction>

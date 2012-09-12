@@ -11,7 +11,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
+	<cfajaximport tags="cfform,cfinput-datefield,cftree">
 	<cfoutput>	
 		<title>#report.report_name# - ptarmigan</title>
 		
@@ -49,7 +49,7 @@
 				
 				<cfoutput>
 					refresh_filters('#session.root_url#', '#report.id#');
-					render_report('#session.root_url#', '##report_preview', '#report.id#');
+					render_report('#session.root_url#', '##report_preview', '#report.id#', 'preview');
 				</cfoutput>
    		 });
 	</script>
@@ -70,7 +70,7 @@
 					
 					<cfloop array="#member_names#" index="member">
 						<cfoutput>
-							<label><input type="checkbox" value="#member#">#tmp_obj.member_label(member)#</label><br>
+							<label><input autocomplete="off" id="include_#member#" onclick="set_column('#session.root_url#', 'include_#member#', '#report.id#', '#member#');" type="checkbox" value="#member#" <cfif report.column_included(member)>checked="checked"</cfif>>#tmp_obj.member_label(member)#</label><br>
 						</cfoutput>
 					</cfloop>
 				</div>

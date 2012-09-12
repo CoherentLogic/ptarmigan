@@ -33,7 +33,8 @@
 					<option value="=">IS EQUAL TO</option>
 					<option value="<">IS LESS THAN</option>
 					<option value=">">IS GREATER THAN</option>
-					<option value="!=">IS NOT EQUAL TO</option>					
+					<option value="!=">IS NOT EQUAL TO</option>	
+					<option value="[">INCLUDES</option>				
 				</select>
 			</td>
 			<td>
@@ -53,7 +54,7 @@
 		<table style="width:100%;" width="100%">
 			<tr>
 				<td>
-					<select name="member_name" id="member_name">
+					<cfoutput><select name="member_name" id="member_name_#f.id#" onblur="update_filter('#session.root_url#', '#f.id#');"></cfoutput>
 						<cfloop array="#member_names#" index="member">
 							<cfoutput>
 								<option value="#member#"<cfif f.member_name EQ member>selected="selected"</cfif>>#tmp_obj.member_label(member)#</option>
@@ -62,21 +63,23 @@
 					</select>
 				</td>
 				<td>
-					<select name="operator" id="operator">
+					<cfoutput>
+					<select name="operator" id="operator_#f.id#" onblur="update_filter('#session.root_url#', '#f.id#');">
 						<option value="=" <cfif f.operator EQ "=">selected="selected"</cfif>>IS EQUAL TO</option>
 						<option value="<" <cfif f.operator EQ "<">selected="selected"</cfif>>IS LESS THAN</option>
 						<option value=">" <cfif f.operator EQ ">">selected="selected"</cfif>>IS GREATER THAN</option>
 						<option value="!=" <cfif f.operator EQ "!=">selected="selected"</cfif>>IS NOT EQUAL TO</option>
+						<option value="[" <cfif f.operator EQ "[">selected="selected"</cfif>>INCLUDES</option>
 					</select>
+					</cfoutput>
 				</td>
 				<td>
 					<cfoutput>
-					<input type="text" size="15" name="literal_a" value="#f.literal_a#">
+					<input type="text" size="15" name="literal_a" id="literal_a_#f.id#" value="#f.literal_a#" onblur="update_filter('#session.root_url#', '#f.id#');">
 					</cfoutput>
-				</td>				
-				
+				</td>								
 				<td align="right">
-					<input type="submit" name="submit"  value="Submit">
+				
 				</td>
 			</tr>
 		</table>

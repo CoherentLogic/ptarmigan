@@ -424,3 +424,8 @@ table.calendar th, table.calendar td {
 .x-dlg {
 	padding:0;
 }
+
+a.pt_tabs {
+	font-size:10px;
+}
+	
