@@ -126,7 +126,7 @@ function edit_employee(root_url, id)
 	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
 	//alert(request(url));
 
-	open_dialog(url, 'Edit Employee', 630, 580);
+	open_dialog(url, 'Edit Employee', 630, 590);
 }
 
 //
