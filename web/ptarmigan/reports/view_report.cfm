@@ -6,6 +6,7 @@
 <cfset report_data = c.get()>
 <cfset cols = report.get_columns()>
 
+
 <table class="report_viewer">
 	<thead>
 		<tr>
@@ -22,7 +23,7 @@
 	<tbody>
 		<cfloop array="#report_data#" index="row">
 			<tr>
-			<cfoutput><td>#row.get().object_name()#</td></cfoutput>
+			<cfoutput><td><a href="#row.opener#">#row.get().object_name()#</a></td></cfoutput>
 			<cfloop array="#cols#" index="col">
 				<cfoutput>
 				<td>#row.member_value(col)#</td>

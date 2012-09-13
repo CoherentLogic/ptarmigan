@@ -8,6 +8,8 @@
 
 //$.fx.speeds._default = 1000;
 
+var root_url = "";
+
 //
 // OBJECTS (GENERAL)
 //
@@ -54,6 +56,15 @@ function refresh_filters(root_url, report_id)
 
 	$("#add_filter_iframe").attr("src", add_url);
 	$("#report_filters").html(request(edit_url));	
+
+	$(".filter_actions").hide();
+	$(".buttons").button();
+}
+
+function quick_open_report()
+{
+	var url = "/reports/quick_open.cfm";
+	open_dialog(url, 'Quick Report', 300, 200);
 }
 
 function render_report(root_url, selector, id, mode)
@@ -82,9 +93,7 @@ function update_filter(root_url, filter_id)
 	url += "&operator=" + escape(operator);
 	url += "&literal_a=" + escape(literal_a);
 
-	var response = request(url);
-	alert(response);
-
+	var response = request(url);	
 }
 
 function set_column(root_url, ctl_id, report_id, member_name)

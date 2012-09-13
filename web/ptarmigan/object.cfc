@@ -9,6 +9,7 @@
 	<cfset this.component = "">
 	<cfset this.top_level = 0>
 	<cfset this.icon = "">
+	<cfset this.opener = "">
 	
 	<cfset this.written = false>
 	
@@ -36,7 +37,7 @@
 
 	<cffunction name="update_class_info" returntype="void" access="public" output="false">
 		<cfquery name="qc" datasource="#session.company.datasource#">
-			SELECT * FROM object_classes WHERE id='#this.class_id#'
+			SELECT * FROM object_classes WHERE id=<cfqueryparam cfsqltype="string" value="#this.class_id#">
 		</cfquery>
 	
 		<cfoutput query="qc">
@@ -44,6 +45,7 @@
 			<cfset this.component = qc.component>
 			<cfset this.top_level = qc.top_level>
 			<cfset this.icon = qc.icon>
+			<cfset this.opener = this.substitute_opener(qc.opener)>
 		</cfoutput>
 		
 	</cffunction>
@@ -66,6 +68,15 @@
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
+	
+	<cffunction name="substitute_opener" returntype="string" access="public" output="false">
+		<cfargument name="opener_string" type="string" required="true">
+		
+			<cfset new_opener_string = replace(opener_string, "{id}", this.id, "all")>
+			<cfset new_opener_string = replace(new_opener_string, "{root_url}", session.root_url, "all")>
+		
+		<cfreturn new_opener_string>
+	</cffunction>
 
 	<cffunction name="update" returntype="ptarmigan.object" access="public" output="false">
 		
@@ -74,7 +85,7 @@
 			SET		class_id=<cfqueryparam value="#this.class_id#" cfsqltype="cf_sql_varchar">,
 					parent_id=<cfqueryparam value="#this.parent_id#" cfsqltype="cf_sql_varchar">,
 					deleted=<cfqueryparam value="#this.deleted#" cfsqltype="cf_sql_integer">,
-					trashcan_handle=<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">
+					trashcan_handle=<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">					
 			WHERE	id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
 		

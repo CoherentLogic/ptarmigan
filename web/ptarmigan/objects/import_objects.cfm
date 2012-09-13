@@ -1,3 +1,14 @@
+<cfquery name="irep" datasource="#session.company.datasource#">
+	SELECT id FROM reports
+</cfquery>
+<cfoutput query="irep">
+	<cfset tmp = CreateObject("component", "ptarmigan.object")>
+	<cfset tmp.id = irep.id>
+	<cfset tmp.class_id = "OBJ_REPORT">
+	<cfset tmp.deleted = 0>
+	<cfset tmp.create()>	
+</cfoutput>
+<cfabort>
 <!--- IMPORT PROJECTS (OBJ_PROJECT) --->
 <cfquery name="iprj" datasource="#session.company.datasource#">
 	SELECT id FROM projects

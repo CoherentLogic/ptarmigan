@@ -6,7 +6,8 @@
 	<cfset this.class_id = "">
 	<cfset this.system_report = 0>
 	<cfset this.employee_id = "">
-		
+	<cfset this.report_key = "">
+	
 	<cfset this.members = StructNew()>
 	
 	<cfset this.members['REPORT_NAME'] = StructNew()>
@@ -20,12 +21,16 @@
 	<cfset this.members['SYSTEM_REPORT'] = StructNew()>
 	<cfset this.members['SYSTEM_REPORT'].type = "boolean">
 	<cfset this.members['SYSTEM_REPORT'].label = "System report">
+
+	<cfset this.members['REPORT_KEY'] = StructNew()>
+	<cfset this.members['REPORT_KEY'].type = "text">
+	<cfset this.members['REPORT_KEY'].label = "Report key">
 	
 	<cfset this.members['EMPLOYEE_ID'] = StructNew()>	
 	<cfset this.members['EMPLOYEE_ID'].type = "object">
 	<cfset this.members['EMPLOYEE_ID'].class = "OBJ_EMPLOYEE">
 	<cfset this.members['EMPLOYEE_ID'].label = "Created by">
-	
+		
 	<cfset this.written = false>
 	
 	<cffunction name="create" returntype="ptarmigan.report" access="public" output="false">
@@ -37,12 +42,14 @@
 							report_name,
 							class_id,
 							system_report,
-							employee_id)
+							employee_id,
+							report_key)
 			VALUES			(<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.id#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.report_name#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.class_id#">,
 							<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.system_report#">,
-							<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.employee_id#">)
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.employee_id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.report_key#">)
 		</cfquery>
 		
 		<cfset obj = CreateObject("component", "ptarmigan.object")>	
@@ -68,6 +75,7 @@
 		<cfset this.class_id = o.class_id>
 		<cfset this.system_report = o.system_report>
 		<cfset this.employee_id = o.employee_id>			
+		<cfset this.report_key = o.report_key>
 		
 		<cfset this.written = true>
 		<cfreturn this>
@@ -80,7 +88,8 @@
 			SET		report_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.report_name#">,
 					class_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.class_id#">,
 					system_report=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.system_report#">,
-					employee_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.employee_id#">
+					employee_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.employee_id#">,
+					report_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.report_key#">
 			WHERE	id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.id#">
 		</cfquery>
 		
@@ -149,7 +158,11 @@
 			<cfset os = os & filter.member_name & " " & filter.operator & " '" & filter.literal_a & "';">	
 		</cfloop>
 		
-		<cfreturn left(os, len(os) - 1)>
+		<cfif len(os) GT 0>
+			<cfreturn left(os, len(os) - 1)>
+		<cfelse>
+			<cfreturn "">
+		</cfif>
 	</cffunction>
 	
 	<cffunction name="get_columns" returntype="array" access="public" output="false">

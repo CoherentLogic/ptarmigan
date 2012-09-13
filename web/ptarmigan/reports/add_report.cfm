@@ -10,17 +10,9 @@
 	<cfset rep.class_id = form.class_id>
 	<cfset rep.system_report = form.system_report>
 	<cfset rep.employee_id = session.user.id>
+	<cfset rep.report_key = form.report_key>
 	
 	<cfset rep.create()>
-	
-<!---
-<cffunction name="add_criteria" returntype="string" access="public" output="false">
-		<cfargument name="report_id" type="string" required="true">
-		<cfargument name="member_name" type="string" required="true">
-		<cfargument name="operator" type="string" required="true">
-		<cfargument name="literal_a" type="string" required="true">
-		<cfargument name="literal_b" type="string" required="true">
---->
 	
 	<cflocation url="#session.root_url#/reports/edit_report.cfm?id=#rep.id#" addtoken="false">
 <cfelse>
@@ -33,6 +25,10 @@
 					<tr>
 						<td>Report name:</td>
 						<td><input type="text" name="report_name"></td>
+					</tr>
+					<tr>
+						<td>Shortcut:</td>
+						<td><input type="text" name="report_key"></td>
 					</tr>
 					<tr>
 						<td>Using:</td>

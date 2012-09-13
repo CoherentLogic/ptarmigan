@@ -7,7 +7,10 @@
 		<cfparam name="all_rows" type="array" default="#ArrayNew(1)#">
 
 		<cfquery name="gobj" datasource="#session.company.datasource#">
-			SELECT id FROM objects WHERE class_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.class_id#">
+			SELECT id 
+			FROM 	objects 
+			WHERE 	class_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#this.class_id#">
+			AND		deleted=0
 		</cfquery>
 		
 		<cfset all_rows = ArrayNew(1)>
@@ -66,12 +69,12 @@
 					</cfif>						
 				</cfcase>
 				<cfcase value=">">
-					<cfif col_val LE literal>
+					<cfif col_val LTE literal>
 						<cfreturn false>
 					</cfif>
 				</cfcase>
 				<cfcase value="<">
-					<cfif col_val GE literal>
+					<cfif col_val GTE literal>
 						<cfreturn false>
 					</cfif>
 				</cfcase>
@@ -85,6 +88,11 @@
 						<cfreturn false>
 					</cfif>
 				</cfcase>
+				<cfcase value="]">
+					<cfif Find(literal, col_val) NEQ 0>
+						<cfreturn false>
+					</cfif>
+				</cfcase>				
 			</cfswitch>
 			
 		</cfloop>

@@ -1,27 +1,56 @@
+<cfquery name="g_system_reports" datasource="#session.company.datasource#">
+	SELECT id, report_name FROM reports WHERE system_report=1 AND class_id='OBJ_REPORT' ORDER BY report_name
+</cfquery>
 <div id="menu_header">
-	<cfoutput>		
+		
 		<ul id="navigation_bar" class="menubar-icons">
 			<li>
 				<a href="##ptarmigan">Ptarmigan</a>
 				<ul>					
 					<cfif session.logged_in EQ true>
+						<cfoutput>
 						<li><a href="#session.root_url#/dashboard.cfm">Dashboard</a></li>
-						<li><a href="javascript:add_report('#session.root_url#');">Add report</a></li>
-						<cfif session.user.is_admin() EQ true>
+						</cfoutput>
+							<cfif session.user.is_admin() EQ true>
 							<li>
 								<a href="##company">Company</a>
 								<ul>								
+									<cfoutput>
 									<li><a href="#session.root_url#/company/create_pay_periods.cfm">Create pay periods</a></li>
+									</cfoutput>
 								</ul>
 							</li>
 						</cfif>
+						<cfoutput>
 						<li><a href="javascript:trash_can('#session.root_url#');">Trash Can</a></li>
 						<li><a href="#session.root_url#/logout.cfm">Log out</a></li>
+						</cfoutput>
 					</cfif>
+					<li>
+						<a href="##themes">Choose Theme</a>
+						<ul>
+							<li><a href="javascript:set_theme('#session.root_url#', 'smoothness');">Default</a></li>
+							<li><a href="javascript:set_theme('#session.root_url#', 'redmond');">Redmond</a></li>
+						</ul>
+						
+					</li>
 					<li><a href="#session.root_url#/about.cfm">About Ptarmigan</a></li>
 				</ul>
 			</li>	
 			<cfif session.logged_in EQ true>
+				<li>
+					<a href="##reports">Reports</a>
+					<ul>
+						<cfoutput>
+						<li><a href="javascript:add_report('#session.root_url#');">Add</a></li>
+						</cfoutput>
+						<cfoutput query="g_system_reports">
+							<li><a href="#session.root_url#/reports/report.cfm?id=#g_system_reports.id#">#g_system_reports.report_name#</a></li>
+						</cfoutput>
+					</ul>
+				</li>
+				</li>
+				<cfoutput>
 				<cfif session.user.is_project_manager() EQ true>
 					<li>
 						<a href="##projects">Projects</a>
@@ -74,9 +103,9 @@
 						</ul>
 					</li>
 				</cfif>
+			</cfoutput>
 			</cfif>
 		</ul>
-	</cfoutput>
 	<div style="float:right;text-align:right;position:absolute;top:0px;right:0px;">
 		<cfoutput>
 			<span style="color:navy;">

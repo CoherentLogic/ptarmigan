@@ -1,13 +1,19 @@
-<cfsilent>
-	<cfset report = CreateObject("component", "ptarmigan.report").open(url.id)>
-	<cfset t_class = CreateObject("component", "ptarmigan.object_class").open(report.class_id)>			
-	<cfset tmp_dobj = CreateObject("component", t_class.component).create()>
-	<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(tmp_dobj.id)>
-	<cfset member_names = tmp_obj.members()>
+
+<cfset report = CreateObject("component", "ptarmigan.report").open(url.id)>
+
+<cfif report.system_report EQ 1>
+	<cfmodule template="#session.root_url#/security/require.cfm" type="admin">
+<cfelse>
+	<cfmodule template="#session.root_url#/security/require.cfm" type="">
+</cfif>
+
+<cfset t_class = CreateObject("component", "ptarmigan.object_class").open(report.class_id)>			
+<cfset tmp_dobj = CreateObject("component", t_class.component).create()>
+<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(tmp_dobj.id)>
+<cfset member_names = tmp_obj.members()>
+
+<cfset tmp_obj.mark_deleted(tmp_obj.get_trashcan_handle())>
 	
-	<cfset tmp_obj.mark_deleted(tmp_obj.get_trashcan_handle())>
-	
-</cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,19 +21,7 @@
 	<cfoutput>	
 		<title>#report.report_name# - ptarmigan</title>
 		
-		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
-		<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
-		
-		<link rel="stylesheet" href="http://view.jqueryui.com/menubar/themes/base/jquery.ui.menu.css" />
-		<link rel="stylesheet" href="http://view.jqueryui.com/menubar/themes/base/jquery.ui.menubar.css" />
-		<link type="text/css" href="#session.root_url#/jquery_ui/css/smoothness/jquery-ui-1.8.23.custom.css" rel="Stylesheet" />	
-		<link rel="stylesheet" type="text/css" href="#session.root_url#/DataTables/media/css/jquery.dataTables_themeroller.css">
-		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-1.7.2.js"></script>
-		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-ui.js"></script>
-		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menu.js"></script>
-		<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menubar.js"></script>
-		<script type="text/javascript" src="#session.root_url#/DataTables/media/js/jquery.dataTables.js"></script>
-		<script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
+		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
@@ -47,10 +41,14 @@
 				$("#navigation_bar").css("color", "black");
 				$(".ui-state-default").css("color", "black");
 				
+				$(".filter_actions").hide();
+				
+				$(".pt_buttons").button();
 				<cfoutput>
 					refresh_filters('#session.root_url#', '#report.id#');
 					render_report('#session.root_url#', '##report_preview', '#report.id#', 'preview');
 				</cfoutput>
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
    		 });
 	</script>
 </head>
@@ -59,9 +57,16 @@
 	<cfinclude template="#session.root_url#/navigation.cfm">
 	<div id="container">
 		<div id="header">
-			<cfoutput>
-				<h1>Editing Report: <strong>#report.report_name#</strong></h1>
-			</cfoutput>
+			<table width="100%">
+				<tr>
+					<td><cfoutput><h1><strong>#report.report_name#</strong></h1></cfoutput></td>
+					<td align="right">
+						<cfoutput>
+						<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/report.cfm?id=#report.id#')"><img src="#session.root_url#/images/go.png"></button>
+						</cfoutput>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div id="navigation">			
 			<div id="accordion">
