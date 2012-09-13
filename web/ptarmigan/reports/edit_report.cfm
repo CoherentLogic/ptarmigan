@@ -46,7 +46,7 @@
 				$(".pt_buttons").button();
 				<cfoutput>
 					refresh_filters('#session.root_url#', '#report.id#');
-					render_report('#session.root_url#', '##report_preview', '#report.id#', 'preview');
+					//render_report('#session.root_url#', '##report_preview', '#report.id#', 'preview');
 				</cfoutput>
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
    		 });
@@ -86,8 +86,7 @@
 		<div id="content">
 			<div id="tabs">
 				<ul>
-					<li><a href="#report_filters_tab">Filters</a></li>
-					<li><a href="#report_preview_tab">Preview</a></li>			
+					<li><a href="#report_filters_tab">Filters</a></li>							
 				</ul>
 				<div id="report_filters_tab">										
 					<div id="report_filters" style="margin-top:30px; min-height:50px;">
@@ -99,12 +98,7 @@
 					<iframe id="add_filter_iframe" style="border:none; width:100%; display:block; height:70px;"></iframe>
 					</div>
 					
-				</div>
-				<div id="report_preview_tab">
-					<div id="report_preview">
-						
-					</div>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>
