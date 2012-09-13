@@ -67,6 +67,8 @@
 					</td>
 				</tr>
 			</table>
+			
+			<!--- <strong>WQL String: </strong> <br><cfoutput>#report.get_wql()#</cfoutput> --->
 		</div>
 		<div id="navigation">			
 			<div id="accordion">

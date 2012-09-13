@@ -179,6 +179,16 @@
 		<cfreturn out>
 	</cffunction>
 	
+	<cffunction name="get_wql" returntype="string" access="public" output="false">
+		<cfparam name="wql" default="">
+		<cfscript>
+			wql = "REPORT ITEMS OF TYPE " & this.class_id & " WHERE " & this.get_criteria_string() & " INCLUDING ";
+			wql = wql & ArrayToList(this.get_columns());
+		</cfscript>
+		
+		<cfreturn wql>		
+	</cffunction>
+	
 	<cffunction name="column_included" returntype="boolean" access="public" output="false">
 		<cfargument name="member_name" type="string" required="true">
 		

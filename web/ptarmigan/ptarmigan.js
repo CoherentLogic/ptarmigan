@@ -8,7 +8,7 @@
 
 //$.fx.speeds._default = 1000;
 
-var root_url = "";
+var perm_root = "";
 
 //
 // OBJECTS (GENERAL)
@@ -63,8 +63,21 @@ function refresh_filters(root_url, report_id)
 
 function quick_open_report()
 {
-	var url = "/reports/quick_open.cfm";
-	open_dialog(url, 'Quick Report', 300, 200);
+	var url = perm_root + "/reports/quick_open_dialog.cfm";
+	open_dialog_resize(url, 'Quick Report', 330, function () {
+			$(".first_focus").bind('keydown', 'return', do_quick_report);
+		});
+	
+}
+
+function do_quick_report()
+{
+	var url = perm_root + "/reports/quick.cfm?key=" + escape($("#report_key").val());
+
+	open_dialog(url, "Quick Report", 600, 600, function () {
+		$(".quick_report_viewer").dataTable();	
+	});
+	
 }
 
 function render_report(root_url, selector, id, mode)
@@ -548,6 +561,53 @@ function open_dialog(url, caption, width, height, on_loaded)
 		$(".ui-dialog .ui-dialog-content").css("padding", "0");
 		$(".pt_tabs").tabs();
 		$(".pt_dates").datepicker();
+		$(".pt_buttons").button();
+		$(".first_focus").focus();
+
+		if(on_loaded) {
+			on_loaded();
+		}
+            }
+        );
+
+	
+	
+
+        //prevent the browser to follow the link
+        return false;
+}
+
+function open_dialog_resize(url, caption, width, on_loaded)
+{
+	// show a spinner or something via css
+	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
+        // open the dialog
+        dialog.dialog({
+            // add a close listener to prevent adding multiple divs to the document
+            close: function(event, ui) {
+                // remove div with all data and events
+                dialog.remove();
+            },
+            modal: false,
+	    width: width,	    
+	    show: "fold",
+	    hide: "fade",
+	    title: caption,
+	    resizable: true
+        });
+        // load remote content
+        dialog.load(
+            url,		
+	    null,
+            function (responseText, textStatus, XMLHttpRequest) {		     
+		// remove the loading class
+		//alert(responseText);               	
+		dialog.removeClass('loading');
+		$(".ui-dialog .ui-dialog-content").css("padding", "0");
+		$(".pt_tabs").tabs();
+		$(".pt_dates").datepicker();
+		$(".pt_buttons").button();
+		$(".first_focus").focus();
 
 		if(on_loaded) {
 			on_loaded();
