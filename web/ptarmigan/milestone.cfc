@@ -1,14 +1,14 @@
 <cfcomponent output="false" implements="i_object">
 
-	<cfset this.id = "">
-	<cfset this.project_id = "">
+	<cfset this.id = CreateUUID()>
+	<cfset this.project_id = "0">
 	<cfset this.milestone_number = 0>
 	<cfset this.milestone_name = "">
 	<cfset this.floating = 0>
-	<cfset this.start_date = "">
-	<cfset this.end_date = "">
-	<cfset this.end_date_optimistic = "">
-	<cfset this.end_date_pessimistic = "">
+	<cfset this.start_date = CreateODBCDate(Now())>
+	<cfset this.end_date = CreateODBCDate(Now())>
+	<cfset this.end_date_optimistic = CreateODBCDate(Now())>
+	<cfset this.end_date_pessimistic = CreateODBCDate(Now())>
 	<cfset this.budget = 0>
 	<cfset this.color = "">
 	<cfset this.completed = 0>
