@@ -227,7 +227,7 @@
 				<cfif obj.class_id NEQ "">
 				<cfreturn obj.get().object_name()>
 				<cfelse>
-				<cfreturn "[NO LONGER EXISTS - PLEASE REPAIR DATABASE]">
+				<cfreturn "*** NO LONGER EXISTS ***">
 				</cfif>
 			</cfcase>
 		</cfswitch>
