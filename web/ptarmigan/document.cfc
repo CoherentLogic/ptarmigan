@@ -12,7 +12,54 @@
 	<cfset this.filing_number = "">
 	<cfset this.filing_date = CreateODBCDate(Now())>
 	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['DOCUMENT_NAME'] = StructNew();
+		this.members['DOCUMENT_NAME'].type = "text";
+		this.members['DOCUMENT_NAME'].label = "Document name";	
+		
+		this.members['DESCRIPTION'] = StructNew();
+		this.members['DESCRIPTION'].type = "text";
+		this.members['DESCRIPTION'].label = "Description";
+		
+		this.members['DOCUMENT_NUMBER'] = StructNew();
+		this.members['DOCUMENT_NUMBER'].type = "text";
+		this.members['DOCUMENT_NUMBER'].label = "Document number";
+		
+		this.members['MIME_TYPE'] = StructNew();
+		this.members['MIME_TYPE'].type = "text";
+		this.members['MIME_TYPE'].label = "MIME type";
+		
+		this.members['FILING_CATEGORY'] = StructNew();
+		this.members['FILING_CATEGORY'].type = "text";
+		this.members['FILING_CATEGORY'].label = "Filing category";
+		
+		this.members['FILING_CONTAINER'] = StructNew();
+		this.members['FILING_CONTAINER'].type = "text";
+		this.members['FILING_CONTAINER'].label = "Filing container";
+		
+		this.members['FILING_DIVISION'] = StructNew();
+		this.members['FILING_DIVISION'].type = "text";
+		this.members['FILING_DIVISION'].label = "Filing division";
+		
+		this.members['FILING_MATERIAL_TYPE'] = StructNew();
+		this.members['FILING_MATERIAL_TYPE'].type = "text";
+		this.members['FILING_MATERIAL_TYPE'].label = "Filing material type";
+		
+		this.members['FILING_NUMBER'] = StructNew();
+		this.members['FILING_NUMBER'].type = "text";
+		this.members['FILING_NUMBER'].label = "Filing number";
+		
+		this.members['FILING_DATE'] = StructNew();
+		this.members['FILING_DATE'].type = "date";
+		this.members['FILING_DATE'].label = "Filing date";
+		
+	</cfscript>
+	
 	<cfset this.written = false>
+	
 	
 	<cffunction name="create" returntype="ptarmigan.document" access="public" output="false">
 		<cfset this.id = CreateUUID()>

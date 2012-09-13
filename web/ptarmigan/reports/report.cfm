@@ -50,6 +50,7 @@
 						<cfoutput>
 						<cfif session.user.is_admin() EQ true OR report.employee_id EQ session.user_id>
 							<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/pencil.png"></button>
+							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#report.id#');"><img src="#session.root_url#/images/trash.png"></button>
 						</cfif>
 						<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/print.png"></button>
 						</cfoutput>
