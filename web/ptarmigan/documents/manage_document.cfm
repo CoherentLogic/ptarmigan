@@ -50,6 +50,8 @@
 				$('#navigation_bar').css("float", "left");
 				$(".ui-state-default").css("color", "black");
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
+				
+				$(".assoc_table").dataTable();
    		 });
 	</script>
 </head>

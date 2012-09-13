@@ -38,7 +38,8 @@
 	</cfcase>
 </cfswitch>
 
-<table style="margin:0; width:100%;" class="pretty">
+<table style="margin:0; width:100%;" class="pretty assoc_table">
+	<thead>
 	<tr>
 		<th>&nbsp;</th>
 		<th>NAME</th>
@@ -72,6 +73,8 @@
 			</cfif>
 		</th>
 	</tr>
+	</thead>
+	<tbody>
 	<cfoutput query="q" startrow="1">
 		<cfset c_id = CreateUUID()>
 		<tr>
@@ -147,4 +150,5 @@
 			</td>
 		</tr>
 	</cfoutput>
+	</tbody>
 </table>
