@@ -3,10 +3,37 @@
 	<cfset this.table_name = "">
 	<cfset this.table_id = "">
 	<cfset this.change_order_number = "">
-	<cfset this.audit_date = "">
+	<cfset this.audit_date = CreateODBCDate(Now())>
 	<cfset this.employee_id = "">
 	<cfset this.comment = "">
 	<cfset this.what_changed = "">
+	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['CHANGE_ORDER_NUMBER'] = StructNew();
+		this.members['CHANGE_ORDER_NUMBER'].type = "text";
+		this.members['CHANGE_ORDER_NUMBER'].label = "Change order number";
+
+		this.members['AUDIT_DATE'] = StructNew();
+		this.members['AUDIT_DATE'].type = "date";
+		this.members['AUDIT_DATE'].label = "Audit date";
+
+		this.members['EMPLOYEE_ID'] = StructNew();
+		this.members['EMPLOYEE_ID'].type = "object";
+		this.members['EMPLOYEE_ID'].label = "Change made by";
+		this.members['EMPLOYEE_ID'].class = "OBJ_EMPLOYEE";
+
+		this.members['COMMENT'] = StructNew();
+		this.members['COMMENT'].type = "text";
+		this.members['COMMENT'].label = "Comment";
+
+		this.members['WHAT_CHANGED'] = StructNew();
+		this.members['WHAT_CHANGED'].type = "text";
+		this.members['WHAT_CHANGED'].label = "Changes included";
+
+	</cfscript>
 	
 	
 	<cfset this.written = false>

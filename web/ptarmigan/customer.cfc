@@ -7,6 +7,29 @@
 	<cfset this.electronic_billing = 0>
 	<cfset this.phone_number = "">
 	
+	<cfset this.members = StructNew()>		
+	<cfscript>
+		this.members['COMPANY_NAME'] = StructNew();
+		this.members['COMPANY_NAME'].type = "text";
+		this.members['COMPANY_NAME'].label = "Company name";
+
+		this.members['POC'] = StructNew();
+		this.members['POC'].type = "text";
+		this.members['POC'].label = "Point of contact";
+
+		this.members['EMAIL'] = StructNew();
+		this.members['EMAIL'].type = "text";
+		this.members['EMAIL'].label = "E-mail address";
+
+		this.members['ELECTRONIC_BILLING'] = StructNew();
+		this.members['ELECTRONIC_BILLING'].type = "boolean";
+		this.members['ELECTRONIC_BILLING'].label = "Electronic billing";
+
+		this.members['PHONE_NUMBER'] = StructNew();
+		this.members['PHONE_NUMBER'].type = "text";
+		this.members['PHONE_NUMBER'].label = "Phone number";								
+	</cfscript>
+	
 	<cfset this.written = false>
 	
 	<cffunction name="create" returntype="ptarmigan.customer" access="public" output="false">

@@ -30,6 +30,119 @@
 	
 	<cfset this.polygons = ArrayNew(1)>
 	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['PARCEL_ID'] = StructNew();
+		this.members['PARCEL_ID'].type = "text";
+		this.members['PARCEL_ID'].label = "APN";
+		
+		this.members['AREA_SQ_FT'] = StructNew();
+		this.members['AREA_SQ_FT'].type = "text";
+		this.members['AREA_SQ_FT'].label = "Area (sq. ft.)";
+		
+		this.members['AREA_SQ_YD'] = StructNew();
+		this.members['AREA_SQ_YD'].type = "text";
+		this.members['AREA_SQ_YD'].label = "Area (sq. yd.)";
+
+		this.members['AREA_ACRES'] = StructNew();
+		this.members['AREA_ACRES'].type = "text";
+		this.members['AREA_ACRES'].label = "Area (acres)";
+		
+		this.members['OWNER_NAME'] = StructNew();
+		this.members['OWNER_NAME'].type = "text";
+		this.members['OWNER_NAME'].label = "Owner";
+		
+		this.members['METES_AND_BOUNDS'] = StructNew();
+		this.members['METES_AND_BOUNDS'].type = "text";
+		this.members['METES_AND_BOUNDS'].label = "Legal description";
+		
+		this.members['GROUND_SURVEY'] = StructNew();
+		this.members['GROUND_SURVEY'].type = "text";
+		this.members['GROUND_SURVEY'].label = "Has ground survey";
+		
+		this.members['ACCOUNT_NUMBER'] = StructNew();
+		this.members['ACCOUNT_NUMBER'].type = "text";
+		this.members['ACCOUNT_NUMBER'].label = "Account number";
+		
+		this.members['MAILING_ADDRESS'] = StructNew();
+		this.members['MAILING_ADDRESS'].type = "text";
+		this.members['MAILING_ADDRESS'].label = "Mailing address";
+		
+		this.members['MAILING_CITY'] = StructNew();
+		this.members['MAILING_CITY'].type = "text";
+		this.members['MAILING_CITY'].label = "Mailing city";
+		
+		this.members['MAILING_STATE'] = StructNew();
+		this.members['MAILING_STATE'].type = "text";
+		this.members['MAILING_STATE'].label = "Mailing state";
+		
+		this.members['MAILING_ZIP'] = StructNew();
+		this.members['MAILING_ZIP'].type = "text";
+		this.members['MAILING_ZIP'].label = "Mailing ZIP";
+		
+		this.members['PHYSICAL_ADDRESS'] = StructNew();
+		this.members['PHYSICAL_ADDRESS'].type = "text";
+		this.members['PHYSICAL_ADDRESS'].label = "Physical address";
+		
+		this.members['PHYSICAL_CITY'] = StructNew();
+		this.members['PHYSICAL_CITY'].type = "text";
+		this.members['PHYSICAL_CITY'].label = "Physical city";																				
+		
+		this.members['PHYSICAL_STATE'] = StructNew();
+		this.members['PHYSICAL_STATE'].type = "text";
+		this.members['PHYSICAL_STATE'].label = "Physical state";
+		
+		this.members['PHYSICAL_ZIP'] = StructNew();
+		this.members['PHYSICAL_ZIP'].type = "text";
+		this.members['PHYSICAL_ZIP'].label = "Physical ZIP";
+
+		this.members['SUBDIVISION'] = StructNew();
+		this.members['SUBDIVISION'].type = "text";
+		this.members['SUBDIVISION'].label = "Subdivision";
+		
+		this.members['LOT'] = StructNew();
+		this.members['LOT'].type = "text";
+		this.members['LOT'].label = "Lot";
+		
+		this.members['BLOCK'] = StructNew();
+		this.members['BLOCK'].type = "text";
+		this.members['BLOCK'].label = "Block";
+		
+		this.members['ASSESSED_LAND_VALUE'] = StructNew();
+		this.members['ASSESSED_LAND_VALUE'].type = "text";
+		this.members['ASSESSED_LAND_VALUE'].label = "Assessed land value";
+		
+		this.members['ASSESSED_BUILDING_VALUE'] = StructNew();
+		this.members['ASSESSED_BUILDING_VALUE'].type = "text";
+		this.members['ASSESSED_BUILDING_VALUE'].label = "Assessed building value";
+		
+		this.members['SECTION'] = StructNew();
+		this.members['SECTION'].type = "text";
+		this.members['SECTION'].label = "Section";
+		
+		this.members['TOWNSHIP'] = StructNew();
+		this.members['TOWNSHIP'].type = "text";
+		this.members['TOWNSHIP'].label = "Township";
+		
+		this.members['RANGE'] = StructNew();
+		this.members['RANGE'].type = "text";
+		this.members['RANGE'].label = "Range";
+		
+		this.members['RECEPTION_NUMBER'] = StructNew();
+		this.members['RECEPTION_NUMBER'].type = "text";
+		this.members['RECEPTION_NUMBER'].label = "Reception number";
+		
+		this.members['CENTER_LATITUDE'] = StructNew();
+		this.members['CENTER_LATITUDE'].type = "text";
+		this.members['CENTER_LATITUDE'].label = "Center latitude";
+		
+		this.members['CENTER_LONGITUDE'] = StructNew();
+		this.members['CENTER_LONGITUDE'].type = "text";
+		this.members['CENTER_LONGITUDE'].label = "Center longitude";																								
+	</cfscript>						
+	
 	<cfset this.written = false>
 	
 	<cffunction name="create" returntype="ptarmigan.parcel" access="public" output="false">

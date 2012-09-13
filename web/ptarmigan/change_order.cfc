@@ -14,6 +14,53 @@
 	
 	<!--- other fields here --->
 	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['PROJECT_ID'] = StructNew();
+		this.members['PROJECT_ID'].type = "object";
+		this.members['PROJECT_ID'].object = "OBJ_PROJECT";
+		this.members['PROJECT_ID'].label = "Project";
+
+		this.members['CHANGE_ORDER_NUMBER'] = StructNew();
+		this.members['CHANGE_ORDER_NUMBER'].type = "text";
+		this.members['CHANGE_ORDER_NUMBER'].label = "Change order number";
+
+		this.members['EXTENDS_TIME'] = StructNew();
+		this.members['EXTENDS_TIME'].type = "boolean";
+		this.members['EXTENDS_TIME'].label = "Extends schedule?";
+		
+		this.members['EXTENDS_TIME_DAYS'] = StructNew();
+		this.members['EXTENDS_TIME_DAYS'].type = "text";
+		this.members['EXTENDS_TIME_DAYS'].label = "Schedule cost";
+		
+		this.members['INCREASES_BUDGET'] = StructNew();
+		this.members['INCREASES_BUDGET'].type = "boolean";
+		this.members['INCREASES_BUDGET'].label = "Increases budget?";								
+		
+		this.members['INCREASES_BUDGET_DOLLARS'] = StructNew();
+		this.members['INCREASES_BUDGET_DOLLARS'].type = "money";
+		this.members['INCREASES_BUDGET_DOLLARS'].label = "Budget cost";
+
+		this.members['DESCRIPTION'] = StructNew();
+		this.members['DESCRIPTION'].type = "text";
+		this.members['DESCRIPTION'].label = "Description";
+
+		this.members['DOCUMENT_ID'] = StructNew();
+		this.members['DOCUMENT_ID'].type = "object";
+		this.members['DOCUMENT_ID'].class = "OBJ_DOCUMENT";		
+		this.members['DOCUMENT_ID'].label = "Document";
+		
+		this.members['STATUS'] = StructNew();
+		this.members['STATUS'].type = "text";
+		this.members['STATUS'].label = "Status";
+		
+		this.members['APPLIED'] = StructNew();
+		this.members['APPLIED'].type = "boolean";
+		this.members['APPLIED'].label = "Applied?";												
+	</cfscript>
+	
 	<cfset this.written = false>
 	
 	<cffunction name="create" returntype="ptarmigan.change_order" access="public" output="false">

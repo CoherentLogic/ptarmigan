@@ -13,6 +13,48 @@
 	<cfset this.poc = "">
 	<cfset this.amount = 0>
 	
+	<cfset this.members = StructNew()>
+	
+	
+	<cfscript>
+		this.members['EXPENSE_DATE'] = StructNew();
+		this.members['EXPENSE_DATE'].type = "date";
+		this.members['EXPENSE_DATE'].label = "Expense date";
+		
+		this.members['DESCRIPTION'] = StructNew();
+		this.members['DESCRIPTION'].type = "text";
+		this.members['DESCRIPTION'].label = "Description";
+		
+		this.members['RECIPIENT'] = StructNew();
+		this.members['RECIPIENT'].type = "text";
+		this.members['RECIPIENT'].label = "Recipient";
+
+		this.members['ADDRESS'] = StructNew();
+		this.members['ADDRESS'].type = "text";
+		this.members['ADDRESS'].label = "Address";
+		
+		this.members['CITY'] = StructNew();
+		this.members['CITY'].type = "text";
+		this.members['CITY'].label = "City";
+		
+		this.members['STATE'] = StructNew();
+		this.members['STATE'].type = "text";
+		this.members['STATE'].label = "State";
+
+		this.members['ZIP'] = StructNew();
+		this.members['ZIP'].type = "text";
+		this.members['ZIP'].label = "ZIP";
+		
+		this.members['POC'] = StructNew();
+		this.members['POC'].type = "text";
+		this.members['POC'].label = "POC";
+		
+		this.members['AMOUNT'] = StructNew();
+		this.members['AMOUNT'].type = "money";
+		this.members['AMOUNT'].label = "Amount";
+
+	</cfscript>
+	
 	<cfset this.written = false>
 	
 	<cffunction name="create" returntype="ptarmigan.expense" access="public" output="false">
