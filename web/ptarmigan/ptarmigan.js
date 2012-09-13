@@ -64,17 +64,22 @@ function refresh_filters(root_url, report_id)
 function quick_open_report()
 {
 	var url = perm_root + "/reports/quick_open_dialog.cfm";
-	open_dialog_resize(url, 'Quick Report', 330, function () {
-			$(".first_focus").bind('keydown', 'return', do_quick_report);
+	open_dialog(url, 'Quick Report', 330, 200, function () {		
+			var available_tags = eval(request(perm_root + "/reports/report_keys.cfm"));
+			alert(available_tags);
+			$("#report_key").autocomplete({ 
+				source: available_tags
+			});	
+			$(".first_focus").bind('keydown', 'return', do_quick_report);			
 		});
 	
 }
 
 function do_quick_report()
 {
-	var url = perm_root + "/reports/quick.cfm?key=" + escape($("#report_key").val());
+	var url = perm_root + "/reports/quick.cfm?key=" + escape($("#report_key").val().toUpperCase());
 
-	open_dialog(url, "Quick Report", 600, 600, function () {
+	open_dialog_resize(url, "Quick Report", 600, 600, function () {
 		$(".quick_report_viewer").dataTable();	
 	});
 	
@@ -577,7 +582,7 @@ function open_dialog(url, caption, width, height, on_loaded)
         return false;
 }
 
-function open_dialog_resize(url, caption, width, on_loaded)
+function open_dialog_resize(url, caption, width, height, on_loaded)
 {
 	// show a spinner or something via css
 	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
@@ -589,7 +594,8 @@ function open_dialog_resize(url, caption, width, on_loaded)
                 dialog.remove();
             },
             modal: false,
-	    width: width,	    
+	    minWidth: width,
+	    minHeight: height,
 	    show: "fold",
 	    hide: "fade",
 	    title: caption,
