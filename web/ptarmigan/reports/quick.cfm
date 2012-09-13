@@ -10,7 +10,7 @@
 <cfset report_data = c.get()>
 <cfset cols = report.get_columns()>
 
-
+<h3><cfoutput>#report.report_name#</cfoutput></h3>
 <table class="quick_report_viewer">
 	<thead>
 		<tr>

@@ -61,6 +61,16 @@ function refresh_filters(root_url, report_id)
 	$(".buttons").button();
 }
 
+function delete_criteria(report_id, criteria_id)
+{
+	var url = perm_root + "/reports/delete_criteria.cfm?id=" + escape(criteria_id) + "&report_id=" + escape(report_id);
+	var resp = request(url);
+
+	refresh_filters(perm_root, report_id);
+	
+
+}
+
 function quick_open_report()
 {
 	var url = perm_root + "/reports/quick_open_dialog.cfm";

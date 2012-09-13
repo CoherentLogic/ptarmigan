@@ -48,7 +48,9 @@
 					<td><cfoutput><h1><strong>#report.report_name#</strong></h1></cfoutput></td>
 					<td align="right">
 						<cfoutput>
-						<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/pencil.png"></button>
+						<cfif session.user.is_admin() EQ true OR report.employee_id EQ session.user_id>
+							<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/pencil.png"></button>
+						</cfif>
 						<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/print.png"></button>
 						</cfoutput>
 					</td>

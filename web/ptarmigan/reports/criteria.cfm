@@ -80,7 +80,7 @@
 				</td>								
 				<td align="right" style="width:100px;border:none;">
 					<cfoutput>
-					<span class="filter_actions" id="filter_actions_#f.id#"><button class="buttons"><img src="#session.root_url#/images/task.png"></button></span>
+					<span class="filter_actions" id="filter_actions_#f.id#"><button class="buttons" onclick="delete_criteria('#report.id#', '#f.id#');"><img src="#session.root_url#/images/trash.png"></button></span>
 					</cfoutput>
 				</td>
 			</tr>
