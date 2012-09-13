@@ -66,7 +66,6 @@ function quick_open_report()
 	var url = perm_root + "/reports/quick_open_dialog.cfm";
 	open_dialog(url, 'Quick Report', 330, 200, function () {		
 			var available_tags = eval(request(perm_root + "/reports/report_keys.cfm"));
-			alert(available_tags);
 			$("#report_key").autocomplete({ 
 				source: available_tags
 			});	
