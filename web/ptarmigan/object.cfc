@@ -224,7 +224,11 @@
 			</cfcase>
 			<cfcase value="object">
 				<cfset obj = CreateObject("component", "ptarmigan.object").open(m)>
+				<cfif obj.class_id NEQ "">
 				<cfreturn obj.get().object_name()>
+				<cfelse>
+				<cfreturn "Orphaned object - possible corruption">
+				</cfif>
 			</cfcase>
 		</cfswitch>
 	</cffunction>
