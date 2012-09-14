@@ -107,7 +107,7 @@
 			<div id="tabs">
 				<ul>
 					<li><a href="#tab1"><cfoutput><img src="#session.root_url#/images/zoom.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Quick View</a></li>
-					<li><a href="#tab2#"><cfoutput><img src="#session.root_url#/images/note.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Notes</li>
+					<!---<li><a href="#tab2#"><cfoutput><img src="#session.root_url#/images/note.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Notes</li>--->
 				</ul>
 				<div id="tab1">
 					<div class="dashboard_element" style="width:100%;overflow:hidden;">
@@ -170,8 +170,7 @@
 									</cfloop>
 									</table>
 								</div>	
-								<cfset active_milestones = session.company.active_milestones()>
-								
+								<cfset active_milestones = session.company.active_milestones()>								
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
 									<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
