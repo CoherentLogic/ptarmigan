@@ -543,3 +543,15 @@ pt_tabs ul li a {
 }
 
 
+/*
+ * COMMENT BOX STUFF
+ */
+
+.comment_box {
+	width:100%;
+	border-bottom:1px solid whitesmoke;	
+}
+
+.comment_box p {
+	padding:20px;
+}

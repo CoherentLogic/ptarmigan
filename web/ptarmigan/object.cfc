@@ -284,9 +284,19 @@
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#change_order_number#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#comment#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#session.user.id#">)
+		</cfquery>		
+	</cffunction>
+	
+	<cffunction name="get_audits" returntype="query" access="public" output="false">
+		<cfquery name="q_get_audits" datasource="#session.company.datasource#">
+			SELECT * FROM object_audits 
+			WHERE object_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			ORDER BY edit_date
 		</cfquery>
 		
+		<cfreturn q_get_audits>
 	</cffunction>
+	
 	
 	
 	<cffunction name="member_value_raw" returntype="string" access="public" output="false">

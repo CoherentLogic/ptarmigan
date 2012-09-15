@@ -1,7 +1,8 @@
 <!--- TODO: Update log-in requirements --->
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
 <cfsilent>
-	<cfset task = CreateObject("component", "ptarmigan.object").open(url.id).get()>
+	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
+	<cfset task = object.get()>
 	<cfset total_budget_used = task.total_expenses()>
 	<cfset percent_budget_used = int((total_budget_used * 100) / task.budget)>
 </cfsilent>
@@ -130,6 +131,24 @@
 				</cfloop>
 			</cfif>
 			
+			<h1>Edit History</h1>
+			<cfif object.get_audits().recordcount EQ 0>
+				<p><em>No edits associated with this task</em></p>
+			<cfelse>
+				<cfset aud_query = object.get_audits()>
+				<cfoutput query="aud_query">
+					<cfset emp = CreateObject("component", "ptarmigan.object").open(employee_id)>
+					<div class="comment_box">
+						<span style="font-size:10px;color:gray;">#dateFormat(edit_date, "full")# #timeFormat(edit_date, "h:mm tt")# C/O ##: #change_order_number#</span>
+						
+						<p><span style="color:##2957a2;">#emp.get().object_name()#</span> changed <strong>#member_name#</strong> from <strong>#original_value#</strong> to <strong>#new_value#</strong>
+						<br><em>#comment#</em>
+						</p>
+						
+						
+					</div>
+				</cfoutput>
+			</cfif>
 			
 	
 		</div>	<!--- left-column --->
