@@ -53,6 +53,7 @@
 
 				$(".ui-state-default").css("color", "black");
 				$("#view").buttonset();
+				
 				$("#view").css("float", "right");
 				
 				<cfoutput>

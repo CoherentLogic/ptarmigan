@@ -46,7 +46,7 @@
 				<strong>Completion:</strong> #t.percent_complete#%				
 			
 			<div style="position:absolute; bottom:0px; left:10px; padding-top:5px; width:450px;">
-			 	<button id="edit_task" onclick="edit_task('#session.root_url#', '#t.id#', '#t.id#');">Edit</button> <button id="add_expense_task" onclick="add_expense('#session.root_url#', 'tasks', '#t.id#');">+ Expense</button> <button id="view_task_audit_log" onclick="view_audit_log('#session.root_url#', 'tasks', '#t.id#');">Audit Log</button>
+			 	<button id="edit_task" onclick="window.location.replace('#session.root_url#/project/manage_task.cfm?id=#t.id#');">Manage</button> <button id="add_expense_task" onclick="add_expense('#session.root_url#', 'tasks', '#t.id#');">+ Expense</button> <button id="view_task_audit_log" onclick="view_audit_log('#session.root_url#', 'tasks', '#t.id#');">Audit Log</button>
 				<button id="delete_task" onclick="trash_object('#session.root_url#', '#t.id#')">Trash</button>
 			</div>
 			</cfoutput>

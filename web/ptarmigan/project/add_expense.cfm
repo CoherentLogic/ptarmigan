@@ -23,7 +23,7 @@
 	
 		<cfform name="add_expense" id="add_expense" action="#session.root_url#/project/add_expense.cfm?element_table=#url.element_table#&element_id=#url.element_id#" method="post">
 			<div style="padding:20px;">
-				<table>
+				<table style="margin-top:30px;">
 					<tr>
 					<cfswitch expression="#url.element_table#">
 						<cfcase value="milestones">

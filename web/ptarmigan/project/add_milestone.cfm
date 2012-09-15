@@ -33,7 +33,7 @@
 				<cfoutput>
 					<p><em>Project date range: #dateFormat(project.start_date, 'm/dd/yyyy')#-#dateFormat(project.due_date, 'm/dd/yyyy')#</em></p>
 				</cfoutput>
-				<table>
+				<table style="margin-top:20px;">
 					<tr>
 						<td>Milestone number:</td>
 						<td><cfinput type="text" name="milestone_number" required="true"></td>

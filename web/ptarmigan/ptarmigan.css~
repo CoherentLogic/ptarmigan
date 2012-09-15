@@ -244,7 +244,7 @@ table.property_dialog caption {
 	margin-left: 340px;
 	border: none;
 	padding: 0px;	
-	width:850px;
+	width: 850px;
 	overflow:hidden;
 	
 	/*height:100%;*/
@@ -443,10 +443,88 @@ pt_tabs ul li a {
  * PORTLETS
  */
 
-.column { width: 580px; float: left; padding-bottom: 100px; }
+.column { width: 550px; float: left; padding-bottom: 100px; }
 .portlet { margin: 0 1em 1em 0; }
 .portlet-header { margin: 0.3em; padding-bottom: 4px; padding-left: 0.2em; }
 .portlet-header .ui-icon { float: right; }
 .portlet-content { padding: 0.4em; }
 .ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important; height: 50px !important; }
 .ui-sortable-placeholder * { visibility: hidden; }
+
+/*
+ *  PANELS
+ */ 
+
+.panel { border:1px solid white; }
+
+#left-column {
+	padding-top:0;
+	margin-top:0;	
+	width:900px;	
+	float:left;
+}
+
+#right-column {
+	padding-top:0;
+	margin-top:0;
+	margin-left:920px;
+}
+
+.panel h1 {
+	text-transform:uppercase;
+	font-size:20px;
+	width:100%;
+	border-bottom:1px solid #2957a2;
+}
+
+.panel table {
+	width:100%;
+}
+
+.panel td {
+	padding:10px;
+}
+
+.panel p {
+	margin-left:30px;
+}
+
+/*
+ *  BOUND CONTROLS
+ */
+
+.bound-control-text {
+
+}
+
+.bound-control-money {
+
+}
+
+.bound-control-percent {
+
+}
+
+.bound-control-object {
+
+}
+
+.bound-control-number {
+
+}
+
+.bound-value-active {
+	display:block;
+}
+
+.bound-value-inactive {
+	display:none;
+}
+
+.bound-value-active {
+	display:block;
+}
+
+.bound-value-inactive {
+	display:none;
+}

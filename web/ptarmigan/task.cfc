@@ -50,6 +50,19 @@
 		this.members['BUDGET'] = StructNew();
 		this.members['BUDGET'].type = "money";
 		this.members['BUDGET'].label = "Budget";					
+		
+		this.members['COMPLETED'] = StructNew();
+		this.members['COMPLETED'].type = "boolean";
+		this.members['COMPLETED'].label = "Complete";
+		
+		this.members['DESCRIPTION'] = StructNew();
+		this.members['DESCRIPTION'].type = "text";
+		this.members['DESCRIPTION'].label = "Description";
+
+		this.members['PERCENT_COMPLETE'] = StructNew();
+		this.members['PERCENT_COMPLETE'].type = "percentage";
+		this.members['PERCENT_COMPLETE'].label = "Description";		
+		
 	</cfscript>
 	<cfloop array="#this.fields#" index="field">
 		<cfset field.name = UCase(field.name)>
@@ -287,9 +300,12 @@
 		<cfreturn oa>
 	</cffunction>
 	
-	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">
-		<cfset ms = CreateObject("component", "ptarmigan.milestone").open(this.milestone_id)>
-		<cfreturn ms.project()>
+	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">		
+		<cfreturn this.milestone().project()>
+	</cffunction>
+	
+	<cffunction name="milestone" returntype="ptarmigan.milestone" access="public" output="false">
+		<cfreturn CreateObject("component", "ptarmigan.milestone").open(this.milestone_id)>
 	</cffunction>
 	
 	<cffunction name="object_name" returntype="string" access="public" output="false">

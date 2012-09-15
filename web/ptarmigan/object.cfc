@@ -198,6 +198,20 @@
 		<cfreturn this.data().implementation.members[member_name].label>
 	</cffunction>
 
+	<cffunction name="set_member_value" returntype="void" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		<cfargument name="member_value" type="any" required="true">
+		
+		<cfset tmp_obj = this.get()>
+		<cfif this.member_type(member_name) NEQ "date">
+			<cfset new_value = member_value>
+		<cfelse>
+			<cfset new_value = CreateODBCDate(member_value)>
+		</cfif>
+		
+		<cfset "tmp_obj.#lcase(member_name)#" = new_value>
+		<cfset tmp_obj.update()>
+	</cffunction>
 	
 	<cffunction name="member_value" returntype="any" access="public" output="false">
 		<cfargument name="member_name" type="string" required="true">
@@ -228,6 +242,13 @@
 				<cfreturn obj.get().object_name()>
 				<cfelse>
 				<cfreturn "*** NO LONGER EXISTS ***">
+				</cfif>
+			</cfcase>
+			<cfcase value="boolean">
+				<cfif m EQ 1>
+					<cfreturn "Yes">
+				<cfelse>
+					<cfreturn "No">
 				</cfif>
 			</cfcase>
 		</cfswitch>

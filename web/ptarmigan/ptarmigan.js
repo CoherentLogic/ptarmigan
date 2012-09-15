@@ -300,7 +300,7 @@ function menu_current_element(root_url)
 function add_milestone(root_url, project_id)
 {
 	var url = root_url + "/project/add_milestone.cfm?id=" + escape(project_id) + "&suppress_headers";
-	open_dialog(url, 'Add Milestone', 630, 530);
+	open_dialog(url, 'Add Milestone', 630, 560);
 }
 
 function edit_milestone(root_url, id)
@@ -315,7 +315,7 @@ function edit_milestone(root_url, id)
 function add_task(root_url, project_id, milestone_id)
 {
 	var url = root_url + "/project/add_task.cfm?id=" + escape(project_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-	open_dialog(url, 'Add Task', 630, 600);
+	open_dialog(url, 'Add Task', 630, 650);
 }
 
 function edit_task(root_url, task_id, milestone_id)
@@ -383,7 +383,7 @@ function reset_apply_controls()
 function add_expense(root_url, element_table, element_id)
 {
 	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&suppress_headers";
-	open_dialog(url, 'Add Expense', 400, 480);	
+	open_dialog(url, 'Add Expense', 420, 580);	
 }
 
 function edit_expense(root_url, expense_id)
@@ -708,4 +708,56 @@ function open_help(root_url, page)
 	window.open(url, page, "width=1024,height=768");
 }
 
+//
+// BOUND FIELDS
+//
 
+function bound_fields_init()
+{
+	$(".bound-control-date").datepicker();
+	$(".bound-field-button").button();
+}
+
+function bound_field_show_pencil(base_id) 
+{
+	var pencil = "#bound-field-pencil-" + base_id;
+	$(pencil).show();
+}
+
+function bound_field_hide_pencil(base_id) 
+{
+	var pencil = "#bound-field-pencil-" + base_id;
+	$(pencil).hide();
+}
+	
+function bound_field_activate(base_id)
+{
+	var value_id = "#bound-value-" + base_id;
+	var edit_id = "#bound-edit-div-" + base_id;
+	var edit_control = "#bound-edit-" + base_id;	
+	$(value_id).hide();
+	$(edit_id).fadeIn();
+	$(edit_control).focus();
+	$(edit_control).select();
+
+}
+
+function bound_field_submit(base_id, object_id, member, full_refresh)
+{
+	var value_id = "#bound-value-" + base_id;
+	var edit_id = "#bound-edit-div-" + base_id;
+	var edit_control = "#bound-edit-" + base_id;	
+	var new_value = $(edit_control).val();
+	
+	var url = perm_root + "/objects/update_bound_field.cfm?id=" + escape(object_id);
+	url += "&member_name=" + escape(member);
+	url += "&value=" + escape(new_value);
+
+	$(value_id).html(request(url));
+	$(edit_id).hide();	
+	$(value_id).fadeIn();	
+
+	if(full_refresh == true) {
+		window.location.reload();
+	}
+}

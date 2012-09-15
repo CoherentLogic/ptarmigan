@@ -31,7 +31,7 @@
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="add_task" id="add_task" action="#session.root_url#/project/add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#" method="post">
-			<div style="padding:20px; font-size:12pt;">				
+			<div style="padding:20px; font-size:12pt; margin-top:20px;">				
 				<cfset proposed_start_date = dateAdd("d", 1, milestone.last_task_end_date())>
 				<cfif milestone.floating EQ 0>
 					<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
