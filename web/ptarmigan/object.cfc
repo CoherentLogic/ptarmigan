@@ -251,8 +251,43 @@
 					<cfreturn "No">
 				</cfif>
 			</cfcase>
+			<cfcase value="color">
+				<cfreturn "<div style=""height:30px;width:80px;background-color:#m#;""></div>">
+			</cfcase>
 		</cfswitch>
 	</cffunction>
+	
+	<cffunction name="add_audit" returntype="void" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		<cfargument name="original_value" type="string" required="true">
+		<cfargument name="new_value" type="string" required="true">
+		<cfargument name="change_order_number" type="string" required="true">
+		<cfargument name="comment" type="string" required="true">
+		
+		<cfset audit_id = CreateUUID()>
+		
+		<cfquery name="q_add_audit" datasource="#session.company.datasource#">
+			INSERT INTO	object_audits
+							(id,
+							object_id,
+							member_name,
+							original_value,
+							new_value,
+							change_order_number,
+							comment,
+							employee_id)
+			VALUES			(<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#audit_id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#member_name#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#original_value#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#new_value#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#change_order_number#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#comment#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#session.user.id#">)
+		</cfquery>
+		
+	</cffunction>
+	
 	
 	<cffunction name="member_value_raw" returntype="string" access="public" output="false">
 		<cfargument name="member_name" type="string" required="true">

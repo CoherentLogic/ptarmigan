@@ -2,6 +2,8 @@
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
 <cfsilent>
 	<cfset task = CreateObject("component", "ptarmigan.object").open(url.id).get()>
+	<cfset total_budget_used = task.total_expenses()>
+	<cfset percent_budget_used = int((total_budget_used * 100) / task.budget)>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -27,6 +29,9 @@
 				$( "#percentage-complete").progressbar({
 					<cfoutput>value: #task.percent_complete#</cfoutput>
 				});
+				$( "#budget-used").progressbar({
+					<cfoutput>value: #percent_budget_used#</cfoutput>
+				});
    		 });
 	</script>
 </head>
@@ -42,15 +47,16 @@
 				<tr>
 					<td align="right">
 						<cfoutput>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Add Assignment</button>			
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Add Work</button>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Add Task</button>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/comments.png" align="absmiddle"> Add Comment</button>			
+						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Assignment</button>			
+						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Work</button>
+						<button class="pt_buttons" onclick="add_expense('#session.root_url#', 'tasks', '#task.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
+						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Document</button>
+<!--- 
+						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Comment</button>			
+ --->
 						<cfif session.user.is_admin() EQ true>
-							<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/pencil.png" align="absmiddle"> Edit Task</button>
-							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Trash Task</button>
+							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Move to Trash</button>
 						</cfif>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/print.png" align="absmiddle"> Print Overview</button>
 						</cfoutput>
 					</td>
 				</tr>
@@ -82,16 +88,16 @@
 				</tr>				
 				<tr>
 					<td>Milestone:</td>
-					<td><strong>#task.milestone().object_name()#</strong></td>				
-					<td>Budget:</td>
-					<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="true"></td>
+					<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="milestone_id" width="auto" show_label="false" full_refresh="false"></td>				
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>Completed:</td>				
 					<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="completed" width="auto" show_label="false" full_refresh="false"></td>
 					<td>Color:</td>
 					<td>
-						<div style="height:30px;width:50px;background-color:#task.color#;"></div>
+						<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="color" width="auto" show_label="false" full_refresh="false">
 					</td>
 				</tr>
 				</tbody>
@@ -101,12 +107,46 @@
 			
 			<h1>Description</h1>
 			<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="description" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
+	
+			<h1>Expenses</h1>
+			<cfif ArrayLen(task.expenses()) EQ 0>
+				<p><em>No expenses recorded for this task.</em></p>
+			<cfelse>
+				<cfloop array="#task.expenses()#" index="expense">
+					<cfoutput>
+						#expense.recipient#
+					</cfoutput>
+				</cfloop>
+			</cfif>
+			
+			<h1>Documents</h1>
+			<cfif ArrayLen(task.documents()) EQ 0>
+				<p><em>No documents associated with this task.</em></p>
+			<cfelse>
+				<cfloop array="#task.documents()#" index="document">
+					<cfoutput>
+						#document.document_name#
+					</cfoutput>
+				</cfloop>
+			</cfif>
+			
+			
+	
 		</div>	<!--- left-column --->
 		<div id="right-column" class="panel">
 			<h1>Completion</h1>
 			
 			<div id="percentage-complete"></div>
 			<center><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="percent_complete" width="auto" show_label="false" full_refresh="true"></center>
+			
+			<h1>Budget</h1>
+			<div id="budget-used"></div>
+			<center><cfoutput>#percent_budget_used#%</cfoutput> Spent</center>
+			<br>
+			Total Budget: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="true"><br>
+			Total Expenses: <cfoutput>#numberFormat(task.total_expenses(), ",_$___.__")#</cfoutput>
+			<br><br>
+			<em>Note: these figures reflect only the current task.</em>
 		</div>  <!--- right-column --->
 	</div> <!--- container --->
 

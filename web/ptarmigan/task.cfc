@@ -16,7 +16,7 @@
 	<cfscript>
 		this.members['MILESTONE_ID'] = StructNew();
 		this.members['MILESTONE_ID'].type = "object";
-		this.members['MILESTONE_ID'].class = "OBJ_PROJECT";
+		this.members['MILESTONE_ID'].class = "OBJ_MILESTONE";
 		this.members['MILESTONE_ID'].label = "Milestone";
 		
 		this.members['TASK_NAME'] = StructNew();

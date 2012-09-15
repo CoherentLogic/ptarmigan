@@ -715,7 +715,7 @@ function open_help(root_url, page)
 function bound_fields_init()
 {
 	$(".bound-control-date").datepicker();
-	$(".bound-field-button").button();
+	$(".bound-field-button").button().css("float", "right");
 }
 
 function bound_field_show_pencil(base_id) 
@@ -735,6 +735,10 @@ function bound_field_activate(base_id)
 	var value_id = "#bound-value-" + base_id;
 	var edit_id = "#bound-edit-div-" + base_id;
 	var edit_control = "#bound-edit-" + base_id;	
+	var wrapper = "#bound-control-wrapper-" + base_id;
+	$(wrapper).addClass("bound-control-wrapper-editing");
+
+	
 	$(value_id).hide();
 	$(edit_id).fadeIn();
 	$(edit_control).focus();
@@ -747,11 +751,24 @@ function bound_field_submit(base_id, object_id, member, full_refresh)
 	var value_id = "#bound-value-" + base_id;
 	var edit_id = "#bound-edit-div-" + base_id;
 	var edit_control = "#bound-edit-" + base_id;	
+	var edit_conum = "#bound-edit-conum-" + base_id;
+	var edit_comment = "#bound-edit-comment-" + base_id;
+	var edit_original = "#bound-edit-original-" + base_id;
+	
+	var original_value = $(edit_original).val();
 	var new_value = $(edit_control).val();
+	var conum = $(edit_conum).val();
+	var comment = $(edit_comment).val();
+
+	var wrapper = "#bound-control-wrapper-" + base_id;
+	$(wrapper).removeClass("bound-control-wrapper-editing");
 	
 	var url = perm_root + "/objects/update_bound_field.cfm?id=" + escape(object_id);
 	url += "&member_name=" + escape(member);
 	url += "&value=" + escape(new_value);
+	url += "&original=" + escape(original_value);
+	url += "&conum=" + escape(conum);
+	url += "&comment=" + escape(comment);
 
 	$(value_id).html(request(url));
 	$(edit_id).hide();	
@@ -760,4 +777,16 @@ function bound_field_submit(base_id, object_id, member, full_refresh)
 	if(full_refresh == true) {
 		window.location.reload();
 	}
+}
+
+function bound_field_revert(base_id, original_value)
+{
+	var value_id = "#bound-value-" + base_id;
+	var edit_id = "#bound-edit-div-" + base_id;
+	var edit_control = "#bound-edit-" + base_id;	
+	var wrapper = "#bound-control-wrapper-" + base_id;
+	$(wrapper).removeClass("bound-control-wrapper-editing");
+	$(value_id).html(original_value);
+	$(edit_id).hide();	
+	$(value_id).fadeIn();		
 }
