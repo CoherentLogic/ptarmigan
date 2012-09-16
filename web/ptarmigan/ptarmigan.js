@@ -395,9 +395,15 @@ function edit_expense(root_url, expense_id)
 //
 // DOCUMENTS
 //
-function add_document(root_url)
+function add_document(root_url, source_object_id, source_object_class)
 {
-	var url = root_url + "/documents/add_document.cfm?suppress_headers";
+	var url = root_url + "/documents/add_document.cfm";
+
+	if (source_object_id) {
+		url += "?source_object_id=" + escape(source_object_id);
+		url += "&source_object_class=" + escape(source_object_class);
+	}	
+
 	open_dialog(url, 'Add Document', 630, 560);
 }
 

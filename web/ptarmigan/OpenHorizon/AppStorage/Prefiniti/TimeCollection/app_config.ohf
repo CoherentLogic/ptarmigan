@@ -1,0 +1,11 @@
+APPLICATION TimeCollection
+	
+	
+	
+	CONTEXT Timesheet LABEL "Timesheet"
+		FIELDSET NewTimesheet LABEL "New Timesheet" FOR CREATE IN INDUSTRY ANY
+		FIELDSET EditTimesheet LABEL "Edit Timesheet" FOR EDIT IN INDUSTRY ANY
+	END CONTEXT
+	
+END APPLICATION	
+	

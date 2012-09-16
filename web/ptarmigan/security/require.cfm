@@ -1,6 +1,3 @@
-
-<center>
-
 <cfif IsDefined("session.logged_in")>
 	<cfif session.logged_in EQ false>
 		<cfset session.message = "You must be logged in to view this page">
@@ -43,4 +40,3 @@
 		</cfif>
 	</cfcase>
 </cfswitch>
-</center>

@@ -93,19 +93,19 @@
 							tax_rate,
 							start_date,
 							budget)
-				VALUES		('#this.id#',
-							'#this.project_number#',
-							'#this.project_name#',
-							'#this.instructions#',
-							#this.due_date#,
-							#this.due_date_pessimistic#,
-							#this.due_date_optimistic#,
-							#this.current_milestone#,
-							'#this.customer_id#',
-							'#this.created_by#',
-							#this.tax_rate#,
-							#this.start_date#,
-							#this.budget#)
+				VALUES		(<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="12" value="#this.project_number#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.project_name#">,
+							<cfqueryparam cfsqltype="cf_sql_longvarchar" maxlength="5000" value="#this.instructions#">,
+							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date#">,
+							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date_pessimistic#">,
+							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date_optimistic#">,
+							<cfqueryparam cfsqltype="cf_sql_integer" value="#this.current_milestone#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.customer_id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.created_by#">,
+							<cfqueryparam cfsqltype="cf_sql_real" value="#this.tax_rate#">,
+							<cfqueryparam cfsqltype="cf_sql_date" value="#this.start_date#">,
+							<cfqueryparam cfsqltype="cf_sql_real" value="#this.budget#">)
 			</cfquery>
 		</cflock>
 		

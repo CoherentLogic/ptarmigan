@@ -29,6 +29,8 @@
 							<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">)
 		</cfquery>
 		
+		<cflog application="true" file="pt_otrack" type="information" text="PT_OTRACK: #session.user.full_name()# created #this.class_id#:#this.id#">
+		
 		<cfset this.update_class_info()>
 		
 		<cfset this.written = true>
@@ -37,7 +39,7 @@
 
 	<cffunction name="update_class_info" returntype="void" access="public" output="false">
 		<cfquery name="qc" datasource="#session.company.datasource#">
-			SELECT * FROM object_classes WHERE id=<cfqueryparam cfsqltype="string" value="#this.class_id#">
+			SELECT * FROM object_classes WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.class_id#">
 		</cfquery>
 	
 		<cfoutput query="qc">
@@ -48,6 +50,25 @@
 			<cfset this.opener = this.substitute_opener(qc.opener)>
 		</cfoutput>
 		
+	</cffunction>
+	
+	<cffunction name="get_associated_objects" returntype="array" access="public" output="false">
+		<cfargument name="target_class_id" type="string" required="true">
+		
+		<cfquery name="q_get_associated_objects" datasource="#session.company.datasource#">
+			SELECT target_object_id 
+			FROM 	object_associations 
+			WHERE 	source_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			AND		target_object_class=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#arguments.target_class_id#">
+		</cfquery>
+
+		<cfset out_array = ArrayNew(1)>
+		<cfoutput query="q_get_associated_objects">
+			<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(q_get_associated_objects.target_object_id)>
+			<cfset ArrayAppend(out_array, tmp_obj)>
+		</cfoutput>
+		
+		<cfreturn out_array>
 	</cffunction>
 
 	<cffunction name="open" returntype="ptarmigan.object" access="public" output="false">
@@ -88,6 +109,9 @@
 					trashcan_handle=<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">					
 			WHERE	id=<cfqueryparam value="#this.id#" cfsqltype="cf_sql_varchar">
 		</cfquery>
+		
+		<cflog application="true" file="pt_otrack" type="information" text="PT_OTRACK: #session.user.full_name()# updated #this.class_id#:#this.id#">
+
 		
 		<cfset this.update_class_info()>
 		
@@ -209,6 +233,9 @@
 			<cfset new_value = CreateODBCDate(member_value)>
 		</cfif>
 		
+		<cflog application="true" file="pt_otrack" type="information" text="PT_OTRACK: #session.user.full_name()# changed #this.class_id#:#this.id#.#member_name# from #this.member_value(member_name)# to #member_value#">
+
+		
 		<cfset "tmp_obj.#lcase(member_name)#" = new_value>
 		<cfset tmp_obj.update()>
 	</cffunction>
@@ -252,7 +279,7 @@
 				</cfif>
 			</cfcase>
 			<cfcase value="color">
-				<cfreturn "<div style=""height:30px;width:80px;background-color:#m#;""></div>">
+				<cfreturn m>
 			</cfcase>
 		</cfswitch>
 	</cffunction>
@@ -285,6 +312,9 @@
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#comment#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#session.user.id#">)
 		</cfquery>		
+		
+		<cflog application="true" file="pt_otrack" type="information" text="PT_OTRACK: #session.user.full_name()# created an audit against #this.class_id#:#this.id#">
+
 	</cffunction>
 	
 	<cffunction name="get_audits" returntype="query" access="public" output="false">
@@ -296,9 +326,7 @@
 		
 		<cfreturn q_get_audits>
 	</cffunction>
-	
-	
-	
+			
 	<cffunction name="member_value_raw" returntype="string" access="public" output="false">
 		<cfargument name="member_name" type="string" required="true">
 
@@ -320,7 +348,5 @@
 		
 		<cfreturn this>
 	</cffunction>
-	
-	
-	
+			
 </cfcomponent>

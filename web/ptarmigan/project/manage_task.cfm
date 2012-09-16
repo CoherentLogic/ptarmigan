@@ -1,5 +1,4 @@
 <!--- TODO: Update log-in requirements --->
-<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <cfsilent>
 	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfset task = object.get()>
@@ -7,9 +6,10 @@
 	<cfset percent_budget_used = int((total_budget_used * 100) / task.budget)>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
+	<!--- <cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab"> --->
 	<cfoutput>	
 		<title>#task.object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
@@ -51,7 +51,9 @@
 						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Assignment</button>			
 						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Work</button>
 						<button class="pt_buttons" onclick="add_expense('#session.root_url#', 'tasks', '#task.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Document</button>
+						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Existing Document</button>
+						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#task.id#', 'OBJ_TASK');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
+						
 <!--- 
 						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png" align="absmiddle"> Comment</button>			
  --->
@@ -121,12 +123,12 @@
 			</cfif>
 			
 			<h1>Documents</h1>
-			<cfif ArrayLen(task.documents()) EQ 0>
+			<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
 				<p><em>No documents associated with this task.</em></p>
 			<cfelse>
-				<cfloop array="#task.documents()#" index="document">
+				<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT')#" index="document">
 					<cfoutput>
-						#document.document_name#
+						#document.get().object_name()#
 					</cfoutput>
 				</cfloop>
 			</cfif>

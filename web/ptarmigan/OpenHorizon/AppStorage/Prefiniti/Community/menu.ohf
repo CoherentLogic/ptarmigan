@@ -1,0 +1,3 @@
+MENU M_APPMENU ITEM Prefiniti.TimeCollection.Timesheet.New LABEL "New Timesheet..." ICON SILK "page add" OPENS IN WINDOW TITLE "New Timesheet"
+MENU M_APPMENU ITEM Prefiniti.TimeCollection.Timesheet.New LABEL "Open Timesheet..." ICON SILK "page find" OPENS IN WINDOW TITLE "New Timesheet"
+

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form>
+	<Name>My Form</Name>
+	<ObjectID>ORMS ID</ObjectID>
+	<ForEmployees>True or False</ForEmployees>
+	<ForCustomers>True or False</ForCustomers>
+	<ForFriends>True or False</ForFriends>
+	<Site>Site ORMS ID</Site>
+	<BindingPrimaryKeyType>String or Numeric</BindingPrimaryKeyType>		
+	<BindingDatasource>ColdFusion DSN</BindingDatasource>
+	<BindingPrimaryKey>Primary Key</BindingPrimaryKey>
+	<BindingTable>Table Name</BindingTable>
+	<Repeatable>OncePerObject or OncePerUser</Repeatable>		
+		
+	<Field DataType="Customer">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+
+	<Field DataType="Date">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+
+	<Field DataType="Divider">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+
+	<Field DataType="Employee">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+
+	<Field DataType="FileUpload">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+	
+	<Field DataType="Friend">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+	
+	<Field DataType="Heading">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+	
+	<Field DataType="Image">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+	
+	<Field DataType="Label">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>	
+	
+	<Field DataType="ListMultiple">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>			
+		
+	<Field DataType="ListSingle">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+	
+	<Field DataType="Location">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>	
+	
+	<Field DataType="RichText">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+
+	<Field DataType="String">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>	
+
+	<Field DataType="Time">
+		<Key>ORMS Key</Key>
+		<DefaultValue>Default Value</DefaultValue>
+		<DisplayOrder>1</DisplayOrder>
+		<Label>Field Label</Label>
+		<Required>True or False</Required>
+		<BindingField>Binding Field</BindingField>
+	</Field>
+</Form>	

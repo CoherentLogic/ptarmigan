@@ -89,7 +89,7 @@
 				<cfset obj_coll = CreateObject("component", "ptarmigan.collection")>
 				<cfset obj_coll.class_id = m_class>
 				<cfset obj_coll.get()>				
-				<select class="#control_class#" autocomplete="off" id="bound-edit-#base_id#">
+				<select class="#control_class#" autocomplete="off" id="bound-edit-#base_id#" style="width:100%;">
 					<cfloop array="#obj_coll.get()#" index="obj">
 						<option value="#obj.get().id#" <cfif obj.get().id EQ m_raw_val>selected="selected"</cfif>>#obj.get().object_name()#</option>
 					</cfloop>

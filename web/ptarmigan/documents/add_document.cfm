@@ -13,15 +13,40 @@
 		
 	<cfset d.create()>
 	
+	<cfif IsDefined("form.source_object_id")>
+		<cfset assoc = CreateObject("component", "ptarmigan.object_association")>
+		
+		<cfset assoc.source_object_id = form.source_object_id>
+		<cfset assoc.source_object_class = form.source_object_class>
+		<cfset assoc.target_object_id = d.id>
+		<cfset assoc.target_object_class = "OBJ_DOCUMENT">
+		
+		<cfset assoc.create()>
+	</cfif>
+	
 	<cflocation url="#session.root_url#/documents/manage_document.cfm?id=#d.id#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Document" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="add_document" id="add_document" action="#session.root_url#/documents/add_document.cfm" method="post">
-			<div style="padding:20px;">
-				<cflayout type="tab">		
-					<cflayoutarea title="Basic Information">
+			<!---
+				passed in if we're associating the new document with something immediately on submit
+			--->
+			<cfif IsDefined("url.source_object_id")>
+				<cfoutput>
+					<input type="hidden" name="source_object_id" value="#url.source_object_id#">
+					<input type="hidden" name="source_object_class" value="#url.source_object_class#">
+				</cfoutput>
+			</cfif>
+			
+			<div style="padding:20px; margin-top:20px;">
+				<div id="tabs" class="pt_tabs">
+					<ul>
+						<li><a href="##tBasic">Basic Information</a></li>
+						<li><a href="##tFiling">Filing Information</a></li>			
+					</ul>
+					<div id="tBasic">	
 						<div style="padding:4px;height:240px;">
 						<table>
 							<tr>
@@ -38,8 +63,8 @@
 							</tr>								
 						</table>
 						</div>
-					</cflayoutarea>
-					<cflayoutarea title="Filing Information">
+					</div>
+					<div id="tFiling">
 						<div style="padding:4px;height:240px;">
 							<table>
 								<tr>
@@ -82,8 +107,8 @@
 													
 							</table>
 						</div>
-					</cflayoutarea>
-				</cflayout>										
+					</div> <!--- tFiling --->
+				</div> <!--- tabs --->					
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
 		</cfform>

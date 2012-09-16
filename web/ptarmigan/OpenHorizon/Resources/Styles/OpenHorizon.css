@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/* Prefiniti.css $Revision: 1.2 $ */
+
+body {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:small;
+	margin:0px;
+}
+
+td {
+	font-size:small;
+}
+
+th {
+	background-color:#666;
+	text-align:left;
+	font-size:small;
+	color:white;
+}
+
+.yuimenu {
+	overflow:visible;!important
+}
