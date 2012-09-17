@@ -124,11 +124,11 @@
 					
 					<cfset milestones = project.milestones()>
 					<cfloop array="#milestones#" index="ms">
-						<p><cfoutput><a href="#session.root_url#/project/manage_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a></cfoutput>
+						<p><cfoutput><a style="color:#ms.color#;" href="#session.root_url#/project/manage_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a></cfoutput>
 							<blockquote>
 								<cfset tasks = ms.tasks()>
 								<cfloop array="#tasks#" index="t">
-									<p><cfoutput><a href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></cfoutput></p>
+									<p><cfoutput><a style="color:#t.color#;" href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></cfoutput></p>
 								</cfloop>
 							</blockquote>
 						</p>

@@ -136,7 +136,7 @@
 					
 					<cfloop array="#tasks#" index="t">
 						<cfoutput>
-						<p><a href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></p>
+						<p><a style="color:#t.color#;" href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></p>
 						</cfoutput>
 					</cfloop>
 			
