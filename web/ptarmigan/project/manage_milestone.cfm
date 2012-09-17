@@ -1,9 +1,9 @@
 <!--- TODO: Update log-in requirements --->
 <cfsilent>
 	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
-	<cfset task = object.get()>
-	<cfset total_budget_used = task.total_expenses()>
-	<cfset percent_budget_used = int((total_budget_used * 100) / task.budget)>
+	<cfset milestone = object.get()>
+	<cfset total_budget_used = milestone.total_expenses()>
+	<cfset percent_budget_used = int((total_budget_used * 100) / milestone.budget)>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
@@ -11,7 +11,7 @@
 <head>
 	<!--- <cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab"> --->
 	<cfoutput>	
-		<title>#task.object_name()# - ptarmigan</title>		
+		<title>#milestone.object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
@@ -30,7 +30,7 @@
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				$( "#percentage-complete").progressbar({
-					<cfoutput>value: #task.percent_complete#</cfoutput>
+					<cfoutput>value: #milestone.percent_complete#</cfoutput>
 				});
 				$( "#budget-used").progressbar({
 					<cfoutput>value: #percent_budget_used#</cfoutput>
@@ -41,23 +41,23 @@
 				});
 				<cfoutput>
 				$("##normal").click(function () {
-					render_gantt('#session.root_url#', '#task.milestone().project().id#', 'normal')	
+					render_gantt('#session.root_url#', '#milestone.project().id#', 'normal')	
 				});			
 				$("##optimistic").click(function () {
-					render_gantt('#session.root_url#', '#task.milestone().project().id#', 'optimistic')	
+					render_gantt('#session.root_url#', '#milestone.project().id#', 'optimistic')	
 				});			
 				$("##pessimistic").click(function () {
-					render_gantt('#session.root_url#', '#task.milestone().project().id#', 'pessimistic')	
+					render_gantt('#session.root_url#', '#milestone.project().id#', 'pessimistic')	
 				});			
 				$("##estimated").click(function () {
-					render_gantt('#session.root_url#', '#task.milestone().project().id#', 'estimated')	
+					render_gantt('#session.root_url#', '#milestone.project().id#', 'estimated')	
 				});			
 				</cfoutput>
 				$("#view").buttonset();
 				
 				
 				
-				<cfoutput>render_gantt('#session.root_url#', '#task.milestone().project().id#', 'normal');</cfoutput>
+				<cfoutput>render_gantt('#session.root_url#', '#milestone.project().id#', 'normal');</cfoutput>
    		 });
 	</script>
 </head>
@@ -68,16 +68,17 @@
 		<div id="header">
 			<table width="100%">
 				<tr>
-					<td><cfoutput><h1><strong>#task.object_name()#</strong></h1></cfoutput></td>
+					<td><cfoutput><h1><strong>#milestone.object_name()#</strong></h1></cfoutput></td>
 				</tr>
 				<tr>
 					<td align="right">
 						<cfoutput>
-						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#task.milestone().project().id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
-						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#task.milestone().project().id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
-						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#task.milestone().project().id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
-						<button class="pt_buttons" onclick="add_expense('#session.root_url#', '#task.id#', 'tasks', '#task.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
-						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#task.id#', '#task.id#', 'OBJ_TASK');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
+						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
+						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
+						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
+						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#milestone.project().id#', '#milestone.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
+						<button class="pt_buttons" onclick="add_expense('#session.root_url#', '#milestone.id#', 'milestones', '#milestone.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
+						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#milestone.id#', '#milestone.id#', 'OBJ_MILESTONE');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
 							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Move to Trash</button>
 						</cfif>
@@ -88,19 +89,19 @@
 		</div>	<!--- header --->
 		<div id="tabs">
 			<ul>
-					<li><a href="#tabs-paper">Task</a></li>					
+					<li><a href="#tabs-paper">Milestone</a></li>					
 					<li><a href="#tabs-gantt">Gantt Chart</a></li>
 			</ul>
 			<div id="tabs-paper">
 				<div id="left-column" class="panel">
-					<h1>Task Details</h1>
+					<h1>Milestone Details</h1>
 					<p>
 					<cfoutput>
 					<table>
 						<tbody>
 						<tr>
 							<td>Name:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="task_name" width="auto" show_label="false" full_refresh="false"></td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="milestone_name" width="auto" show_label="false" full_refresh="false"></td>
 							<td>Start date:</td>
 							<td>
 								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="start_date" width="auto" show_label="false" full_refresh="true">
@@ -108,7 +109,7 @@
 						</tr>
 						<tr>
 							<td>Project:</td>
-							<td><a href="#session.root_url#/project/edit_project.cfm?id=#task.project().id#">#task.project().object_name()#</a></td>
+							<td><a href="#session.root_url#/project/edit_project.cfm?id=#milestone.project().id#">#milestone.project().object_name()#</a></td>
 							<td>End Dates:</td>
 							<td>
 								Optimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="end_date_optimistic" width="auto" show_label="false" full_refresh="true"><br>
@@ -116,12 +117,7 @@
 								Pessimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="end_date_pessimistic" width="auto" show_label="false" full_refresh="true">																				
 							</td>				
 						</tr>				
-						<tr>
-							<td>Milestone:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="milestone_id" width="auto" show_label="false" full_refresh="false"></td>				
-							<td></td>
-							<td></td>
-						</tr>
+						
 						<tr>
 							<td>Completed:</td>				
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="completed" width="auto" show_label="false" full_refresh="false"></td>
@@ -135,12 +131,18 @@
 					</cfoutput>
 					</p>
 					
-					<h1>Description</h1>
-					<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="description" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
+					<h1>Tasks</h1>
+					<cfset tasks = milestone.tasks()>
+					
+					<cfloop array="#tasks#" index="t">
+						<cfoutput>
+						<p><a href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></p>
+						</cfoutput>
+					</cfloop>
 			
 					<h1>Expenses</h1>
-					<cfif ArrayLen(task.expenses()) EQ 0>
-						<p><em>No expenses recorded for this task.</em></p>
+					<cfif ArrayLen(milestone.expenses()) EQ 0>
+						<p><em>No expenses recorded for this milestone.</em></p>
 					<cfelse>
 						<table id="expenses-table">
 							<thead>
@@ -151,7 +153,7 @@
 								<th>Actions</th>
 							</thead>
 							<tbody>
-								<cfloop array="#task.expenses()#" index="expense">
+								<cfloop array="#milestone.expenses()#" index="expense">
 									<tr>
 									<cfoutput>
 										<td>#dateFormat(expense.expense_date, "m/dd/yyyy")#</td>
@@ -213,7 +215,7 @@
 					<center><cfoutput>#percent_budget_used#%</cfoutput> Spent</center>
 					<br>
 					Total Budget: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="true"><br>
-					Total Expenses: <cfoutput>#numberFormat(task.total_expenses(), ",_$___.__")#</cfoutput>
+					Total Expenses: <cfoutput>#numberFormat(milestone.total_expenses(), ",_$___.__")#</cfoutput>
 					<br><br>
 					<em>Note: these figures reflect only the current task.</em>
 				</div>  <!--- right-column --->

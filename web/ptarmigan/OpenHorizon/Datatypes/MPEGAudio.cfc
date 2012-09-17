@@ -1,4 +1,4 @@
-<cfcomponent implements="OpenHorizon.Datatypes.IDatatype" extends="OpenHorizon.Framework">
+<cfcomponent implements="ptarmigan.OpenHorizon.Datatypes.IDatatype" extends="ptarmigan.OpenHorizon.Framework">
 	<cffunction name="Render" access="public" output="yes" returntype="void">
     	<cfargument name="turl" type="string" required="yes">
        	<cfargument name="fpath" type="string" required="yes">

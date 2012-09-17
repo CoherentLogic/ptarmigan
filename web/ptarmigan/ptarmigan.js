@@ -380,9 +380,9 @@ function reset_apply_controls()
 // EXPENSES
 //
 
-function add_expense(root_url, element_table, element_id)
+function add_expense(root_url, return_to, element_table, element_id)
 {
-	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&suppress_headers";
+	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&return_to=" + escape(return_to);
 	open_dialog(url, 'Add Expense', 420, 580);	
 }
 
@@ -395,12 +395,12 @@ function edit_expense(root_url, expense_id)
 //
 // DOCUMENTS
 //
-function add_document(root_url, source_object_id, source_object_class)
+function add_document(root_url, return_to, source_object_id, source_object_class)
 {
-	var url = root_url + "/documents/add_document.cfm";
+	var url = root_url + "/documents/add_document.cfm?return_to=" + escape(return_to);
 
 	if (source_object_id) {
-		url += "?source_object_id=" + escape(source_object_id);
+		url += "&source_object_id=" + escape(source_object_id);
 		url += "&source_object_class=" + escape(source_object_class);
 	}	
 

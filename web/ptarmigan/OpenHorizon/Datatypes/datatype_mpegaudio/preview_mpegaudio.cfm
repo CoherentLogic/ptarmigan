@@ -1,4 +1,4 @@
-<cfset mp3 = CreateObject("component", "OpenHorizon.Audio.MP3").init()>
+<cfset mp3 = CreateObject("component", "ptarmigan.OpenHorizon.Audio.MP3").init()>
 <cfset mp3.Open(attributes.fpath)>
 
 <cfset prid = CreateUUID()>

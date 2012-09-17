@@ -16,7 +16,7 @@
 	
 	<cfset e.create()>
 	
-	<cflocation url="#session.root_url#/dashboard.cfm" addtoken="false">
+	<cflocation url="#session.root_url#/objects/dispatch.cfm?id=#form.return_to#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Expense" icon="#session.root_url#/images/project_dialog.png">
@@ -38,6 +38,7 @@
 						</cfcase>
 					</cfswitch>
 					</tr>
+					<cfoutput><input type="hidden" name="return_to" value="#url.return_to#"></cfoutput>
 					<tr>
 						<td>Expense date:</td>
 						<td><input class="pt_dates" type="text" required="true" name="expense_date" validateat="onblur" validate="date"></td>

@@ -64,7 +64,6 @@
 					<a href="##Documents">Documents</a>
 					<ul>
 						<li><a href="javascript:search_documents('#session.root_url#');">Search</a></li>
-						<li><a href="javascript:add_document('#session.root_url#');">Add</a></li>
 					</ul>
 				</li>
 				<cfif session.user.is_admin() EQ true>

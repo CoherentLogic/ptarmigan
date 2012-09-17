@@ -1,174 +1,199 @@
-<cfmodule template="../security/require.cfm" type="project">
 <cfsilent>
-<cfset project_id = url.id>
-<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(project_id)>
-<cfset p = CreateObject("component", "ptarmigan.project").open(project_id)>
-<cfset milestones = p.milestones()>
+	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
+	<cfset project = object.get()>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab,cftooltip">
 	<cfoutput>	
-		<title>#p.project_name# - ptarmigan</title>
-		
+		<title>#project.object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-		<link rel="stylesheet" type="text/css" href="#session.root_url#/jquery_ui/css/style.css">
-		<script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
-		<script src="#session.root_url#/jquery_ui/js/jquery.fn.gantt.js"></script>
-		
 	</cfoutput>		
-	<style>
-	#toolbar {
-		padding: 10px 4px;
-		overflow: hidden;
-	}
-	</style>
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
-				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "840px");
-				$("#accordion").accordion();		
+				$("#tabs").css("overflow", "hidden");
 				$("#navigation_bar").menubar({
 					autoExpand:true,
 					menuIcon:true,
 					buttons:false
 				});			
+				
 				$("#navigation_bar").css("color", "black");
-				$('#navigation_bar').css("float", "left");
-
-				$("#current_element_menu").menubar({
-					autoExpand:false,
-					menuIcon:true,
-					buttons:false
-				});
-				$("#project_menu").menubar({
-					autoExpand:true,
-					menuIcon:true,
-					buttons:false
-				});
-				$("#project_menu").css("float", "left");
-				
-
 				$(".ui-state-default").css("color", "black");
-				$("#view").buttonset();
-				
-				$("#view").css("float", "right");
+				$(".pt_buttons").button();								
+				bound_fields_init();
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				
 				<cfoutput>
-				select_element('#session.root_url#', 'projects', '#project_id#', '#p.project_name#');
-				
-				$("##current_element_menu").css("color", "black");
-				$("##current_element_menu").css("float", "left");				
-				$("##current_element_menu .ui-menu").css("width", "500px");
-				
-				
-				
 				$("##normal").click(function () {
-					render_gantt('#session.root_url#', '#p.id#', 'normal')	
+					render_gantt('#session.root_url#', '#project.id#', 'normal')	
 				});			
 				$("##optimistic").click(function () {
-					render_gantt('#session.root_url#', '#p.id#', 'optimistic')	
+					render_gantt('#session.root_url#', '#project.id#', 'optimistic')	
 				});			
 				$("##pessimistic").click(function () {
-					render_gantt('#session.root_url#', '#p.id#', 'pessimistic')	
+					render_gantt('#session.root_url#', '#project.id#', 'pessimistic')	
 				});			
 				$("##estimated").click(function () {
-					render_gantt('#session.root_url#', '#p.id#', 'estimated')	
-				});											
-	
-				render_gantt('#session.root_url#', '#p.id#', 'normal');	
-				
-				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
+					render_gantt('#session.root_url#', '#project.id#', 'estimated')	
+				});			
 				</cfoutput>
-	   		 });
+				$("#view").buttonset();
+				
+				
+				
+				<cfoutput>render_gantt('#session.root_url#', '#project.id#', 'normal');</cfoutput>
+   		 });
 	</script>
 </head>
-
 <body>
-	<cfoutput>
-	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
-	</cfoutput>	
-	<cfinclude template="#session.root_url#/navigation.cfm">	
-	<!--- BEGIN LAYOUT --->
+	<cfinclude template="#session.root_url#/navigation.cfm">
+	<!--- BEGIN LAYOUT --->	
 	<div id="container">
 		<div id="header">
-			<div id="toolbar" class="menubar-icons" >																		
-				<span id="view">
-					<input type="radio" value="normal" id="normal" name="view_duration" checked="checked" /><label for="normal">Normal</label>
-					<input type="radio" value="pessimistic" id="pessimistic" name="view_duration" /><label for="pessimistic">Pessimistic</label>
-					<input type="radio" value="optimistic" id="optimistic" name="view_duration" /><label for="optimistic">Optimistic</label>
-					<input type="radio" value="estimated" id="estimated" name="view_duration" /><label for="estimated">Estimated</label>
-				</span>
-				<cfoutput>				
-				<ul id="current_element_menu" class="menubar-icons">
-					<li>
-						<a href="##CurrentElement">#p.project_name#</a>
-						<ul>
-							<li>
-								<div id="current_element_menubox" style="height:320px;width:500px;">
-									Empty
-								</div>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul id="project_menu" class="menubar-icons">
-					<li>
-						<a href="##GanttChart">Gantt Chart</a>
-						<ul>
-							<li><a href="##" onclick="print_chart('#session.root_url#', '#p.id#', durations());">Print</a></li>
-							<li><a href="##" onclick="download_chart('#session.root_url#', '#p.id#', durations());">Download</a></li>
-							<li><a href="##" onclick="email_chart('#session.root_url#', '#p.id#', durations());">E-Mail</a></li>
-						</ul>
-					</li>
-					<!---
-					<li>
-						<a href="##Reports">Reports</a>
-						<ul>
-							<li><a href="##">Schedule cost</a></li>
-							<li><a href="##">Budget cost</a></li>
-							<li><a href="##">Project overlay</a></li>
-						</ul>
-					</li>
-					--->
-				</ul>
-				</cfoutput>
-			</div>			
-		</div>	
-		<div id="navigation">			
-			<h3>Project Browser</h3>
-			<blockquote>
-				<cfmodule template="project_browser.cfm" id="#project_id#">	
-			</blockquote>									
-		</div>
-		<div id="content">			
-			<div id="tabs">
-				<ul>
-					<li><a href="#tabs-project">Project</a></li>					
-					<li><a href="#tabs-budget">Budget</a></li>
-					<li><a href="#tabs-expenses">Expenses</a></li>
-					<li><a href="#tabs-alerts">Alerts</a></li>					
-				</ul>
-				<div id="tabs-project">
-					<input type="hidden" id="current_element_table" value="projects">
+			<table width="100%">
+				<tr>
+					<td><cfoutput><h1><strong>#project.object_name()#</strong></h1></cfoutput></td>
+				</tr>
+				<tr>
+					<td align="right">
+						<cfoutput>
+						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
+						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
+						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
+						<button class="pt_buttons" onclick="add_milestone('#session.root_url#', '#project.id#');" id="add_ms"><img src="#session.root_url#/images/add.png" align="absmiddle"> Milestone</button>
+						<button class="pt_buttons" id="add_co" onclick="add_change_order('#session.root_url#', '#project.id#')"><img src="#session.root_url#/images/add.png" align="absmiddle"> Change Order</button> 
+						<button class="pt_buttons" id="apply_co" onclick="apply_change_order('#session.root_url#', '#project.id#');">Apply C/O</button>
+						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
+						<cfif session.user.is_admin() EQ true>
+							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Trash</button>
+						</cfif>
+						</cfoutput>
+					</td>
+				</tr>
+			</table>
+		</div>	<!--- header --->
+		<div id="tabs">
+			<ul>
+					<li><a href="#tabs-paper">Project</a></li>					
+					<li><a href="#tabs-gantt">Gantt Chart</a></li>
+			</ul>
+			<div id="tabs-paper">
+				<div id="left-column" class="panel">
+					<h1>Project Details</h1>
+					<p>
 					<cfoutput>
-					<input type="hidden" id="current_element_id" value="#project_id#">
-					</cfoutput>									
-					<div class="gantt">	</div>
-				</div>
-				<div id="tabs-budget">
-					<cfmodule template="budget.cfm" id="#project_id#" mode="edit">
-				</div>
-				<div id="tabs-expenses">
-					<cfmodule template="expenses.cfm" id="#project_id#" mode="edit">
-				</div>
-				<div id="tabs-alerts">
-					<cfmodule template="alerts.cfm" id="#project_id#">
-				</div>				
-			</div> <!--- tabs --->
-		</div> <!---content --->
-	</div>	<!--- container --->
+					<table>
+						<tbody>
+						<tr>
+							<td>Name:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="project_name" width="auto" show_label="false" full_refresh="false"></td>
+							<td>Start date:</td>
+							<td>
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="start_date" width="auto" show_label="false" full_refresh="true">
+							</td>
+						</tr>
+						<tr>
+							<td>Customer:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="customer_id" show_label="false" full_refresh="false"></td>
+							<td>End Dates:</td>
+							<td>
+								Optimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date_optimistic" width="auto" show_label="false" full_refresh="true"><br>
+								Normal: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date" width="auto" show_label="false" full_refresh="true"><br>
+								Pessimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date_pessimistic" width="auto" show_label="false" full_refresh="true">																				
+							</td>				
+						</tr>				
+						<tr>
+							<td>Project Number:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="project_number" width="auto" show_label="false" full_refresh="false"></td>				
+							<td>Tax Rate:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="tax_rate" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						
+						</tbody>
+					</table>
+					</cfoutput>
+					</p>
+					
+					<h1>Instructions</h1>
+					<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="instructions" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
+
+					<h1>Milestones &amp; Tasks</h1>
+					
+					<cfset milestones = project.milestones()>
+					<cfloop array="#milestones#" index="ms">
+						<p><cfoutput><a href="#session.root_url#/project/manage_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a></cfoutput>
+							<blockquote>
+								<cfset tasks = ms.tasks()>
+								<cfloop array="#tasks#" index="t">
+									<p><cfoutput><a href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></cfoutput></p>
+								</cfloop>
+							</blockquote>
+						</p>
+					</cfloop>
+
+					<h1>Budget Allocation</h1>
+					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">
+					
+			
+					<br><br>
+					<h1>Documents</h1>
+					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
+						<p><em>No documents associated with this project</em></p>
+					<cfelse>
+						<p>
+						<div style="overflow:hidden">
+						<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT')#" index="document">
+							<cfoutput>
+								<cfmodule template="#session.root_url#/documents/thumbnail.cfm" id="#document.get().id#">
+							</cfoutput>
+						</cfloop>
+						</p>
+						</div>
+					</cfif>
+					
+					<h1>Edit History</h1>
+					<cfif object.get_audits().recordcount EQ 0>
+						<p><em>No edits associated with this project</em></p>
+					<cfelse>
+						<cfset aud_query = object.get_audits()>
+						<cfoutput query="aud_query">
+							<cfset emp = CreateObject("component", "ptarmigan.object").open(employee_id)>
+							<div class="comment_box">
+								<span style="font-size:10px;color:gray;">#dateFormat(edit_date, "full")# #timeFormat(edit_date, "h:mm tt")# C/O ##: #change_order_number#</span>
+								
+								<p><span style="color:##2957a2;">#emp.get().object_name()#</span> changed <strong>#member_name#</strong> from <strong>#original_value#</strong> to <strong>#new_value#</strong>
+								<br><em>#comment#</em>
+								</p>
+								
+								
+							</div>
+						</cfoutput>
+					</cfif>
+					
+			
+				</div>	<!--- left-column --->
+				<div id="right-column" class="panel">
+					<h1>Budget</h1>
+					<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="false">
+
+				</div>  <!--- right-column --->
+			</div> <!--- paper --->
+			<div id="tabs-gantt">
+				
+				<span id="view">
+					<input autocomplete="off" type="radio" value="normal" id="normal" name="view_duration" checked="checked" /><label for="normal">Normal</label>
+					<input autocomplete="off" type="radio" value="pessimistic" id="pessimistic" name="view_duration" /><label for="pessimistic">Pessimistic</label>
+					<input autocomplete="off" type="radio" value="optimistic" id="optimistic" name="view_duration" /><label for="optimistic">Optimistic</label>
+					<input autocomplete="off" type="radio" value="estimated" id="estimated" name="view_duration" /><label for="estimated">Estimated</label>
+				</span>
+				<div class="gantt" style="float:left;">	</div>
+			</div>
+		</div> <!--- tabs --->
+	</div> <!--- container --->
+
 </body>
+
 </html>

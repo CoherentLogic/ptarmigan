@@ -11,6 +11,7 @@
 	<cfset this.filing_material_type = "FOLDER">
 	<cfset this.filing_number = "">
 	<cfset this.filing_date = CreateODBCDate(Now())>
+	<cfset this.thumbnail_url = "">	
 	
 	<cfset this.members = StructNew()>
 	
@@ -77,7 +78,8 @@
 							filing_division,
 							filing_material_type,
 							filing_number,
-							filing_date)
+							filing_date,
+							thumbnail_url)
 			VALUES			('#this.id#',
 							'#this.path#',
 							'#this.document_name#',
@@ -89,7 +91,8 @@
 							'#this.filing_division#',
 							'#this.filing_material_type#',
 							'#this.filing_number#',
-							#this.filing_date#)
+							#this.filing_date#,
+							'#this.thumbnail_url#')
 		</cfquery>
 		
 		<cfset session.message = "Document #this.document_name# added.">
@@ -126,6 +129,7 @@
 		<cfset this.filing_material_type = od.filing_material_type>
 		<cfset this.filing_number = od.filing_number>
 		<cfset this.filing_date = od.filing_date>
+		<cfset this.thumbnail_url = od.thumbnail_url>
 		
 		<cfset session.message = "Document #this.document_name# opened.">
 
@@ -148,7 +152,8 @@
 					filing_division='#this.filing_division#',
 					filing_material_type='#this.filing_material_type#',
 					filing_number='#this.filing_number#',
-					filing_date=#this.filing_date#
+					filing_date=#this.filing_date#,
+					thumbnail_url='#this.thumbnail_url#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		<cfset session.message = "Document #this.document_name# updated.">
@@ -213,6 +218,40 @@
 		</cfquery>
 
 	</cffunction>	
+ 
+	<cffunction name="generate_thumbnail" returntype="void" access="public" output="false">		
+		<cfswitch expression="#this.content_type()#">
+			<cfcase value="image">
+				<cfset has_preview = true>
+				<cfoutput>
+					<cfset the_url = session.root_url & "/uploads/" & this.path>
+					<cfset this.thumbnail_url = CreateObject("component", "ptarmigan.OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
+					<cfset this.update()>
+				</cfoutput>
+			</cfcase>		
+			<cfcase value="application">
+				<cfswitch expression="#this.content_sub_type()#">
+					<cfcase value="pdf,vnd.pdf" delimiters=",">
+						<cfpdf action="getInfo" source="#session.upload_path#/#this.path#" name="pdf_info">
+						<cfset page_count = pdf_info.TotalPages>
+						<cfpdf 	action="thumbnail" 
+								source="#session.upload_path#/#this.path#"
+								destination="#session.upload_path#"
+								overwrite="true"
+								format="jpg"
+								scale="100"
+								pages="1">
+						<cfset base_file_name = left(this.path, len(this.path) - 4)>
+								
+						<cfset current_file = base_file_name & "_page_1.jpg">
+						<cfset the_url = session.root_url & "/uploads/" & current_file>
+						<cfset this.thumbnail_url = CreateObject("component", "ptarmigan.OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
+						<cfset this.update()>	
+					</cfcase>
+				</cfswitch>
+			</cfcase>
+		</cfswitch>
+	</cffunction>
 
 	<cffunction name="content_type" returntype="string" access="public" output="false">	
 		<cfif find("/", this.mime_type) NEQ 0>

@@ -1,4 +1,4 @@
-<cfcomponent displayname="Image" hint="Contains routines for image manipulation" extends="OpenHorizon.Framework" output="false">
+<cfcomponent displayname="Image" hint="Contains routines for image manipulation" extends="ptarmigan.OpenHorizon.Framework" output="false">
 	
 	<cfset this.InputURL = "">
 	<cfset this.URL = "">
@@ -64,6 +64,7 @@
 				<cfimage source="#tmpImage#" name="SourceImage">			<!--- read the source image into coldfusion --->
 				
                 <cfcatch type="any">
+					<cflog application="true" file="OpenHorizon" type="error" text="OpenHorizon.Graphics.Image: Could not thumbnail #tmpImage# (#cfcatch.message#)">
             		<cfreturn #InputURL#>
             	</cfcatch>
             </cftry>		
@@ -73,7 +74,7 @@
 			</cfif>
 															
 			<cfparam name="NewPath" default="">						<!--- write the new image --->
-			<cfset NewPath = this.ThumbnailCache & this.ID & "." & this.Extension>
+			<cfset NewPath = this.ThumbnailCache & "/" & this.ID & "." & this.Extension>
 			<cfimage source="#SourceImage#" action="write" destination="#NewPath#" overwrite="true">
 			
 			<cfquery name="qryWriteThumb" datasource="#this.BaseDatasource#">
@@ -102,7 +103,7 @@
 		
 		<cfparam name="tmpURL" default="">
 		
-		<cfset tmpURL = "#this.URLBase#OpenHorizon/Resources/Graphics/ThumbnailCache/" & this.ID & "." & this.Extension>
+		<cfset tmpURL = "#this.URLBase#/OpenHorizon/Resources/Graphics/ThumbnailCache/" & this.ID & "." & this.Extension>
 		<cfset this.URL = tmpURL>
 		<cfreturn #this.URL#>
 	</cffunction>
@@ -112,9 +113,11 @@
 		<cfparam name="tmpName" default="">
 		<cfset tmpName = this.ID & "~WRK." & this.Extension>
 		
-		<cfhttp url="#this.InputURL#" method="get" path="#this.ThumbnailCache#" file="#tmpName#" getasbinary="yes">
+		<cfhttp url="#this.BaseHost##this.InputURL#" method="get" path="#this.ThumbnailCache#" file="#tmpName#" getasbinary="yes">
+		
+		<cflog application="true" file="OpenHorizon" text="CopyLocal: #cfhttp.StatusCode# #cfhttp.ErrorDetail#">
 
-		<cfset tmpName = this.ThumbnailCache & tmpName>
+		<cfset tmpName = this.ThumbnailCache & "/" & tmpName>
 		<cfreturn #tmpName#>
 	</cffunction>
 	

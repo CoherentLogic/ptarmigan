@@ -13,6 +13,14 @@
 		
 	<cfset d.create()>
 	
+	<cfif IsDefined("form.upload_file")>
+		<cffile action="upload" filefield="form.upload_file" destination="#session.upload_path#" nameconflict="makeunique">
+		<cfset d.path = cffile.serverfile>
+		<cfset d.mime_type = cffile.ContentType & "/" & cffile.ContentSubType>
+		<cfset d.update()>
+		<cfset d.generate_thumbnail()>
+	</cfif>
+	
 	<cfif IsDefined("form.source_object_id")>
 		<cfset assoc = CreateObject("component", "ptarmigan.object_association")>
 		
@@ -23,13 +31,12 @@
 		
 		<cfset assoc.create()>
 	</cfif>
-	
-	<cflocation url="#session.root_url#/documents/manage_document.cfm?id=#d.id#" addtoken="false">
+	<cflocation url="#session.root_url#/objects/dispatch.cfm?id=#form.return_to#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Document" icon="#session.root_url#/images/project_dialog.png">
 	
-		<cfform name="add_document" id="add_document" action="#session.root_url#/documents/add_document.cfm" method="post">
+		<cfoutput><form name="add_document" id="add_document" action="#session.root_url#/documents/add_document.cfm" method="post" enctype="multipart/form-data"></cfoutput>
 			<!---
 				passed in if we're associating the new document with something immediately on submit
 			--->
@@ -39,7 +46,9 @@
 					<input type="hidden" name="source_object_class" value="#url.source_object_class#">
 				</cfoutput>
 			</cfif>
-			
+			<cfoutput>
+			<input type="hidden" name="return_to" value="#url.return_to#">		
+			</cfoutput>
 			<div style="padding:20px; margin-top:20px;">
 				<div id="tabs" class="pt_tabs">
 					<ul>
@@ -51,16 +60,20 @@
 						<table>
 							<tr>
 								<td>Name:</td>
-								<td><cfinput type="text" name="document_name"></td>
+								<td><input type="text" name="document_name"></td>
 							</tr>
 							<tr>
 								<td>Document #:</td>
-								<td><cfinput type="text" name="document_number"></td>
+								<td><input type="text" name="document_number"></td>
 							</tr>
 							<tr>
 								<td>Description:</td>
 								<td><textarea name="description"></textarea></td>
-							</tr>								
+							</tr>		
+							<tr>
+								<td>File:</td>
+								<td><input type="file" name="upload_file"></td>
+							</tr>						
 						</table>
 						</div>
 					</div>
@@ -69,7 +82,7 @@
 							<table>
 								<tr>
 									<td>Filing date:</td>
-									<td><cfinput type="text" name="filing_date" value="#dateFormat(Now(), 'mm/dd/yyyy')#"></td>
+									<cfoutput><td><input type="text" name="filing_date" value="#dateFormat(Now(), 'mm/dd/yyyy')#"></td></cfoutput>
 								</tr>
 								<tr>
 									<td>Container:</td>
@@ -111,7 +124,7 @@
 				</div> <!--- tabs --->					
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
-		</cfform>
+		</form>
 		
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
 	    	<div style="padding:8px; float:right;">

@@ -9,7 +9,7 @@
 	</cfcase>		
 	<cfcase value="application">
 		<cfswitch expression="#document.content_sub_type()#">
-			<cfcase value="pdf">
+			<cfcase value="pdf,vnd.pdf" delimiters=",">
 				<cfpdf action="getInfo" source="#session.upload_path#/#document.path#" name="pdf_info">
 				<cfset page_count = pdf_info.TotalPages>
 				<cfpdf 	action="thumbnail" 

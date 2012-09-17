@@ -9,6 +9,7 @@
 
 <cfparam name="session.root_url" default="/ptarmigan">
 <cfparam name="session.upload_path" default="/var/www/html/ptarmigan/uploads">
+<cfparam name="session.thumbnail_cache" default="/var/www/html/ptarmigan/OpenHorizon/Resources/Graphics/ThumbnailCache">
 <cfset session.company = CreateObject("component", "ptarmigan.company.company").open()>
 <cfset session.current_object = CreateObject("component", "ptarmigan.object").open(session.company.object_name())>
 <cfif IsDefined("url.set_theme")>
