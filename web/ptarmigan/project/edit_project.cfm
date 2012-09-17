@@ -133,11 +133,8 @@
 							</blockquote>
 						</p>
 					</cfloop>
-
 					<h1>Budget Allocation</h1>
-					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">
-					
-			
+					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">								
 					<br><br>
 					<h1>Documents</h1>
 					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
@@ -152,8 +149,7 @@
 						</cfloop>
 						</p>
 						</div>
-					</cfif>
-					
+					</cfif>					
 					<h1>Edit History</h1>
 					<cfif object.get_audits().recordcount EQ 0>
 						<p><em>No edits associated with this project</em></p>
@@ -162,27 +158,24 @@
 						<cfoutput query="aud_query">
 							<cfset emp = CreateObject("component", "ptarmigan.object").open(employee_id)>
 							<div class="comment_box">
-								<span style="font-size:10px;color:gray;">#dateFormat(edit_date, "full")# #timeFormat(edit_date, "h:mm tt")# C/O ##: #change_order_number#</span>
-								
+								<span style="font-size:10px;color:gray;">#dateFormat(edit_date, "full")# #timeFormat(edit_date, "h:mm tt")# C/O ##: #change_order_number#</span>								
 								<p><span style="color:##2957a2;">#emp.get().object_name()#</span> changed <strong>#member_name#</strong> from <strong>#original_value#</strong> to <strong>#new_value#</strong>
 								<br><em>#comment#</em>
-								</p>
-								
-								
+								</p>																
 							</div>
 						</cfoutput>
-					</cfif>
-					
-			
+					</cfif>								
 				</div>	<!--- left-column --->
 				<div id="right-column" class="panel">
 					<h1>Budget</h1>
 					<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="false">
-
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">
-				
+				<cfoutput>
+					<input type="hidden" id="current_element_table" value="projects">					
+					<input type="hidden" id="current_element_id" value="#project.id#">
+				</cfoutput>											
 				<span id="view">
 					<input autocomplete="off" type="radio" value="normal" id="normal" name="view_duration" checked="checked" /><label for="normal">Normal</label>
 					<input autocomplete="off" type="radio" value="pessimistic" id="pessimistic" name="view_duration" /><label for="pessimistic">Pessimistic</label>
@@ -193,7 +186,6 @@
 			</div>
 		</div> <!--- tabs --->
 	</div> <!--- container --->
-
 </body>
 
 </html>

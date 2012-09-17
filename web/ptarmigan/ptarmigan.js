@@ -233,34 +233,16 @@ function render_gantt(root_url, project_id, durations)
 
 function select_element(root_url, table, id, button_caption)
 {
-	var url = root_url + "/project/element_menu.cfm?current_element_table=" + escape(table) + "&current_element_id=" + escape(id);
-
-	$("#current_element_table").val(table);
-	$("#current_element_id").val(id);
-	$("#current_element_menu .ui-button-text").text(button_caption);
-
-	$("#current_element_menubox").html(request(url));
 
 	switch(table) {
 	case 'projects':
-		$("#edit_proj").button();
-		$("#add_ms").button();
-		$("#add_co").button();
-		$("#apply_co").button();
-		$("#delete_project").button();
+		window.location.replace(root_url + "/project/edit_project.cfm?id=" + escape(id));
 		break;
 	case 'milestones':
-		$("#edit_ms").button();
-		$("#add_task").button();
-		$("#add_expense").button();
-		$("#view_ms_audit_log").button();
-		$("#delete_ms").button()
+		window.location.replace(root_url + "/project/manage_milestone.cfm?id=" + escape(id));
 		break;
 	case 'tasks':
-		$("#edit_task").button();
-		$("#add_expense_task").button();
-		$("#view_task_audit_log").button();
-		$("#delete_task").button()
+		window.location.replace(root_url + "/project/manage_task.cfm?id=" + escape(id));
 		break;
 	}
 }
