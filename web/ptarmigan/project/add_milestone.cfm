@@ -26,7 +26,7 @@
 	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#url.id#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
-		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Milestone" icon="#session.root_url#/images/project_dialog.png">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="add_milestone" id="add_milestone" action="#session.root_url#/project/add_milestone.cfm?id=#url.id#" method="post">
 			<div style="padding:20px;">
@@ -35,11 +35,11 @@
 				</cfoutput>
 				<table style="margin-top:20px;">
 					<tr>
-						<td>Milestone number:</td>
+						<td>Task number:</td>
 						<td><cfinput type="text" name="milestone_number" required="true"></td>
 					</tr>
 					<tr>
-						<td>Milestone name:</td>
+						<td>Task name:</td>
 						<td><cfinput type="text" name="milestone_name" required="true"></td>
 					</tr>
 					<tr>
@@ -52,7 +52,7 @@
 					</tr>
 					<tr>
 						<td>Weekends:</td>
-						<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from milestone duration</label></td>
+						<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from task duration</label></td>
 					</tr>
 					<tr>
 						<td>End date (normal):</td>

@@ -76,7 +76,7 @@
 						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
 						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
 						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#milestone.project().id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
-						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#milestone.project().id#', '#milestone.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
+						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#milestone.project().id#', '#milestone.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Subtask</button>
 						<button class="pt_buttons" onclick="add_expense('#session.root_url#', '#milestone.id#', 'milestones', '#milestone.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#milestone.id#', '#milestone.id#', 'OBJ_MILESTONE');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
@@ -89,12 +89,12 @@
 		</div>	<!--- header --->
 		<div id="tabs">
 			<ul>
-					<li><a href="#tabs-paper">Milestone</a></li>					
+					<li><a href="#tabs-paper">Task</a></li>					
 					<li><a href="#tabs-gantt">Gantt Chart</a></li>
 			</ul>
 			<div id="tabs-paper">
 				<div id="left-column" class="panel">
-					<h1>Milestone Details</h1>
+					<h1>Task Details</h1>
 					<p>
 					<cfoutput>
 					<table>
@@ -131,7 +131,7 @@
 					</cfoutput>
 					</p>
 					
-					<h1>Tasks</h1>
+					<h1>Subtasks</h1>
 					<cfset tasks = milestone.tasks()>
 					
 					<cfloop array="#tasks#" index="t">
@@ -142,7 +142,7 @@
 			
 					<h1>Expenses</h1>
 					<cfif ArrayLen(milestone.expenses()) EQ 0>
-						<p><em>No expenses recorded for this milestone.</em></p>
+						<p><em>No expenses recorded for this task.</em></p>
 					<cfelse>
 						<table id="expenses-table">
 							<thead>

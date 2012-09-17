@@ -426,7 +426,7 @@
 				<cfset s_data = StructNew()>
 				
 				<cfset s_src.name = ms.milestone_name>
-				<cfset s_src.desc = "Milestone">
+				<cfset s_src.desc = "Task">
 				<cfset s_src.values = ArrayNew(1)>
 				
 				<cfset s_data.element_table = "milestones">
@@ -482,7 +482,7 @@
 						<cfset s_data = StructNew()>
 						
 						<cfset s_src.name = t.task_name>
-						<cfset s_src.desc = "Task">
+						<cfset s_src.desc = "Subtask">
 						<cfset s_src.values = ArrayNew(1)>
 						
 						<cfset s_data.element_table = "tasks">

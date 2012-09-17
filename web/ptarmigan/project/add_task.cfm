@@ -28,13 +28,13 @@
 	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.project().id#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
-		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Subtask" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfform name="add_task" id="add_task" action="#session.root_url#/project/add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#" method="post">
 			<div style="padding:20px; font-size:12pt; margin-top:20px;">				
 				<cfset proposed_start_date = dateAdd("d", 1, milestone.last_task_end_date())>
 				<cfif milestone.floating EQ 0>
-					<cfoutput><p><em>Milestone date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
+					<cfoutput><p><em>Task date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
 					<p><em>Last entered task had an end date of <cfoutput>#dateFormat(milestone.last_task_end_date(), 'm/dd/yyyy')#</cfoutput></em></p>
 				<cfelse>
 					<p><em>This is a floating milestone. Start and end dates will not be available for this task.</em></p>
@@ -43,11 +43,11 @@
 				
 				<table style="margin-top:20px;">
 					<tr>
-						<td>Milestone:</td>
+						<td>Task:</td>
 						<td><cfoutput>#milestone.milestone_name#</cfoutput></td>
 					</tr>
 					<tr>		
-						<td>Task name:</td>
+						<td>Subtask name:</td>
 						<td>
 							<cfinput type="text" name="task_name"><br>
 							<label><input type="checkbox" name="completed">Completed</input></label>
@@ -60,7 +60,7 @@
 						</tr>
 						<tr>
 							<td>Weekends:</td>
-							<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from task duration</label></td>
+							<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from subtask duration</label></td>
 						</tr>
 						<tr>
 							<td>End date (normal):</td>

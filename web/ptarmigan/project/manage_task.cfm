@@ -93,7 +93,7 @@
 			</ul>
 			<div id="tabs-paper">
 				<div id="left-column" class="panel">
-					<h1>Task Details</h1>
+					<h1>Subtask Details</h1>
 					<p>
 					<cfoutput>
 					<table>
@@ -117,7 +117,7 @@
 							</td>				
 						</tr>				
 						<tr>
-							<td>Milestone:</td>
+							<td>Task:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="milestone_id" width="auto" show_label="false" full_refresh="false"></td>				
 							<td></td>
 							<td></td>
@@ -140,7 +140,7 @@
 			
 					<h1>Expenses</h1>
 					<cfif ArrayLen(task.expenses()) EQ 0>
-						<p><em>No expenses recorded for this task.</em></p>
+						<p><em>No expenses recorded for this subtask.</em></p>
 					<cfelse>
 						<table id="expenses-table">
 							<thead>
@@ -168,7 +168,7 @@
 					<br><br>
 					<h1>Documents</h1>
 					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
-						<p><em>No documents associated with this task.</em></p>
+						<p><em>No documents associated with this subtask.</em></p>
 					<cfelse>
 						<p>
 						<div style="overflow:hidden">
@@ -183,7 +183,7 @@
 					
 					<h1>Edit History</h1>
 					<cfif object.get_audits().recordcount EQ 0>
-						<p><em>No edits associated with this task</em></p>
+						<p><em>No edits associated with this subtask</em></p>
 					<cfelse>
 						<cfset aud_query = object.get_audits()>
 						<cfoutput query="aud_query">
@@ -215,7 +215,7 @@
 					Total Budget: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="true"><br>
 					Total Expenses: <cfoutput>#numberFormat(task.total_expenses(), ",_$___.__")#</cfoutput>
 					<br><br>
-					<em>Note: these figures reflect only the current task.</em>
+					<em>Note: these figures reflect only the current subtask.</em>
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">

@@ -63,7 +63,7 @@
 						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
 						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
 						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
-						<button class="pt_buttons" onclick="add_milestone('#session.root_url#', '#project.id#');" id="add_ms"><img src="#session.root_url#/images/add.png" align="absmiddle"> Milestone</button>
+						<button class="pt_buttons" onclick="add_milestone('#session.root_url#', '#project.id#');" id="add_ms"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
 						<button class="pt_buttons" id="add_co" onclick="add_change_order('#session.root_url#', '#project.id#')"><img src="#session.root_url#/images/add.png" align="absmiddle"> Change Order</button> 
 						<button class="pt_buttons" id="apply_co" onclick="apply_change_order('#session.root_url#', '#project.id#');">Apply C/O</button>
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
@@ -120,7 +120,7 @@
 					<h1>Instructions</h1>
 					<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="instructions" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
 
-					<h1>Milestones &amp; Tasks</h1>
+					<h1>Tasks &amp; Subtasks</h1>
 					
 					<cfset milestones = project.milestones()>
 					<cfloop array="#milestones#" index="ms">

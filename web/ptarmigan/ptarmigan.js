@@ -300,13 +300,13 @@ function menu_current_element(root_url)
 function add_milestone(root_url, project_id)
 {
 	var url = root_url + "/project/add_milestone.cfm?id=" + escape(project_id) + "&suppress_headers";
-	open_dialog(url, 'Add Milestone', 630, 560);
+	open_dialog(url, 'Add Task', 630, 560);
 }
 
 function edit_milestone(root_url, id)
 {
 	var url = root_url + "/project/edit_milestone.cfm?id=" + escape(id) + "&suppress_headers";
-	open_dialog(url, 'Edit Milestone', 830, 530 + 90);
+	open_dialog(url, 'Edit Task', 830, 530 + 90);
 }
 
 //
@@ -315,13 +315,13 @@ function edit_milestone(root_url, id)
 function add_task(root_url, project_id, milestone_id)
 {
 	var url = root_url + "/project/add_task.cfm?id=" + escape(project_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-	open_dialog(url, 'Add Task', 630, 650);
+	open_dialog(url, 'Add Subtask', 630, 650);
 }
 
 function edit_task(root_url, task_id, milestone_id)
 {
 	var url = root_url + "/project/edit_task.cfm?id=" + escape(task_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-	open_dialog(url, 'Edit Task', 830, 650);
+	open_dialog(url, 'Edit Subtask', 830, 650);
 }
 
 //
