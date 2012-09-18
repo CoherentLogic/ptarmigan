@@ -39,25 +39,9 @@
         			"bJQueryUI": true,
         			"sPaginationType": "full_numbers"
 				});
-				<cfoutput>
-				$("##normal").click(function () {
-					render_gantt('#session.root_url#', '#milestone.project().id#', 'normal')	
-				});			
-				$("##optimistic").click(function () {
-					render_gantt('#session.root_url#', '#milestone.project().id#', 'optimistic')	
-				});			
-				$("##pessimistic").click(function () {
-					render_gantt('#session.root_url#', '#milestone.project().id#', 'pessimistic')	
-				});			
-				$("##estimated").click(function () {
-					render_gantt('#session.root_url#', '#milestone.project().id#', 'estimated')	
-				});			
-				</cfoutput>
-				$("#view").buttonset();
 				
 				
-				
-				<cfoutput>render_gantt('#session.root_url#', '#milestone.project().id#', 'normal');</cfoutput>
+				<cfoutput>render_gantt('#session.root_url#', '#milestone.project().id#');</cfoutput>
    		 });
 	</script>
 </head>
@@ -220,14 +204,7 @@
 					<em>Note: these figures reflect only the current task.</em>
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
-			<div id="tabs-gantt">
-				
-				<span id="view">
-					<input autocomplete="off" type="radio" value="normal" id="normal" name="view_duration" checked="checked" /><label for="normal">Normal</label>
-					<input autocomplete="off" type="radio" value="pessimistic" id="pessimistic" name="view_duration" /><label for="pessimistic">Pessimistic</label>
-					<input autocomplete="off" type="radio" value="optimistic" id="optimistic" name="view_duration" /><label for="optimistic">Optimistic</label>
-					<input autocomplete="off" type="radio" value="estimated" id="estimated" name="view_duration" /><label for="estimated">Estimated</label>
-				</span>
+			<div id="tabs-gantt">						
 				<div class="gantt" style="float:left;">	</div>
 			</div>
 		</div> <!--- tabs --->

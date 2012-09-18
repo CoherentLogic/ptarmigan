@@ -203,19 +203,16 @@ function open_project(root_url)
 	open_dialog(url, 'Open Project', 630, 460);
 }
 
-function edit_project(root_url, project_id)
+
+
+function render_gantt(root_url, project_id)
 {
-	var url = root_url + "/project/project_properties.cfm?id=" + escape(project_id);
-
-	open_dialog(url, 'Edit Project', 630, 700);
-}
-
-
-function render_gantt(root_url, project_id, durations)
-{
-	var url = root_url + "/project/json/gantt.cfm?id=" + escape(project_id) + "&durations=" + escape(durations);
+	var url = root_url + "/project/json/gantt.cfm?id=" + escape(project_id);		
+	//alert(request(url));	
 	var source_var =  eval('(' + request(url) + ')');
+
 		
+	
 	$(".gantt").gantt({
 		source: source_var.json,
 		navigate: "scroll",
@@ -224,14 +221,14 @@ function render_gantt(root_url, project_id, durations)
 		minScale: "days",
 		itemsPerPage: 20,
 		onItemClick: function(data) {
-			select_element(root_url, data.element_table, data.element_id, data.button_caption);
+			select_element(root_url, data.element_table, data.element_id);
 		},
 		onAddClick: function(dt, rowId) {
 		}
 	});				
 }
 
-function select_element(root_url, table, id, button_caption)
+function select_element(root_url, table, id)
 {
 
 	switch(table) {
@@ -276,35 +273,17 @@ function menu_current_element(root_url)
 	
 }
 
-//
-// MILESTONES
-//
-function add_milestone(root_url, project_id)
-{
-	var url = root_url + "/project/add_milestone.cfm?id=" + escape(project_id) + "&suppress_headers";
-	open_dialog(url, 'Add Task', 630, 560);
-}
-
-function edit_milestone(root_url, id)
-{
-	var url = root_url + "/project/edit_milestone.cfm?id=" + escape(id) + "&suppress_headers";
-	open_dialog(url, 'Edit Task', 830, 530 + 90);
-}
 
 //
 // TASKS
 //
-function add_task(root_url, project_id, milestone_id)
+function add_task(root_url, project_id)
 {
-	var url = root_url + "/project/add_task.cfm?id=" + escape(project_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-	open_dialog(url, 'Add Subtask', 630, 650);
+	var url = root_url + "/project/add_task.cfm?project_id=" + escape(project_id);
+	//alert(request(url));	
+	open_dialog(url, 'Add Task', 630, 650);
 }
 
-function edit_task(root_url, task_id, milestone_id)
-{
-	var url = root_url + "/project/edit_task.cfm?id=" + escape(task_id) + "&milestone_id=" + escape(milestone_id) + "&suppress_headers";
-	open_dialog(url, 'Edit Subtask', 830, 650);
-}
 
 //
 // CHANGE ORDERS
@@ -778,3 +757,47 @@ function bound_field_revert(base_id, original_value)
 	$(edit_id).hide();	
 	$(value_id).fadeIn();		
 }
+
+
+//
+// FIXES FOR CFCHART WEIRDNESS
+//
+
+var __xx_set_visible = {};
+function xx_set_visible(imgId, tipId, e, show){
+    // get the table we're going to show
+    var $tip = $("#" + tipId);
+    if( !__xx_set_visible[tipId] ){
+        // move to the body and make visible
+        $tip.appendTo("body").css("visibility", "visible");
+        __xx_set_visible[tipId] = true;
+    }
+    $tip[show ? "show" : "hide"]();
+    // make sure we place the tip in the correct location
+    xx_move_tag(imgId, tipId, e);
+}
+function xx_move_tag(imgId, tipId, e){
+    // get the table we're going to show
+    var $tip = $("#" + tipId);
+    // get the scroll offsets
+    var scroll = {top: $(window).scrollTop(), left: $(window).scrollLeft()};
+    // if we're IE we need to create the e.pageX/pageY events    
+    if( !e.pageY ){
+        e.pageY = e.clientY + scroll.top;
+        e.pageX = e.clientX + scroll.left;
+    }
+    var pos = {top: e.pageY + 20, left: e.pageX + 10}; // add padding for cursor
+    var tip = {width: $tip.outerWidth() + 10, height: $tip.outerHeight() + 10}; // add padding for edge
+    var screen = {right: scroll.left + $("body").width(), bottom: scroll.top + $(window).height()};
+    // if we're going to be off the screen, adjust the position
+    if( pos.left + tip.width > screen.right ){
+        // don't move past most right of screen
+        pos.left = screen.right - tip.width; // pos.left - tip.width || screen.right - tip.width - 10;
+    }
+    if( pos.top + tip.height > screen.bottom ){
+        // don't move past most right of screen
+        pos.top = pos.top - tip.height - 15; // since we're moving tip above we need adjust for the original padding we add
+    }
+    // position the
+    $tip.css(pos);
+} 

@@ -160,8 +160,7 @@
 					<li><a href="#aPreview">Preview</a></li>
 					<li><a href="#aEmployees">Employees</a></li>
 					<li><a href="#aCustomers">Customers</a></li>
-					<li><a href="#aProjects">Projects</a></li>
-					<li><a href="#aMilestones">Milestones</a></li>
+					<li><a href="#aProjects">Projects</a></li>					
 					<li><a href="#aTasks">Tasks</a></li>
 					<li><a href="#aExpenses">Expenses</a></li>
 					<li><a href="#aParcels#">Parcels</li>
@@ -177,9 +176,6 @@
 				</div>
 				<div id="aProjects">
 					<cfmodule template="associations.cfm" type="projects" id="#document.id#">
-				</div>
-				<div id="aMilestones">
-					<cfmodule template="associations.cfm" type="milestones" id="#document.id#">
 				</div>
 				<div id="aTasks">
 					<cfmodule template="associations.cfm" type="tasks" id="#document.id#">

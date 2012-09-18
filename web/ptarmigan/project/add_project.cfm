@@ -30,16 +30,8 @@
 				<td><cfinput type="datefield" name="start_date">
 			</tr>
 			<tr>
-				<td>End date (normal):</td>
+				<td>End date:</td>
 				<td><cfinput type="datefield" name="due_date"></td>
-			</tr>
-			<tr>
-				<td>End date (pessimistic):</td>
-				<td><cfinput type="datefield" name="due_date_pessimistic"></td>
-			</tr>
-			<tr>
-				<td>End date (optimistic):</td>
-				<td><cfinput type="datefield" name="due_date_optimistic"></td>
 			</tr>
 			<tr>
 				<td>Budget:</td>

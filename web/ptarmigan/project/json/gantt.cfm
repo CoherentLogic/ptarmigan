@@ -36,7 +36,7 @@
    </cffunction>
 	
 <cfset project = CreateObject("component", "ptarmigan.project").open(url.id)>
-<cfset d_struct = DeserializeJSON(project.jquery_gantt(url.durations))>
+<cfset d_struct = DeserializeJSON(project.jquery_gantt())>
 <cfset m_struct = StructNew()>
 <cfset m_struct.json = d_struct>
 <cfif NOT IsDefined("url.testing")>

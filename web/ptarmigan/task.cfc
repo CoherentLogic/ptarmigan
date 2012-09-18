@@ -1,40 +1,41 @@
 <cfcomponent output="false" implements="ptarmigan.i_object">
 
 	<cfset this.id = "">
-	<cfset this.milestone_id = "">
+	<cfset this.project_id = "">
 	<cfset this.task_name = "">
 	<cfset this.description = "">
 	<cfset this.completed = 0>
-	<cfset this.start_date = "">
-	<cfset this.end_date = "">
+	<cfset this.start_date = CreateODBCDate(Now())>
+	<cfset this.end_date = CreateODBCDate(Now())>
 	<cfset this.budget = "">
 	<cfset this.color = "">
 	<cfset this.percent_complete = 0>
+	<cfset this.earliest_start = 0>
+	<cfset this.earliest_end = 0>
+	<cfset this.latest_start = 0>
+	<cfset this.latest_end = 0>
+	<cfset this.start = 0>
+	<cfset this.stop = 0>
+	<cfset this.duration = 0>
+	<cfset this.constraint_date = CreateODBCDate(Now())>
+	<cfset this.deadline = CreateODBCDate(Now())>
+	<cfset this.constraint_id = "">
+	<cfset this.task_group = "">
+	<cfset this.scheduled = 0>
+	<cfset this.critical = 0>
 	
 	<cfset this.fields = ArrayNew(1)>
 	<cfset field = StructNew()>
 	<cfscript>
-		this.members['MILESTONE_ID'] = StructNew();
-		this.members['MILESTONE_ID'].type = "object";
-		this.members['MILESTONE_ID'].class = "OBJ_MILESTONE";
-		this.members['MILESTONE_ID'].label = "Milestone";
+		this.members['PROJECT_ID'] = StructNew();
+		this.members['PROJECT_ID'].type = "object";
+		this.members['PROJECT_ID'].class = "OBJ_PROJECT";
+		this.members['PROJECT_ID'].label = "Project";
 		
 		this.members['TASK_NAME'] = StructNew();
 		this.members['TASK_NAME'].type = "text";
 		this.members['TASK_NAME'].label = "Task name";
-		
-		this.members['FLOATING'] = StructNew();
-		this.members['FLOATING'].type = "boolean";
-		this.members['FLOATING'].label = "Floating";
-		
-		this.members['END_DATE_OPTIMISTIC'] = StructNew();
-		this.members['END_DATE_OPTIMISTIC'].type = "date";
-		this.members['END_DATE_OPTIMISTIC'].label = "End date (optimistic)";
-		
-		this.members['END_DATE_PESSIMISTIC'] = StructNew();
-		this.members['END_DATE_PESSIMISTIC'].type = "date";
-		this.members['END_DATE_PESSIMISTIC'].label = "End date (pessimistic)";
-		
+				
 		this.members['END_DATE'] = StructNew();
 		this.members['END_DATE'].type = "date";
 		this.members['END_DATE'].label = "End date (normal)";
@@ -55,6 +56,10 @@
 		this.members['COMPLETED'].type = "boolean";
 		this.members['COMPLETED'].label = "Complete";
 		
+		this.members['SCHEDULED'] = StructNew();
+		this.members['SCHEDULED'].type = "boolean";
+		this.members['SCHEDULED'].label = "Scheduled";
+		
 		this.members['DESCRIPTION'] = StructNew();
 		this.members['DESCRIPTION'].type = "text";
 		this.members['DESCRIPTION'].label = "Description";
@@ -62,6 +67,28 @@
 		this.members['PERCENT_COMPLETE'] = StructNew();
 		this.members['PERCENT_COMPLETE'].type = "percentage";
 		this.members['PERCENT_COMPLETE'].label = "Description";		
+		
+		this.members['DURATION'] = StructNew();
+		this.members['DURATION'].type = "number";
+		this.members['DURATION'].label = "Task duration";		
+
+		this.members['CONSTRAINT_ID'] = StructNew();
+		this.members['CONSTRAINT_ID'].type = "object";
+		this.members['CONSTRAINT_ID'].label = "Constraint";		
+		this.members['CONSTRAINT_ID'].class = "OBJ_TASK_CONSTRAINT";		
+
+		this.members['DEADLINE'] = StructNew();
+		this.members['DEADLINE'].type = "date";
+		this.members['DEADLINE'].label = "Description";		
+
+		this.members['CONSTRAINT_DATE'] = StructNew();
+		this.members['CONSTRAINT_DATE'].type = "date";
+		this.members['CONSTRAINT_DATE'].label = "Constraint date";		
+		
+		this.members['TASK_GROUP'] = StructNew();
+		this.members['TASK_GROUP'].type = "text";
+		this.members['TASK_GROUP'].label = "Task group";		
+		
 		
 	</cfscript>
 	<cfloop array="#this.fields#" index="field">
@@ -81,35 +108,57 @@
 		<cfquery name="q_task_create" datasource="#session.company.datasource#">
 			INSERT INTO tasks
 						(id,
-						milestone_id,
+						project_id,
 						task_name,
 						description,
 						completed,
 						percent_complete,
 						start_date,
 						end_date,
-						end_date_pessimistic,
-						end_date_optimistic,
 						budget,
-						color)
+						color,
+						task_group,
+						duration,
+						constraint_id,
+						deadline,
+						constraint_date,
+						scheduled,
+						earliest_start,
+						earliest_end,
+						latest_start,
+						latest_end, 
+						start,
+						stop,
+						critical)
 			VALUES		('#this.id#',
-						'#this.milestone_id#',
+						'#this.project_id#',
 						'#UCase(this.task_name)#',
 						'#UCase(this.description)#',
 						#this.completed#,
 						#this.percent_complete#,
 						#this.start_date#,
 						#this.end_date#,
-						#this.end_date_pessimistic#,
-						#this.end_date_optimistic#,
 						#this.budget#,
-						'#this.color#')
+						'#this.color#',
+						'#this.task_group#',
+						#this.duration#,
+						'#this.constraint_id#',
+						#CreateODBCDate(this.deadline)#,
+						#CreateODBCDate(this.constraint_date)#,
+						#this.scheduled#,
+						#this.earliest_start#,
+						#this.earliest_end#,
+						#this.latest_start#,
+						#this.latest_end#,
+						#this.start#,
+						#this.stop#,
+						#this.critical#)
 		</cfquery>
 		<cfset session.message = "Task #this.task_name# added.">
 		
 		<cfset obj = CreateObject("component", "ptarmigan.object")>
 		<cfset obj.id = this.id>
-		<cfset obj.parent_id = this.milestone_id>
+		<cfset obj.parent_id = this.project_id>
 		<cfset obj.class_id = "OBJ_TASK">
 		<cfset obj.deleted = 0>
 		
@@ -124,22 +173,32 @@
 		<cfargument name="id" type="string" required="true">
 		
 		<cfquery name="t" datasource="#session.company.datasource#">
-			SELECT * FROM tasks WHERE id='#id#'
+			SELECT * FROM tasks WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#id#">
 		</cfquery>
 		
 		<cfset this.id = id>
-		<cfset this.milestone_id = t.milestone_id>
+		<cfset this.project_id = t.project_id>
 		<cfset this.task_name = t.task_name>
 		<cfset this.description = t.description>
 		<cfset this.completed = t.completed>
 		<cfset this.percent_complete = t.percent_complete>
 		<cfset this.start_date = t.start_date>
 		<cfset this.end_date = t.end_date>
-		<cfset this.end_date_pessimistic = t.end_date_pessimistic>
-		<cfset this.end_date_optimistic = t.end_date_optimistic>
 		<cfset this.budget = t.budget>
 		<cfset this.color = t.color>
-		
+		<cfset this.task_group = t.task_group>
+		<cfset this.duration = t.duration>
+		<cfset this.constraint_id = t.constraint_id>
+		<cfset this.deadline = t.deadline>
+		<cfset this.constraint_date = t.constraint_date>		
+		<cfset this.scheduled = t.scheduled>
+		<cfset this.earliest_start = t.earliest_start>
+		<cfset this.earliest_end = t.earliest_end>
+		<cfset this.latest_start = t.latest_start>
+		<cfset this.latest_end = t.latest_end>
+		<cfset this.start = t.start>
+		<cfset this.stop = t.stop>
+		<cfset this.critical = t.critical>
 		
 		<cfset this.written = true>
 		<cfreturn this>
@@ -149,18 +208,29 @@
 		
 		<cfquery name="q_task_update" datasource="#session.company.datasource#">
 			UPDATE tasks
-			SET		milestone_id='#this.milestone_id#',
+			SET		project_id='#this.project_id#',
 					task_name='#UCase(this.task_name)#',
 					description='#UCase(this.description)#',
 					completed=#this.completed#,
 					percent_complete=#this.percent_complete#,
 					start_date=#this.start_date#,
 					end_date=#this.end_date#,
-					end_date_pessimistic=#this.end_date_pessimistic#,
-					end_date_optimistic=#this.end_date_optimistic#,
 					budget=#this.budget#,
-					color='#this.color#'
-			WHERE	id='#this.id#'
+					color='#this.color#',
+					task_group='#this.task_group#',
+					duration=#this.duration#,
+					constraint_id='#this.constraint_id#',
+					deadline=#CreateODBCDate(this.deadline)#,
+					constraint_date=#CreateODBCDate(this.constraint_date)#,
+					scheduled=#this.scheduled#,
+					earliest_start=#this.earliest_start#,
+					earliest_end=#this.earliest_end#,
+					latest_start=#this.latest_start#,
+					latest_end=#this.latest_end#,
+					start=#this.start#,
+					stop=#this.stop#,
+					critical=#this.critical#
+			WHERE	id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
 		</cfquery>
 		
 		<cfset session.message = "Task #this.task_name# updated.">
@@ -168,7 +238,7 @@
 		<cfset this.written = true>
 	
 		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>
-		<cfset obj.parent_id = this.milestone_id>	
+		<cfset obj.parent_id = this.project_id>	
 		<cfset obj.deleted = 0>
 		
 		<cfset obj.update()>
@@ -192,8 +262,6 @@
 			<cfset a.create()>
 			
 			<cfset this.end_date = dateAdd("d", extension_count, this.end_date)>						
-			<cfset this.end_date_optimistic = dateAdd("d", extension_count, this.end_date_optimistic)>						
-			<cfset this.end_date_pessimistic = dateAdd("d", extension_count, this.end_date_pessimistic)>						
 			
 		<cfreturn this.update()>
 	</cffunction>
@@ -218,41 +286,72 @@
 		<cfreturn this.update()>		
 	</cffunction>
 	
-	<cffunction name="duration" returntype="numeric" access="public" output="false">
-		<cfargument name="type" type="string" required="true">
+	<cffunction name="predecessors" returntype="array" access="public" output="false">
+		<cfquery name="get_pred" datasource="#session.company.datasource#">
+			SELECT predecessor_id FROM task_dependencies 
+			WHERE successor_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">			
+		</cfquery>
 		
-		<cfswitch expression="#type#">
-			<cfcase value="normal">
-				<cfset d = dateDiff("d", this.start_date, this.end_date) + 1>
-			</cfcase>
-			<cfcase value="optimistic">
-				<cfset d = dateDiff("d", this.start_date, this.end_date_optimistic) + 1>
-			</cfcase>
-			<cfcase value="pessimistic">
-				<cfset d = dateDiff("d", this.start_date, this.end_date_pessimistic) + 1>
-			</cfcase>
-			<cfcase value="estimated">			
-				<cfset d = int((this.duration("optimistic") + (4 * this.duration("normal")) + this.duration("pessimistic")) / 6) + 1>				
-			</cfcase>
-		</cfswitch>
+		<cfset oa = ArrayNew(1)>
+		<cfoutput query="get_pred">
+			<cfset t = CreateObject("component", "ptarmigan.task").open(get_pred.predecessor_id)>
+			<cfif t.task_name NEQ "">
+				<cfset ArrayAppend(oa, t)>
+			</cfif>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
+	
+	<cffunction name="add_predecessor" returntype="void" output="false" access="public">
+		<cfargument name="task_id" type="string" required="true">
+		
+		<cfset dep_id = CreateUUID()>
+		<cfquery name="q_add_pred" datasource="#session.company.datasource#">
+			INSERT INTO task_dependencies
+							(id,
+							successor_id,
+							predecessor_id)
+			VALUES			(<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#dep_id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">,
+							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#task_id#">)
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="successors" returntype="array" access="public" output="false">
+		<cfquery name="get_suc" datasource="#session.company.datasource#">
+			SELECT successor_id FROM task_dependencies 
+			WHERE predecessor_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">			
+		</cfquery>
+		
+		<cfset oa = ArrayNew(1)>
+		<cfoutput query="get_suc">
+			<cfset t = CreateObject("component", "ptarmigan.task").open(get_suc.successor_id)>
+			<cfif t.task_name NEQ "">
+				<cfset ArrayAppend(oa, t)>
+			</cfif>
+		</cfoutput>
+		
+		<cfreturn oa>
+	</cffunction>
+	
+	
+	
+	<cffunction name="duration" returntype="numeric" access="public" output="false">
+
+		<cfset d = dateDiff("d", this.start_date, this.end_date) + 1>
 		
 		<cfreturn d>
 
 	</cffunction>
-	
-	<cffunction name="end_date_estimated" returntype="string" access="public" output="false">		
-		<cfset d = DateAdd("d", this.duration("estimated") - 1, this.start_date)>
 		
-		<cfreturn d>
-	</cffunction>
-	
 	<cffunction name="total_expenses" returntype="numeric" access="public" output="false">
 	
 		<cfquery name="te" datasource="#session.company.datasource#">
 			SELECT	SUM(amount) AS task_total
 			FROM	project_expenses
 			WHERE	element_table='tasks'
-			AND		element_id='#this.id#'
+			AND		element_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
 		</cfquery>
 		
 		<cfif te.recordcount GT 0>
@@ -270,7 +369,7 @@
 		<cfquery name="expenses" datasource="#session.company.datasource#">
 			SELECT id FROM project_expenses
 			WHERE	element_table='tasks'
-			AND		element_id='#this.id#'
+			AND		element_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
 		</cfquery>
 		
 		<cfset oa = ArrayNew(1)>
@@ -284,12 +383,10 @@
 		
 	
 	<cffunction name="project" returntype="ptarmigan.project" access="public" output="false">		
-		<cfreturn this.milestone().project()>
+		<cfset obj = CreateObject("component", "ptarmigan.project").open(this.project_id)>
+		<cfreturn obj>
 	</cffunction>
 	
-	<cffunction name="milestone" returntype="ptarmigan.milestone" access="public" output="false">
-		<cfreturn CreateObject("component", "ptarmigan.milestone").open(this.milestone_id)>
-	</cffunction>
 	
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.task_name>
@@ -297,7 +394,7 @@
 	
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfquery name="d" datasource="#session.company.datasource#">
-			DELETE FROM tasks WHERE id='#this.id#'
+			DELETE FROM tasks WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
 		</cfquery>
 	</cffunction>
 </cfcomponent>

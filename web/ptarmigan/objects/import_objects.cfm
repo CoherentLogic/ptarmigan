@@ -1,3 +1,17 @@
+
+<cfabort>
+<cfquery name="itc" datasource="#session.company.datasource#">
+	SELECT id FROM task_constraints
+</cfquery>
+<cfoutput query="itc">
+	<cfset tmp = CreateObject("component", "ptarmigan.object")>
+	<cfset tmp.id = itc.id>
+	<cfset tmp.class_id = "OBJ_TASK_CONSTRAINT">
+	<cfset tmp.deleted = 0>
+	<cfset tmp.create()>
+</cfoutput>
+<cfabort>
+
 <!--- IMPORT MILESTONES (OBJ_MILESTONE) --->
 <cfquery name="ims" datasource="#session.company.datasource#">
 	SELECT id, project_id FROM milestones
@@ -10,7 +24,6 @@
 	<cfset tmp.deleted = 0>
 	<cfset tmp.create()>
 </cfoutput>
-<cfabort>
 
 <cfquery name="irep" datasource="#session.company.datasource#">
 	SELECT id FROM reports

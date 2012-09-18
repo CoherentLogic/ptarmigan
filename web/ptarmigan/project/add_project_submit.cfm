@@ -3,8 +3,6 @@
 	<cfset t.project_name = UCase(form.project_name)>
 	<cfset t.instructions = UCase(form.instructions)>
 	<cfset t.due_date = CreateODBCDate(form.due_date)>
-	<cfset t.due_date_pessimistic = CreateODBCDate(form.due_date_pessimistic)>
-	<cfset t.due_date_optimistic = CreateODBCDate(form.due_date_optimistic)>
 	
 	<cfset t.customer_id = form.customer_id>
 	<cfset t.current_milestone = 1>
@@ -17,4 +15,4 @@
 	
 	
 	
-	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.id#">
+	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.id#" addtoken="false">

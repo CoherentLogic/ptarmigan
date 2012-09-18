@@ -1,20 +1,25 @@
 <cfsilent>
 	<cfmodule template="../security/require.cfm" type="project">
-	<cfset milestone = CreateObject("component", "ptarmigan.milestone").open(url.milestone_id)>
+	<cfset project = CreateObject("component", "ptarmigan.project").open(url.project_id)>
 </cfsilent>
+<cfquery name="get_constraints" datasource="#session.company.datasource#">
+	SELECT * FROM task_constraints ORDER BY id
+</cfquery>
+<cfset tasks = project.tasks()>
 <cfif IsDefined("form.self_post")>
 	
 	<cfset t = CreateObject("component", "ptarmigan.task")>
 	
 	<cfset t.task_name = form.task_name>
 	<cfset t.description = form.description>
-	<cfset t.milestone_id = url.milestone_id>
-		<cfset t.start_date = CreateODBCDate(form.start_date)>
-		<cfset t.end_date = CreateODBCDate(form.end_date)>
-		<cfset t.end_date_pessimistic = CreateODBCDate(form.end_date_pessimistic)>
-		<cfset t.end_date_optimistic = CreateODBCDate(form.end_date_optimistic)>
+	<cfset t.project_id = url.project_id>
+	<cfset t.duration = form.duration>
+	<cfset t.constraint_id = form.constraint_id>
+	<cfset t.deadline = CreateODBCDate(form.deadline)>
+	<cfset t.task_group = form.task_group>
+	<cfset t.scheduled = 0>
+	<cfset t.constraint_date = CreateODBCDate(form.constraint_date)>
 	<cfset t.color = form.color>
-
 	<cfset t.budget = form.budget>
 	
 	<cfif IsDefined("form.completed")>
@@ -24,73 +29,76 @@
 	</cfif>
 	
 	<cfset t.create()>
+	<cfset t.add_predecessor(form.predecessor)>
 	
-	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#t.project().id#" addtoken="false">
+	<cflocation url="#session.root_url#/project/manage_task.cfm?id=#t.id#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
-		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Subtask" icon="#session.root_url#/images/project_dialog.png">
+		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">
 	
-		<cfform name="add_task" id="add_task" action="#session.root_url#/project/add_task.cfm?id=#url.id#&milestone_id=#url.milestone_id#" method="post">
+		<cfoutput><form name="add_task" id="add_task" action="#session.root_url#/project/add_task.cfm?project_id=#url.project_id#" method="post"></cfoutput>
 			<div style="padding:20px; font-size:12pt; margin-top:20px;">				
-				<cfset proposed_start_date = dateAdd("d", 1, milestone.last_task_end_date())>
-				<cfif milestone.floating EQ 0>
-					<cfoutput><p><em>Task date range: #dateformat(milestone.start_date, 'm/dd/yyyy')#-#dateFormat(milestone.end_date, 'm/dd/yyyy')#</em></p></cfoutput>
-					<p><em>Last entered task had an end date of <cfoutput>#dateFormat(milestone.last_task_end_date(), 'm/dd/yyyy')#</cfoutput></em></p>
-				<cfelse>
-					<p><em>This is a floating milestone. Start and end dates will not be available for this task.</em></p>
-				</cfif>
-				
-				
-				<table style="margin-top:20px;">
-					<tr>
-						<td>Task:</td>
-						<td><cfoutput>#milestone.milestone_name#</cfoutput></td>
-					</tr>
+
+				<table width="100%" style="margin-top:20px;">					
 					<tr>		
-						<td>Subtask name:</td>
+						<td>Task name:</td>
 						<td>
-							<cfinput type="text" name="task_name"><br>
+							<input type="text" name="task_name"><br>
 							<label><input type="checkbox" name="completed">Completed</input></label>
 						</td>
 					</tr>
-					<cfif milestone.floating EQ 0>
-						<tr>
-							<td>Start date:</td>
-							<td><cfinput type="datefield" size="10" name="start_date" id="start_date" value="#proposed_start_date#"></td>
-						</tr>
-						<tr>
-							<td>Weekends:</td>
-							<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from subtask duration</label></td>
-						</tr>
-						<tr>
-							<td>End date (normal):</td>
-							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days" id="end_date_days" onblur="add_days('#session.root_url#', 'start_date', 'end_date', 'end_date_days', 'exclude_weekends')"></label>
-								<label><input class="pt_dates" type="text" size="10" name="end_date" id="end_date"></label>
-								
-							</td>		
-						</tr>
-						<tr>
-							<td>End date (pessimistic):</td>
-							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_pessimistic" id="end_date_days_pessimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_pessimistic', 'end_date_days_pessimistic', 'exclude_weekends')"></label>
-								<input class="pt_dates" type="text" size="10" id="end_date_pessimistic" name="end_date_pessimistic"></td>		
-						</tr>
-						<tr>
-							<td>End date (optimistic):</td>
-							<td>
-								<label>Days from start: <cfinput type="text" size="3" name="end_date_days_optimistic" id="end_date_days_optimistic" onblur="add_days('#session.root_url#', 'start_date', 'end_date_optimistic', 'end_date_days_optimistic', 'exclude_weekends')"></label>
-								<input class="pt_dates" type="text" size="10" id="end_date_optimistic" name="end_date_optimistic"></td>		
-						</tr>			
-					<cfelse>
-						<input type="hidden" name="start_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
-						<input type="hidden" name="end_date" value="#dateFormat(today, ''mm/dd/yyyy')#">
-						<input type="hidden" name="end_date_pessimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
-						<input type="hidden" name="end_date_optimistic" value="#dateFormat(today, ''mm/dd/yyyy')#">
-					</cfif>			
+					<tr>
+						<td>Duration (days):</td>
+						<td><input type="text" name="duration"></td>
+					</tr>
+					<tr>
+						<td>Weekends:</td>
+						<td><label><input type="checkbox" name="exclude_weekends" id="exclude_weekends">Exclude weekends from task duration</label></td>
+					</tr>
+					<tr>
+						<td>Constrain task:</td>
+						<td>
+							<select name="constraint_id">
+								<cfoutput query="get_constraints">
+									<option value="#id#">#constraint_name#</option>
+								</cfoutput>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Constraint date:</td>
+						<td>
+							<input type="text" name="constraint_date">
+						</td>
+					</tr>
+					<tr>
+						<td>Deadline:</td>
+						<td>
+							<input type="text" name="deadline">
+						</td>
+					</tr>
+					<tr>
+						<td>Predecessor:</td>
+						<td>
+							<select name="predecessor" autocomplete="off">
+								<option value="" selected="selected">Project start</option>
+								<cfloop array="#tasks#" index="t">									
+									<cfoutput>
+										<option value="#t.id#">#t.task_name#</option>
+									</cfoutput>
+								</cfloop>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Task group:</td>
+						<td>
+							<input type="text" name="task_group">
+						</td>
+					</tr>
 					<tr>
 						<td>Budget:</td>
-						<td>$<cfinput type="text" name="budget"></td>
+						<td>$<input type="text" name="budget"></td>
 					</tr>
 					<tr>
 						<td>Instructions:</td>
@@ -121,7 +129,7 @@
 				</table>						
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
-		</cfform>
+		</form>
 		
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
 	    	<div style="padding:8px; float:right;">

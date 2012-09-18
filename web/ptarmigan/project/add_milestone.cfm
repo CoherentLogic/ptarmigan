@@ -23,7 +23,7 @@
 		
 	<cfset t.create()>
 	
-	<cflocation url="#session.root_url#/project/edit_project.cfm?id=#url.id#" addtoken="false">
+	<cflocation url="#session.root_url#/project/manage_milestone.cfm?id=#t.id#" addtoken="false">
 <cfelse>
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Task" icon="#session.root_url#/images/project_dialog.png">

@@ -5,8 +5,6 @@
 	<cfset this.project_name = "">
 	<cfset this.instructions = "">
 	<cfset this.due_date = CreateODBCDate(Now())>
-	<cfset this.due_date_optimistic = CreateODBCDate(Now())>
-	<cfset this.due_date_pessimistic = CreateODBCDate(Now())>
 	<cfset this.current_milestone = 1>
 	<cfset this.customer_id = "">
 	<cfset this.created_by = "">
@@ -29,15 +27,7 @@
 		this.members['INSTRUCTIONS'] = StructNew();
 		this.members['INSTRUCTIONS'].type = "text";
 		this.members['INSTRUCTIONS'].label ="Instructions";
-		
-		this.members['DUE_DATE_OPTIMISTIC'] = StructNew();
-		this.members['DUE_DATE_OPTIMISTIC'].type = "date";
-		this.members['DUE_DATE_OPTIMISTIC'].label = "End date (optimistic)";
-		
-		this.members['DUE_DATE_PESSIMISTIC'] = StructNew();
-		this.members['DUE_DATE_PESSIMISTIC'].type = "date";
-		this.members['DUE_DATE_PESSIMISTIC'].label = "End date (pessimistic)";
-		
+			
 		this.members['DUE_DATE'] = StructNew();
 		this.members['DUE_DATE'].type = "date";
 		this.members['DUE_DATE'].label = "End date (normal)";
@@ -71,6 +61,205 @@
 		<cfreturn 11>
 	</cffunction>
 	
+	<cffunction name="schedule_old" returntype="void" access="public" output="false">
+		<cfset base_start_date = this.start_date>		
+		<cfset a_tasks = this.tasks()>
+		<cfloop array="#a_tasks#" index="tsk">
+			<cfset tsk.scheduled = 0>
+			<cfset tsk.update()>
+		</cfloop>
+		<cfloop array="#a_tasks#" index="tsk">
+			<cfif ArrayLen(tsk.successors()) EQ 0>
+				<!--- task has no successors --->
+				<cfif tsk.scheduled EQ 0>
+					<cfset tsk.start_date = base_start_date>
+					<cfset tsk.end_date = dateAdd("d", tsk.duration, tsk.start_date)>
+					<cfset tsk.scheduled = 1>
+					<cfset tsk.update()>	
+				</cfif>		
+			<cfelse>
+				<cfloop array="#tsk.successors()#" index="successor">
+					<cfset successor.start_date = dateAdd("d", 1, tsk.end_date)>
+					<cfset successor.end_date = dateAdd("d", successor.duration, successor.start_date)>
+					<cfset successor.scheduled = 1>
+					<cfset successor.update()>
+				</cfloop>
+			</cfif>
+		</cfloop>
+	</cffunction>
+	
+	<!---<cffunction name="schedule" returntype="void" access="public" output="false">
+		<cfset this.calc_earliest_times(this.tasks())>	
+		<cfset this.calc_latest_times(this.tasks())>
+		<cfset this.calc_critical_path()>
+		
+		<cfset a_tasks = this.tasks()>
+		<cfloop array="#a_tasks#" index="tsk">
+			<cfswitch expression="#tsk.constraint_id#">
+				<cfcase value="SASAP">
+					<cfset tsk.start_date = tsk.earliest_start>
+					<cfset tsk.end_date = tsk.earliest_end>
+				</cfcase>
+			</cfswitch>
+			<cfset tsk.update()>
+		</cfloop>
+		
+	</cffunction>
+	
+	<cffunction name="calc_earliest_times" returntype="void" access="public" output="false">
+		<cfargument name="a_tasks" type="array" required="true">
+
+		<cfset a_tasks[1].earliest_end = dateAdd("d", a_tasks[1].duration - 1, this.start_date)>
+		<cfset a_tasks[1].update()>
+		
+		<cfloop from="2" to="#ArrayLen(a_tasks)#" index="i">					
+			<cfloop array="#a_tasks[i].predecessors()#" index="activity">
+				<cfif a_tasks[i].earliest_start LT activity.earliest_end>
+					<cfset a_tasks[i].earliest_start = activity.earliest_end>
+					<cfset a_tasks[i].update()>
+				</cfif>
+			</cfloop>
+			
+			<cfset a_tasks[i].earliest_end = dateAdd("d", a_tasks[i].duration - 1, a_tasks[i].earliest_start)>
+			<cfset a_tasks[i].update()>
+		</cfloop>
+	</cffunction>
+
+	<cffunction name="calc_latest_times" returntype="void" access="public" output="false">
+		<cfargument name="a_tasks" type="array" required="true">
+
+		<cfset a_tasks[ArrayLen(a_tasks)].latest_end = a_tasks[ArrayLen(a_tasks)].earliest_end>
+		<cfset a_tasks[ArrayLen(a_tasks)].latest_start = dateAdd("d", -(a_tasks[ArrayLen(a_tasks)].duration - 1), a_tasks[ArrayLen(a_tasks)].latest_end)>
+		<cfset a_tasks[ArrayLen(a_tasks)].update()>
+		
+		<cfloop from="#ArrayLen(a_tasks) - 1#" to="1" step="-1" index="i">
+			<cfloop array="#a_tasks[i].successors()#" index="activity">
+				<cfif a_tasks[i].latest_end EQ this.start_date>
+					<cfset a_tasks[i].latest_end = activity.latest_start>
+					<cfset a_tasks[i].update()>
+				<cfelse>
+					<cfif a_tasks[i].latest_end GT activity.latest_end>
+						<cfset a_tasks[i].latest_end = activity.latest_start>
+						<cfset a_tasks[i].update()>
+					</cfif>
+				</cfif>
+			</cfloop>
+			
+			<cfset a_tasks[i].latest_start = dateAdd("d", -(a_tasks[i].duration - 1), a_tasks[i].latest_end)>
+			<cfset a_tasks[i].update()>
+		</cfloop>
+	</cffunction>
+	
+	<cffunction name="calc_critical_path" returntype="void" access="public" output="false">
+		<cfset a_tasks = this.tasks()>
+		<cfloop array="#a_tasks#" index="activity">
+			<cfif (dateDiff("d", activity.latest_end, activity.earliest_end) EQ 0) AND (dateDiff("d", activity.latest_start, activity.earliest_start) EQ 0)>
+				<cfset activity.critical = 1>
+			<cfelse>
+				<cfset activity.critical = 0>
+			</cfif>
+			<cfset activity.update()>
+		</cfloop>	
+	</cffunction>--->
+	<cffunction name="schedule" returntype="void" access="public" output="false">
+		<cfset tsks = this.tasks()>
+		<cfloop array="#tsks#" index="t">
+			<cfset t.earliest_start = 0>
+			<cfset t.earliest_end = 0>
+			<cfset t.latest_start = 0>
+			<cfset t.latest_end = 0>
+			<cfset t.update()>
+		</cfloop>
+		
+		<cfset this.calc_critical_path()>
+	</cffunction>
+	
+<!--- 	<cffunction name="calc_earliest_times" returntype="void" access="public">
+		<cfargument name="position" type="ptarmigan.task" required="true">
+		
+		<cfloop array="#position.successors()#" index="successor">
+			<cfloop array="#successor.predecessors()#" index="predecessor">
+				<cfif successor.earliest_start LT predecessor.earliest_end>
+					<cfset successor.earliest_start = predecessor.earliest_end>
+					<cfset successor.update()>
+				</cfif>
+				<cfset successor.earliest_end = successor.earliest_start + successor.duration>
+				<cfset successor.update()>
+			</cfloop>
+		</cfloop>
+		
+		<cfloop array="#position.successors()#" index="successor">
+			<cfset this.calc_earliest_times(successor)>
+		</cfloop>	
+	</cffunction> --->
+	
+	<cffunction name="calc_earliest_times" returntype="void" access="public">
+		<cfargument name="position" type="ptarmigan.task" required="true">
+
+		<cfset position.earliest_end = position.earliest_start + position.duration>		
+		<cfset position.update()>
+		
+		<cfloop array="#position.successors()#" index="successor">
+			<cfif successor.earliest_start LT position.earliest_end>
+				<cfset successor.earliest_start = position.earliest_end>
+				<cfset successor.update()>
+			</cfif>
+			<cfset this.calc_earliest_times(successor)>
+		</cfloop>
+				
+	</cffunction>
+
+	<cffunction name="calc_latest_times" returntype="void" access="public">
+		<cfargument name="position" type="ptarmigan.task" required="true">
+		
+		<cfloop array="#position.predecessors()#" index="predecessor">
+			<cfif predecessor.latest_end EQ 0>			
+				<cfset predecessor.latest_end = position.latest_start>
+				<cfset predecessor.latest_start = predecessor.latest_end - predecessor.duration>
+				
+				<cfset predecessor.update()>
+			</cfif>
+			<cfset this.calc_latest_times(predecessor)>
+		</cfloop>
+		
+	</cffunction>
+
+	<cffunction name="calc_critical_path" returntype="void" access="public" output="false">
+		<cfset this.calc_earliest_times(this.start_task())>
+		<cfset stoptask = this.stop_task()>
+		<cfset stoptask.latest_end = stoptask.earliest_end>
+		<cfset stoptask.latest_start = stoptask.latest_end - stoptask.duration>
+		<cfset stoptask.update()>
+		
+		<cfset this.calc_latest_times(this.stop_task())>
+
+		<cfloop array="#this.tasks()#" index="activity">
+			<cfif (activity.earliest_end EQ activity.latest_end) AND (activity.earliest_start EQ activity.latest_start)>
+				<cfset activity.critical = 1>
+			<cfelse>
+				<cfset activity.critical = 0>
+			</cfif>
+			<cfset activity.update()>
+		</cfloop>
+	</cffunction>
+
+	<cffunction name="start_task" returntype="ptarmigan.task" access="public" output="false">
+		<cfloop array="#this.tasks()#" index="tsk">
+			<cfif tsk.start EQ 1>
+				<cfreturn tsk>
+			</cfif>
+		</cfloop>
+		<cfthrow message="No start task defined.">
+	</cffunction>
+
+	<cffunction name="stop_task" returntype="ptarmigan.task" access="public" output="false">
+		<cfloop array="#this.tasks()#" index="tsk">
+			<cfif tsk.stop EQ 1>
+				<cfreturn tsk>
+			</cfif>
+		</cfloop>
+		<cfthrow message="No stop task defined.">
+	</cffunction>
 	
 	<cffunction name="create" returntype="ptarmigan.project" access="public" output="false">
 		
@@ -84,10 +273,7 @@
 							project_number,
 							project_name,
 							instructions,
-							due_date,
-							due_date_pessimistic,
-							due_date_optimistic,
-							current_milestone,
+							due_date,														
 							customer_id,
 							created_by,
 							tax_rate,
@@ -98,9 +284,6 @@
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.project_name#">,
 							<cfqueryparam cfsqltype="cf_sql_longvarchar" maxlength="5000" value="#this.instructions#">,
 							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date#">,
-							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date_pessimistic#">,
-							<cfqueryparam cfsqltype="cf_sql_date" value="#this.due_date_optimistic#">,
-							<cfqueryparam cfsqltype="cf_sql_integer" value="#this.current_milestone#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.customer_id#">,
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.created_by#">,
 							<cfqueryparam cfsqltype="cf_sql_real" value="#this.tax_rate#">,
@@ -108,20 +291,7 @@
 							<cfqueryparam cfsqltype="cf_sql_real" value="#this.budget#">)
 			</cfquery>
 		</cflock>
-		
-		<cfset t = CreateObject("component", "ptarmigan.milestone")>
-		
-		<cfset t.project_id = this.id>
-		<cfset t.milestone_number = 1000>
-		<cfset t.milestone_name = "MISCELLANEOUS TASKS">
-		<cfset t.floating = 1>
-		<cfset t.start_date = CreateODBCDate(Now())>
-		<cfset t.end_date = CreateODBCDate(Now())>
-		<cfset t.end_date_optimistic = CreateODBCDate(Now())>
-		<cfset t.end_date_pessimistic = CreateODBCDate(Now())>
-		
-		<cfset t.create()>
-		
+				
 		<cfset obj = CreateObject("component", "ptarmigan.object")>	
 		<cfset obj.id = this.id>		
 		<cfset obj.class_id = "OBJ_PROJECT">
@@ -173,9 +343,6 @@
 		<cfset this.project_name = op.project_name>		
 		<cfset this.instructions = op.instructions>
 		<cfset this.due_date = op.due_date>
-		<cfset this.due_date_pessimistic = op.due_date_pessimistic>
-		<cfset this.due_date_optimistic = op.due_date_optimistic>
-		<cfset this.current_milestone = op.current_milestone>
 		<cfset this.customer_id = op.customer_id>
 		<cfset this.created_by = op.created_by>
 		<cfset this.start_date = op.start_date>
@@ -195,9 +362,6 @@
 					project_name='#this.project_name#',
 					instructions='#this.instructions#',
 					due_date=#this.due_date#,
-					due_date_pessimistic=#this.due_date_pessimistic#,
-					due_date_optimistic=#this.due_date_optimistic#,
-					current_milestone=#this.current_milestone#,
 					customer_id='#this.customer_id#',
 					tax_rate=#this.tax_rate#,
 					start_date=#this.start_date#,
@@ -231,8 +395,6 @@
 			<cfset a.create()>
 			
 			<cfset this.due_date = dateAdd("d", extension_count, this.due_date)>						
-			<cfset this.due_date_optimistic = dateAdd("d", extension_count, this.due_date_optimistic)>						
-			<cfset this.due_date_pessimistic = dateAdd("d", extension_count, this.due_date_pessimistic)>						
 			
 		<cfreturn this.update()>
 	</cffunction>
@@ -262,38 +424,21 @@
 		
 		<cfreturn t>
 	</cffunction>
+
 	
-	<cffunction name="milestones" returntype="array" access="public" output="false">		
-		
-		<cfquery name="gm" datasource="#session.company.datasource#">
-			SELECT * FROM milestones WHERE project_id='#this.id#' ORDER BY milestone_number
+	<cffunction name="tasks" returntype="array" access="public" output="false">
+		<cfquery name="q_tasks" datasource="#session.company.datasource#">
+			SELECT id FROM tasks 
+			WHERE project_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">		
 		</cfquery>
 		
 		<cfset oa = ArrayNew(1)>
-		
-		<cfoutput query="gm">
-			<cfset t = CreateObject("component", "ptarmigan.milestone").open(id)>
-			<cfset tobj = CreateObject("component", "ptarmigan.object").open(id)>
-			<cfif tobj.deleted EQ 0>
-				<cfset arrayAppend(oa, t)>
-			</cfif>
+		<cfoutput query="q_tasks">
+			<cfset t = CreateObject("component", "ptarmigan.task").open(q_tasks.id)>
+			<cfset ArrayAppend(oa, t)>
 		</cfoutput>
 		
 		<cfreturn oa>
-	</cffunction>
-	
-	<cffunction name="tasks" returntype="array" access="public" output="false">
-
-		<cfset oaa = ArrayNew(1)>
-		<cfset mss = this.milestones()>		
-		<cfloop array="#mss#" index="mso">
-			<cfset tskas = mso.tasks()>
-			<cfloop array="#tskas#" index="tov">
-					<cfset ArrayAppend(oaa, tov)>
-			</cfloop>
-		</cfloop>
-		
-		<cfreturn oaa>
 	</cffunction>
 	
 	<cffunction name="documents" returntype="array" access="public" output="false">
@@ -314,6 +459,8 @@
 		<cfreturn oa>
 	</cffunction>
 	
+	
+	
 	<cffunction name="parcels" returntype="array" access="public" output="false">
 		<cfquery name="q_parcels" datasource="#session.company.datasource#">
 			SELECT	parcel_id
@@ -333,31 +480,13 @@
 	</cffunction>
 	
 	<cffunction name="duration" returntype="numeric" access="public" output="false">
-		<cfargument name="type" type="string" required="true">
-		
-		<cfswitch expression="#type#">
-			<cfcase value="normal">
-				<cfset d = dateDiff("d", this.start_date, this.due_date) + 1>
-			</cfcase>
-			<cfcase value="optimistic">
-				<cfset d = dateDiff("d", this.start_date, this.due_date_optimistic) + 1>
-			</cfcase>
-			<cfcase value="pessimistic">
-				<cfset d = dateDiff("d", this.start_date, this.due_date_pessimistic) + 1>
-			</cfcase>
-			<cfcase value="estimated">			
-				<cfset d = int((this.duration("optimistic") + (4 * this.duration("normal")) + this.duration("pessimistic")) / 6) + 1>				
-			</cfcase>
-		</cfswitch>
+			
+		<cfset d = dateDiff("d", this.start_date, this.due_date) + 1>
 		
 		<cfreturn d>
 	</cffunction>
 	
-	<cffunction name="end_date_estimated" returntype="string" access="public" output="false">		
-		<cfset d = DateAdd("d", this.duration("estimated") - 1, this.start_date)>
-		
-		<cfreturn d>
-	</cffunction>
+	
 	
 	<cffunction name="change_orders" returntype="array" access="public" output="false">
 		<cfquery name="q_change_orders" datasource="#session.company.datasource#">
@@ -375,152 +504,50 @@
 	</cffunction>
 	
 	<cffunction name="jquery_gantt" returntype="string" access="public" output="false">
-		<cfargument name="durations" type="string" required="true">
 		
 		<cfset source = ArrayNew(1)>				
-		<cfset milestones = this.milestones()>		
+		<cfset tasks = this.tasks()>		
 		
 		<cfset s_src = StructNew()>
 		<cfset s_val = StructNew()>	
 		<cfset s_data = StructNew()>
-				
-		<cfset s_src.name = this.project_name>
-		<cfset s_src.desc = "Project">
-		<cfset s_src.values = ArrayNew(1)>
-		
-		<cfset s_data.element_table = "projects">
-		<cfset s_data.element_id = this.id>
-		<cfset s_data.button_caption = this.project_name>
-
-		<cfset s_val.customClass = "ganttGreen">
-		<cfset s_val.label = this.project_name>		
-		<cfset s_val.dataObj = s_data>
-		
-		<cfset t_date = dateAdd("d", -1, this.start_date)>
-		<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
-
-		<cfswitch expression="#durations#">
-			<cfcase value="pessimistic">
-				<cfset t_date = dateAdd("d", -1 , this.due_date_pessimistic)>
-				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-			</cfcase>
-			<cfcase value="optimistic">
-				<cfset t_date = dateAdd("d", -1 , this.due_date_optimistic)>
-				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-			</cfcase>
-			<cfcase value="normal">			
-				<cfset t_date = dateAdd("d", -1 , this.due_date)>
-				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-			</cfcase>
-		</cfswitch>
-		
-		<cfset ArrayAppend(s_src.values, s_val)>
-		<cfset ArrayAppend(source, s_src)>
-		
-		<cfloop array="#milestones#" index="ms">
-			<cfset milestone_object = CreateObject("component", "ptarmigan.object").open(ms.id)>
+						
+		<cfloop array="#tasks#" index="t">
+			<cfset task_object = CreateObject("component", "ptarmigan.object").open(t.id)>
 			
-			<cfif milestone_object.deleted EQ 0>
+			<cfif task_object.deleted EQ 0>
 				<cfset s_src = StructNew()>
 				<cfset s_val = StructNew()>	
 				<cfset s_data = StructNew()>
 				
-				<cfset s_src.name = ms.milestone_name>
+				<cfset s_src.name = t.task_name>
 				<cfset s_src.desc = "Task">
 				<cfset s_src.values = ArrayNew(1)>
 				
-				<cfset s_data.element_table = "milestones">
-				<cfset s_data.element_id = ms.id>
-				<cfset s_data.button_caption = ms.milestone_name>
+				<cfset s_val.id = t.id>
 				
-				<cfif ms.completed EQ 0>
+				<cfif t.completed EQ 0>
 					<cfset s_val.customClass = "ganttRed">			
 				<cfelse>
 					<cfset s_val.customClass = "ganttComplete">
 				</cfif>
 				
-				<cfset s_val.label = ms.milestone_name>
-				<cfset s_val.dataObj = s_data>
+				<cfset s_val.label = t.task_name>
+				<cfset s_val.dataObj = s_data>				
 				
-				<cfif ms.floating EQ 0>
-					<cfset t_date = dateAdd("d", -1, ms.start_date)>
-					<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">			
-					
-					<cfswitch expression="#durations#">
-						<cfcase value="pessimistic">
-							<cfset t_date = dateAdd("d", -1 , ms.end_date_pessimistic)>
-							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-						</cfcase>
-						<cfcase value="optimistic">
-							<cfset t_date = dateAdd("d", -1 , ms.end_date_optimistic)>
-							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-						</cfcase>
-						<cfcase value="normal">			
-							<cfset t_date = dateAdd("d", -1 , ms.end_date)>
-							<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-						</cfcase>
-					</cfswitch>
-				<cfelse>
-					<cfset t_date = dateAdd("d", -1 , ms.project().start_date)>
-					<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
-					<cfset t_date = dateAdd("d", -1, ms.project().due_date)>
-					<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-					<cfset s_val.customClass = "ganttOrange">
-				</cfif>
+				<cfset t_date = dateAdd("d", -1 , t.start_date)>
+				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
+				<cfset t_date = dateAdd("d", -1, t.end_date)>
+				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
+				
+				<cfset preds = t.predecessors()>
+				<cfset s_val.dep = preds[1].id>
 				
 				<cfset ArrayAppend(s_src.values, s_val)>
 				<cfset ArrayAppend(source, s_src)>
 				
-				<cfset tasks = ms.tasks()>
-				
-				<cfloop array="#tasks#" index="t">
-					<cfset task_object = CreateObject("component", "ptarmigan.object").open(t.id)>
-					
-					<cfif task_object.deleted EQ 0>
-						<cfset s_src = StructNew()>
-						<cfset s_val = StructNew()>	
-						<cfset s_data = StructNew()>
-						
-						<cfset s_src.name = t.task_name>
-						<cfset s_src.desc = "Subtask">
-						<cfset s_src.values = ArrayNew(1)>
-						
-						<cfset s_data.element_table = "tasks">
-						<cfset s_data.element_id = t.id>
-						<cfset s_data.button_caption = t.task_name>
-			
-						<cfset s_val.label = t.task_name>
-						<cfset t_date = dateAdd("d", -1, t.start_date)>
-						<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
-						
-						<cfif t.completed EQ 0>
-							<cfset s_val.customClass = "ganttBlue">
-						<cfelse>
-							<cfset s_val.customClass = "ganttCompleted">
-						</cfif>
-						<cfset s_val.dataObj = s_data>
-						
-						<cfswitch expression="#durations#">
-							<cfcase value="pessimistic">
-								<cfset t_date = dateAdd("d", -1 , t.end_date_pessimistic)>
-								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-							</cfcase>
-							<cfcase value="optimistic">
-								<cfset t_date = dateAdd("d", -1 , t.end_date_optimistic)>
-								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">						
-							</cfcase>
-							<cfcase value="normal">	
-								<cfset t_date = dateAdd("d", -1, t.end_date)>		
-								<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-							</cfcase>
-						</cfswitch>
-						
-						<cfset ArrayAppend(s_src.values, s_val)>
-						<cfset ArrayAppend(source, s_src)>
-					</cfif>
-				</cfloop> <!--- tasks inner loop --->									
 			</cfif> <!--- not-deleted check --->
-		</cfloop> <!--- milestones outer loop --->
+		</cfloop> <!--- tasks loop --->
 		
 		<cfreturn SerializeJSON(source)>
 	</cffunction>

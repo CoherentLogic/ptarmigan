@@ -1,6 +1,7 @@
 <cfsilent>
 	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfset project = object.get()>
+	<cfset project.schedule()>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
@@ -26,25 +27,11 @@
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				
-				<cfoutput>
-				$("##normal").click(function () {
-					render_gantt('#session.root_url#', '#project.id#', 'normal')	
-				});			
-				$("##optimistic").click(function () {
-					render_gantt('#session.root_url#', '#project.id#', 'optimistic')	
-				});			
-				$("##pessimistic").click(function () {
-					render_gantt('#session.root_url#', '#project.id#', 'pessimistic')	
-				});			
-				$("##estimated").click(function () {
-					render_gantt('#session.root_url#', '#project.id#', 'estimated')	
-				});			
-				</cfoutput>
-				$("#view").buttonset();
 				
 				
 				
-				<cfoutput>render_gantt('#session.root_url#', '#project.id#', 'normal');</cfoutput>
+				<cfoutput>render_gantt('#session.root_url#', '#project.id#');</cfoutput>
+				
    		 });
 	</script>
 </head>
@@ -63,7 +50,7 @@
 						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
 						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
 						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
-						<button class="pt_buttons" onclick="add_milestone('#session.root_url#', '#project.id#');" id="add_ms"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
+						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#project.id#');" id="add_task"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
 						<button class="pt_buttons" id="add_co" onclick="add_change_order('#session.root_url#', '#project.id#')"><img src="#session.root_url#/images/add.png" align="absmiddle"> Change Order</button> 
 						<button class="pt_buttons" id="apply_co" onclick="apply_change_order('#session.root_url#', '#project.id#');">Apply C/O</button>
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
@@ -98,11 +85,9 @@
 						<tr>
 							<td>Customer:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="customer_id" show_label="false" full_refresh="false"></td>
-							<td>End Dates:</td>
+							<td>End Date:</td>
 							<td>
-								Optimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date_optimistic" width="auto" show_label="false" full_refresh="true"><br>
-								Normal: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date" width="auto" show_label="false" full_refresh="true"><br>
-								Pessimistic: <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date_pessimistic" width="auto" show_label="false" full_refresh="true">																				
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="due_date" width="auto" show_label="false" full_refresh="true">
 							</td>				
 						</tr>				
 						<tr>
@@ -120,18 +105,11 @@
 					<h1>Instructions</h1>
 					<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="instructions" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
 
-					<h1>Tasks &amp; Subtasks</h1>
+					<h1>Tasks</h1>
 					
-					<cfset milestones = project.milestones()>
-					<cfloop array="#milestones#" index="ms">
-						<p><cfoutput><a style="color:#ms.color#;" href="#session.root_url#/project/manage_milestone.cfm?id=#ms.id#">#ms.milestone_name#</a></cfoutput>
-							<blockquote>
-								<cfset tasks = ms.tasks()>
-								<cfloop array="#tasks#" index="t">
-									<p><cfoutput><a style="color:#t.color#;" href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></cfoutput></p>
-								</cfloop>
-							</blockquote>
-						</p>
+					<cfset tasks = project.tasks()>
+					<cfloop array="#tasks#" index="t">
+						<p><cfoutput><a style="color:#t.color#;" href="#session.root_url#/project/manage_task.cfm?id=#t.id#">#t.task_name#</a></cfoutput></p>
 					</cfloop>
 					<h1>Budget Allocation</h1>
 					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">								
@@ -175,14 +153,10 @@
 				<cfoutput>
 					<input type="hidden" id="current_element_table" value="projects">					
 					<input type="hidden" id="current_element_id" value="#project.id#">
-				</cfoutput>											
-				<span id="view">
-					<input autocomplete="off" type="radio" value="normal" id="normal" name="view_duration" checked="checked" /><label for="normal">Normal</label>
-					<input autocomplete="off" type="radio" value="pessimistic" id="pessimistic" name="view_duration" /><label for="pessimistic">Pessimistic</label>
-					<input autocomplete="off" type="radio" value="optimistic" id="optimistic" name="view_duration" /><label for="optimistic">Optimistic</label>
-					<input autocomplete="off" type="radio" value="estimated" id="estimated" name="view_duration" /><label for="estimated">Estimated</label>
-				</span>
-				<div class="gantt" style="float:left;">	</div>
+				</cfoutput>								
+				<div style="height:600px;">			
+				<div class="gantt">	</div>
+				</div>
 			</div>
 		</div> <!--- tabs --->
 	</div> <!--- container --->
