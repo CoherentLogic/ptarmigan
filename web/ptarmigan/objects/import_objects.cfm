@@ -1,5 +1,3 @@
-
-<cfabort>
 <cfquery name="itc" datasource="#session.company.datasource#">
 	SELECT id FROM task_constraints
 </cfquery>

@@ -61,106 +61,6 @@
 		<cfreturn 11>
 	</cffunction>
 	
-	<cffunction name="schedule_old" returntype="void" access="public" output="false">
-		<cfset base_start_date = this.start_date>		
-		<cfset a_tasks = this.tasks()>
-		<cfloop array="#a_tasks#" index="tsk">
-			<cfset tsk.scheduled = 0>
-			<cfset tsk.update()>
-		</cfloop>
-		<cfloop array="#a_tasks#" index="tsk">
-			<cfif ArrayLen(tsk.successors()) EQ 0>
-				<!--- task has no successors --->
-				<cfif tsk.scheduled EQ 0>
-					<cfset tsk.start_date = base_start_date>
-					<cfset tsk.end_date = dateAdd("d", tsk.duration, tsk.start_date)>
-					<cfset tsk.scheduled = 1>
-					<cfset tsk.update()>	
-				</cfif>		
-			<cfelse>
-				<cfloop array="#tsk.successors()#" index="successor">
-					<cfset successor.start_date = dateAdd("d", 1, tsk.end_date)>
-					<cfset successor.end_date = dateAdd("d", successor.duration, successor.start_date)>
-					<cfset successor.scheduled = 1>
-					<cfset successor.update()>
-				</cfloop>
-			</cfif>
-		</cfloop>
-	</cffunction>
-	
-	<!---<cffunction name="schedule" returntype="void" access="public" output="false">
-		<cfset this.calc_earliest_times(this.tasks())>	
-		<cfset this.calc_latest_times(this.tasks())>
-		<cfset this.calc_critical_path()>
-		
-		<cfset a_tasks = this.tasks()>
-		<cfloop array="#a_tasks#" index="tsk">
-			<cfswitch expression="#tsk.constraint_id#">
-				<cfcase value="SASAP">
-					<cfset tsk.start_date = tsk.earliest_start>
-					<cfset tsk.end_date = tsk.earliest_end>
-				</cfcase>
-			</cfswitch>
-			<cfset tsk.update()>
-		</cfloop>
-		
-	</cffunction>
-	
-	<cffunction name="calc_earliest_times" returntype="void" access="public" output="false">
-		<cfargument name="a_tasks" type="array" required="true">
-
-		<cfset a_tasks[1].earliest_end = dateAdd("d", a_tasks[1].duration - 1, this.start_date)>
-		<cfset a_tasks[1].update()>
-		
-		<cfloop from="2" to="#ArrayLen(a_tasks)#" index="i">					
-			<cfloop array="#a_tasks[i].predecessors()#" index="activity">
-				<cfif a_tasks[i].earliest_start LT activity.earliest_end>
-					<cfset a_tasks[i].earliest_start = activity.earliest_end>
-					<cfset a_tasks[i].update()>
-				</cfif>
-			</cfloop>
-			
-			<cfset a_tasks[i].earliest_end = dateAdd("d", a_tasks[i].duration - 1, a_tasks[i].earliest_start)>
-			<cfset a_tasks[i].update()>
-		</cfloop>
-	</cffunction>
-
-	<cffunction name="calc_latest_times" returntype="void" access="public" output="false">
-		<cfargument name="a_tasks" type="array" required="true">
-
-		<cfset a_tasks[ArrayLen(a_tasks)].latest_end = a_tasks[ArrayLen(a_tasks)].earliest_end>
-		<cfset a_tasks[ArrayLen(a_tasks)].latest_start = dateAdd("d", -(a_tasks[ArrayLen(a_tasks)].duration - 1), a_tasks[ArrayLen(a_tasks)].latest_end)>
-		<cfset a_tasks[ArrayLen(a_tasks)].update()>
-		
-		<cfloop from="#ArrayLen(a_tasks) - 1#" to="1" step="-1" index="i">
-			<cfloop array="#a_tasks[i].successors()#" index="activity">
-				<cfif a_tasks[i].latest_end EQ this.start_date>
-					<cfset a_tasks[i].latest_end = activity.latest_start>
-					<cfset a_tasks[i].update()>
-				<cfelse>
-					<cfif a_tasks[i].latest_end GT activity.latest_end>
-						<cfset a_tasks[i].latest_end = activity.latest_start>
-						<cfset a_tasks[i].update()>
-					</cfif>
-				</cfif>
-			</cfloop>
-			
-			<cfset a_tasks[i].latest_start = dateAdd("d", -(a_tasks[i].duration - 1), a_tasks[i].latest_end)>
-			<cfset a_tasks[i].update()>
-		</cfloop>
-	</cffunction>
-	
-	<cffunction name="calc_critical_path" returntype="void" access="public" output="false">
-		<cfset a_tasks = this.tasks()>
-		<cfloop array="#a_tasks#" index="activity">
-			<cfif (dateDiff("d", activity.latest_end, activity.earliest_end) EQ 0) AND (dateDiff("d", activity.latest_start, activity.earliest_start) EQ 0)>
-				<cfset activity.critical = 1>
-			<cfelse>
-				<cfset activity.critical = 0>
-			</cfif>
-			<cfset activity.update()>
-		</cfloop>	
-	</cffunction>--->
 	<cffunction name="schedule" returntype="void" access="public" output="false">
 		<cfset tsks = this.tasks()>
 		<cfloop array="#tsks#" index="t">
@@ -172,26 +72,45 @@
 		</cfloop>
 		
 		<cfset this.calc_critical_path()>
-	</cffunction>
-	
-<!--- 	<cffunction name="calc_earliest_times" returntype="void" access="public">
-		<cfargument name="position" type="ptarmigan.task" required="true">
 		
-		<cfloop array="#position.successors()#" index="successor">
-			<cfloop array="#successor.predecessors()#" index="predecessor">
-				<cfif successor.earliest_start LT predecessor.earliest_end>
-					<cfset successor.earliest_start = predecessor.earliest_end>
-					<cfset successor.update()>
-				</cfif>
-				<cfset successor.earliest_end = successor.earliest_start + successor.duration>
-				<cfset successor.update()>
-			</cfloop>
+		<cfloop array="#this.tasks()#" index="t">
+			<cfswitch expression="#t.constraint_id#">
+				<cfcase value="SASAP">
+					<cfset t.start_date = dateAdd("d", t.earliest_start, this.start_date)>
+					<cfset t.end_date = dateAdd("d", t.earliest_end - 1, this.start_date)>
+				</cfcase>
+				<cfcase value="SALAP">
+					<cfset t.start_date = dateAdd("d", t.latest_start, this.start_date)>
+					<cfset t.end_date = dateAdd("d", t.latest_end - 1, this.start_date)>				
+				</cfcase>
+				<cfcase value="FNET">
+					<cfset t.end_date = t.constraint_date>
+					<cfset t.start_date = dateAdd("d", -t.duration + 1, t.end_date)>
+				</cfcase>
+				<cfcase value="FNLT">
+					<cfset t.end_date = t.constraint_date>
+					<cfset t.start_date = dateAdd("d", -t.duration, t.end_date)>				
+				</cfcase>
+				<cfcase value="MF">
+					<cfset t.end_date = t.constraint_date>
+					<cfset t.start_date = dateAdd("d", -t.duration, t.end_date)>
+				</cfcase>
+				<cfcase value="MS">
+					<cfset t.start_date = t.constraint_date>
+					<cfset t.end_date = dateAdd("d", t.duration, t.start_date)>				
+				</cfcase>
+				<cfcase value="SNET">
+					<cfset t.start_date = t.constraint_date>
+					<cfset t.end_date = dateAdd("d", t.duration, t.start_date)>								
+				</cfcase>
+				<cfcase value="SNLT">
+					<cfset t.start_date = t.constraint_date>
+					<cfset t.end_date = dateAdd("d", t.duration, t.start_date)>				
+				</cfcase>
+			</cfswitch>
+			<cfset t.update()>
 		</cfloop>
-		
-		<cfloop array="#position.successors()#" index="successor">
-			<cfset this.calc_earliest_times(successor)>
-		</cfloop>	
-	</cffunction> --->
+	</cffunction>
 	
 	<cffunction name="calc_earliest_times" returntype="void" access="public">
 		<cfargument name="position" type="ptarmigan.task" required="true">
@@ -259,6 +178,10 @@
 			</cfif>
 		</cfloop>
 		<cfthrow message="No stop task defined.">
+	</cffunction>
+	
+	<cffunction name="get_duration" returntype="numeric" access="public" output="false">
+		<cfreturn  dateDiff("d", this.start_date, this.stop_task().end_date)>
 	</cffunction>
 	
 	<cffunction name="create" returntype="ptarmigan.project" access="public" output="false">
@@ -527,21 +450,27 @@
 				<cfset s_val.id = t.id>
 				
 				<cfif t.completed EQ 0>
-					<cfset s_val.customClass = "ganttRed">			
+					<cfset s_val.customClass = "ganttBlue">			
 				<cfelse>
 					<cfset s_val.customClass = "ganttComplete">
 				</cfif>
 				
+				
+				
 				<cfset s_val.label = t.task_name>
 				<cfset s_val.dataObj = s_data>				
+				
+				<cfif t.critical EQ 1>
+					<cfset s_val.customClass = "ganttRed">
+					<cfset s_src.desc = "Critical Task">
+					<cfset s_val.label = s_val.label & " [C]">
+				</cfif>
 				
 				<cfset t_date = dateAdd("d", -1 , t.start_date)>
 				<cfset s_val.from = "/Date(" & t_date.getTime() & ")/">
 				<cfset t_date = dateAdd("d", -1, t.end_date)>
 				<cfset s_val.to = "/Date(" & t_date.getTime() & ")/">
-				
-				<cfset preds = t.predecessors()>
-				<cfset s_val.dep = preds[1].id>
+							
 				
 				<cfset ArrayAppend(s_src.values, s_val)>
 				<cfset ArrayAppend(source, s_src)>

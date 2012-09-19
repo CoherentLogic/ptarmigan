@@ -13,6 +13,8 @@
 <script type="text/javascript" src="#session.root_url#/DataTables/media/js/jquery.dataTables.js"></script>
 <script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="#session.root_url#/jquery_ui/css/style.css">
-	<script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
-	<script src="#session.root_url#/jquery_ui/js/jquery.fn.gantt.js"></script>
+<script src="http://view.jqueryui.com/menubar/ui/jquery.ui.position.js" type="text/javascript"></script>
+<script src="#session.root_url#/jquery_ui/js/jquery.fn.gantt.js"></script>
+<script src="#session.root_url#/jquery_ui/js/jquery.jsplumb.js"></script>
+
 </cfoutput>

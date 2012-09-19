@@ -30,9 +30,31 @@
 				
 				
 				
-				<cfoutput>render_gantt('#session.root_url#', '#project.id#');</cfoutput>
 				
-   		 });
+				//<cfoutput>render_gantt('#session.root_url#', '#project.id#');</cfoutput>
+				<cfloop array="#project.tasks()#" index="t">
+					<cfloop array="#t.successors()#" index="s">
+						<cfset source_el = t.id & "_end_cell">
+						<cfset target_el = s.id & "_start_cell">
+						<cfoutput>
+						try {
+						jsPlumb.connect({
+							source:"#source_el#", 
+							target:"#target_el#",
+							detachable:false,							
+							anchors:["BottomCenter", "LeftMiddle" ],
+							connector:[ "Flowchart", { stub:5 }],
+							paintStyle:{ strokeStyle:"navy", lineWidth:1 },
+							endpoint:[ "Dot", { radius:3 }],
+							endpointStyle:{ fillStyle: "navy" },
+							overlay: "PlainArrow"
+						});
+						} catch (ex) {}
+						</cfoutput>
+					</cfloop>
+				</cfloop>
+				
+	   		 });
 	</script>
 </head>
 <body>
@@ -64,11 +86,13 @@
 		</div>	<!--- header --->
 		<div id="tabs">
 			<ul>
-					<li><a href="#tabs-paper">Project</a></li>					
 					<li><a href="#tabs-gantt">Gantt Chart</a></li>
+					<li><a href="#tabs-paper">Project</a></li>					
+					
 			</ul>
 			<div id="tabs-paper">
-				<div id="left-column" class="panel">
+				<div id="left-column" class="panel">									
+					
 					<h1>Project Details</h1>
 					<p>
 					<cfoutput>
@@ -149,14 +173,8 @@
 					<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="false">
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
-			<div id="tabs-gantt">
-				<cfoutput>
-					<input type="hidden" id="current_element_table" value="projects">					
-					<input type="hidden" id="current_element_id" value="#project.id#">
-				</cfoutput>								
-				<div style="height:600px;">			
-				<div class="gantt">	</div>
-				</div>
+			<div id="tabs-gantt">										
+				<cfmodule template="gantt.cfm" id="#project.id#">
 			</div>
 		</div> <!--- tabs --->
 	</div> <!--- container --->
