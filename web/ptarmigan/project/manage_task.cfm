@@ -202,7 +202,7 @@
 					</cfif>
 					<br><br>
 					<h1>Documents</h1>
-					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
+					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT", "TARGET")) EQ 0>
 						<p><em>No documents associated with this task.</em></p>
 					<cfelse>
 						<p>
