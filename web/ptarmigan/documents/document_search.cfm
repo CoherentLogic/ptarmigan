@@ -52,7 +52,7 @@
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Documents" icon="#session.root_url#/images/project_dialog.png">
 	
-		<cfform name="document_search" id="document_search" action="#session.root_url#/documents/document_search.cfm" method="post">
+		<cfoutput><form name="document_search" id="document_search" action="#session.root_url#/documents/document_search.cfm" method="post"></cfoutput>
 			<div style="padding:20px; width:600px; height:180px; overflow:auto;" id="results_area">
 				<table>
 					<tr>
@@ -64,13 +64,13 @@
 								<tr>
 									<td>Between</td>
 									<td>
-										<cfinput type="datefield" name="filing_date_start" size="10">
+										<input class="pt_dates" type="text" name="filing_date_start" size="10">
 									</td>
 									<td>
 										and
 									</td>
 									<td>
-										<cfinput type="datefield" name="filing_date_end" size="10">
+										<input class="pt_dates" type="text" name="filing_date_end" size="10">
 									</td>
 								</tr>
 							</table>							
@@ -132,7 +132,7 @@
 			</div>
 			
 			<input type="hidden" name="self_post" id="self_post" value="">
-		</cfform>
+		</form>
 		
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
 	    	<div style="padding:8px; float:right;" id="form_buttons">

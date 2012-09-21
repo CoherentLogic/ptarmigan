@@ -15,5 +15,7 @@
 <cfif IsDefined("url.set_theme")>
 	<cfset session.ui_theme = url.set_theme>
 </cfif>
+<!--->
 <cferror type="exception" template="#session.root_url#/utilities/error_dispatch.cfm">
 <cferror type="request" template="#session.root_url#/utilities/error_dispatch.cfm">
+--->
