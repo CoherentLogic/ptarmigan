@@ -10,7 +10,6 @@
 	<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
 	<script type="text/javascript" src="#session.root_url#/ptarmigan.js"></script>
 	</cfoutput>
-	<cfajaximport tags="cfwindow,cflayout-tab">
 </head>
 <!---  --->
 <body onload="init_map('map', 33.1283, -107.2522);" style="height:100%;width:100%;">
