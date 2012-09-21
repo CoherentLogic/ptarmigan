@@ -44,13 +44,17 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
-						<td>Type:</td>
-						<td>
-							<label><input type="radio" name="system_report" value="0" checked="checked">User</label><br>
-							<label><input type="radio" name="system_report" value="1">System</label>
-						</td>
-					</tr>				
+					<cfif session.user.is_admin() EQ true>
+						<tr>
+							<td>Type:</td>
+							<td>
+								<label><input type="radio" name="system_report" value="0" checked="checked">User</label><br>
+								<label><input type="radio" name="system_report" value="1">System</label>
+							</td>
+						</tr>				
+					<cfelse>
+						<input type="hidden" name="system_report" value="0">
+					</cfif>
 				</table>
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
