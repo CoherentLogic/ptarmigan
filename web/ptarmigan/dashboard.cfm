@@ -127,60 +127,46 @@
 						</cfloop>
 						</tr>
 						</table>
-					</div>
-					<table width="100%">
+					</div>				
+					<cfset active_projects = session.company.active_projects()>
+					<div class="dashboard_element" style="width:100%;overflow:hidden;">
+						<div class="dashboard_element_header" style="background-color:#e17009; color:white;"><p>Active Projects</p></div>	
+						<table width="100%" cellpadding="0" cellspacing="0" class="dashboard_table">		
 						<tr>
-							<td width="70%" valign="top">
-								<cfset active_projects = session.company.active_projects()>
-								<div class="dashboard_element" style="width:100%;overflow:hidden;">
-									<div class="dashboard_element_header" style="background-color:#e17009; color:white;"><p>Active Projects</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0" class="dashboard_table">		
-									<tr>
-										<th>Project</th>
-										<th>Due Date</th>			
-									</tr>							
-									<cfloop array="#active_projects#" index="p">
-										<cfoutput>
-											<tr>
-												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#p.id#">#p.project_name#</td>
-												<td width="30%" style="padding:3px;">#dateFormat(p.due_date, "m/dd")#</td>
-											</tr>
-										</cfoutput>
-									</cfloop>
-									</table>
-								</div>	
-												
-								<div class="dashboard_element" style="width:100%;overflow:hidden;">
-									<cfset active_tasks = session.company.active_tasks()>
-								
-									<div class="dashboard_element_header" style="background-color:blue; color:white;"><p>Active Tasks</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
-									<tr>
-										<th>Task</th>
-										<th>Due Date</th>			
-									</tr>							
-									<cfloop array="#active_tasks#" index="t">
-										<cfoutput>
-											<tr>
-												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#t.project().id#">#t.project().project_name#</a>: #t.task_name#</td>
-												<td width="30%" style="padding:3px;">#dateFormat(t.end_date, "m/dd")# (#t.percent_complete#%)</td>
-											</tr>
-										</cfoutput>
-									</cfloop>
-									</table>
-								</div>						
-
-							</td>
-							<td width="30%" valign="top" style="padding-left:30px;" align="right">
-									<cfform>
-									<cfcalendar name="cal">
-									</cfform>
-							</td>
-						</tr>
-					</table>
+							<th>Project</th>
+							<th>Due Date</th>			
+						</tr>							
+						<cfloop array="#active_projects#" index="p">
+							<cfoutput>
+								<tr>
+									<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#p.id#">#p.project_name#</td>
+									<td width="30%" style="padding:3px;">#dateFormat(p.due_date, "m/dd")#</td>
+								</tr>
+							</cfoutput>
+						</cfloop>
+						</table>
+					</div>	
+									
+					<div class="dashboard_element" style="width:100%;overflow:hidden;">
+						<cfset active_tasks = session.company.active_tasks()>
 					
-				</div>
-				
+						<div class="dashboard_element_header" style="background-color:blue; color:white;"><p>Active Tasks</p></div>	
+						<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
+						<tr>
+							<th>Task</th>
+							<th>Due Date</th>			
+						</tr>							
+						<cfloop array="#active_tasks#" index="t">
+							<cfoutput>
+								<tr>
+									<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#t.project().id#">#t.project().project_name#</a>: #t.task_name#</td>
+									<td width="30%" style="padding:3px;">#dateFormat(t.end_date, "m/dd")# (#t.percent_complete#%)</td>
+								</tr>
+							</cfoutput>
+						</cfloop>
+						</table>
+					</div>						
+				</div>				
 			</div>
 		</div>
 	</div>
