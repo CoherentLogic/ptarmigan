@@ -8,12 +8,12 @@
 <div style="position:relative; height:100%; width:100%; background-color:white;">
 <cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Project" icon="#session.root_url#/images/project_dialog.png">
 
-<cfform name="add_project" id="add_project" action="#session.root_url#/project/add_project_submit.cfm" method="post">
+<cfoutput><form name="add_project" id="add_project" action="#session.root_url#/project/add_project_submit.cfm" method="post"></cfoutput>
 	<div style="padding:20px;">
 		<table width="100%">
 			<tr>
 				<td>Project name:</td>
-				<td><cfinput type="text" maxlength="255" name="project_name"></td>
+				<td><input type="text" maxlength="255" name="project_name"></td>
 			</tr>
 			<tr>
 				<td>Customer:</td>
@@ -27,19 +27,19 @@
 			</tr>
 			<tr>
 				<td>Start date:</td>
-				<td><cfinput type="datefield" name="start_date">
+				<td><input class="pt_dates" type="text" name="start_date">
 			</tr>
 			<tr>
 				<td>End date:</td>
-				<td><cfinput type="datefield" name="due_date"></td>
+				<td><input class="pt_dates" type="text" name="due_date"></td>
 			</tr>
 			<tr>
 				<td>Budget:</td>
-				<td><cfinput type="text" name="budget"></td>
+				<td><input type="text" name="budget"></td>
 			</tr>
 			<tr>
 				<td>Tax rate:</td>
-				<td><cfinput type="text" name="tax_rate" size="4"><strong>%</strong></td>
+				<td><input type="text" name="tax_rate" size="4"><strong>%</strong></td>
 			</tr>
 			<tr>
 				<td>Instructions:</td>
@@ -56,5 +56,5 @@
 		</div>
 	</div>
 
-</cfform>
+</form>
 </div>
