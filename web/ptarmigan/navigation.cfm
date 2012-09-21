@@ -4,39 +4,22 @@
 <div id="menu_header">
 		
 		<ul id="navigation_bar" class="menubar-icons">
+			
 			<li>
 				<a href="##ptarmigan">Ptarmigan</a>
 				<ul>					
 					<cfif session.logged_in EQ true>
 						<cfoutput>
 						<li><a href="#session.root_url#/dashboard.cfm">Dashboard</a></li>
-						</cfoutput>
-							<cfif session.user.is_admin() EQ true>
-							<li>
-								<a href="##company">Company</a>
-								<ul>								
-									<cfoutput>
-									<li><a href="#session.root_url#/company/create_pay_periods.cfm">Create pay periods</a></li>
-									</cfoutput>
-								</ul>
-							</li>
-						</cfif>
-						<cfoutput>
 						<li><a href="javascript:trash_can('#session.root_url#');">Trash Can</a></li>
 						<li><a href="#session.root_url#/logout.cfm">Log out</a></li>
 						</cfoutput>
 					</cfif>
-					<li>
-						<a href="##themes">Choose Theme</a>
-						<ul>
-							<li><a href="javascript:set_theme('#session.root_url#', 'smoothness');">Default</a></li>
-							<li><a href="javascript:set_theme('#session.root_url#', 'redmond');">Redmond</a></li>
-						</ul>
-						
-					</li>
+
 					<li><a href="#session.root_url#/about.cfm">About Ptarmigan</a></li>
 				</ul>
 			</li>	
+			
 			<cfif session.logged_in EQ true>
 				<li>
 					<a href="##reports">Reports</a>
