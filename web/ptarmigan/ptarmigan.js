@@ -563,7 +563,7 @@ function open_dialog(url, caption, width, height, on_loaded)
 		$(".pt_buttons").button();
 		$(".first_focus").focus();
 		$(".pt_tables").dataTable();
-
+		alert(textStatus);
 		if(on_loaded) {
 			on_loaded();
 		}
