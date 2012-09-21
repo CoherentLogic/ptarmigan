@@ -1,8 +1,6 @@
 
 <div style="position:absolute; top:60px; right:10px;">
-<cftooltip tooltip="Get help for this window">
 <cfmodule template="#session.root_url#/help/help_button.cfm" page="#GetFileFromPath(cgi.path_translated)#">
-</cftooltip>
 </div>
 
 <cfoutput>
