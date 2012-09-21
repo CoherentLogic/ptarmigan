@@ -6,11 +6,11 @@
 	
 	<cfset rep = CreateObject("component", "ptarmigan.report")>
 	
-	<cfset rep.report_name = form.report_name>
+	<cfset rep.report_name = left(form.report_name, 255)>
 	<cfset rep.class_id = form.class_id>
 	<cfset rep.system_report = form.system_report>
 	<cfset rep.employee_id = session.user.id>
-	<cfset rep.report_key = form.report_key>
+	<cfset rep.report_key = left(form.report_key, 20)>
 	
 	<cfset rep.create()>
 	
@@ -24,11 +24,11 @@
 				<table>
 					<tr>
 						<td>Report name:</td>
-						<td><input type="text" name="report_name"></td>
+						<td><input type="text" name="report_name" maxlength="255"></td>
 					</tr>
 					<tr>
 						<td>Shortcut:</td>
-						<td><input type="text" name="report_key"></td>
+						<td><input type="text" name="report_key" maxlength="20"></td>
 					</tr>
 					<tr>
 						<td>Using:</td>
