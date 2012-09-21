@@ -36,6 +36,10 @@
 		<cfset this.written = true>
 		<cfreturn this>
 	</cffunction>
+	
+	<cffunction name="get_icon" returntype="string" access="public" output="false">
+		<cfreturn session.root_url & "/images/" & this.icon>
+	</cffunction>
 
 	<cffunction name="update_class_info" returntype="void" access="public" output="false">
 		<cfquery name="qc" datasource="#session.company.datasource#">
@@ -54,17 +58,28 @@
 	
 	<cffunction name="get_associated_objects" returntype="array" access="public" output="false">
 		<cfargument name="target_class_id" type="string" required="true">
+		<cfargument name="rel_type" type="string" required="true">
 		
 		<cfquery name="q_get_associated_objects" datasource="#session.company.datasource#">
-			SELECT target_object_id 
+			SELECT target_object_id, source_object_id
 			FROM 	object_associations 
-			WHERE 	source_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			<cfif rel_type EQ "TARGET">
+				WHERE 	source_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			<cfelse>
+				WHERE	target_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			</cfif>
+			<cfif target_class_id NEQ "ALL">
 			AND		target_object_class=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#arguments.target_class_id#">
+			</cfif>
 		</cfquery>
 
 		<cfset out_array = ArrayNew(1)>
 		<cfoutput query="q_get_associated_objects">
-			<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(q_get_associated_objects.target_object_id)>
+			<cfif rel_type EQ "TARGET">
+				<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(q_get_associated_objects.target_object_id)>
+			<cfelse>
+				<cfset tmp_obj = CreateObject("component", "ptarmigan.object").open(q_get_associated_objects.source_object_id)>			
+			</cfif>
 			<cfset ArrayAppend(out_array, tmp_obj)>
 		</cfoutput>
 		
@@ -240,6 +255,12 @@
 		<cfset tmp_obj.update()>
 	</cffunction>
 	
+	<cffunction name="member_enum_values" returntype="array" access="public" output="false">
+		<cfargument name="member_name" type="string" required="true">
+		
+		<cfreturn ListToArray(this.data().implementation.members[member_name].values)>
+	</cffunction>
+	
 	<cffunction name="member_value" returntype="any" access="public" output="false">
 		<cfargument name="member_name" type="string" required="true">
 		
@@ -251,7 +272,16 @@
 			<cfcase value="date">
 				<cfreturn dateFormat(m, "mm/dd/yyyy")>
 			</cfcase>
+			<cfcase value="usstate">
+				<cfreturn m>
+			</cfcase>
 			<cfcase value="text">
+				<cfreturn m>
+			</cfcase>
+			<cfcase value="richtext">
+				<cfreturn m>
+			</cfcase>
+			<cfcase value="enum">
 				<cfreturn m>
 			</cfcase>
 			<cfcase value="number">

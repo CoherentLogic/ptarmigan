@@ -317,6 +317,16 @@
 							<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#task_id#">)
 		</cfquery>
 	</cffunction>
+	
+	<cffunction name="delete_predecessor" returntype="void" output="false" access="public">
+		<cfargument name="task_id" type="string" required="true">
+		
+		<cfquery name="q_del_pred" datasource="#session.company.datasource#">
+			DELETE FROM task_dependencies
+			WHERE	successor_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">
+			AND		predecessor_id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#task_id#">
+		</cfquery>
+	</cffunction>
 
 	<cffunction name="successors" returntype="array" access="public" output="false">
 		<cfquery name="get_suc" datasource="#session.company.datasource#">
@@ -335,14 +345,8 @@
 		<cfreturn oa>
 	</cffunction>
 	
-	
-	
-	<cffunction name="duration" returntype="numeric" access="public" output="false">
-
-		<cfset d = dateDiff("d", this.start_date, this.end_date) + 1>
-		
-		<cfreturn d>
-
+	<cffunction name="duration" returntype="numeric" access="public" output="false">	
+		<cfreturn this.duration>
 	</cffunction>
 		
 	<cffunction name="total_expenses" returntype="numeric" access="public" output="false">

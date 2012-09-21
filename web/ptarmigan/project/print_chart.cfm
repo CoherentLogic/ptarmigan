@@ -9,15 +9,16 @@
 		<title>#p.project_name#</title>
 		
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
+		
 		<style type="text/css">
-			td {
-			-webkit-print-color-adjust:exact;
+			body {
+				background-image:none;
 			}
 		</style>
+						
 	</cfoutput>		
 </head>
 <body onload="window.print();">
-	<cfmodule template="gantt_chart.cfm" id="#url.project_id#" mode="view" durations="#url.durations#">
+	<cfmodule template="gantt.cfm" id="#url.project_id#" print="true">
 </body>
-
 </html>

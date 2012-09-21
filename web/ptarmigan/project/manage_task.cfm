@@ -29,6 +29,10 @@
 				$(".pt_buttons").button();								
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
+				$(".pt-table").dataTable({
+        			"bJQueryUI": true,
+        			"sPaginationType": "full_numbers"
+				});
 				$( "#percentage-complete").progressbar({
 					<cfoutput>value: #task.percent_complete#</cfoutput>
 				});
@@ -39,15 +43,16 @@
         			"bJQueryUI": true,
         			"sPaginationType": "full_numbers"
 				});				
-				
-				
-				
-				<cfoutput>render_gantt('#session.root_url#', '#task.project().id#');</cfoutput>
+												
+				<cfmodule template="#session.root_url#/project/gantt_render_script.cfm" id="#task.project().id#">
    		 });
 	</script>
 </head>
 <body>
 	<cfinclude template="#session.root_url#/navigation.cfm">
+	<cfoutput>
+		<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
+	</cfoutput>
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
 		<div id="header">
@@ -58,9 +63,6 @@
 				<tr>
 					<td align="right">
 						<cfoutput>
-						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#task.project().id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
-						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#task.project().id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
-						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#task.project().id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
 						<button class="pt_buttons" onclick="add_expense('#session.root_url#', '#task.id#', 'tasks', '#task.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#task.id#', '#task.id#', 'OBJ_TASK');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
@@ -73,8 +75,8 @@
 		</div>	<!--- header --->
 		<div id="tabs">
 			<ul>
-					<li><a href="#tabs-paper">Task</a></li>					
 					<li><a href="#tabs-gantt">Gantt Chart</a></li>
+					<li><a href="#tabs-paper">Task</a></li>					
 			</ul>
 			<div id="tabs-paper">
 				<div id="left-column" class="panel">
@@ -131,9 +133,46 @@
 					</cfoutput>
 					</p>
 					
+					
 					<h1>Description</h1>
 					<cfoutput><p><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="description" width="auto" show_label="false" full_refresh="false"></p></cfoutput>			
 			
+					<h1>Predecessors</h1>
+					
+					<cfset preds = task.predecessors()>
+					<table class="pt-table">
+						<thead>
+							<tr>
+								<th>Task</th>
+								<th>Type</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop array="#preds#" index="pred">
+								<cfoutput>
+									<tr>
+										<td>#pred.task_name#</td>
+										<td>Finish-to-start [FS]</td>
+										<td width="10%"><button class="pt_buttons" onclick="delete_predecessor('#task.id#', '#pred.id#');">Delete</button></td>
+									</tr>
+									
+									
+								</cfoutput>
+							</cfloop>
+							
+						</tbody>
+					</table>
+					<div style="margin-top:30px;">
+					<select name="add_predecessor" id="add_predecessor">
+						<cfloop array="#task.project().tasks()#" index="tsk">
+							<cfif tsk.id NEQ task.id>
+								<cfoutput><option value="#tsk.id#">#tsk.task_name#</option></cfoutput>
+							</cfif>
+						</cfloop>
+					</select>
+					<cfoutput><button class="pt_buttons" onclick="add_predecessor('#task.id#', $('##add_predecessor').val(), 'FS');">Add Predecessor</button></cfoutput>
+					</div>
 					<h1>Expenses</h1>
 					<cfif ArrayLen(task.expenses()) EQ 0>
 						<p><em>No expenses recorded for this task.</em></p>
@@ -215,7 +254,7 @@
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">				
-				<div class="gantt" style="float:left;">	</div>
+				<cfmodule template="gantt.cfm" id="#task.project().id#">
 			</div>
 		</div> <!--- tabs --->
 	</div> <!--- container --->

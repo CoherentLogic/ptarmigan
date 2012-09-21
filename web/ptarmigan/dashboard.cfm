@@ -61,9 +61,6 @@
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
-				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "840px");
-				$("#accordion").accordion();		
 				$("#navigation_bar").menubar({
 					autoExpand:true,
 					menuIcon:true,
@@ -84,25 +81,8 @@
 	<!--- BEGIN LAYOUT --->
 	<cfinclude template="#session.root_url#/navigation.cfm">
 	<div id="container">
-		<div id="navigation">			
-			<div id="accordion">
-				<p><a href="##">Browser</a></p>
-				<div>					
-					<div style="height:300px;width:100%;overflow:auto;">
-					<cfset projects = session.company.projects()>
-					<cfform>
-						<cftree format="html" name="all_objects" >
-						<cftreeitem display="Projects" value="projects_parent" expand="true" img="folder">
-						<cfloop array="#projects#" index="p">
-							<cftreeitem value="#p.id#" display="#p.project_name#" parent="projects_parent" expand="false" href="#session.root_url#/project/edit_project.cfm?id=#p.id#" img="images/stats.png">
-						</cfloop>
-						</cftree>
-					</cfform>
-					</div>
-				</div> <!--- pay period section --->
-			</div>
-		</div>
-		<div id="content">
+		
+		<div id="content" style="width:100%;margin-left:0;">
 			<div id="tabs">
 				<ul>
 					<li><a href="#tab1"><cfoutput><img src="#session.root_url#/images/zoom.png" align="absmiddle" style="margin-right:8px;"></cfoutput>Quick View</a></li>
@@ -169,24 +149,7 @@
 									</cfloop>
 									</table>
 								</div>	
-								<cfset active_milestones = session.company.active_milestones()>								
-								<div class="dashboard_element" style="width:100%;overflow:hidden;">
-									<div class="dashboard_element_header" style="background-color:gold; color:navy;"><p>Active Milestones</p></div>	
-									<table width="100%" cellpadding="0" cellspacing="0"  class="dashboard_table">		
-									<tr>
-										<th>Milestone</th>
-										<th>Due Date</th>			
-									</tr>							
-									<cfloop array="#active_milestones#" index="ms">
-										<cfoutput>
-											<tr>
-												<td width="70%" style="padding:3px;"><a href="#session.root_url#/project/edit_project.cfm?id=#ms.project().id#">#ms.project().project_name#</a>: #ms.milestone_name#</td>
-												<td width="30%" style="padding:3px;">#dateFormat(ms.end_date, "m/dd")# (#ms.percent_complete#%)</td>
-											</tr>
-										</cfoutput>
-									</cfloop>
-									</table>
-								</div>						
+												
 								<div class="dashboard_element" style="width:100%;overflow:hidden;">
 									<cfset active_tasks = session.company.active_tasks()>
 								

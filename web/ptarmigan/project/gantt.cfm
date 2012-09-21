@@ -1,3 +1,9 @@
+<cfif IsDefined("attributes.print")>
+	<cfset mode = "print">
+<cfelse>
+	<cfset mode = "normal">
+</cfif>
+
 <style type="text/css">
 	table.gantt {
 		border-collapse:collapse;
@@ -11,8 +17,16 @@
 		background-color:whitesmoke;
 		text-align:left;
 	}
-		
+	
+	
+	<cfif mode EQ "print">
+	table.gantt td {
+		-webkit-print-color-adjust:exact;
+	}		
+	</cfif>
 </style>
+
+
 <cfif IsDefined("attributes.id")>
 	<cfset project_id = attributes.id>
 <cfelse>
@@ -54,7 +68,18 @@
 	<thead>
 		<tr>
 			
-			<th colspan="9" style="border-top-left-radius:4px;"><cfoutput>#project.project_name#</cfoutput></th>
+			<th colspan="9" style="border-top-left-radius:4px;">
+				<cfoutput>#project.project_name#</cfoutput>
+				<cfif mode NEQ "print">
+					<cfoutput>
+						<div style="display:inline-block; float:right;">
+						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#project.id#');"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
+						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#project.id#');"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
+						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#project.id#');"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
+						</div>
+					</cfoutput>
+				</cfif>
+			</th>
 			<cfif pre GT 0>
 				<cfoutput>
 				<th colspan="#pre#">&nbsp;</th>
@@ -66,7 +91,7 @@
 					<cfif dateFormat(current_date, 'ddd') EQ "MON">
 						<th valign="top" colspan="7">
 						<cfoutput>
-							#dateFormat(current_date, "mmm d, ''yy")#
+							#dateFormat(current_date, "mmm d, yyyy")#
 						</cfoutput>
 						</th>
 					</cfif>
@@ -89,7 +114,8 @@
 			<cfset current_date = project.start_date>
 			<cfloop from="0" to="#days_in_project#" index="d">
 				<cfset date_working = dateFormat(current_date, "mm/dd/yyyy")>
-				<th valign="top" <cfif date_working EQ today_date>style="background-color:navy;color:white;font-weight:bold;width:30px;"<cfelse>style="width:30px;"</cfif>>
+				<cfset show_date = dateFormat(current_date, "full")>
+				<th valign="top" <cfoutput>onmouseover="Tip('#show_date#')" onmouseout="UnTip();"</cfoutput> <cfif date_working EQ today_date>style="background-color:navy;color:white;font-weight:bold;width:30px;"<cfelse>style="width:30px;"</cfif>>
 					
 					<cfoutput>#left(dateFormat(current_date, 'ddd'),1)#</cfoutput>
 					
@@ -105,9 +131,9 @@
 				<tr>	
 					<td style="background-color:white;">
 						<cfif t.start EQ 1>
-							<cfoutput><img src="#session.root_url#/images/diamond.jpg"></cfoutput>
+							<cfoutput><img src="#session.root_url#/images/diamond.jpg" onmouseover="Tip('Starting task');" onmouseout="UnTip();"></cfoutput>
 						<cfelseif t.critical EQ 1>
-							<cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/bullet_red.png"></cfoutput>
+							<cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/bullet_red.png" onmouseover="Tip('On critical path');" onmouseout="UnTip();"></cfoutput>
 						</cfif>
 					</td>				
 					<td style="background-color:white;"><cfoutput>#t.task_name#</cfoutput></th>
@@ -139,19 +165,25 @@
 							</cfif>
 							<cfoutput>							
 							<cfif t.start EQ 0>
-							<td style="background-color:#t.color#;" id="#cell_id#">
+							<td style="background-color:#t.color#;" id="#cell_id#" onmouseover="Tip('#t.task_name#')" onmouseout="UnTip();" onclick="window.location.replace('#session.root_url#/project/manage_task.cfm?id=#t.id#');">
 							<cfelse>
+
 							<td style="background-color:white;" id="#cell_id#">
 							</cfif>
 								<cfif current_date EQ t.start_date AND t.start EQ 1>
-									<img src="#session.root_url#/images/diamond.jpg">
+									<img src="#session.root_url#/images/diamond.jpg" onmouseover="Tip('Starting task');" onmouseout="UnTip();">
 								<cfelse>
 									&nbsp;
 								</cfif>
 							</td>
 							</cfoutput>
 						<cfelse>
-							<td style="background-color:white;">&nbsp;</td>				
+							<cfif left(dateFormat(current_date, 'ddd'), 1) EQ "S">
+								<cfset cell_color = "whitesmoke">
+							<cfelse>
+								<cfset cell_color = "white">
+							</cfif>
+							<cfoutput><td style="background-color:#cell_color#;">&nbsp;</td></cfoutput>
 						</cfif>						
 						<cfset current_date = dateAdd("d", 1, current_date)>
 					</cfloop>

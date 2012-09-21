@@ -1,10 +1,11 @@
+<cfmodule template="#session.root_url#/security/require.cfm" type="">
+
 <cfsilent>
 	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfset project = object.get()>
 	<cfset project.schedule()>
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<cfoutput>	
@@ -26,39 +27,16 @@
 				$(".pt_buttons").button();								
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
-				
-				
-				
-				
-				
-				//<cfoutput>render_gantt('#session.root_url#', '#project.id#');</cfoutput>
-				<cfloop array="#project.tasks()#" index="t">
-					<cfloop array="#t.successors()#" index="s">
-						<cfset source_el = t.id & "_end_cell">
-						<cfset target_el = s.id & "_start_cell">
-						<cfoutput>
-						try {
-						jsPlumb.connect({
-							source:"#source_el#", 
-							target:"#target_el#",
-							detachable:false,							
-							anchors:["BottomCenter", "LeftMiddle" ],
-							connector:[ "Flowchart", { stub:5 }],
-							paintStyle:{ strokeStyle:"navy", lineWidth:1 },
-							endpoint:[ "Dot", { radius:3 }],
-							endpointStyle:{ fillStyle: "navy" },
-							overlay: "PlainArrow"
-						});
-						} catch (ex) {}
-						</cfoutput>
-					</cfloop>
-				</cfloop>
-				
+
+				<cfmodule template="#session.root_url#/project/gantt_render_script.cfm" id="#url.id#">
 	   		 });
 	</script>
 </head>
 <body>
 	<cfinclude template="#session.root_url#/navigation.cfm">
+	<cfoutput>
+	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
+	</cfoutput>
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
 		<div id="header">
@@ -69,12 +47,11 @@
 				<tr>
 					<td align="right">
 						<cfoutput>
-						<button class="pt_buttons" onclick="print_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/print.png" align="absmiddle"> Print</button>
-						<button class="pt_buttons" onclick="download_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/download.png" align="absmiddle"> Download</button>
-						<button class="pt_buttons" onclick="email_chart('#session.root_url#', '#project.id#', durations());"><img src="#session.root_url#/images/e-mail.png" align="absmiddle"> Email</button>
 						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#project.id#');" id="add_task"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
+<!--- 
 						<button class="pt_buttons" id="add_co" onclick="add_change_order('#session.root_url#', '#project.id#')"><img src="#session.root_url#/images/add.png" align="absmiddle"> Change Order</button> 
 						<button class="pt_buttons" id="apply_co" onclick="apply_change_order('#session.root_url#', '#project.id#');">Apply C/O</button>
+ --->
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
 							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Trash</button>
@@ -139,12 +116,12 @@
 					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">								
 					<br><br>
 					<h1>Documents</h1>
-					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT")) EQ 0>
+					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT", "TARGET")) EQ 0>
 						<p><em>No documents associated with this project</em></p>
 					<cfelse>
 						<p>
 						<div style="overflow:hidden">
-						<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT')#" index="document">
+						<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT', 'TARGET')#" index="document">
 							<cfoutput>
 								<cfmodule template="#session.root_url#/documents/thumbnail.cfm" id="#document.get().id#">
 							</cfoutput>
@@ -171,6 +148,30 @@
 				<div id="right-column" class="panel">
 					<h1>Budget</h1>
 					<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="false">
+					<h1>This links to</h1>
+					<cfif ArrayLen(object.get_associated_objects("ALL", "TARGET")) EQ 0>
+						<em>This doesn't link to anything.</em>
+					<cfelse>
+						
+						<cfloop array="#object.get_associated_objects('ALL', 'TARGET')#" index="assoc">
+							<cfoutput>
+								<img src="#assoc.get_icon()#" align="absmiddle"> #assoc.get().object_name()#<br>
+							</cfoutput>
+						</cfloop>
+						
+					</cfif>
+					<h1>Linked to this</h1>
+					<cfif ArrayLen(object.get_associated_objects("ALL", "SOURCE")) EQ 0>
+						<em>Nothing links to this.</em>
+					<cfelse>
+						
+						<cfloop array="#object.get_associated_objects('ALL', 'SOURCE')#" index="assoc">
+							<cfoutput>
+								<img src="#assoc.get_icon()#" align="absmiddle"> #assoc.get().object_name()#<br>
+							</cfoutput>
+						</cfloop>
+						
+					</cfif>
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">										

@@ -284,6 +284,25 @@ function add_task(root_url, project_id)
 	open_dialog(url, 'Add Task', 630, 650);
 }
 
+function delete_predecessor(task_id, predecessor_id)
+{
+	var url = perm_root + "/project/delete_predecessor.cfm?task_id=" + escape(task_id);
+	url += "&predecessor_id=" + escape(predecessor_id);
+
+	var response = request(url);
+	window.location.reload();
+}
+
+function add_predecessor(task_id, predecessor_id, type)
+{
+	var url = perm_root + "/project/add_predecessor.cfm?task_id=" + escape(task_id);
+	url += "&predecessor_id=" + escape(predecessor_id);
+	url += "&type=" + escape(type);
+
+	var response = request(url);
+	window.location.reload();
+}
+
 
 //
 // CHANGE ORDERS
@@ -452,23 +471,23 @@ function view_audit_log(root_url, table_name, table_id)
 //
 // GANTT CHART FUNCTIONS
 //
-function email_chart(root_url, project_id, durations)
+function email_chart(root_url, project_id)
 {
-	var url = root_url + "/project/email_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations) + "&suppress_headers";
+	var url = root_url + "/project/email_chart.cfm?project_id=" + escape(project_id);
 
 
 	open_dialog(url, 'E-Mail Chart', 500, 300);
 }
 
-function print_chart(root_url, project_id, durations)
+function print_chart(root_url, project_id)
 {
-	var url = root_url + "/project/print_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
+	var url = root_url + "/project/print_chart.cfm?project_id=" + escape(project_id);
 	window.open(url);	
 }
 
-function download_chart(root_url, project_id, durations)
+function download_chart(root_url, project_id)
 {
-	var url = root_url + "/project/download_chart.cfm?project_id=" + escape(project_id) + "&durations=" + escape(durations);
+	var url = root_url + "/project/download_chart.cfm?project_id=" + escape(project_id);
 	window.open(url);
 }
 

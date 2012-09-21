@@ -34,11 +34,13 @@
 		this.members['MIME_TYPE'].label = "MIME type";
 		
 		this.members['FILING_CATEGORY'] = StructNew();
-		this.members['FILING_CATEGORY'].type = "text";
+		this.members['FILING_CATEGORY'].type = "enum";
+		this.members['FILING_CATEGORY'].values = "FILE,STORAGE,DEED,SUBDIVISION";
 		this.members['FILING_CATEGORY'].label = "Filing category";
 		
 		this.members['FILING_CONTAINER'] = StructNew();
-		this.members['FILING_CONTAINER'].type = "text";
+		this.members['FILING_CONTAINER'].type = "enum";
+		this.members['FILING_CONTAINER'].values = "CABINET,SHELF,BOOK,PLAT";
 		this.members['FILING_CONTAINER'].label = "Filing container";
 		
 		this.members['FILING_DIVISION'] = StructNew();
@@ -46,7 +48,8 @@
 		this.members['FILING_DIVISION'].label = "Filing division";
 		
 		this.members['FILING_MATERIAL_TYPE'] = StructNew();
-		this.members['FILING_MATERIAL_TYPE'].type = "text";
+		this.members['FILING_MATERIAL_TYPE'].type = "enum";
+		this.members['FILING_MATERIAL_TYPE'].values = "FOLDER,BOX,PAGE,SLIDE";
 		this.members['FILING_MATERIAL_TYPE'].label = "Filing material type";
 		
 		this.members['FILING_NUMBER'] = StructNew();

@@ -358,7 +358,10 @@
 		<cfset oa = ArrayNew(1)>
 		<cfoutput query="q_tasks">
 			<cfset t = CreateObject("component", "ptarmigan.task").open(q_tasks.id)>
-			<cfset ArrayAppend(oa, t)>
+			<cfset obj = CreateObject("component", "ptarmigan.object").open(q_tasks.id)>
+			<cfif obj.deleted EQ 0>
+				<cfset ArrayAppend(oa, t)>
+			</cfif>
 		</cfoutput>
 		
 		<cfreturn oa>
