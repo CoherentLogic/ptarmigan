@@ -148,30 +148,7 @@
 				<div id="right-column" class="panel">
 					<h1>Budget</h1>
 					<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="budget" width="auto" show_label="false" full_refresh="false">
-					<h1>This links to</h1>
-					<cfif ArrayLen(object.get_associated_objects("ALL", "TARGET")) EQ 0>
-						<em>This doesn't link to anything.</em>
-					<cfelse>
-						
-						<cfloop array="#object.get_associated_objects('ALL', 'TARGET')#" index="assoc">
-							<cfoutput>
-								<img src="#assoc.get_icon()#" align="absmiddle"> #assoc.get().object_name()#<br>
-							</cfoutput>
-						</cfloop>
-						
-					</cfif>
-					<h1>Linked to this</h1>
-					<cfif ArrayLen(object.get_associated_objects("ALL", "SOURCE")) EQ 0>
-						<em>Nothing links to this.</em>
-					<cfelse>
-						
-						<cfloop array="#object.get_associated_objects('ALL', 'SOURCE')#" index="assoc">
-							<cfoutput>
-								<img src="#assoc.get_icon()#" align="absmiddle"> #assoc.get().object_name()#<br>
-							</cfoutput>
-						</cfloop>
-						
-					</cfif>
+					<cfmodule template="#session.root_url#/objects/related_items.cfm" object_id="#object.id#">					
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">										

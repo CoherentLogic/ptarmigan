@@ -8,7 +8,7 @@
 <head>
 	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
 	<cfoutput>	
-		<title>Document Title - ptarmigan</title>		
+		<title>#object.get().object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
@@ -21,6 +21,7 @@
 					menuIcon:true,
 					buttons:false
 				});			
+								
 				
 				$("#navigation_bar").css("color", "black");
 				$(".ui-state-default").css("color", "black");
@@ -28,11 +29,18 @@
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				
+				try {
+					$(".preview_pages").tabs();
+				} catch (ex) {}
+				
    		 });
 	</script>
 </head>
 <body>
 	<cfinclude template="#session.root_url#/navigation.cfm">
+	<cfoutput>
+	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
+	</cfoutput>
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
 		<div id="header">
@@ -117,30 +125,7 @@
 					</cfif>	
 					</div>
 					<div id="right-column" class="panel">
-					<h1>This links to</h1>
-					<cfif ArrayLen(object.get_associated_objects("ALL", "TARGET")) EQ 0>
-						<em>This doesn't link to anything.</em>
-					<cfelse>
-						
-						<cfloop array="#object.get_associated_objects('ALL', 'TARGET')#" index="assoc">
-							<cfoutput>
-								<img src="#assoc.get_icon()#" align="absmiddle"> <a href="#session.root_url#/objects/dispatch.cfm?id=#assoc.id#">#assoc.get().object_name()#</a><br>
-							</cfoutput>
-						</cfloop>
-						
-					</cfif>
-					<h1>Linked to this</h1>
-					<cfif ArrayLen(object.get_associated_objects("ALL", "SOURCE")) EQ 0>
-						<em>Nothing links to this.</em>
-					<cfelse>
-						
-						<cfloop array="#object.get_associated_objects('ALL', 'SOURCE')#" index="assoc">
-							<cfoutput>
-								<img src="#assoc.get_icon()#" align="absmiddle"> <a href="#session.root_url#/objects/dispatch.cfm?id=#assoc.id#">#assoc.get().object_name()#</a><br>
-							</cfoutput>
-						</cfloop>
-						
-					</cfif>
+						<cfmodule template="#session.root_url#/objects/related_items.cfm" object_id="#object.id#">
 					</div>
 				</div>
 				<div id="doc_preview">

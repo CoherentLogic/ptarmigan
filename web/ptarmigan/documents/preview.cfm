@@ -21,18 +21,22 @@
 				<cfset base_file_name = left(document.path, len(document.path) - 4)>
 						
 				<cfset has_preview = true>
-				<cflayout type="tab">
-					<cfloop from="1" to="#page_count#" index="page_number">
-						<cflayoutarea title="Page #page_number#">
-							<div style="width:100%; height:360px; overflow:auto;">
-							<cfset current_file = base_file_name & "_page_" & page_number & ".jpg">
-							<cfoutput>
-								<img src="#session.root_url#/uploads/#current_file#">
-							</cfoutput>
-							</div>
-						</cflayoutarea>
+				<div id="preview-tabs" class="preview_pages">
+				<ul>
+					<cfloop from="1" to="#page_count#" index="page_number">					
+						<cfoutput><li><a href="##preview_#page_number#">Page #page_number#</a></li></cfoutput>
 					</cfloop>
-				</cflayout>
+				</ul>
+				<cfloop from="1" to="#page_count#" index="page_number">
+					<cfoutput><div id="preview_#page_number#"></cfoutput>	
+						<div style="width:100%; height:360px; overflow:auto;">
+						<cfset current_file = base_file_name & "_page_" & page_number & ".jpg">
+						<cfoutput>
+							<img src="#session.root_url#/uploads/#current_file#">
+						</cfoutput>
+						</div>
+					</div>
+				</cfloop>				
 			</cfcase>
 		</cfswitch>
 	</cfcase>
