@@ -6,9 +6,8 @@
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
 	<cfoutput>
 	<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
-	<script src="#session.root_url#/ptarmigan.js" type="text/javascript"></script>
+	<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
-	<script type="text/javascript" src="#session.root_url#/ptarmigan.js"></script>
 	</cfoutput>
 </head>
 <!---  --->

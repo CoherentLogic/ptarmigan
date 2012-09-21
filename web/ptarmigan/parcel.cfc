@@ -236,7 +236,7 @@
 		<cfargument name="id" type="string" required="true">
 		
 		<cfquery name="p" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE id='#id#'
+			SELECT * FROM parcels WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#id#">
 		</cfquery>
 		
 		<cfset this.id = id>
@@ -356,72 +356,6 @@
 		<cfreturn q_get_points>
 	</cffunction>
 	
-	<cffunction name="associate" returntype="void" access="public" output="false">
-		<cfargument name="element_table" type="string" required="true">
-		<cfargument name="element_id" type="string" required="true">
-	
-		<cfset assoc_id = CreateUUID()>
-		<cfquery name="assoc" datasource="#session.company.datasource#">
-			INSERT INTO	parcel_associations
-							(id,
-							element_table,
-							element_id,
-							parcel_id)
-			VALUES			('#assoc_id#',
-							'#element_table#',
-							'#element_id#',
-							'#this.id#')
-		</cfquery>
-		
-	</cffunction>
-
-	<cffunction name="associated" returntype="boolean" access="public" output="false">
-		<cfargument name="element_table" type="string" required="true">
-		<cfargument name="element_id" type="string" required="true">
-	
-		<cfquery name="is_assoc" datasource="#session.company.datasource#">
-			SELECT 	id FROM parcel_associations
-			WHERE		parcel_id='#this.id#'
-			AND			element_table='#element_table#'
-			AND			element_id='#element_id#'
-		</cfquery>
-		
-		<cfif is_assoc.recordcount EQ 0>
-			<cfreturn false>
-		<cfelse>
-			<cfreturn true>
-		</cfif>
-	</cffunction>
-	
-	<cffunction name="disassociate" returntype="void" access="public" output="false">
-		<cfargument name="element_table" type="string" required="true">
-		<cfargument name="element_id" type="string" required="true">
-	
-		<cfquery name="da" datasource="#session.company.datasource#">
-			DELETE 	FROM parcel_associations
-			WHERE		parcel_id='#this.id#'
-			AND			element_table='#element_table#'
-			AND			element_id='#element_id#'
-		</cfquery>
-	</cffunction>
-	
-	<cffunction name="documents" returntype="array" access="public" output="false">
-		
-		<cfquery name="gda" datasource="#session.company.datasource#">
-			SELECT document_id FROM document_associations
-			WHERE	element_table='parcels'
-			AND		element_id='#this.id#'
-		</cfquery>
-		
-		<cfset oa = ArrayNew(1)>
-		<cfoutput query="gda">
-			<cfset t = CreateObject("component", "ptarmigan.document").open(document_id)>
-			<cfset ArrayAppend(oa, t)>
-		</cfoutput>
-		
-		<cfreturn oa>
-	</cffunction>
-
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.parcel_id>
 	</cffunction>

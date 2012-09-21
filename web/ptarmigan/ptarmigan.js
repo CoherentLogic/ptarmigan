@@ -6,7 +6,6 @@
  *
  */
 
-//$.fx.speeds._default = 1000;
 
 var perm_root = "";
 
@@ -146,7 +145,7 @@ function add_employee(root_url)
 {
 	var url = root_url + "/employee/add_employee.cfm?suppress_headers";
 
-	open_dialog(url, 'Add Employee', 630, 550);
+	open_dialog(url, 'Add Employee', 630, 590);
 }
 
 function open_employee(root_url)
@@ -416,7 +415,7 @@ function search_parcels(root_url, document_to_attach)
 		url += "?document_id=" + escape(document_to_attach);
 	}	
 
-	open_dialog(url, 'Search Parcels', 1024, 850);
+	open_dialog(url, 'Search Parcels', 1024, 890);
 }	
 
 function search_parcels_complete(response_text)
@@ -563,6 +562,7 @@ function open_dialog(url, caption, width, height, on_loaded)
 		$(".pt_dates").datepicker();
 		$(".pt_buttons").button();
 		$(".first_focus").focus();
+		$(".pt_tables").dataTable();
 
 		if(on_loaded) {
 			on_loaded();
@@ -573,7 +573,7 @@ function open_dialog(url, caption, width, height, on_loaded)
 	
 	
 
-        //prevent the browser to follow the link
+        //prevent the browser from following the link
         return false;
 }
 

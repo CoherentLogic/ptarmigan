@@ -5,8 +5,7 @@
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<cfajaximport tags="cfwindow,cfform,cfinput-datefield,cftree,cflayout-tab">
+<head>	
 	<cfoutput>	
 		<title>#object.get().object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">

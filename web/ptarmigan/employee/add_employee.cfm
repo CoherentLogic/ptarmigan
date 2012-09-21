@@ -3,10 +3,17 @@
 <div style="position:relative; height:100%; width:100%; background-color:white;">
 	<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Employee" icon="#session.root_url#/images/project_dialog.png">
 
-	<div style="padding:20px;">
-		<cfform name="add_employee" id="add_employee" action="#session.root_url#/employee/add_employee_submit.cfm" method="post" onsubmit="window.location.reload();">
-			<cflayout type="tab">
-				<cflayoutarea title="Authentication">		
+	<div style="padding:20px; margin-top:20px;">
+		<cfoutput><form name="add_employee" id="add_employee" action="#session.root_url#/employee/add_employee_submit.cfm" method="post" onsubmit="window.location.reload();"></cfoutput>
+			<div class="pt_tabs">
+				<ul>
+					<li><a href="#t_authentication">Authentication</a></li>
+					<li><a href="#t_roles">Roles</a></li>
+					<li><a href="#t_identity">Identity</a></li>
+					<li><a href="#t_employment">Employment</a></li>
+					<li><a href="#t_contact">Contact Info</a></li>										
+				</ul>
+				<div id="t_authentication">
 					<div style="height:300px; width:450px;">
 						<table width="100%">
 						<tr>
@@ -23,8 +30,8 @@
 						</tr>
 						</table>
 					</div>
-				</cflayoutarea>
-				<cflayoutarea title="Roles">		
+				</div>
+				<div id="t_roles">
 					<div style="height:300px; width:450px;">
 						<table width="100%">
 						<tr>
@@ -37,8 +44,8 @@
 						</tr>
 						</table>
 					</div>
-				</cflayoutarea>
-				<cflayoutarea title="Identity">
+				</div>
+				<div id="t_identity">
 					<div style="height:300px; width:450px;">
 						<table>
 						<tr>
@@ -85,8 +92,8 @@
 						</tr>
 						</table>
 					</div>
-				</cflayoutarea>
-				<cflayoutarea title="Employment">
+				</div>
+				<div id="t_employment">
 					<div style="height:300px; width:450px;">					
 						<table>
 						<tr>
@@ -95,16 +102,16 @@
 						</tr>
 						<tr>
 						<td>Hire date (MM/DD/YYYY):</td>
-						<td><cfinput type="datefield" name="hire_date"></td>
+						<td><input class="pt_dates" type="text" name="hire_date"></td>
 						</tr>
 						<tr>
 						<td>Termination date (MM/DD/YYYY):</td>
-						<td><cfinput type="datefield" name="term_date"></td>
+						<td><input class="pt_dates" type="text" name="term_date"></td>
 						</tr>
 						</table>
 					</div>
-				</cflayoutarea>
-				<cflayoutarea title="Contact Information">
+				</div>
+				<div id="t_contact">
 					<div style="height:300px; width:450px;">					
 						<table>
 						<tr>
@@ -141,15 +148,15 @@
 						</tr>
 						</table>
 					</div>
-				</cflayoutarea>
-			</cflayout>
+				</div>
+			</div> <!--- tabs --->
 			<!---<input type="submit" name="submit" value="Apply">		
 			<input type="button" name="cancel" value="Cancel" onclick="window.location.reload();">--->
 			
-		</cfform>
+		</form>
 		</div>
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
-	    	<div style="padding:8px; float:right;" id="create_project_buttons" >
+	    	<div style="padding:8px; float:right;" id="add_employee_buttons" >
 	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>
 				<cfoutput>
 				<a class="button" href="##" onclick="document.forms['add_employee'].submit();"><span>Apply</span></a>

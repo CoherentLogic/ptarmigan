@@ -168,8 +168,8 @@
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Parcels" icon="#session.root_url#/images/project_dialog.png">
 	
-		<cfform name="parcel_search" id="parcel_search" action="#session.root_url#/parcels/parcel_search.cfm" method="post">
-			<div style="padding:20px; width:960px; height:600px; overflow:auto;" id="results_area">
+		<cfoutput><form name="parcel_search" id="parcel_search" action="#session.root_url#/parcels/parcel_search.cfm" method="post"></cfoutput>
+			<div style="margin-top:20px;padding:20px; width:960px; height:670px; overflow:auto;" id="results_area">
 				<cfif IsDefined("url.document_id")>
 					<cfoutput>
 						<input type="hidden" name="document_id" value="#url.document_id#">
@@ -178,19 +178,19 @@
 				<table width="100%" border="0" cellpadding="6">					
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_parcel_id">Parcel number</label></td>
-						<td><cfinput type="text" name="parcel_id">
+						<td><input type="text" name="parcel_id">
 					</tr>
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_reception_number">Reception number</label></td>
-						<td><cfinput type="text" name="reception_number">
+						<td><input type="text" name="reception_number">
 					</tr>
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_account_number">Account number</label></td>
-						<td><cfinput type="text" name="account_number">
+						<td><input type="text" name="account_number">
 					</tr>
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_owner_name">Owner name</label></td>
-						<td><cfinput type="text" name="owner_name">
+						<td><input type="text" name="owner_name">
 					</tr>
 					<tr>
 						<td valign="top"><label><input type="checkbox" name="s_ground_survey">Has ground survey</label></td>
@@ -331,7 +331,7 @@
 				</table>
 			</div>
 			<input type="hidden" name="self_post" id="self_post" value="">
-		</cfform>
+		</form>
 		
 		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
 	    	<div style="padding:8px; float:right;">

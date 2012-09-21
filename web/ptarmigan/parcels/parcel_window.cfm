@@ -1,8 +1,14 @@
 <cfset parcel = CreateObject("component", "ptarmigan.parcel").open(url.id)>
 
 <div style="padding:20px;">
-	<cflayout type="tab">
-		<cflayoutarea title="Basic Information">
+	<div id="parcel_tabs" class="pt_tabs">
+		<ul>
+			<li><a href="#tp_basic">Basic Information</a></li>
+			<li><a href="#tp_location">Location</a></li>
+			<li><a href="#tp_legal">Legal Description</a></li>
+			<li><a href="#tp_documents">Related Items</a></li>					
+		</ul>
+		<div id="tp_basic">
 			<div style="height:400px;width:560px;">
 				<div style="padding:10px;">
 					<cfoutput>
@@ -45,8 +51,8 @@
 					</cfoutput>				
 				</div>
 			</div>
-		</cflayoutarea>
-		<cflayoutarea title="Location">
+		</div> <!--- tp_basic --->
+		<div id="tp_location">
 			<div style="height:400px;width:560px;">
 				<div style="padding:10px;">
 					<cfoutput>
@@ -86,8 +92,8 @@
 					</cfoutput>
 				</div>
 			</div>
-		</cflayoutarea>
-		<cflayoutarea title="Legal Description">
+		</div> <!--- tp_location --->
+		<div id="tp_legal">
 			<div style="height:400px;width:560px;">
 				<div style="padding:10px;">
 					<cfoutput>
@@ -97,12 +103,12 @@
 					</cfoutput>
 				</div>
 			</div>
-		</cflayoutarea>
-		<cflayoutarea title="Documents">
+		</div> <!--- tp_legal --->
+		<div id="tp_documents">
 			<div style="height:400px;width:560px;">
 				<div style="padding:0px;">
 					<cfoutput>
-						<cfset docs = parcel.documents()>
+						<cfset docs = ArrayNew(1)>
 						
 						<table class="pretty" style="margin:0;" width="100%">
 							<tr>
@@ -128,6 +134,6 @@
 					</cfoutput>
 				</div>
 			</div>
-		</cflayoutarea>
-	</cflayout>
+		</div> <!--- tp_documents --->
+	</div> <!--- tabs --->
 </div>

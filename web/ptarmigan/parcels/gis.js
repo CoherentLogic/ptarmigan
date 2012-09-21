@@ -172,10 +172,8 @@ function open_window(parcel_index)
 {
     var url = '/ptarmigan/parcels/parcel_window.cfm?id=' + escape(current_parcels.PARCELS[parcel_index].ID) + '&suppress_headers';
 
-    ColdFusion.Window.create('parcel_' + parcel_index, 'Parcel ' + current_parcels.PARCELS[parcel_index].PARCEL_ID,
-			     url,
-			     {height:530,width:630,modal:false,closable:true,
-				     draggable:true,resizable:false,center:true,initshow:true});
+    
+    open_dialog(url, "Parcel " + current_parcels.PARCELS[parcel_index].PARCEL_ID, 650, 590);
 
 }
 
