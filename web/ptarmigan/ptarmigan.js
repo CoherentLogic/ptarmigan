@@ -193,7 +193,7 @@ function edit_customer(root_url, id)
 function add_project(root_url)
 {
 	var url = root_url + "/project/add_project.cfm";
-	open_dialog(url, 'Add Project', 630, 560);
+	window.location.replace(url);
 }
 
 function open_project(root_url)
@@ -515,7 +515,7 @@ function associate_file(root_url, ctl_id, document_id, element_table, element_id
 //
 function form_submit(form_id)
 {
-	document.getElementById('self_post').value="submit";
+	document.getElementById('self_post').value = "submit";
 	document.forms[form_id].submit();
 }
 
