@@ -19,7 +19,7 @@
 	<cfset this.duration = 0>
 	<cfset this.constraint_date = CreateODBCDate(Now())>
 	<cfset this.deadline = CreateODBCDate(Now())>
-	<cfset this.constraint_id = "">
+	<cfset this.constraint_id = "SASAP">
 	<cfset this.task_group = "">
 	<cfset this.scheduled = 0>
 	<cfset this.critical = 0>

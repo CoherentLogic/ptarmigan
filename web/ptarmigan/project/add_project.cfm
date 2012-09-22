@@ -107,13 +107,10 @@
 		<cfset t.tax_rate = form.tax_rate>
 		<cfset t.start_date = CreateODBCDate(form.start_date)>
 		<cfset t.budget = form.budget>		
+		
 		<cfset t.create()>				
 		
-		<h3>
-			You entered all the data correctly for the project, which was created. However, I'm not going to take you to the project screen right now,
-			because if I do, you'll get an error saying that no start task was defined. This error is true, as I haven't yet added the code to automatically
-			create a start task.
-		</h3>
+		<cflocation url="#session.root_url#/objects/dispatch.cfm?id=#t.id#">
 		
 		<cfabort>
 	</cfif>
@@ -196,7 +193,7 @@
 		</form>	
 		<div class="form_buttonstrip">
 	    	<div style="padding:8px; float:right;" id="create_project_buttons" >
-	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>
+	        	<a class="button" href="##" onclick="window.history.go(-1);"><span>Cancel</span></a>
 				<cfoutput>
 				<a class="button" href="##" onclick="form_submit('add_project');"><span>Add Project</span></a>
 			    </cfoutput>       	

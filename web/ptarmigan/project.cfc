@@ -222,10 +222,64 @@
 		
 		<cfset obj.create()>
 		
+		<cfset starttask = CreateObject("component", "ptarmigan.task")>
+
+		<cfset starttask.project_id = this.id>
+		<cfset starttask.task_name = "Start Project">
+		<cfset starttask.description = "Starting task for this project">
+		<cfset starttask.completed = 0>
+		<cfset starttask.start_date = CreateODBCDate(this.start_date)>
+		<cfset starttask.end_date = CreateODBCDate(dateAdd("d", 1, this.start_date))>
+		<cfset starttask.budget = 1>
+		<cfset starttask.color = "gray">
+		<cfset starttask.percent_complete = 0>
+		<cfset starttask.earliest_start = 0>
+		<cfset starttask.earliest_end = 1>
+		<cfset starttask.latest_start = 0>
+		<cfset starttask.latest_end = 1>
+		<cfset starttask.start = 1>
+		<cfset starttask.stop = 0>
+		<cfset starttask.duration = 1>
+		<cfset starttask.constraint_date = CreateODBCDate(this.start_date)>
+		<cfset starttask.deadline = CreateODBCDate(dateadd("d", 1, this.start_date))>
+		<cfset starttask.constraint_id = "SASAP">
+		<cfset starttask.task_group = "">
+		<cfset starttask.scheduled = 0>
+		<cfset starttask.critical = 1>
+		
+		<cfset starttask.create()>
+		
+		<cfset stoptask = CreateObject("component", "ptarmigan.task")>
+
+		<cfset stoptask.project_id = this.id>
+		<cfset stoptask.task_name = "Stop Project">
+		<cfset stoptask.description = "Ending task for this project">
+		<cfset stoptask.completed = 0>
+		<cfset stoptask.start_date = CreateODBCDate(dateAdd("d", -1, this.due_date))>
+		<cfset stoptask.end_date = CreateODBCDate(this.due_date)>
+		<cfset stoptask.budget = 1>
+		<cfset stoptask.color = "gray">
+		<cfset stoptask.percent_complete = 0>
+		<cfset stoptask.earliest_start = 0>
+		<cfset stoptask.earliest_end = 0>
+		<cfset stoptask.latest_start = 0>
+		<cfset stoptask.latest_end = 0>
+		<cfset stoptask.start = 0>
+		<cfset stoptask.stop = 1>
+		<cfset stoptask.duration = 1>
+		<cfset stoptask.constraint_date = CreateODBCDate(this.start_date)>
+		<cfset stoptask.deadline = CreateODBCDate(this.due_date)>
+		<cfset stoptask.constraint_id = "SASAP">
+		<cfset stoptask.task_group = "">
+		<cfset stoptask.scheduled = 0>
+		<cfset stoptask.critical = 1>
+		
+		<cfset stoptask.create()>
+		
+		<cfset stoptask.add_predecessor(starttask.id)>
+		
 		<cfset session.message = "Project #this.project_name# added.">
 		
-		
-
 		<cfreturn this>
 		
 	</cffunction>
