@@ -5,6 +5,7 @@
 <cfset object_count = ArrayLen(objects)>
 
 <cfloop from="1" to="#object_count#" index="i">
+		<cftry>
 		<cfset placemark = kml_document.kml.Document.Placemark[i]>		
 		<cfset parcel_id = placemark.name.XmlText>
 		<cfset parcel = CreateObject("component", "ptarmigan.parcel").open_by_apn(parcel_id)>
@@ -30,4 +31,7 @@
 				</cfloop>
 			</cfcase>
 		</cfswitch>
+		<cfcatch type="any">
+		</cfcatch>
+		</cftry>
 </cfloop>
