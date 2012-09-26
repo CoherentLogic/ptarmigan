@@ -57,7 +57,7 @@
     	  type="image/x-icon" 
 	      href="#session.root_url#/favicon.ico">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-		<cfajaximport tags="CFFORM">
+		
 	</cfoutput>		
 	<script type="text/javascript">
 		 $(document).ready(function() {   			
