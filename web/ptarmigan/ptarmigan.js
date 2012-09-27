@@ -279,8 +279,7 @@ function menu_current_element(root_url)
 function add_task(root_url, project_id)
 {
 	var url = root_url + "/project/add_task.cfm?project_id=" + escape(project_id);
-	//alert(request(url));	
-	open_dialog(url, 'Add Task', 630, 650);
+	window.location.replace(url);
 }
 
 function delete_predecessor(task_id, predecessor_id)

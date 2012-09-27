@@ -54,7 +54,7 @@
 					<tr>
 						<td>Report name:</td>
 						<td>
-								<input type="text" name="report_name" maxlength="255"><br />
+								<input type="text" name="report_name" maxlength="255" <cfif isdefined("form.report_name")><cfoutput>	value="#form.report_name#"	</cfoutput></cfif>><br />
 								<cfif IsDefined("report_name_error")>
 									<cfoutput><span class="form_error">#report_name_error#</span></cfoutput>
 								</cfif>
@@ -63,7 +63,7 @@
 					<tr>
 						<td>Shortcut:</td>
 						<td>
-							<input type="text" name="report_key" maxlength="20"><br />
+							<input type="text" name="report_key" maxlength="20" <cfif isdefined("form.report_key")><cfoutput>	value="#form.report_key#"	</cfoutput></cfif>><br />
 							<cfif IsDefined("report_key_error")>
 								<cfoutput><span class="form_error">#report_key_error#</span></cfoutput>
 							</cfif>
