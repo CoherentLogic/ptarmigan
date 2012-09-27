@@ -179,7 +179,7 @@
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Parcels" icon="#session.root_url#/images/project_dialog.png">
 	
 		<cfoutput><form name="parcel_search" id="parcel_search" action="#session.root_url#/parcels/parcel_search.cfm" method="post"></cfoutput>
-			<div style="margin-top:20px;padding:20px; width:960px; height:670px; overflow:auto;" id="results_area">
+			<div style="margin-top:20px;padding:20px; width:960px; height:auto; overflow:auto;" id="results_area">
 				<cfif IsDefined("url.document_id")>
 					<cfoutput>
 						<input type="hidden" name="document_id" value="#url.document_id#">
