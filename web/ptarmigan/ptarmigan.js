@@ -45,7 +45,7 @@ function empty_trash(root_url)
 function add_report(root_url)
 {
 	var url = root_url + "/reports/add_report.cfm";
-	open_dialog(url, 'Add Report', 500, 400);
+	window.location.replace(url);
 }
 
 function refresh_filters(root_url, report_id)
@@ -409,13 +409,13 @@ function search_documents_complete(response_text)
 //
 function search_parcels(root_url, document_to_attach)
 {
-	var url = root_url + "/parcels/parcel_search_wrapper.cfm";
+	var url = root_url + "/parcels/parcel_search.cfm";
 
 	if(document_to_attach) {
 		url += "?document_id=" + escape(document_to_attach);
 	}	
 
-	open_dialog(url, 'Search Parcels', 1024, 890);
+	window.location.replace(url);
 }	
 
 function search_parcels_complete(response_text)

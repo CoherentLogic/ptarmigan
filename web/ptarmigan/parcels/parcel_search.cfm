@@ -1,7 +1,16 @@
 <cfif IsDefined("url.document_id")>
 	<cfset document = CreateObject("component", "ptarmigan.document").open(url.document_id)>
 </cfif>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<cfoutput>	
+		<title>Search Parcels - ptarmigan</title>		
+		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
+	</cfoutput>		
+	
+</head>
+<body>
 <cfif IsDefined("form.self_post")>	
 	<cfquery name="parcel_search" datasource="#session.company.datasource#">
 		SELECT * FROM parcels
@@ -165,6 +174,7 @@
 		</cfloop>
 	</table>		
 <cfelse> <!--- IsDefined("form.self_post") --->
+<div class="form_wrapper">
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Parcels" icon="#session.root_url#/images/project_dialog.png">
 	
@@ -333,13 +343,16 @@
 			<input type="hidden" name="self_post" id="self_post" value="">
 		</form>
 		
-		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
+		<div class="form_buttonstrip">
 	    	<div style="padding:8px; float:right;">
-	        	<a class="button" id="cancel_button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
+	        	<a class="button" id="cancel_button" href="##" onclick="window.history.go(-1);"><span>Cancel</span></a>			
 				<cfoutput>
-				<a class="button" id="submit_link" href="##" onclick="document.getElementById('self_post').value='true'; ColdFusion.Ajax.submitForm('parcel_search', '#session.root_url#/parcels/parcel_search.cfm', search_documents_complete);"><span>Apply</span></a>
+				<a class="button" id="submit_link" href="##" onclick="form_submit('parcel_search');"><span>Apply</span></a>
 				</cfoutput>
 			</div>
 		</div>
-	</div>
+	</div> <!--- padding --->
+</div> <!--- form_wrapper --->
 </cfif>
+</body>
+</html>
