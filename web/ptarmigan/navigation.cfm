@@ -16,7 +16,7 @@
 						</cfoutput>
 					</cfif>
 
-					<li><a href="#session.root_url#/about.cfm">About Ptarmigan</a></li>
+					<cfoutput><li><a href="javascript:about_ptarmigan();">About Ptarmigan</a></li></cfoutput>
 				</ul>
 			</li>	
 			
@@ -73,14 +73,29 @@
 						<li><a href="#session.root_url#/parcels/define_parcel.cfm">Add</a></li>
 					</ul>
 				</li>
-				<cfif session.current_object.class_name NEQ "Company">
+				
+				<cfif isdefined("url.id")>
+					<cftry>
+						<cfset current_object = CreateObject("component", "ptarmigan.object").open(url.id)>
+						<cfif current_object.id EQ url.id>
+							<cfset object_loaded = true>
+						<cfelse>
+							<cfset object_loaded = false>
+						</cfif>
+						<cfcatch type="any">
+							<cfset object_loaded = false>
+						</cfcatch>
+					</cftry>
+				<cfelse>
+					<cfset object_loaded = false>
+				</cfif>
+				
+				<cfif object_loaded EQ true>
 					<li>
-						<a href="##Object">#session.current_object.class_name#</a>
+						<a href="##Object">#current_object.class_name#</a>
 						<ul>
-							<!---
-							<li><a href="javascript:discuss_object('#session.root_url#', '#session.current_object.id#');">Discuss</a></li>
-							--->
-							<li><a href="javascript:trash_object('#session.root_url#', '#session.current_object.id#');">Move to Trash Can</a></li>
+							<li><a href="javascript:discuss_object('#session.root_url#', '#current_object.id#');">Discuss</a></li>
+							<li><a href="javascript:trash_object('#session.root_url#', '#current_object.id#');">Move to Trash Can</a></li>
 				
 						</ul>
 					</li>

@@ -1,6 +1,7 @@
 <cfsilent>
 	<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(url.id)>
 	<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(url.id)>
+	<cfset object = CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfquery name="parcel_points" datasource="#session.company.datasource#">
 		SELECT * FROM parcel_points WHERE parcel_id='#url.id#'
 	</cfquery>
@@ -79,8 +80,8 @@
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
 				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "840px");
-				$("#accordion").accordion();		
+				$("#tabs").css("width", "98%");
+					
 				$("#navigation_bar").menubar({
 					autoExpand:true,
 					menuIcon:true,
@@ -92,11 +93,11 @@
 				$(".ui-state-default").css("color", "black");
 				
 				draw_parcels();
-				
+				$(".pt_buttons").button();								
+				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
    		 });
-	</script>
-	<script type="text/javascript">
+   		 	
 		function draw_parcels()
 		{
 			<cfoutput>
@@ -136,216 +137,215 @@
 	<cfinclude template="#session.root_url#/navigation.cfm">			
 	<!--- BEGIN LAYOUT --->
 	<div id="container">
-		<div id="navigation">			
-			<div id="accordion">
-				<p><a href="##">Parcel Properties</a></p>
-				<div>
-					<cfoutput>
-						<form name="parcel_properties" action="manage_parcel.cfm?id=#url.id#" method="post">
-						<table class="property_dialog">							
-							<tr>
-								<td>Parcel ID</td>
-								<td><input type="text" name="parcel_id" value="#parcel.parcel_id#"></td>					
-							</tr>
-							<tr>
-								<td>Area (sq. ft.)</td>
-								<td><input type="text" name="area_sq_ft" id="area_sq_ft" value="#parcel.area_sq_ft#"></td>					
-							</tr>
-							<tr>
-								<td>Area (sq. yd.)</td>
-								<td><input type="text" name="area_sq_yd" id="area_sq_yd" value="#parcel.area_sq_yd#"></td>					
-							</tr>
-							<tr>
-								<td>Area (acres)</td>
-								<td><input type="text" name="area_acres" id="area_acres" value="#parcel.area_acres#"></td>					
-							</tr>
-							<tr>
-								<td>Owner name</td>
-								<td><input type="text" name="owner_name" value="#parcel.owner_name#"></td>
-							</tr>
-							<tr>
-								<td>Account number</td>
-								<td><input type="text" name="account_number" value="#parcel.account_number#"></td>
-							</tr>
-							<tr>
-								<td>Subdivision</td>
-								<td><input type="text" name="subdivision" value="#parcel.subdivision#"></td>
-							</tr>
-							<tr>
-								<td>Lot</td>
-								<td><input type="text" name="lot" value="#parcel.lot#"></td>
-							</tr>
-							<tr>
-								<td>Block</td>
-								<td><input type="text" name="block" value="#parcel.block#"></td>
-							</tr>
-							<tr>
-								<td>Section</td>
-								<td><input type="text" name="section" value="#parcel.section#"></td>
-							</tr>
-							<tr>
-								<td>Township</td>
-								<td nowrap>
-									<input type="text" name="township" style="width:78%;" value="#ts_part#" autocomplete="off">
-									<select name="township_direction" style="width:20%;" autocomplete="off">
-										<option value="N" <cfif t_township_direction EQ "N">selected="selected"</cfif>>North</option>
-										<option value="S" <cfif t_township_direction EQ "S">selected="selected"</cfif>>South</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>Range</td>
-								<td nowrap>
-									<input type="text" name="range" style="width:78%;" value="#r_part#">
-									<select name="range_direction" style="width:20%;" autocomplete="off">
-										<option value="E" <cfif t_range_direction EQ "E">selected="selected"</cfif>>East</option>
-										<option value="W" <cfif t_range_direction EQ "W">selected="selected"</cfif>>West</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>Mailing address</td>
-								<td><input type="text" name="mailing_address" value="#parcel.mailing_address#"></td>
-							</tr>
-							<tr>
-								<td>Mailing city</td>
-								<td><input type="text" name="mailing_city" value="#parcel.mailing_city#"></td>
-							</tr>
-							<tr>
-								<td>Mailing state</td>
-								<td><input type="text" name="mailing_state" value="#parcel.mailing_state#"></td>
-							</tr>
-							<tr>
-								<td>Mailing ZIP</td>
-								<td><input type="text" name="mailing_zip" value="#parcel.mailing_zip#"></td>
-							</tr>
-							<tr>
-								<td>Physical address</td>
-								<td><input type="text" name="physical_address" value="#parcel.physical_address#"></td>
-							</tr>
-							<tr>
-								<td>Physical city</td>
-								<td><input type="text" name="physical_city" value="#parcel.physical_city#"></td>
-							</tr>
-							<tr>
-								<td>Physical state</td>
-								<td><input type="text" name="physical_state" value="#parcel.physical_state#"></td>
-							</tr>				
-							<tr>
-								<td>Physical ZIP</td>
-								<td><input type="text" name="physical_zip" value="#parcel.physical_zip#"></td>
-							</tr>
-							<tr>
-								<td>Assessed land value</td>
-								<td><input type="text" name="assessed_land_value" value="#parcel.assessed_land_value#"></td>					
-							</tr>
-							<tr>
-								<td>Assessed building value</td>
-								<td><input type="text" name="assessed_building_value" value="#parcel.assessed_building_value#"></td>
-							</tr>
-							<tr>					
-								<td>Reception number</td>
-								<td><input type="text" name="reception_number" value="#parcel.reception_number#"></td>
-							</tr>
-							<tr>
-								<td>Has ground survey</td>
-								<td>
-									<select name="ground_survey" autocomplete="off">
-										<option value="1" <cfif parcel.ground_survey EQ 1>selected="selected"</cfif>>Yes</option>
-										<option value="0" <cfif parcel.ground_survey EQ 0>selected="selected"</cfif>>No</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>Metes &amp; bounds</td>
-								<td>
-									<textarea name="metes_and_bounds">#parcel.metes_and_bounds#</textarea>
-								</td>
-							</tr>
-						</table>
-						<input type="submit" name="submit" value="Apply">
-						</form>
-					</cfoutput>
-				</div> <!--- parcel properties --->
-			</div>     <!--- accordion --->
-		</div> <!--- navigation --->
-		<div id="content">
+		<div id="header">
+		<table width="100%">
+				<tr>
+					<td><cfoutput><h1><strong>#parcel.object_name()#</strong></h1></cfoutput></td>
+					<td align="right">
+						<cfoutput>
+						<button class="pt_buttons" onclick="add_link('#url.id#', 'OBJ_PARCEL');"><img src="#session.root_url#/images/link.png" align="absmiddle"> Link To</button>
+						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#parcel.id#', '#parcel.id#', 'OBJ_PARCEL');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
+						<cfif session.user.is_admin() EQ true>							
+							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png"> Trash</button>
+						</cfif>						
+						</cfoutput>
+					</td>
+				</tr>
+			</table>
+		</div>	
+		
+		<div id="content"  style="margin:0px;width:100%;">
 			<div id="tabs">
 				<ul>
-					<li><a href="#tab1">Map</a></li>
-					<li><a href="#tab2">Projects</a></li>
-					<li><a href="#tab3">Documents</a></li>
+					<li><a href="#map_tab">Map</a></li>
+					<li><a href="#parcel_tab">Parcel</a></li>
+					
+					
 				</ul>
-				<div id="tab1">
+				<div id="parcel_tab">
+					<div id="left-column" class="panel">
+						<h1>Recording</h1>
+						<p>
+						<cfoutput>
+						<table>
+							<tbody>
+							<tr>
+								<td>APN:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="parcel_id" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Reception Number:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="reception_number" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>												
+							</tbody>
+						</table>
+						</cfoutput>
+						</p>
+						<h1>Location</h1>
+						<p>
+						<cfoutput>
+						<table>
+							<tbody>
+							<tr>
+								<td>Subdivision:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="subdivision" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Lot:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="lot" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>	
+							<tr>
+								<td>Block:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="block" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Section:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="section" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>		
+							<tr>
+								<td>Township:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="township" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Range:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="range" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>												
+							</tbody>
+						</table>
+						</cfoutput>
+						</p>
+					
+						<h1>Ownership</h1>
+						<p>
+							<cfoutput>
+							<table>
+								<tbody>
+								<tr>
+									<td>Owner:</td>
+									<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="owner_name" width="auto" show_label="false" full_refresh="false"></td>
+									<td>Account Number:</td>
+									<td>
+										<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="account_number" width="auto" show_label="false" full_refresh="false">
+									</td>
+								</tr>								
+								<tr>
+									<td>Physical address:</td>
+									<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="physical_address" width="auto" show_label="false" full_refresh="false"></td>
+									<td>Physical city:</td>
+									<td>
+										<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="physical_city" width="auto" show_label="false" full_refresh="false">
+									</td>
+								</tr>	
+								<tr>
+									<td>Physical state:</td>
+									<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="physical_state" width="auto" show_label="false" full_refresh="false"></td>
+									<td>Physical ZIP:</td>
+									<td>
+										<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="physical_zip" width="auto" show_label="false" full_refresh="false">
+									</td>
+								</tr>	
+								<tr>
+									<td>Mailing address:</td>
+									<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mailing_address" width="auto" show_label="false" full_refresh="false"></td>
+									<td>Mailing city:</td>
+									<td>
+										<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mailing_city" width="auto" show_label="false" full_refresh="false">
+									</td>
+								</tr>	
+								<tr>
+									<td>Mailing state:</td>
+									<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mailing_state" width="auto" show_label="false" full_refresh="false"></td>
+									<td>Mailing ZIP:</td>
+									<td>
+										<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mailing_zip" width="auto" show_label="false" full_refresh="false">
+									</td>
+								</tr>	
+								</tbody>
+							</table>
+							</cfoutput>
+						</p>
+						<h1>Assessed Values</h1>
+						<p>
+						<cfoutput>
+						<table>
+							<tbody>
+							<tr>
+								<td>Land:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="assessed_land_value" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Building:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="assessed_building_value" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>												
+							</tbody>
+						</table>
+						</cfoutput>
+						</p>
+						<h1>Area</h1>
+						<p>
+						<cfoutput>
+						<table>
+							<tbody>
+							<tr>
+								<td>Square feet:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="area_sq_ft" width="auto" show_label="false" full_refresh="false"></td>
+								<td>Square yards:</td>
+								<td>
+									<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="area_sq_yd" width="auto" show_label="false" full_refresh="false">
+								</td>
+							</tr>		
+							<tr>
+								<td>Acres:</td>
+								<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="area_acres" width="auto" show_label="false" full_refresh="false"></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>												
+							</tbody>
+						</table>
+						</cfoutput>
+						</p>
+						<h1>Legal Description (Metes &amp; Bounds)</h1>
+						<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="metes_and_bounds" width="auto" show_label="false" full_refresh="false">
+						<h1>Documents</h1>
+						<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT", "TARGET")) EQ 0>
+							<p><em>No documents associated with this parcel</em></p>
+						<cfelse>
+							<p>
+							<div style="overflow:hidden">
+							<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT', 'TARGET')#" index="document">
+								<cfoutput>
+									<cfmodule template="#session.root_url#/documents/thumbnail.cfm" id="#document.get().id#">
+								</cfoutput>
+							</cfloop>
+							</p>
+							</div>
+						</cfif>					
+						<h1>Edit History</h1>
+						<cfif object.get_audits().recordcount EQ 0>
+							<p><em>No edits associated with this parcel</em></p>
+						<cfelse>
+							<cfset aud_query = object.get_audits()>
+							<cfoutput query="aud_query">
+								<cfset emp = CreateObject("component", "ptarmigan.object").open(employee_id)>
+								<div class="comment_box">
+									<span style="font-size:10px;color:gray;">#dateFormat(edit_date, "full")# #timeFormat(edit_date, "h:mm tt")# C/O ##: #change_order_number#</span>								
+									<p><span style="color:##2957a2;">#emp.get().object_name()#</span> changed <strong>#member_name#</strong> from <strong>#original_value#</strong> to <strong>#new_value#</strong>
+									<br><em>#comment#</em>
+									</p>																
+								</div>
+							</cfoutput>
+						</cfif>	
+					</div>
+					<div id="right-column" class="panel">
+						<cfmodule template="#session.root_url#/objects/related_items.cfm" object_id="#object.id#">
+					</div>
+				</div> <!--- parcel_tab --->
+				<div id="map_tab">
 					<div id="map" style="width:100%;height:480px;">
 						
 					</div> <!--- map --->
-				</div> <!--- tab1 --->
-				<div id="tab2">
-					<div id="projects" style="width:100%;height:480px;overflow:auto;">
-						<cfquery name="projects" datasource="#session.company.datasource#">
-							SELECT id FROM projects ORDER BY project_name
-						</cfquery>
-						<cfset projs = ArrayNew(1)>
-						<cfoutput query="projects">
-							<cfset p = CreateObject("component", "ptarmigan.project").open(id)>						
-							<cfset ArrayAppend(projs, p)>
-						</cfoutput>
-						
-						<table width="100%" class="pretty" style="margin:0;">
-							<tr>
-								<th>ASSOCIATED</th>
-								<th>PROJECT NAME</th>
-								<th>CUSTOMER</th>								
-							</tr>
-							<cfloop array="#projs#" index="p">
-								<cfoutput>
-								<cfset c_id = CreateUUID()>
-								<tr><!---function associate_parcel(root_url, ctl_id, parcel_id, element_table, element_id)--->
-									<td><input type="checkbox" id="#c_id#" <cfif parcel.associated('projects', p.id) EQ true>checked</cfif> 
-									onclick="associate_parcel('#session.root_url#', '#c_id#', '#parcel.id#', 'projects', '#p.id#');">
-									</td>
-									<td>#p.project_name#</td>
-									<td>#p.customer().company_name#</td>
-								</tr>
-								</cfoutput>
-							</cfloop>
-						</table>
-					</div> <!--- projects --->
-				</div> <!--- tab2 --->
-				<div id="tab3">
-					<div id="documents" style="width:100%;height:480px;overflow:auto;">
-						<cfquery name="parcel_docs" datasource="#session.company.datasource#">
-							SELECT document_id FROM document_associations WHERE element_table='parcels' AND element_id='#url.id#'
-						</cfquery>
-						<cfset docs = ArrayNew(1)>
-						<cfoutput query="parcel_docs">
-							<cfset d = CreateObject("component", "ptarmigan.document").open(document_id)>
-							<cfset ArrayAppend(docs, d)>
-						</cfoutput>
-						
-						<table width="100%" class="pretty" style="margin:0;">
-							<tr>
-								<th>NAME</th>
-								<th>DOCUMENT NO.</th>
-								<th>FILING INFORMATION</th>								
-								<th>ACTIONS</th>
-							</tr>
-							<cfloop array="#docs#" index="d">
-								<cfoutput>
-									<tr>
-										<td>#d.document_name#</td>
-										<td>#d.document_number#</td>
-										<td>FILED #dateFormat(d.filing_date, "m/dd/yyyy")# IN
-											#d.filing_category# #d.filing_container# #d.filing_division# #d.filing_material_type# #d.filing_number#
-										</td>
-										<td><a href="../documents/manage_document.cfm?id=#d.id#">Open Document</a></td>
-									</tr>
-								</cfoutput>
-							</cfloop>
-						</table>
-					</div> <!--- documents --->
-				</div> <!--- tab3 --->
+				</div> <!--- map_tab --->
+				
 			</div> <!--- tabs --->
 		</div> <!--- content --->
 	</div> <!--- container --->

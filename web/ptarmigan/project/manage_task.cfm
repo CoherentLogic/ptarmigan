@@ -63,6 +63,7 @@
 				<tr>
 					<td align="right">
 						<cfoutput>
+						<button class="pt_buttons" onclick="add_link('#url.id#', 'OBJ_TASK');"><img src="#session.root_url#/images/link.png" align="absmiddle"> Link To</button>							
 						<button class="pt_buttons" onclick="add_expense('#session.root_url#', '#task.id#', 'tasks', '#task.id#');"><img src="#session.root_url#/images/add.png" align="absmiddle"> Expense</button>
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#task.id#', '#task.id#', 'OBJ_TASK');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
@@ -207,7 +208,7 @@
 					<cfelse>
 						<p>
 						<div style="overflow:hidden">
-						<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT')#" index="document">
+						<cfloop array="#object.get_associated_objects('OBJ_DOCUMENT', 'TARGET')#" index="document">
 							<cfoutput>
 								<cfmodule template="#session.root_url#/documents/thumbnail.cfm" id="#document.get().id#">
 							</cfoutput>
@@ -251,6 +252,7 @@
 					Total Expenses: <cfoutput>#numberFormat(task.total_expenses(), ",_$___.__")#</cfoutput>
 					<br><br>
 					<em>Note: these figures reflect only the current task.</em>
+					<cfmodule template="#session.root_url#/objects/related_items.cfm" object_id="#object.id#">
 				</div>  <!--- right-column --->
 			</div> <!--- paper --->
 			<div id="tabs-gantt">				

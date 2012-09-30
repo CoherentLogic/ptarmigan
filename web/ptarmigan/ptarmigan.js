@@ -9,6 +9,12 @@
 
 var perm_root = "";
 
+function about_ptarmigan()
+{
+	var url = perm_root + "/about.cfm";
+	open_dialog(url, 'About Ptarmigan', 650, 450);
+}
+
 //
 // OBJECTS (GENERAL)
 //
@@ -38,6 +44,22 @@ function empty_trash(root_url)
 	window.location.reload();
 }
 
+function add_link(source_object_id, source_object_class)
+{
+	var url = perm_root + "/objects/associate_object.cfm?source_object_id=" + escape(source_object_id);
+	url += "&source_object_class=" + escape(source_object_class);
+	
+	window.location.replace(url);
+}
+
+function object_search(object_class, search_term, results_control)
+{
+	var url = perm_root + "/objects/object_search.cfm?object_class=" + escape(object_class);
+	url += "&search_term=" + escape(search_term);
+	
+	var response = request(url);
+	$('#' + results_control).html(response);
+}
 
 //
 // REPORTS
@@ -361,7 +383,7 @@ function reset_apply_controls()
 function add_expense(root_url, return_to, element_table, element_id)
 {
 	var url = root_url + "/project/add_expense.cfm?element_table=" + escape(element_table) + "&element_id=" + escape(element_id) + "&return_to=" + escape(return_to);
-	open_dialog(url, 'Add Expense', 420, 580);	
+	window.location.replace(url);	
 }
 
 function edit_expense(root_url, expense_id)
@@ -508,6 +530,17 @@ function associate_file(root_url, ctl_id, document_id, element_table, element_id
 	return request(url);
 }
 
+
+// 
+// PAGE UTILITIES
+//
+function init_page()
+{
+	$(".pt_tabs").tabs();
+	$(".pt_dates").datepicker();
+	$(".pt_buttons").button();
+	$(".first_focus").focus();
+}
 
 //
 // DIALOG UTILITIES

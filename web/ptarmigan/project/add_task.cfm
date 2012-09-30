@@ -12,8 +12,12 @@
 	<cfoutput>	
 		<title>Add Project - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-	</cfoutput>		
-	
+		<script type="text/javascript">
+			$(document).ready(function() {   
+				init_page();
+			});
+		</script>
+	</cfoutput>			
 </head>
 <body>
 
@@ -146,7 +150,7 @@
 					<tr>
 						<td>Constraint date:</td>
 						<td>
-							<input type="text" name="constraint_date" <cfif isdefined("form.constraint_date")><cfoutput>	value="#form.constraint_date#"	</cfoutput></cfif>><br />
+							<input class="pt_dates" type="text" name="constraint_date" <cfif isdefined("form.constraint_date")><cfoutput>	value="#form.constraint_date#"	</cfoutput></cfif>><br />
 								<cfif IsDefined("constraint_date_error")>
 									<cfoutput><span class="form_error">#constraint_date_error#</span></cfoutput>
 								</cfif>
@@ -155,7 +159,7 @@
 					<tr>
 						<td>Deadline:</td>
 						<td>
-							<input type="text" name="deadline" <cfif isdefined("form.deadline")><cfoutput>	value="#form.deadline#"	</cfoutput></cfif>><br />
+							<input class="pt_dates" type="text" name="deadline" <cfif isdefined("form.deadline")><cfoutput>	value="#form.deadline#"	</cfoutput></cfif>><br />
 								<cfif IsDefined("deadline_error")>
 									<cfoutput><span class="form_error">#deadline_error#</span></cfoutput>
 								</cfif>

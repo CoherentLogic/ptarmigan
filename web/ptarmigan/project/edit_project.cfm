@@ -47,11 +47,8 @@
 				<tr>
 					<td align="right">
 						<cfoutput>
+						<button class="pt_buttons" onclick="add_link('#url.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/link.png" align="absmiddle"> Link To</button>							
 						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#project.id#');" id="add_task"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
-<!--- 
-						<button class="pt_buttons" id="add_co" onclick="add_change_order('#session.root_url#', '#project.id#')"><img src="#session.root_url#/images/add.png" align="absmiddle"> Change Order</button> 
-						<button class="pt_buttons" id="apply_co" onclick="apply_change_order('#session.root_url#', '#project.id#');">Apply C/O</button>
- --->
 						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
 						<cfif session.user.is_admin() EQ true>
 							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Trash</button>

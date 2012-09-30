@@ -10,6 +10,8 @@
 	<cfset this.top_level = 0>
 	<cfset this.icon = "">
 	<cfset this.opener = "">
+	<cfset this.table_name = "">
+	<cfset this.name_field = "">
 	
 	<cfset this.written = false>
 	
@@ -52,6 +54,8 @@
 			<cfset this.top_level = qc.top_level>
 			<cfset this.icon = qc.icon>
 			<cfset this.opener = this.substitute_opener(qc.opener)>
+			<cfset this.table_name = qc.table_name>
+			<cfset this.name_field = qc.name_field>
 		</cfoutput>
 		
 	</cffunction>
