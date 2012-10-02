@@ -7,6 +7,11 @@
 	<cfoutput>	
 		<title>Search Parcels - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
+		<script type="text/javascript">
+			$(document).ready(function() {   
+				init_page();
+			});
+		</script>
 	</cfoutput>		
 	
 </head>

@@ -111,7 +111,7 @@
 					</cfloop>
 					<h1>Budget Allocation</h1>
 					<cfmodule template="budget.cfm" id="#project.id#" mode="edit">								
-					<br><br>
+					<br><br> 
 					<h1>Documents</h1>
 					<cfif ArrayLen(object.get_associated_objects("OBJ_DOCUMENT", "TARGET")) EQ 0>
 						<p><em>No documents associated with this project</em></p>

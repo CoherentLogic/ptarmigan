@@ -415,15 +415,10 @@ function search_documents(root_url, parcel_to_attach)
 		url += "?parcel_id=" + escape(parcel_to_attach);
 	}	
 	
-	open_dialog(url, 'Search Documents', 1024-350, 780-380);
+	window.location.replace(url);
 }	
 
-function search_documents_complete(response_text)
-{
-	document.getElementById('results_area').innerHTML = response_text;
-	document.getElementById('submit_link').style.display = "none";
-	document.getElementById('cancel_button').innerHTML = "<span>Close</span>";
-}
+
 
 //
 // PARCELS

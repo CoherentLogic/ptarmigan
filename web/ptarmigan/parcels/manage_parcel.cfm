@@ -1,4 +1,6 @@
+<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <cfsilent>
+
 	<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(url.id)>
 	<cfset session.current_object = CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfset object = CreateObject("component", "ptarmigan.object").open(url.id)>
