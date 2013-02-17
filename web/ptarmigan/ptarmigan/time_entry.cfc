@@ -1,7 +1,6 @@
 <cfcomponent output="false">
 
 	<cfset this.id = "">
-	<cfset this.task_code_assignment_id = "">
 	<cfset this.employee_id = "">
 	<cfset this.start_time = "">
 	<cfset this.end_time = "">
@@ -17,14 +16,12 @@
 		<cfquery name="q_create_time_entry" datasource="#session.company.datasource#">
 			INSERT INTO time_entries
 						(id,
-						task_code_assignment_id,
 						start_time,
 						end_time,
 						approved,
 						approver_id,
 						employee_id)
 			VALUES		('#this.id#',
-						'#this.task_code_assignment_id#',
 						#CreateODBCDateTime(this.start_time)#,
 						#CreateODBCDateTime(this.end_time)#,
 						#this.approved#,
@@ -45,7 +42,6 @@
 		</cfquery>
 		
 		<cfset this.id = id>
-		<cfset this.task_code_assignment_id = ote.task_code_assignment_id>
 		<cfset this.start_time = ote.start_time>
 		<cfset this.end_time = ote.end_time>
 		<cfset this.approved = ote.approved>
@@ -61,8 +57,7 @@
 	
 		<cfquery name="q_update_time_entry" datasource="#session.company.datasource#">
 			UPDATE time_entries
-			SET		task_code_assignment_id='#this.task_code_assignment_id#',
-					start_time=#CreateODBCDateTime(this.start_time)#,
+			SET		start_time=#CreateODBCDateTime(this.start_time)#,
 					end_time=#CreateODBCDateTime(this.end_time)#,
 					approved=#this.approved#,
 					approver_id='#this.approver_id#'
@@ -82,8 +77,6 @@
 		
 		<cfset this.update()>
 		
-		<cfset tca = CreateObject("component", "ptarmigan.code_assign").open(this.task_code_assignment_id)>
-		<cfset asgn = CreateObject("component", "ptarmigan.assignment").open(tca.assignment_id)>
 		<cfset emp = CreateObject("component", "ptarmigan.employee").open(asgn.employee_id)>
 		<cfset task_code = CreateObject("component", "ptarmigan.task_code").open(tca.task_code_id)>
 		<cfset task = CreateObject("component", "ptarmigan.task").open(asgn.task_id)>
@@ -125,7 +118,7 @@
 		<cfset newHour = hour(theTime)>
     
 		<cfif roundedMinutes EQ 60>
-			<cfset newHour=newHour + 1>
+			<cfset newHour = newHour + 1>
     	    <cfset roundedMinutes = 0>
 		</cfif>
     	

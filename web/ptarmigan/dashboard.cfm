@@ -38,7 +38,7 @@
 		<cfset period_status = "OPEN">
 	</cfif>
 	
-	<cfset stats = CreateObject("component", "ptarmigan.company.statistics")>
+	<cfset stats = CreateObject("component", "company.statistics")>
 	
 	<cfquery name="get_pay_periods" datasource="#session.company.datasource#">
 		SELECT 		* 
@@ -118,7 +118,7 @@
 								
 								<span class="date_bar"><cfoutput>#dateFormat(next_day, "d")#</cfoutput></span>
 								<div>									
-								<cfset priority_projects = CreateObject("component", "ptarmigan.company.company").priority_projects(next_day, next_day)>
+								<cfset priority_projects = CreateObject("component", "ptarmigan.company").priority_projects(next_day, next_day)>
 								<cfloop array="#priority_projects#" index="p">
 									<cfoutput><a href="project/edit_project.cfm?id=#p.id#">#p.project_name# DUE</a><br></cfoutput>
 								</cfloop>

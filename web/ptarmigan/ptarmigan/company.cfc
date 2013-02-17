@@ -19,7 +19,7 @@
 		
 	</cffunction>
 	
-	<cffunction name="open" returntype="ptarmigan.company.company" access="public" output="false">
+	<cffunction name="open" returntype="ptarmigan.company" access="public" output="false">
 		<cfset this.ini_path = ExpandPath(session.root_url & "/ptarmigan.ini")>	
 		<cfset this.datasource = GetProfileString(this.ini_path, "Database", "datasource")>
 		<cfset this.company_name = GetProfileString(this.ini_path, "Company", "name")>

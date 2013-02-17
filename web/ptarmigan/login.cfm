@@ -42,7 +42,7 @@
 					</cfoutput>
 					
 				</center>
-				<form name="log_in" method="post" action="/ptarmigan/login.cfm" style="margin-top:50px;">
+				<cfoutput><form name="log_in" method="post" action="#session.root_url#/login.cfm" style="margin-top:50px;"></cfoutput>
 					<table>
 						<tr>
 							<td>
