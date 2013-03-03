@@ -228,7 +228,7 @@
 				<cfset has_preview = true>
 				<cfoutput>
 					<cfset the_url = session.root_url & "/uploads/" & this.path>
-					<cfset this.thumbnail_url = CreateObject("component", "ptarmigan.OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
+					<cfset this.thumbnail_url = CreateObject("component", "OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
 					<cfset this.update()>
 				</cfoutput>
 			</cfcase>		
@@ -248,7 +248,7 @@
 								
 						<cfset current_file = base_file_name & "_page_1.jpg">
 						<cfset the_url = session.root_url & "/uploads/" & current_file>
-						<cfset this.thumbnail_url = CreateObject("component", "ptarmigan.OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
+						<cfset this.thumbnail_url = CreateObject("component", "OpenHorizon.Graphics.Image").Create(the_url, 200, 200)>
 						<cfset this.update()>	
 					</cfcase>
 				</cfswitch>

@@ -594,3 +594,17 @@ table.ptarmigan_form {
 	font-weight:bold;
 	font-size:10pt;
 }
+
+/*
+ * BASKET
+ */
+.basket_wrapper {
+	background-color:#c0c0c0;
+	color:black;
+	position:absolute;
+	bottom:30px;
+	right:30px;
+	border-radius:4px;
+	width:300px;
+	min-height:100px;	
+}

@@ -403,8 +403,8 @@ function add_document(root_url, return_to, source_object_id, source_object_class
 		url += "&source_object_id=" + escape(source_object_id);
 		url += "&source_object_class=" + escape(source_object_class);
 	}	
-
-	open_dialog(url, 'Add Document', 630, 560);
+	
+	window.location.replace(url);
 }
 
 function search_documents(root_url, parcel_to_attach)

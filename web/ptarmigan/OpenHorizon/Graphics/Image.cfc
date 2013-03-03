@@ -1,4 +1,4 @@
-<cfcomponent displayname="Image" hint="Contains routines for image manipulation" extends="ptarmigan.OpenHorizon.Framework" output="false">
+<cfcomponent displayname="Image" hint="Contains routines for image manipulation" extends="OpenHorizon.Framework" output="false">
 	
 	<cfset this.InputURL = "">
 	<cfset this.URL = "">
