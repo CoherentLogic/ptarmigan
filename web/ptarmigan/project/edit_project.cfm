@@ -16,6 +16,7 @@
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
 				$("#tabs").css("overflow", "hidden");
+				//$("#tabs").css("border", "none");
 				$("#navigation_bar").menubar({
 					autoExpand:true,
 					menuIcon:true,

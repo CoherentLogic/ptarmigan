@@ -418,7 +418,10 @@ function search_documents(root_url, parcel_to_attach)
 	window.location.replace(url);
 }	
 
-
+function preview_show_page(page_number)
+{
+	alert(page_number);
+}
 
 //
 // PARCELS

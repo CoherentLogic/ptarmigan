@@ -1,4 +1,4 @@
-<cfcomponent output="false" implements="ptarmigan.i_object">
+<cfcomponent output="true" implements="ptarmigan.i_object">
 	<cfset this.id = "">
 	<cfset this.path = "">
 	<cfset this.document_name = "">
@@ -294,6 +294,33 @@
 		<cfquery name="d" datasource="#session.company.datasource#">
 			DELETE FROM documents WHERE id='#this.id#'
 		</cfquery>
+	</cffunction>
+	
+	
+	<cffunction name="search_result" returntype="void" access="public" output="true">
+		
+		<cfset obj = CreateObject("component", "ptarmigan.object").open(this.id)>
+		<div class="search_result">
+			<cfoutput>
+				<a href="#session.root_url#/objects/dispatch.cfm?id=#this.id#">#this.object_name()#</a><br/>
+				<div class="search_class">Document <cfif this.document_number NEQ "">###this.document_number#</cfif></div>
+					
+					<cfif this.description NEQ "">
+					#this.description#<br/>
+					<cfelse>
+					<em>No description</em><br/>
+					</cfif>
+								
+					Filed #dateformat(this.filing_date, "mm/dd/yyyy")# 
+					<cfif this.filing_division NEQ "">
+						in #ucase(this.filing_category)# #ucase(this.filing_container)# #this.filing_division#
+					</cfif>
+					<cfif this.filing_number NEQ "">
+						#ucase(this.filing_material_type)# #this.filing_number#
+					</cfif>									
+			</cfoutput>
+		</div>
+		
 	</cffunction>
 	
 	<cffunction name="object_name" returntype="string" access="public" output="false">

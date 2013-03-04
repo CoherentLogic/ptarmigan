@@ -3,10 +3,10 @@ body,html {
 }
 
 body {
-	background-image:url('images/bg.png');
+	/*background-image:url('images/bg.png');
 	background-repeat:no-repeat;
 	background-attachment:fixed;
-	background-position:left bottom; 
+	background-position:left bottom; */
 
 }
 
@@ -606,5 +606,40 @@ table.ptarmigan_form {
 	right:30px;
 	border-radius:4px;
 	width:300px;
-	min-height:100px;	
+	min-height:100px;
+	z-index:1;	
 }
+
+/*
+ * SEARCH
+ */
+.search_result_count {
+	font-size:8pt;
+	color:#999999;
+	margin-bottom:20px;
+}
+
+.search_result {
+	margin-bottom:20px;
+}
+
+.search_result a {
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+.search_class {
+	color:green;
+	font-size:8pt;
+	margin-bottom:4px;	
+}
+
+/*
+ * remove tab borders
+ */
+
+#tabs .ui-widget { border:none;  padding:0px; margin:0px; }
+#tabs .ui-widget-header { border:none; border-bottom:1px solid #efefef; background-image:none; background-color:white; padding:0px; margin:0px; }
+#tabs .ui-widget-content { border:none; padding:0px; margin:0px; }
+#tabs {border:none;}
+

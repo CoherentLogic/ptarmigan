@@ -1,7 +1,10 @@
 <cfquery name="g_system_reports" datasource="#session.company.datasource#">
 	SELECT id, report_name FROM reports WHERE system_report=1 AND class_id='OBJ_REPORT' ORDER BY report_name
 </cfquery>
-<div id="menu_header">
+<div style="padding:30px;">
+<cfoutput><img src="#session.root_url#/ptarmigan-header.png"></cfoutput>
+</div>
+<div id="menu_header">				
 		
 		<ul id="navigation_bar" class="menubar-icons">
 			
@@ -105,7 +108,7 @@
 			</cfoutput>
 			</cfif>
 		</ul>
-	<div style="float:right;text-align:right;position:absolute;top:0px;right:0px;">
+	<div style="float:right;text-align:right;">
 		<cfoutput>
 			<span style="color:navy;">
 				#session.user.full_name()#<br>

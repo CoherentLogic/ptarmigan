@@ -19,7 +19,12 @@
 	
 	<cfloop array="#object.get_associated_objects('ALL', 'SOURCE')#" index="assoc">
 		<cfoutput>
+			<cftry>
 			<img src="#assoc.get_icon()#" onmouseover="Tip('#assoc.class_name#')" onmouseout="UnTip();" align="absmiddle"> <a href="#session.root_url#/objects/dispatch.cfm?id=#assoc.id#">#assoc.get().object_name()#</a><br>
+			<cfcatch>
+			Error
+			</cfcatch>
+			</cftry>
 		</cfoutput>
 	</cfloop>
 	

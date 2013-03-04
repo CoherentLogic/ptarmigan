@@ -148,5 +148,6 @@
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.company_name>
 	</cffunction>
-	
+	<cffunction name="search_result" returntype="void" access="public" output="true">
+	</cffunction>
 </cfcomponent>

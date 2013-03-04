@@ -549,4 +549,6 @@
 		
 		<cfset this.written = false>
 	</cffunction>
+
+<cffunction name="search_result" returntype="void" access="public" output="true"></cffunction>
 </cfcomponent>

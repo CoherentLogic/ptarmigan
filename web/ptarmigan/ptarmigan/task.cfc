@@ -395,6 +395,9 @@
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.task_name>
 	</cffunction>
+
+	<cffunction name="search_result" returntype="void" access="public" output="true"></cffunction>
+
 	
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfquery name="d" datasource="#session.company.datasource#">

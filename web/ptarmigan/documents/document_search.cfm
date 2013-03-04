@@ -8,9 +8,20 @@
 	</cfoutput>		
 	<script type="text/javascript">
 			$(document).ready(function() {   
+				$("#navigation_bar").menubar({
+					autoExpand:true,
+					menuIcon:true,
+					buttons:false
+				});			
+				
+				$("#navigation_bar").css("color", "black");
+				$(".ui-state-default").css("color", "black");
+				$(".pt_buttons").button();								
+				
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				init_page();
 			});
-		</script>
+	</script>
 </head>
 <body>
 <cfif IsDefined("form.self_post")>
@@ -45,24 +56,11 @@
 		<cfset ArrayAppend(oa, d)>
 	</cfoutput>
 	
-	<table width="100%" class="pretty" style="margin:0;">		
-		<cfloop array="#oa#" index="d">
-			<cfoutput>
-				<tr>
-					<td><a class="button" href="#session.root_url#/objects/dispatch.cfm?id=#d.id#"><span>Document #d.document_number#</span></a></td>
-					<td>#d.document_name#</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						FILED #ucase(dateFormat(d.filing_date, "full"))# IN #d.filing_category# #d.filing_container# #d.filing_division# #d.filing_material_type# #d.filing_number#<br><hr>
-						#d.description#
-					</td>					
-				</tr>
-				
-			</cfoutput>
-		</cfloop>
-	</table>
-	
+	<cfmodule template="#session.root_url#/search/header.cfm" result_count="#arraylen(oa)#" result_time="#cfquery.executiontime / 1000#">
+	<cfloop array="#oa#" index="d">
+		<cfmodule template="#session.root_url#/search/results.cfm" id="#d.id#">		
+	</cfloop>
+	</div> <!--- ends div begun in header.cfm --->
 <cfelse>
 	<div class="form_wrapper">
 		<div style="position:relative; height:100%; width:100%; background-color:white;">
@@ -161,3 +159,5 @@
 		</div>
 	</div> <!--- form_wrapper --->
 </cfif>
+</body>
+</html>

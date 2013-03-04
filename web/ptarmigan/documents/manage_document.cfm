@@ -14,7 +14,11 @@
 		 $(document).ready(function() {   			
 				$("#tabs").tabs();	
 				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "98%");					
+				$("#tabs").css("width", "98%");		
+				$("#tabs").css("border", "none");
+				
+				$("#tabs").css("background-image", "none");
+				
 				$("#navigation_bar").menubar({
 					autoExpand:true,
 					menuIcon:true,
@@ -28,9 +32,9 @@
 				bound_fields_init();
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				
-				try {
+				/*try {
 					$(".preview_pages").tabs();
-				} catch (ex) {}
+				} catch (ex) {}*/
 				
    		 });
 	</script>
