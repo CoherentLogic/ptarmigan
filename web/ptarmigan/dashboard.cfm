@@ -1,4 +1,5 @@
 <cfsilent>
+
 	<cfmodule template="security/require.cfm" type="">
 
 	<cfif IsDefined("form.current_pay_period")>
