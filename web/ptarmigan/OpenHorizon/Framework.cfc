@@ -6,5 +6,5 @@
     <cfset this.SitesDatasource = "">    		
 	<cfset this.URLBase = session.root_url>
 	<cfset this.ThumbnailCache = session.thumbnail_cache>
-	<cfset this.BaseHost = "http://localhost">
+	<cfset this.BaseHost = "http://ptarmigan-devel.clogic-int.com">
 </cfcomponent>

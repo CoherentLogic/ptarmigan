@@ -115,7 +115,7 @@
 		
 		<cfhttp url="#this.BaseHost##this.InputURL#" method="get" path="#this.ThumbnailCache#" file="#tmpName#" getasbinary="yes">
 		
-		<cflog application="true" file="OpenHorizon" text="CopyLocal: #cfhttp.StatusCode# #cfhttp.ErrorDetail#">
+		<cflog application="true" file="OpenHorizon" text="CopyLocal: #cfhttp.StatusCode# #cfhttp.ErrorDetail# #this.BaseHost##this.InputURL#">
 
 		<cfset tmpName = this.ThumbnailCache & "/" & tmpName>
 		<cfreturn #tmpName#>
