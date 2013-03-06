@@ -1,3 +1,5 @@
+<div id="dynamic_field_editor">
+</div>
 <cfquery name="g_system_reports" datasource="#session.company.datasource#">
 	SELECT id, report_name FROM reports WHERE system_report=1 AND class_id='OBJ_REPORT' ORDER BY report_name
 </cfquery>

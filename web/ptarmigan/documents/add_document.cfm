@@ -52,19 +52,77 @@
 		<cfset filing_number_error = "Must be 255 or fewer characters">
 	</cfif>
 	
+	<cfif len(form.document_revision) GT 45>
+		<cfset data_valid = false>
+		<cfset document_revision_error = "Must be 45 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.section) GT 5>
+		<cfset data_valid = false>
+		<cfset section_error = "Must be 5 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.township) GT 5>
+		<cfset data_valid = false>
+		<cfset township_error = "Must be 5 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.range) GT 5>
+		<cfset data_valid = false>
+		<cfset range_error = "Must be 5 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.subdivision) GT 255>
+		<cfset data_valid = false>
+		<cfset subdivision_error = "Must be 255 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.lot) GT 45>
+		<cfset data_valid = false>
+		<cfset lot_error = "Must be 45 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.block) GT 45>
+		<cfset data_valid = false>
+		<cfset block_error = "Must be 45 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.usrs_sheet) GT 45>
+		<cfset data_valid = false>
+		<cfset usrs_sheet_error = "Must be 45 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.usrs_parcel) GT 45>
+		<cfset data_valid = false>
+		<cfset usrs_parcel_error = "Must be 45 or fewer characters">
+	</cfif>
+		
+	
 	<cfif data_valid EQ true>
 		<cfset d = CreateObject("component", "ptarmigan.document")>
 			
 		<cfset d.document_name = ucase(form.document_name)>
 		<cfset d.description = ucase(form.description)>
 		<cfset d.document_number = form.document_number>
+		<cfset d.document_revision = form.document_revision>
 		<cfset d.filing_category = form.filing_category>
 		<cfset d.filing_container = form.filing_container>
 		<cfset d.filing_division = ucase(form.filing_division)>
 		<cfset d.filing_material_type = form.filing_material_type>
 		<cfset d.filing_number = ucase(form.filing_number)>
 		<cfset d.filing_date = CreateODBCDate(form.filing_date)>
-			
+		
+		<cfset d.subdivision = ucase(form.subdivision)>
+		<cfset d.lot = ucase(form.lot)>
+		<cfset d.block = ucase(form.block)>
+		
+		<cfset d.section = form.section>
+		<cfset d.township = form.township & form.township_direction>
+		<cfset d.range = form.range & form.range_direction>
+		
+		<cfset d.usrs_parcel = form.usrs_parcel>
+		<cfset d.usrs_sheet = form.usrs_sheet>		
+		
 		<cfset d.create()>
 		
 		<cfif IsDefined("form.upload_file")>
@@ -124,6 +182,16 @@
 								</td>
 							</tr>
 							<tr>
+								<td>Revision:</td>
+								<td>
+									<input type="text" name="document_revision" <cfif isdefined("form.document_revision")><cfoutput>value="#form.document_revision#"</cfoutput></cfif>>
+									<cfif isdefined("document_revision_error")>
+										<cfoutput><span class="form_error">#document_revision_error#</span></cfoutput>								
+									</cfif>
+								</td>
+							</tr>
+
+							<tr>
 								<td>Description:</td>
 								<td>
 									<textarea name="description"><cfif isdefined("form.description")><cfoutput>#form.description#</cfoutput></cfif></textarea>
@@ -135,9 +203,94 @@
 							<tr>
 								<td>File:</td>
 								<td><input type="file" name="upload_file"></td>
-							</tr>						
-						</table>
-						<table>
+							</tr>													
+							<tr>
+								<td>Subdivision:</td>
+								<td>
+									<input type="text" name="subdivision" <cfif isdefined("form.subdivision")>value=<cfoutput>#form.subdivision#</cfoutput></cfif>>
+									<cfif isdefined("subdivision_error")>
+										<cfoutput><span class="form_error">#subdivision_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>									
+							<tr>
+								<td>Lot:</td>
+								<td>
+									<input type="text" name="lot" <cfif isdefined("form.lot")>value=<cfoutput>#form.lot#</cfoutput></cfif>>
+									<cfif isdefined("lot_error")>
+										<cfoutput><span class="form_error">#lot_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							<tr>
+								<td>Block:</td>
+								<td>
+									<input type="text" name="block" <cfif isdefined("form.block")>value=<cfoutput>#form.block#</cfoutput></cfif>>
+									<cfif isdefined("block_error")>
+										<cfoutput><span class="form_error">#block_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Section:</td>
+								<td>
+									<input type="text" name="section" <cfif isdefined("form.section")>value=<cfoutput>#form.section#</cfoutput></cfif>>
+									<cfif isdefined("section_error")>
+										<cfoutput><span class="form_error">#section_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Township:</td>
+								<td>
+									<input type="text" name="township" <cfif isdefined("form.township")>value=<cfoutput>#form.township#</cfoutput></cfif>>
+									<select name="township_direction">
+										<option value="N" selected>NORTH</option>
+										<option value="S">SOUTH</option>
+									</select>
+									<cfif isdefined("township_error")>
+										<cfoutput><span class="form_error">#township_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Range:</td>
+								<td>
+									<input type="text" name="range" <cfif isdefined("form.range")>value=<cfoutput>#form.range#</cfoutput></cfif>>
+									<select name="range_direction">
+										<option value="E" selected>EAST</option>
+										<option value="W">WEST</option>
+									</select>
+									<cfif isdefined("range_error")>
+										<cfoutput><span class="form_error">#range_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>USRS Parcel:</td>
+								<td>
+									<input type="text" name="usrs_parcel" <cfif isdefined("form.usrs_parcel")>value=<cfoutput>#form.usrs_parcel#</cfoutput></cfif>>									
+									<cfif isdefined("usrs_parcel_error")>
+										<cfoutput><span class="form_error">#usrs_parcel_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>USRS Sheet:</td>
+								<td>
+									<input type="text" name="usrs_sheet" <cfif isdefined("form.usrs_sheet")>value=<cfoutput>#form.usrs_sheet#</cfoutput></cfif>>									
+									<cfif isdefined("usrs_sheet_error")>
+										<cfoutput><span class="form_error">#usrs_sheet_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							
 							<tr>
 								<td>Filing date:</td>
 								<cfoutput>

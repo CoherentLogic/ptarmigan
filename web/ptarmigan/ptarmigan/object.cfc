@@ -285,6 +285,12 @@
 			<cfcase value="richtext">
 				<cfreturn m>
 			</cfcase>
+			<cfcase value="township">
+				<cfreturn m>
+			</cfcase>
+			<cfcase value="range">
+				<cfreturn m>
+			</cfcase>
 			<cfcase value="enum">
 				<cfreturn m>
 			</cfcase>

@@ -4,6 +4,7 @@
 	<cfset this.document_name = "">
 	<cfset this.description = "">
 	<cfset this.document_number = "">
+	<cfset this.document_revision = "">
 	<cfset this.mime_type = "">
 	<cfset this.filing_category = "FILE">
 	<cfset this.filing_container = "CABINET">
@@ -12,7 +13,17 @@
 	<cfset this.filing_number = "">
 	<cfset this.filing_date = CreateODBCDate(Now())>
 	<cfset this.thumbnail_url = "">	
+	<cfset this.section = "">
+	<cfset this.township = "">
+	<cfset this.range = "">
+	<cfset this.subdivision = "">
+	<cfset this.lot = "">
+	<cfset this.block = "">
+	<cfset this.usrs_parcel = "">
+	<cfset this.usrs_sheet = "">
 	
+
+
 	<cfset this.members = StructNew()>
 	
 	
@@ -60,6 +71,42 @@
 		this.members['FILING_DATE'].type = "date";
 		this.members['FILING_DATE'].label = "Filing date";
 		
+		this.members['DOCUMENT_REVISION'] = StructNew();
+		this.members['DOCUMENT_REVISION'].type = "text";
+		this.members['DOCUMENT_REVISION'].label = "Document revision";
+		
+		this.members['SECTION'] = StructNew();
+		this.members['SECTION'].type = "text";
+		this.members['SECTION'].label = "Section";
+		
+		this.members['TOWNSHIP'] = StructNew();
+		this.members['TOWNSHIP'].type = "township";
+		this.members['TOWNSHIP'].label = "Township";
+			
+		this.members['RANGE'] = StructNew();
+		this.members['RANGE'].type = "range";
+		this.members['RANGE'].label = "Range";
+		
+		this.members['SUBDIVISION'] = StructNew();
+		this.members['SUBDIVISION'].type = "text";
+		this.members['SUBDIVISION'].label = "Subdivision";
+		
+		this.members['LOT'] = StructNew();
+		this.members['LOT'].type = "text";
+		this.members['LOT'].label = "Lot";
+		
+		this.members['BLOCK'] = StructNew();
+		this.members['BLOCK'].type = "text";
+		this.members['BLOCK'].label = "Block";
+		
+		this.members['USRS_PARCEL'] = StructNew();
+		this.members['USRS_PARCEL'].type = "text";
+		this.members['USRS_PARCEL'].label = "USRS parcel"
+		
+		this.members['USRS_SHEET'] = StructNew();
+		this.members['USRS_SHEET'].type = "text";
+		this.members['USRS_SHEET'].label = "USRS sheet"
+		
 	</cfscript>
 	
 	<cfset this.written = false>
@@ -82,7 +129,16 @@
 							filing_material_type,
 							filing_number,
 							filing_date,
-							thumbnail_url)
+							thumbnail_url,
+							document_revision,
+							section,
+							township,
+							`range`,
+							subdivision,
+							lot,
+							block,
+							usrs_parcel,
+							usrs_sheet)
 			VALUES			('#this.id#',
 							'#this.path#',
 							'#this.document_name#',
@@ -95,7 +151,16 @@
 							'#this.filing_material_type#',
 							'#this.filing_number#',
 							#this.filing_date#,
-							'#this.thumbnail_url#')
+							'#this.thumbnail_url#',
+							'#this.document_revision#',
+							'#this.section#',
+							'#this.township#',
+							'#this.range#',
+							'#this.subdivision#',
+							'#this.lot#',
+							'#this.block#',
+							'#this.usrs_parcel#',
+							'#this.usrs_sheet#')
 		</cfquery>
 		
 		<cfset session.message = "Document #this.document_name# added.">
@@ -134,6 +199,16 @@
 		<cfset this.filing_date = od.filing_date>
 		<cfset this.thumbnail_url = od.thumbnail_url>
 		
+		<cfset this.document_revision = od.document_revision>
+		<cfset this.section = od.section>
+		<cfset this.township = od.township>
+		<cfset this.range = od.range>
+		<cfset this.subdivision = od.subdivision>
+		<cfset this.lot = od.lot>
+		<cfset this.block = od.block>
+		<cfset this.usrs_parcel = od.usrs_parcel>
+		<cfset this.usrs_sheet = od.usrs_sheet>		
+		
 		<cfset session.message = "Document #this.document_name# opened.">
 
 				
@@ -156,7 +231,16 @@
 					filing_material_type='#this.filing_material_type#',
 					filing_number='#this.filing_number#',
 					filing_date=#this.filing_date#,
-					thumbnail_url='#this.thumbnail_url#'
+					thumbnail_url='#this.thumbnail_url#',
+					document_revision='#this.document_revision#',
+					section='#this.section#',
+					township='#this.township#',
+					`range`='#this.range#',
+					subdivision='#this.subdivision#',
+					lot='#this.lot#',
+					block='#this.block#',
+					usrs_parcel='#this.usrs_parcel#',
+					usrs_sheet='#this.usrs_sheet#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		<cfset session.message = "Document #this.document_name# updated.">

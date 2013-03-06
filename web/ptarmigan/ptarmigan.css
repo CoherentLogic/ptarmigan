@@ -493,17 +493,21 @@ pt_tabs ul li a {
  *  BOUND CONTROLS
  */
 
+
+
 .bound-control-wrapper-editing {
 	border:1px solid #2957a2;
 	background-color:whitesmoke;
-	padding:8px;
-	border-radius:4px;
+	padding:0;	
 	box-shadow:1px 1px 1px #2957a2;
-	overflow:hidden;
-	min-width:250px;
-	max-width:250px;
+	/*overflow:hidden;*/
+	min-width:600px;
+	width:auto;	
 	min-height:300px;
 	z-index:30000;
+	position:absolute;	
+	top:10%;
+	left:10%;
 }
 
 .bound-control-text {
@@ -536,6 +540,8 @@ pt_tabs ul li a {
 
 .bound-edit-active {
 	display:block;
+	position:absolute;
+
 }
 
 .bound-edit-inactive {

@@ -104,6 +104,37 @@
 							<td>Filing number:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_number" width="auto" show_label="false" full_refresh="false"></td>
 						</tr>
+						<tr>
+							<td>Section:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="section" width="auto" show_label="false" full_refresh="false"></td>				
+							<td>Township:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="township" width="auto" show_label="false" full_refresh="false"></td>								
+						</tr>
+						<tr>
+							<td>Range:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="range" width="auto" show_label="false" full_refresh="false"></td>				
+							<td>Subdivision:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="subdivision" width="auto" show_label="false" full_refresh="false"></td>								
+						</tr>
+						<tr>
+							<td>Lot:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="lot" width="auto" show_label="false" full_refresh="false"></td>				
+							<td>Block:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="block" width="auto" show_label="false" full_refresh="false"></td>								
+						</tr>
+						<tr>
+							<td>USRS Sheet:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_sheet" width="auto" show_label="false" full_refresh="false"></td>				
+							<td>USRS Parcel:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_parcel" width="auto" show_label="false" full_refresh="false"></td>								
+						</tr>
+						<tr>
+							<td>Revision:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="document_revision" width="auto" show_label="false" full_refresh="false"></td>				
+							<td></td>
+							<td></td>
+						</tr>
+						
 						
 						</tbody>
 					</table>

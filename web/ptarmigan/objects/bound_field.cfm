@@ -46,7 +46,7 @@
 <cfset m_type = bound_object.member_type(attributes.member)>
 <cfset control_class = "bound-control-" & m_type>
 
-<cfoutput><div class="bound-control-wrapper" id="bound-control-wrapper-#base_id#"></cfoutput>
+
 	<cfoutput><div class="bound-value-active" id="bound-value-#base_id#" onmouseover="bound_field_show_pencil('#base_id#')" onmouseout="bound_field_hide_pencil('#base_id#')" onclick="bound_field_activate('#base_id#');"></cfoutput>
 		<cfoutput><cfif attributes.show_label EQ "true">#m_lbl#: </cfif>
 			<cfif m_val NEQ "">
@@ -57,8 +57,18 @@
 		</cfoutput>
 		
 	</div>
+<cfoutput><div class="bound-control-wrapper" id="bound-control-wrapper-#base_id#"></cfoutput>
 	<cfoutput><div class="bound-edit-inactive" id="bound-edit-div-#base_id#"></cfoutput>
-		<cfoutput><cfif attributes.show_label EQ "true">#m_lbl#: </cfif>
+		<div style="width:100%;height:auto;border-bottom:1px solid #999999;background-color:#2957a2;color:white;">
+		<div style="padding:2px;">
+		<cfoutput><strong>Editing #m_lbl# in #bound_object.class_name#</strong></cfoutput>
+		</div>
+		</div>
+		
+		<div style="padding:16px;">
+		<strong><cfoutput>#m_lbl#</cfoutput></strong><br/>
+		<hr>
+		<cfoutput>
 		<cfswitch expression="#m_type#">
 			<cfcase value="enum">
 				<cfset m_values = bound_object.member_enum_values(member)>
@@ -68,6 +78,38 @@
 					</cfloop>
 				</select>
 			</cfcase>
+			<cfcase value="township">
+				<cfif len(m_raw_val) GT 1>
+					<cfset t_township = left(m_raw_val, len(m_raw_val) - 1)>
+					<cfset t_township_direction = right(m_raw_val, 1)>
+				<cfelse>
+					<cfset t_township = "">
+					<cfset t_township_direction = "N">
+				</cfif>
+				<input type="text" id="bound-township-#base_id#" size="5" value="#t_township#" onchange="bound_field_township_update('#base_id#');">
+				<select class="#control_class#" autocomplete="off" id="bound-township-direction-#base_id#" onchange="bound_field_township_update('#base_id#');">
+					<option value="N" <cfif t_township_direction EQ "N">selected</cfif>>NORTH</option>
+					<option value="S" <cfif t_township_direction EQ "S">selected</cfif>>SOUTH</option>					
+				</select>
+								
+				<input type="hidden" id="bound-edit-#base_id#">
+			</cfcase>		
+			<cfcase value="range">
+				<cfif len(m_raw_val) GT 1>
+					<cfset t_range = left(m_raw_val, len(m_raw_val) - 1)>
+					<cfset t_range_direction = right(m_raw_val, 1)>
+				<cfelse>
+					<cfset t_range = "">
+					<cfset t_range_direction = "E">
+				</cfif>
+				<input type="text" id="bound-range-#base_id#" size="5" value="#t_range#" onchange="bound_field_range_update('#base_id#');">
+				<select class="#control_class#" autocomplete="off" id="bound-range-direction-#base_id#" onchange="bound_field_range_update('#base_id#');">
+					<option value="E" <cfif t_range_direction EQ "E">selected</cfif>>EAST</option>
+					<option value="W" <cfif t_range_direction EQ "W">selected</cfif>>WEST</option>					
+				</select>
+								
+				<input type="hidden" id="bound-edit-#base_id#">
+			</cfcase>	
 			<cfcase value="boolean">
 				<select class="#control_class#" autocomplete="off" id="bound-edit-#base_id#">
 					<option value="1" <cfif m_raw_val EQ 1>selected="selected"</cfif>>Yes</option>
@@ -169,14 +211,18 @@
 		</cfswitch>
 		<input type="hidden" id="bound-edit-original-#base_id#" value="#m_raw_val#">
 		<br>
-		<label>C/O ##: <br><input type="text" id="bound-edit-conum-#base_id#" style="width:100%;"></label>
+		
+		<strong>Auditing</strong><br/>
+		<hr>
+		<label>Change Order ##: <br><input type="text" id="bound-edit-conum-#base_id#" style="width:100%;"></label>
 		<br>
 		Comment:<br>
 		<textarea id="bound-edit-comment-#base_id#" style="width:100%; height:200px; margin:0; margin-bottom:8px;"></textarea>
 		
 		<div id="width:100%; margin-top:20px;">
-		<button class="bound-field-button" onclick="bound_field_submit('#base_id#', '#attributes.id#', '#member#', #attributes.full_refresh#);"><img src="#session.root_url#/images/disk.png"></button>
-		<button class="bound-field-button" onclick="bound_field_revert('#base_id#', '#m_val#');"><img src="#session.root_url#/images/arrow_undo.png"></button>&nbsp;</cfoutput>
+		<button class="bound-field-button" onclick="bound_field_submit('#base_id#', '#attributes.id#', '#member#', #attributes.full_refresh#);"><img src="#session.root_url#/images/disk.png" align="absmiddle"> Save</button>
+		<button class="bound-field-button" onclick="bound_field_revert('#base_id#', '#m_val#');"><img src="#session.root_url#/images/arrow_undo.png" align="absmiddle"> Revert</button>&nbsp;</cfoutput>
+		</div>
 		</div>
 	</div>
 </div>

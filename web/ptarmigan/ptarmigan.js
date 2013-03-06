@@ -751,6 +751,7 @@ function bound_field_activate(base_id)
 	var edit_id = "#bound-edit-div-" + base_id;
 	var edit_control = "#bound-edit-" + base_id;	
 	var wrapper = "#bound-control-wrapper-" + base_id;
+	$("#dynamic_field_editor").append($(wrapper));	
 	$(wrapper).addClass("bound-control-wrapper-editing");
 
 	
@@ -758,6 +759,39 @@ function bound_field_activate(base_id)
 	$(edit_id).fadeIn();
 	$(edit_control).focus();
 	$(edit_control).select();
+
+}
+
+function bound_field_township_update(base_id)
+{
+	var value_id = "#bound-value-" + base_id;
+	var edit_id = "#bound-edit-div-" + base_id;
+	var edit_control = "#bound-edit-" + base_id;	
+	var edit_conum = "#bound-edit-conum-" + base_id;
+	var edit_comment = "#bound-edit-comment-" + base_id;
+	var edit_original = "#bound-edit-original-" + base_id;
+
+	var township_direction = "#bound-township-direction-" + base_id;
+	var township = "#bound-township-" + base_id;
+
+	$(edit_control).val($(township).val() + $(township_direction).val());
+
+}
+
+function bound_field_range_update(base_id)
+{
+	var value_id = "#bound-value-" + base_id;
+	var edit_id = "#bound-edit-div-" + base_id;
+	var edit_control = "#bound-edit-" + base_id;	
+	var edit_conum = "#bound-edit-conum-" + base_id;
+	var edit_comment = "#bound-edit-comment-" + base_id;
+	var edit_original = "#bound-edit-original-" + base_id;
+
+	var range_direction = "#bound-range-direction-" + base_id;
+	var range = "#bound-range-" + base_id;
+
+	$(edit_control).val($(range).val() + $(range_direction).val());
+
 
 }
 
@@ -776,6 +810,8 @@ function bound_field_submit(base_id, object_id, member, full_refresh)
 	var comment = $(edit_comment).val();
 
 	var wrapper = "#bound-control-wrapper-" + base_id;
+	
+	
 	$(wrapper).removeClass("bound-control-wrapper-editing");
 	
 	var url = perm_root + "/objects/update_bound_field.cfm?id=" + escape(object_id);

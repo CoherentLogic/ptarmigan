@@ -3,8 +3,8 @@
 <cfswitch expression="#document.content_type()#">
 	<cfcase value="image">
 		<cfset has_preview = true>
-		<cfoutput>
-		<img src="#session.root_url#/uploads/#document.path#">
+		<cfoutput>					
+		<iframe src="http://docs.google.com/gview?url=http://ptarmigan-devel.clogic-int.com/uploads/#document.path#&embedded=true" style="width:100%; height:600;" frameborder="0"></iframe>
 		</cfoutput>
 	</cfcase>		
 	<cfcase value="application">
@@ -13,7 +13,7 @@
 				<cfset has_preview = true>
 				
 				<cfoutput>					
-				<iframe src="http://docs.google.com/gview?url=http://ptarmigan-devel.clogic-int.com/uploads/#document.path#&embedded=true" style="width:100%; height:auto;" frameborder="0"></iframe>
+				<iframe src="http://docs.google.com/gview?url=http://ptarmigan-devel.clogic-int.com/uploads/#document.path#&embedded=true" style="width:100%; height:600;" frameborder="0"></iframe>
 				</cfoutput>
 				<!---<cfpdf action="getInfo" source="#session.upload_path#/#document.path#" name="pdf_info">
 				<cfset page_count = pdf_info.TotalPages>
