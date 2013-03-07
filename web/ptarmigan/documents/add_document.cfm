@@ -11,6 +11,7 @@
 </head>
 <body>
 
+
 <cfif IsDefined("form.self_post")>
 	
 	<cfset data_valid = true>
@@ -99,6 +100,7 @@
 		
 	
 	<cfif data_valid EQ true>
+		data valid
 		<cfset d = CreateObject("component", "ptarmigan.document")>
 			
 		<cfset d.document_name = ucase(form.document_name)>
@@ -143,10 +145,10 @@
 			
 			<cfset assoc.create()>
 		</cfif>
-		<cflocation url="#session.root_url#/objects/dispatch.cfm?id=#d.id#" addtoken="false">
-		<cfabort>
+  		 <cflocation url="#session.root_url#/objects/dispatch.cfm?id=#d.id#" addtoken="false">		 
+		 <cfabort>
 	</cfif>
-</cfif>
+<cfelse>
 <div class="form_wrapper">
 	<div style="position:relative; height:100%; width:100%; background-color:white;">
 		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Add Document" icon="#session.root_url#/images/project_dialog.png">
@@ -364,5 +366,6 @@
 		</div>
 	</div>
 </div>
+</cfif>
 </body>
 </html>

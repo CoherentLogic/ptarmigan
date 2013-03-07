@@ -47,7 +47,7 @@
 <cfset control_class = "bound-control-" & m_type>
 
 
-	<cfoutput><div class="bound-value-active" id="bound-value-#base_id#" onmouseover="bound_field_show_pencil('#base_id#')" onmouseout="bound_field_hide_pencil('#base_id#')" onclick="bound_field_activate('#base_id#');"></cfoutput>
+	<cfoutput><span style="display:inline;" class="bound-value-active" id="bound-value-#base_id#" onmouseover="bound_field_show_pencil('#base_id#')" onmouseout="bound_field_hide_pencil('#base_id#')" onclick="bound_field_activate('#base_id#');"></cfoutput>
 		<cfoutput><cfif attributes.show_label EQ "true">#m_lbl#: </cfif>
 			<cfif m_val NEQ "">
 				#m_val#
@@ -56,7 +56,7 @@
 			</cfif>
 		</cfoutput>
 		
-	</div>
+	</span>
 <cfoutput><div class="bound-control-wrapper" id="bound-control-wrapper-#base_id#"></cfoutput>
 	<cfoutput><div class="bound-edit-inactive" id="bound-edit-div-#base_id#"></cfoutput>
 		<div style="width:100%;height:auto;border-bottom:1px solid #999999;background-color:#2957a2;color:white;">

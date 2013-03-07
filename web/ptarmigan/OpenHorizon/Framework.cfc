@@ -2,9 +2,9 @@
 
 <cfcomponent displayName="Framework" hint="Open Horizon Base">
 	
-	<cfset this.BaseDatasource = session.company.datasource>
-    <cfset this.SitesDatasource = "">    		
-	<cfset this.URLBase = session.root_url>
-	<cfset this.ThumbnailCache = session.thumbnail_cache>
-	<cfset this.BaseHost = "http://ptarmigan-devel.clogic-int.com">
+	<cfset this.BaseDatasource = session.system.datasource>
+    <cfset this.SitesDatasource = session.system.datasource>    		
+	<cfset this.URLBase = session.system.root_url>
+	<cfset this.ThumbnailCache = session.system.thumbnail_cache>
+	<cfset this.BaseHost = session.system.base_url>
 </cfcomponent>

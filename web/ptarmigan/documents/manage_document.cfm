@@ -79,63 +79,52 @@
 						<tr>
 							<td>Name:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="document_name" width="auto" show_label="false" full_refresh="false"></td>
-							<td>Filing date:</td>
-							<td>
-								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_date" width="auto" show_label="false" full_refresh="false">
-							</td>
 						</tr>
 						<tr>
 							<td>Document number:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="document_number" show_label="false" full_refresh="false"></td>
-							<td>Filing category:</td>
-							<td>
-								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_category" width="auto" show_label="false" full_refresh="false">
-							</td>				
-						</tr>				
-						<tr>
-							<td>Filing container:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_container" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>Filing division:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_division" width="auto" show_label="false" full_refresh="false"></td>
-						</tr>
-						<tr>
-							<td>Filing material type:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_material_type" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>Filing number:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_number" width="auto" show_label="false" full_refresh="false"></td>
-						</tr>
-						<tr>
-							<td>Section:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="section" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>Township:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="township" width="auto" show_label="false" full_refresh="false"></td>								
-						</tr>
-						<tr>
-							<td>Range:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="range" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>Subdivision:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="subdivision" width="auto" show_label="false" full_refresh="false"></td>								
-						</tr>
-						<tr>
-							<td>Lot:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="lot" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>Block:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="block" width="auto" show_label="false" full_refresh="false"></td>								
-						</tr>
-						<tr>
-							<td>USRS Sheet:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_sheet" width="auto" show_label="false" full_refresh="false"></td>				
-							<td>USRS Parcel:</td>
-							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_parcel" width="auto" show_label="false" full_refresh="false"></td>								
 						</tr>
 						<tr>
 							<td>Revision:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="document_revision" width="auto" show_label="false" full_refresh="false"></td>				
-							<td></td>
-							<td></td>
 						</tr>
 						
-						
+						<tr>
+							<td>Filing information:</td>
+							<td>
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_date" width="auto" show_label="false" full_refresh="false"> IN
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_category" width="auto" show_label="false" full_refresh="false">
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_container" width="auto" show_label="false" full_refresh="false">				
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_division" width="auto" show_label="false" full_refresh="false">
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_material_type" width="auto" show_label="false" full_refresh="false">
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="filing_number" width="auto" show_label="false" full_refresh="false">
+							</td>
+						</tr>
+						<tr>
+							<td>Legal section:</td>
+							<td>
+								SECTION <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="section" width="auto" show_label="false" full_refresh="false">
+								TOWNSHIP <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="township" width="auto" show_label="false" full_refresh="false">
+								RANGE <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="range" width="auto" show_label="false" full_refresh="false">
+							</td>				
+						</tr>
+						<tr>
+							<td>Subdivision:</td>
+							<td>
+								<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="subdivision" width="auto" show_label="false" full_refresh="false">
+								LOT <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="lot" width="auto" show_label="false" full_refresh="false">				
+								BLOCK <cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="block" width="auto" show_label="false" full_refresh="false">
+							</td>
+						</tr>
+						<tr>
+							<td>USRS Sheet:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_sheet" width="auto" show_label="false" full_refresh="false"></td>				
+						</tr>
+						<tr>
+							<td>USRS Parcel:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_parcel" width="auto" show_label="false" full_refresh="false"></td>								
+						</tr>
+																		
 						</tbody>
 					</table>
 					</cfoutput>

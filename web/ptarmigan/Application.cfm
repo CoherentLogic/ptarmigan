@@ -8,8 +8,12 @@
 <cfparam name="session.ui_theme" default="smoothness">
 <cfparam name="session.basket" default="#ArrayNew(1)#">
 <cfparam name="session.root_url" default="">
-<cfparam name="session.upload_path" default="/home/jollis/ptarmigan/trunk/web/ptarmigan/uploads">
-<cfparam name="session.thumbnail_cache" default="/home/jollis/ptarmigan/trunk/web/ptarmigan/OpenHorizon/Resources/Graphics/ThumbnailCache">
+<cfparam name="session.upload_path" default="">
+<cfparam name="session.thumbnail_cache" default="">
+<cfparam name="session.system" default="">
+
+<cfset session.system = CreateObject("component", "ptarmigan.system").init()>
+
 <cfset session.company = CreateObject("component", "ptarmigan.company").open()>
 <cfset session.current_object = CreateObject("component", "ptarmigan.object").open(session.company.object_name())>
 <cfif IsDefined("url.set_theme")>

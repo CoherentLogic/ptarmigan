@@ -38,6 +38,19 @@
 		<cfif IsDefined("form.s_description")>
 			AND	description LIKE '%#form.description#%'
 		</cfif>
+		<cfif IsDefined("form.s_document_revision")>
+			AND document_revision LIKE '%#form.document_revision#%'
+		</cfif>
+		<cfif IsDefined("form.s_subdivision")>
+			AND subdivision LIKE '%#form.subdivision#%'
+			AND lot LIKE '%#form.lot#%'
+			AND block LIKE '%#form.block#%'
+		</cfif>
+		<cfif IsDefined("form.s_legal_section")>
+			AND `section`='#form.section#'
+			AND `township`='#form.township##form.township_direction#'
+			AND `range`='#form.range##form.range_direction#'
+		</cfif>
 		<cfif IsDefined("form.s_document_number")>
 			AND document_number='#form.document_number#'
 		</cfif>
@@ -67,8 +80,59 @@
 			<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Documents" icon="#session.root_url#/images/project_dialog.png">
 		
 			<cfoutput><form name="document_search" id="document_search" action="#session.root_url#/documents/document_search.cfm" method="post"></cfoutput>
-				<div style="padding:20px; width:600px; height:180px; overflow:auto;" id="results_area">
+				<div style="padding:20px; width:auto; height:auto; overflow:auto;" id="results_area">
 					<table>
+						<tr>
+							<td>
+								<label><input type="checkbox" name="s_document_name">Document name</label>						
+							</td>
+							<td>
+								<input type="text" name="document_name">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><input type="checkbox" name="s_document_number">Document number</label>
+							</td>
+							<td>
+								<input type="text" name="document_number">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><input type="checkbox" name="s_document_revision">Revision number</label>
+							</td>
+							<td>
+								<input type="text" name="document_revision">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><input type="checkbox" name="s_subdivision">Subdivision</label>
+							</td>
+							<td>
+								<input type="text" name="subdivision">
+								<label>LOT <input type="text" size="5" name="lot"></label>
+								<label>BLOCK <input type="text" size="5" name="block"></label>
+							</td>
+						</tr>
+						
+						<tr>
+						<td valign="top"><label><input type="checkbox" name="s_legal_section">Legal section</label></td>					
+						<td>
+							<label>Section<input type="text" name="section" size="3"></label>
+							<label>Township <input type="text" name="township" size="3"></label>
+							<select name="township_direction" style="width:80px;" autocomplete="off">
+								<option value="N">NORTH</option>
+								<option value="S">SOUTH</option>
+							</select>
+							<label>Range <input type="text" name="range" size="3"></label>
+							<select name="range_direction" style="width:80px;" autocomplete="off">
+								<option value="E">EAST</option>
+								<option value="W">WEST</option>
+							</select>
+						</td>
+					</tr>
 						<tr>
 							<td>
 								<label><input type="checkbox" name="s_filing_date">Filing date</label>
@@ -90,14 +154,7 @@
 								</table>							
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<label><input type="checkbox" name="s_document_name">Document name</label>						
-							</td>
-							<td>
-								<input type="text" name="document_name">
-							</td>
-						</tr>
+						
 						<tr>
 							<td>
 								<label><input type="checkbox" name="s_description">Description</label>
@@ -106,14 +163,7 @@
 								<input type="text" name="description">
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<label><input type="checkbox" name="s_document_number">Document number</label>
-							</td>
-							<td>
-								<input type="text" name="document_number">
-							</td>
-						</tr>
+						
 						<tr>
 							<td>
 								<label><input type="checkbox" name="s_filing_information">Filing information</label>
@@ -141,6 +191,7 @@
 								<input type="text" name="filing_number" size="4">
 							</td>
 						</tr>
+						
 											
 					</table>
 				</div>

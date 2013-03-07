@@ -531,7 +531,7 @@ pt_tabs ul li a {
 }
 
 .bound-value-active {
-	display:block;
+	display:inline;
 }
 
 .bound-value-inactive {
