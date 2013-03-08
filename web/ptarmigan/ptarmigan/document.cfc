@@ -21,7 +21,11 @@
 	<cfset this.block = "">
 	<cfset this.usrs_parcel = "">
 	<cfset this.usrs_sheet = "">
-	
+	<cfset this.owner_name = "">
+	<cfset this.address = "">
+	<cfset this.city = "">
+	<cfset this.state = "">
+	<cfset this.zip = "">
 
 
 	<cfset this.members = StructNew()>
@@ -105,7 +109,28 @@
 		
 		this.members['USRS_SHEET'] = StructNew();
 		this.members['USRS_SHEET'].type = "text";
-		this.members['USRS_SHEET'].label = "USRS sheet"
+		this.members['USRS_SHEET'].label = "USRS sheet";
+		
+		this.members['OWNER_NAME'] = StructNew();
+		this.members['OWNER_NAME'].type = "text";
+		this.members['OWNER_NAME'].label = "Owner name";
+		
+		this.members['ADDRESS'] = StructNew();
+		this.members['ADDRESS'].type = "text";
+		this.members['ADDRESS'].label = "Street address";
+		
+		this.members['CITY'] = StructNew();
+		this.members['CITY'].type = "text";
+		this.members['CITY'].label = "City";
+		
+		this.members['STATE'] = StructNew();
+		this.members['STATE'].type = "usstate";
+		this.members['STATE'].label = "State";
+		
+		this.members['ZIP'] = StructNew();
+		this.members['ZIP'].type = "text";
+		this.members['ZIP'].label = "ZIP code";
+		
 		
 	</cfscript>
 	
@@ -138,7 +163,12 @@
 							lot,
 							block,
 							usrs_parcel,
-							usrs_sheet)
+							usrs_sheet,
+							owner_name,
+							address,
+							city,
+							state,
+							zip)
 			VALUES			('#this.id#',
 							'#this.path#',
 							'#this.document_name#',
@@ -160,7 +190,12 @@
 							'#this.lot#',
 							'#this.block#',
 							'#this.usrs_parcel#',
-							'#this.usrs_sheet#')
+							'#this.usrs_sheet#',
+							'#this.owner_name#',
+							'#this.address#',
+							'#this.city#',
+							'#this.state#',
+							'#this.zip#')
 		</cfquery>
 		
 		<cfset session.message = "Document #this.document_name# added.">
@@ -209,6 +244,13 @@
 		<cfset this.usrs_parcel = od.usrs_parcel>
 		<cfset this.usrs_sheet = od.usrs_sheet>		
 		
+		<cfset this.address = od.address>
+		<cfset this.city = od.city>
+		<cfset this.state = od.state>
+		<cfset this.zip = od.zip>
+		<cfset this.owner_name = od.owner_name>
+		
+		
 		<cfset session.message = "Document #this.document_name# opened.">
 
 				
@@ -240,7 +282,12 @@
 					lot='#this.lot#',
 					block='#this.block#',
 					usrs_parcel='#this.usrs_parcel#',
-					usrs_sheet='#this.usrs_sheet#'
+					usrs_sheet='#this.usrs_sheet#',
+					address='#this.address#',
+					city='#this.city#',
+					state='#this.state#',
+					zip='#this.zip#',
+					owner_name='#this.owner_name#'
 			WHERE	id='#this.id#'
 		</cfquery>
 		<cfset session.message = "Document #this.document_name# updated.">

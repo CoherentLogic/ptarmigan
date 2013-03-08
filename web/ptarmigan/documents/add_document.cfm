@@ -97,7 +97,31 @@
 		<cfset data_valid = false>
 		<cfset usrs_parcel_error = "Must be 45 or fewer characters">
 	</cfif>
-		
+	
+	<cfif len(form.owner_name) GT 255>
+		<cfset data_valid = false>
+		<cfset owner_name_error = "Must be 255 or fewer characters">
+	</cfif>
+
+	<cfif len(form.address) GT 45>		
+		<cfset data_valid = false>
+		<cfset address_error = "Must be 45 or fewer characters">
+	</cfif>
+	
+	<cfif len(form.city) GT 45>		
+		<cfset data_valid = false>
+		<cfset city_error = "Must be 45 or fewer characters">
+	</cfif>
+
+	<cfif len(form.state) GT 45>		
+		<cfset data_valid = false>
+		<cfset state_error = "Must be 45 or fewer characters">
+	</cfif>
+
+	<cfif len(form.zip) NEQ 5>		
+		<cfset data_valid = false>
+		<cfset zip_error = "Must be 5 characters">
+	</cfif>
 	
 	<cfif data_valid EQ true>
 		data valid
@@ -123,7 +147,13 @@
 		<cfset d.range = form.range & form.range_direction>
 		
 		<cfset d.usrs_parcel = form.usrs_parcel>
-		<cfset d.usrs_sheet = form.usrs_sheet>		
+		<cfset d.usrs_sheet = form.usrs_sheet>	
+		
+		<cfset d.owner_name = ucase(form.owner_name)>	
+		<cfset d.address = ucase(form.address)>
+		<cfset d.city = ucase(form.city)>
+		<cfset d.state = ucase(form.state)>
+		<cfset d.zip = ucase(form.zip)>		
 		
 		<cfset d.create()>
 		
@@ -289,6 +319,37 @@
 									<cfif isdefined("usrs_sheet_error")>
 										<cfoutput><span class="form_error">#usrs_sheet_error#</span></cfoutput>
 									</cfif>
+								</td>
+							</tr>
+							<tr>
+								<td>Owner Name:</td>
+								<td>
+									<input type="text" name="owner_name" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>>
+									<cfif isdefined("owner_name_error")>
+										<cfoutput><span class="form_error">#owner_name_error#</span></cfoutput>
+									</cfif>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Property Address:</td>
+								<td>
+									<label>Street: <input type="text" name="address" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>></label>
+									<cfif isdefined("address_error")>
+										<cfoutput><span class="address_error">#address_error#</span></cfoutput>
+									</cfif><br>
+									<label>City: <input type="text" name="city" <cfif isdefined("form.city")>value=<cfoutput>#form.city#</cfoutput></cfif>></label>
+									<cfif isdefined("city_error")>
+										<cfoutput><span class="city_error">#city_error#</span></cfoutput>
+									</cfif><br>
+									<label>State: <input type="text" name="state" <cfif isdefined("form.state")>value=<cfoutput>#form.state#</cfoutput></cfif>></label>
+									<cfif isdefined("state_error")>
+										<cfoutput><span class="state_error">#state_error#</span></cfoutput>
+									</cfif><br>
+									<label>ZIP Code: <input type="text" name="zip" <cfif isdefined("form.zip")>value=<cfoutput>#form.zip#</cfoutput></cfif>></label>
+									<cfif isdefined("zip_error")>
+										<cfoutput><span class="zip_error">#zip_error#</span></cfoutput>
+									</cfif><br>
 								</td>
 							</tr>
 							
