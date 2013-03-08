@@ -61,6 +61,15 @@
 			AND filing_material_type='#form.filing_material_type#'
 			AND filing_number LIKE '%#form.filing_number#%'
 		</cfif>
+		<cfif IsDefined("form.s_owner_name")>
+			AND owner_name LIKE '%#form.owner_name#%'
+		</cfif>
+		<cfif IsDefined("form.s_address")>
+			AND address LIKE '%#form.address#%'
+			AND city LIKE '%#form.city#%'
+			AND state LIKE '%#form.state#%'
+			AND zip LIKE '%#form.zip#%'			
+		</cfif>
 	</cfquery>
 	
 	<cfset oa = ArrayNew(1)>
@@ -106,6 +115,14 @@
 								<input type="text" name="document_revision">
 							</td>
 						</tr>
+							<tr>
+							<td>
+								<label><input type="checkbox" name="s_owner_name">Owner name</label>
+							</td>
+							<td>
+								<input type="text" name="owner_name">
+							</td>
+						</tr>
 						<tr>
 							<td>
 								<label><input type="checkbox" name="s_subdivision">Subdivision</label>
@@ -116,6 +133,30 @@
 								<label>BLOCK <input type="text" size="5" name="block"></label>
 							</td>
 						</tr>
+						<tr>
+						<td valign="top"><label><input type="checkbox" name="s_address">Physical address</label></td>
+						<td>
+							<table>
+								<tr>
+									<td>Address:</td>
+									<td><input type="text" name="address"></td>
+								</tr>
+								<tr>
+									<td>City:</td>
+									<td><input type="text" name="city"></td>
+								</tr>
+								<tr>
+									<td>State:</td>
+									<td><input type="text" name="state" size="2" maxlength="2"></td>
+								</tr>
+								<tr>
+									<td>ZIP:</td>
+									<td><input type="text" name="zip" size="5" maxlength="5">
+								</tr>
+							</table>
+						</td>
+					</tr>
+				
 						
 						<tr>
 						<td valign="top"><label><input type="checkbox" name="s_legal_section">Legal section</label></td>					

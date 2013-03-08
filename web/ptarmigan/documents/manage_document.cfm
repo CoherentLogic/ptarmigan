@@ -124,7 +124,26 @@
 							<td>USRS Parcel:</td>
 							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="usrs_parcel" width="auto" show_label="false" full_refresh="false"></td>								
 						</tr>
-																		
+						<tr>
+							<td>Owner Name:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="owner_name" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						<tr>
+							<td>Street Address:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="address" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						<tr>
+							<td>City:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="city" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						<tr>
+							<td>State:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="state" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						<tr>
+							<td>ZIP Code:</td>
+							<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="zip" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>												
 						</tbody>
 					</table>
 					</cfoutput>
