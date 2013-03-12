@@ -105,6 +105,7 @@
 		
 		<cfset access_id = CreateUUID()>
 		
+		<cfif isdefined("session.user.id")>
 		<cfquery name="write_access_event" datasource="#session.company.datasource#">
 			INSERT INTO object_access
 				(id,
@@ -119,6 +120,7 @@
 				'#session.user.id#',
 				#CreateODBCDateTime(Now())#)
 		</cfquery>
+		</cfif>
 		
 		<cfset this.update_class_info()>
 				
