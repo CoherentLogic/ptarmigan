@@ -18,6 +18,14 @@
 		
 		}
 		
+		#left {
+			width:80%;
+		}
+		
+		#right {
+			width:20%;
+		}
+		
 		#header {
 			width:100%;
 			background-color:#7daed4;
@@ -33,6 +41,12 @@
 	<div id="container">
 		<div id="header">
 			<img src="ptarmigan.png">
+		</div>
+		
+		<div id="left">
+			
+			
+			
 		</div>
 		
 	</div>

@@ -11,31 +11,9 @@
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
-		 $(document).ready(function() {   			
-				$("#tabs").tabs();	
-				$("#tabs").css("float", "left");
-				$("#tabs").css("width", "98%");		
-				$("#tabs").css("border", "none");
-				
-				$("#tabs").css("background-image", "none");
-				
-				$("#navigation_bar").menubar({
-					autoExpand:true,
-					menuIcon:true,
-					buttons:false
-				});			
-								
-				
-				$("#navigation_bar").css("color", "black");
-				$(".ui-state-default").css("color", "black");
-				$(".pt_buttons").button();								
+		 $(document).ready(function() {   											
 				bound_fields_init();
-				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
-				
-				/*try {
-					$(".preview_pages").tabs();
-				} catch (ex) {}*/
-				
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">												
    		 });
 	</script>
 </head>
@@ -46,25 +24,17 @@
 	</cfoutput>
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
-		<div id="header">
-			<table width="100%">
-				<tr>
-					<td><cfoutput><h1><strong>#document.object_name()#</strong></h1></cfoutput></td>
-					<td align="right">
-						<cfoutput>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/add.png"></button>
-						<cfif session.user.is_admin() EQ true>
-							<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/pencil.png"></button>
-							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png"></button>
-						</cfif>
-						<button class="pt_buttons" onclick=""><img src="#session.root_url#/images/print.png"></button>
-						</cfoutput>
-					</td>
-				</tr>
-			</table>
-		</div>	
-		<div id="content" style="margin:0px;width:100%;">
-			<div id="tabs">
+		<div id="inner-tube">
+		<div id="content-right">
+			<cfinclude template="#session.root_url#/sidebar.cfm">
+		</div> <!--- content-right --->
+		<div id="content" style="margin:0px;width:80%;">
+		
+			<cfmodule template="#session.root_url#/navigation-tabs.cfm">
+			
+		
+		
+			<div id="tabs-min">
 				<ul>
 					<li><a href="#doc">Document</a></li>
 					<li><a href="#doc_preview">Preview</a></li>
@@ -168,15 +138,18 @@
 					</div>
 					<div id="right-column" class="panel">
 						<cfmodule template="#session.root_url#/objects/related_items.cfm" object_id="#object.id#">
-					</div>
+					</div> 
 				</div>
 				<div id="doc_preview">
 					<cfmodule template="preview.cfm" id="#url.id#">
 				</div>
-			</div>
-		</div>
-	</div>
-
+			</div> <!--- tabs-min --->	
+		</div> <!--- inner-tube --->
+	</div> <!--- content --->
+	
+	
+	
+</div> <!--- container --->
 </body>
 
 </html>

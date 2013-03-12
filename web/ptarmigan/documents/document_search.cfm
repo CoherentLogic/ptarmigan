@@ -1,93 +1,101 @@
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>	
 	<cfoutput>	
 		<title>Search Documents - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
-			$(document).ready(function() {   
-				$("#navigation_bar").menubar({
-					autoExpand:true,
-					menuIcon:true,
-					buttons:false
-				});			
-				
-				$("#navigation_bar").css("color", "black");
-				$(".ui-state-default").css("color", "black");
-				$(".pt_buttons").button();								
-				
-				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
-				init_page();
-			});
+		 $(document).ready(function() {   											
+				bound_fields_init();
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">												
+   		 });
 	</script>
 </head>
 <body>
-<cfif IsDefined("form.self_post")>
-	
-	<cfquery name="q_search_documents" datasource="#session.company.datasource#">
-		SELECT id FROM documents
-		WHERE	id!=''
-		<cfif IsDefined("form.s_filing_date")>
-			AND filing_date BETWEEN #CreateODBCDate(form.filing_date_start)# AND #CreateODBCDate(form.filing_date_end)#
-		</cfif>
-		<cfif IsDefined("form.s_document_name")>
-			AND document_name LIKE '%#form.document_name#%'
-		</cfif>
-		<cfif IsDefined("form.s_description")>
-			AND	description LIKE '%#form.description#%'
-		</cfif>
-		<cfif IsDefined("form.s_document_revision")>
-			AND document_revision LIKE '%#form.document_revision#%'
-		</cfif>
-		<cfif IsDefined("form.s_subdivision")>
-			AND subdivision LIKE '%#form.subdivision#%'
-			AND lot LIKE '%#form.lot#%'
-			AND block LIKE '%#form.block#%'
-		</cfif>
-		<cfif IsDefined("form.s_legal_section")>
-			AND `section`='#form.section#'
-			AND `township`='#form.township##form.township_direction#'
-			AND `range`='#form.range##form.range_direction#'
-		</cfif>
-		<cfif IsDefined("form.s_document_number")>
-			AND document_number='#form.document_number#'
-		</cfif>
-		<cfif IsDefined("form.s_filing_information")>
-			AND filing_category='#form.filing_category#'
-			AND filing_container='#form.filing_container#'
-			AND filing_division LIKE '%#form.filing_division#%'	
-			AND filing_material_type='#form.filing_material_type#'
-			AND filing_number LIKE '%#form.filing_number#%'
-		</cfif>
-		<cfif IsDefined("form.s_owner_name")>
-			AND owner_name LIKE '%#form.owner_name#%'
-		</cfif>
-		<cfif IsDefined("form.s_address")>
-			AND address LIKE '%#form.address#%'
-			AND city LIKE '%#form.city#%'
-			AND state LIKE '%#form.state#%'
-			AND zip LIKE '%#form.zip#%'			
-		</cfif>
-	</cfquery>
-	
-	<cfset oa = ArrayNew(1)>
-	<cfoutput query="q_search_documents">
-		<cfset d = CreateObject("component", "ptarmigan.document").open(q_search_documents.id)>
-		<cfset ArrayAppend(oa, d)>
+	<cfinclude template="#session.root_url#/navigation.cfm">
+	<cfoutput>
+	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 	</cfoutput>
-	
-	<cfmodule template="#session.root_url#/search/header.cfm" result_count="#arraylen(oa)#" result_time="#cfquery.executiontime / 1000#">
-	<cfloop array="#oa#" index="d">
-		<cfmodule template="#session.root_url#/search/results.cfm" id="#d.id#">		
-	</cfloop>
-	</div> <!--- ends div begun in header.cfm --->
-<cfelse>
-	<div class="form_wrapper">
-		<div style="position:relative; height:100%; width:100%; background-color:white;">
-			<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Search Documents" icon="#session.root_url#/images/project_dialog.png">
-		
+	<!--- BEGIN LAYOUT --->	
+	<div id="container">
+		<div id="inner-tube">
+		<div id="content-right">
+			<cfinclude template="#session.root_url#/sidebar.cfm">
+		</div> <!--- content-right --->
+		<div id="content" style="margin:0px;width:80%;">		
+		<cfmodule template="#session.root_url#/navigation-tabs.cfm">							
+		<cfif IsDefined("form.self_post")>	
+			<cfquery name="q_search_documents" datasource="#session.company.datasource#">
+				SELECT id FROM documents
+				WHERE	id!=''
+				<cfif IsDefined("form.s_filing_date")>
+					AND filing_date BETWEEN #CreateODBCDate(form.filing_date_start)# AND #CreateODBCDate(form.filing_date_end)#
+				</cfif>
+				<cfif IsDefined("form.s_document_name")>
+					AND document_name LIKE '%#form.document_name#%'
+				</cfif>
+				<cfif IsDefined("form.s_description")>
+					AND	description LIKE '%#form.description#%'
+				</cfif>
+				<cfif IsDefined("form.s_document_revision")>
+					AND document_revision LIKE '%#form.document_revision#%'
+				</cfif>
+				<cfif IsDefined("form.s_subdivision")>
+					AND subdivision LIKE '%#form.subdivision#%'
+					AND lot LIKE '%#form.lot#%'
+					AND block LIKE '%#form.block#%'
+				</cfif>
+				<cfif IsDefined("form.s_legal_section")>
+					AND `section`='#form.section#'
+					AND `township`='#form.township##form.township_direction#'
+					AND `range`='#form.range##form.range_direction#'
+				</cfif>
+				<cfif IsDefined("form.s_document_number")>
+					AND document_number='#form.document_number#'
+				</cfif>
+				<cfif IsDefined("form.s_filing_information")>
+					AND filing_category='#form.filing_category#'
+					AND filing_container='#form.filing_container#'
+					AND filing_division LIKE '%#form.filing_division#%'	
+					AND filing_material_type='#form.filing_material_type#'
+					AND filing_number LIKE '%#form.filing_number#%'
+				</cfif>
+				<cfif IsDefined("form.s_owner_name")>
+					AND owner_name LIKE '%#form.owner_name#%'
+				</cfif>
+				<cfif IsDefined("form.s_address")>
+					AND address LIKE '%#form.address#%'
+					AND city LIKE '%#form.city#%'
+					AND state LIKE '%#form.state#%'
+					AND zip LIKE '%#form.zip#%'			
+				</cfif>
+			</cfquery>
+			
+			<cfset oa = ArrayNew(1)>
+			<cfoutput query="q_search_documents">
+				<cfset d = CreateObject("component", "ptarmigan.document").open(q_search_documents.id)>
+				<cfset ArrayAppend(oa, d)>
+			</cfoutput>
+			<div id="tabs-min">
+				<ul>
+					<li><a href="#search-results">Search Results</a></li>					
+				</ul>
+				<div id="search-results">	
+					<cfmodule template="#session.root_url#/search/header.cfm" result_count="#arraylen(oa)#" result_time="#cfquery.executiontime / 1000#">
+					<cfloop array="#oa#" index="d">
+						<cfmodule template="#session.root_url#/search/results.cfm" id="#d.id#">		
+					</cfloop>
+					</div> <!--- ends div begun in header.cfm --->
+				</div>
+			</div>
+		<cfelse>
+			<div id="tabs-min">
+				<ul>
+					<li><a href="#search">Search Criteria</a></li>					
+				</ul>
+				<div id="search">				
 			<cfoutput><form name="document_search" id="document_search" action="#session.root_url#/documents/document_search.cfm" method="post"></cfoutput>
 				<div style="padding:20px; width:auto; height:auto; overflow:auto;" id="results_area">
 					<table>
@@ -238,18 +246,19 @@
 				</div>
 				
 				<input type="hidden" name="self_post" id="self_post" value="">
-			</form>
+				<input type="submit" name="submit" value="Submit">
+			</form>		
+			</div> <!--- search --->
+			</div> <!--- tabs-min --->					
+		</cfif>
 			
-			<div class="form_buttonstrip">
-		    	<div style="padding:8px; float:right;" id="form_buttons">
-		        	<a class="button" id="cancel_button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
-					<cfoutput>
-					<a class="button" id="submit_link" href="##" onclick="form_submit('document_search');"><span>Apply</span></a>
-					</cfoutput>
-				</div>
-			</div>
-		</div>
-	</div> <!--- form_wrapper --->
-</cfif>
+		</div> <!--- content --->
+	</div> <!--- inner-tube --->			
+</div> <!--- container --->
+</body>
+</html>
+
+
+
 </body>
 </html>

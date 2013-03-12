@@ -54,8 +54,7 @@
 			<cfelse>
 				<em style="color:gray;">Click to add #lcase(m_lbl)#</em>
 			</cfif>
-		</cfoutput>
-		
+		</cfoutput>		
 	</span>
 <cfoutput><div class="bound-control-wrapper" id="bound-control-wrapper-#base_id#"></cfoutput>
 	<cfoutput><div class="bound-edit-inactive" id="bound-edit-div-#base_id#"></cfoutput>

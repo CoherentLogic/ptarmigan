@@ -103,6 +103,23 @@
 		<cfset this.deleted = oo.deleted>
 		<cfset this.trashcan_handle = oo.trashcan_handle>
 		
+		<cfset access_id = CreateUUID()>
+		
+		<cfquery name="write_access_event" datasource="#session.company.datasource#">
+			INSERT INTO object_access
+				(id,
+				object_id,
+				class_id,
+				user_id,
+				access_date)
+			VALUES
+				('#access_id#',
+				'#this.id#',
+				'#this.class_id#',
+				'#session.user.id#',
+				#CreateODBCDateTime(Now())#)
+		</cfquery>
+		
 		<cfset this.update_class_info()>
 				
 		<cfset this.written = true>
@@ -221,6 +238,13 @@
 	
 	<cffunction name="members" returntype="array" access="public" output="false">
 		<cfreturn ListToArray(StructKeyList(this.data().implementation.members))>
+	</cffunction>
+	
+	<cffunction name="access_count" returntype="numeric" output="false" access="public">
+		<cfquery name="get_access_count" datasource="#session.company.datasource#">
+			SELECT COUNT(object_id) AS a_count FROM object_access WHERE object_id='#this.id#'
+		</cfquery>
+		<cfreturn get_access_count.a_count>
 	</cffunction>
 	
 	<cffunction name="member_type" returntype="string" access="public" output="false">

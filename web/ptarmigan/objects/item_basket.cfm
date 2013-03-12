@@ -1,8 +1,9 @@
 <cfif ArrayLen(session.basket) GT 0>
-<div class="basket_wrapper">
+
 	<div style="padding:5px;">
 	<strong>Basket</strong><br />
 	<hr>
+	
 	<form name="item_basket" method="post" <cfoutput>action="#session.root_url#/objects/item_basket_submit.cfm"</cfoutput>>
 		<cfoutput>
 			<input type="hidden" name="target_object_id" value="#current_object.id#">			
@@ -28,5 +29,5 @@
 		</cfoutput>
 	</form>
 	</div>
-</div>
+
 </cfif>
