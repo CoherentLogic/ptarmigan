@@ -1,5 +1,5 @@
 <cfmodule template="#session.root_url#/security/require.cfm" type="">
-
+<cfmodule template="#session.root_url#/security/require.cfm" type="">
 <cfsilent>
 	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
 	<cfset project = object.get()>
@@ -7,30 +7,17 @@
 </cfsilent>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>	
 	<cfoutput>	
-		<title>#project.object_name()# - ptarmigan</title>		
+		<title>#object.get().object_name()# - ptarmigan</title>		
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 	</cfoutput>		
 	<script type="text/javascript">
-		 $(document).ready(function() {   			
-				$("#tabs").tabs();	
-				$("#tabs").css("overflow", "hidden");
-				//$("#tabs").css("border", "none");
-				$("#navigation_bar").menubar({
-					autoExpand:true,
-					menuIcon:true,
-					buttons:false
-				});			
-				
-				$("#navigation_bar").css("color", "black");
-				$(".ui-state-default").css("color", "black");
-				$(".pt_buttons").button();								
+		 $(document).ready(function() {   											
 				bound_fields_init();
-				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
-
-				<cfmodule template="#session.root_url#/project/gantt_render_script.cfm" id="#url.id#">
-	   		 });
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">			
+				<cfmodule template="#session.root_url#/project/gantt_render_script.cfm" id="#url.id#">									
+   		 });
 	</script>
 </head>
 <body>
@@ -40,32 +27,18 @@
 	</cfoutput>
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
-		<div id="header">
-			<table width="100%">
-				<tr>
-					<td><cfoutput><h1><strong>#project.object_name()#</strong></h1></cfoutput></td>
-				</tr>
-				<tr>
-					<td align="right">
-						<cfoutput>
-						<button class="pt_buttons" onclick="add_link('#url.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/link.png" align="absmiddle"> Link To</button>							
-						<button class="pt_buttons" onclick="add_task('#session.root_url#', '#project.id#');" id="add_task"><img src="#session.root_url#/images/add.png" align="absmiddle"> Task</button>
-						<button class="pt_buttons" onclick="add_document('#session.root_url#', '#project.id#', '#project.id#', 'OBJ_PROJECT');"><img src="#session.root_url#/images/add.png" align="absmiddle"> New Document</button>
-						<cfif session.user.is_admin() EQ true>
-							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#url.id#');"><img src="#session.root_url#/images/trash.png" align="absmiddle"> Trash</button>
-						</cfif>
-						</cfoutput>
-					</td>
-				</tr>
-			</table>
-		</div>	<!--- header --->
-		<div id="tabs">
-			<ul>
+		<div id="inner-tube">
+		<div id="content-right">
+			<cfinclude template="#session.root_url#/sidebar.cfm">
+		</div> <!--- content-right --->
+		<div id="content" style="margin:0px;width:80%;">		
+			<cfmodule template="#session.root_url#/navigation-tabs.cfm">							
+			<div id="tabs-min">
+				<ul>
 					<li><a href="#tabs-gantt">Gantt Chart</a></li>
-					<li><a href="#tabs-paper">Project</a></li>					
-					
-			</ul>
-			<div id="tabs-paper">
+					<li><a href="#tabs-paper">Project</a></li>										
+				</ul>
+				<div id="tabs-paper">
 				<div id="left-column" class="panel">									
 					
 					<h1>Project Details</h1>
@@ -151,9 +124,10 @@
 			</div> <!--- paper --->
 			<div id="tabs-gantt">										
 				<cfmodule template="gantt.cfm" id="#project.id#">
-			</div>
-		</div> <!--- tabs --->
-	</div> <!--- container --->
+			</div>		
+			</div> <!--- tabs-min --->	
+		</div> <!--- inner-tube --->
+	</div> <!--- content --->			
+</div> <!--- container --->
 </body>
-
 </html>
