@@ -31,33 +31,48 @@
 	<link rel="stylesheet" href="#session.root_url#/ptarmigan.css">
 	</cfoutput>
 </head>
-<body style="width:100%;height:100%;">
+<body>
+	<cfinclude template="#session.root_url#/navigation.cfm">
 	<div style="height:100%;">
-		<div style="margin-left:auto; margin-right:auto; margin-top:50px; height:auto; width:400px; border:1px solid navy; border-radius:4px; background-color:white; box-shadow:2px 2px 2px gray;">		
+		<div style="margin-left:auto; margin-right:auto; margin-top:50px; height:auto; width:800px; border:none; border-radius:2px; background-color:white; box-shadow:2px 2px 2px black;">		
 			<div style="padding:40px;">
-				<center>
+				<table width="100%" cellpadding="20">
+					<tr>
+					<td valign="top" width="80%">
 					<cfoutput>
-						<img src="#session.root_url#/ptarmigan.png">
+						<img src="#session.root_url#/sign-in.png">
 						<p>#session.message#</p>
 					</cfoutput>
 					
-				</center>
-				<cfoutput><form name="log_in" method="post" action="#session.root_url#/login.cfm" style="margin-top:50px;"></cfoutput>
+					<blockquote>
+					<p style="font-size:10pt;">Ptarmigan provides project, document, employee, customer, and parcel management.</p>
+					<p style="font-size:10pt;">Please enter your login details to continue.</p>
+					</blockquote>
+					</td>
+					<td valign="top" width="20%">
+					<cfoutput><form name="log_in" method="post" action="#session.root_url#/login.cfm" style="margin-top:50px;"></cfoutput>
 					<table>
 						<tr>
 							<td>
-								<label>Username: <br/><input type="text" name="username"></label>
+								<label>Username <br/><input type="text" name="username"></label>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<label>Password: <br/><input type="password" name="password"></label>
+								<label>Password <br/><input type="password" name="password"></label>
 								
 							</td>
 						</tr>
+						<tr>
+							<td align="right">
+								<input type="submit" name="login_submit" value="Submit" style="margin-top:20px;">
+							</td>
+						</tr>
 					</table>
-					<input type="submit" name="login_submit" value="Submit" style="margin-top:20px;">
-				</form>
+					</form>
+					</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
