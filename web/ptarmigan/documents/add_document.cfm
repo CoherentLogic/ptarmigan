@@ -14,7 +14,7 @@
 	</script>
 </head>
 <body>
-	<cfif IsDefined("form.self_post")>
+	<cfif IsDefined("form.submit")>
 		
 		<cfset data_valid = true>
 		
@@ -184,35 +184,39 @@
 		</div> <!--- content-right --->
 		<div id="content" style="margin:0px;width:80%;">		
 			<cfmodule template="#session.root_url#/navigation-tabs.cfm">							
+			<div class="form_instructions">
+				<p>Required fields marked with *</p>
+			</div>
 			<div id="tabs-min">
 				<ul>
 					<li><a href="#new-document">New Document</a></li>					
 				</ul>
 				<div id="new-document">
+					<div style="position:relative;">
 					<cfoutput><form name="add_document" id="add_document" action="#session.root_url#/documents/add_document.cfm" method="post" enctype="multipart/form-data"></cfoutput>										
 					<table>
 						<tr>
-							<td>Name:</td>
+							<td><label>Name<strong>*</strong></label></td>
 							<td>
-								<input type="text" name="document_name" <cfif isdefined("form.document_name")><cfoutput>value="#form.document_name#"</cfoutput></cfif>>
+								<input <cfif isdefined("document_name_error")>class="error_field"</cfif> type="text" name="document_name" <cfif isdefined("form.document_name")><cfoutput>value="#form.document_name#"</cfoutput></cfif>>
 								<cfif isdefined("document_name_error")>
 									<cfoutput><span class="form_error">#document_name_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>
 						<tr>
-							<td>Document #:</td>
+							<td><label>Document #</label></td>
 							<td>
-								<input type="text" name="document_number" <cfif isdefined("form.document_number")><cfoutput>value="#form.document_number#"</cfoutput></cfif>>
+								<input <cfif isdefined("document_number_error")>class="error_field"</cfif> type="text" name="document_number" <cfif isdefined("form.document_number")><cfoutput>value="#form.document_number#"</cfoutput></cfif>>
 								<cfif isdefined("document_number_error")>
 									<cfoutput><span class="form_error">#document_number_error#</span></cfoutput>								
 								</cfif>
 							</td>
 						</tr>
 						<tr>
-							<td>Revision:</td>
+							<td><label>Revision</label></td>
 							<td>
-								<input type="text" name="document_revision" <cfif isdefined("form.document_revision")><cfoutput>value="#form.document_revision#"</cfoutput></cfif>>
+								<input <cfif isdefined("document_revision_error")>class="error_field"</cfif> type="text" name="document_revision" <cfif isdefined("form.document_revision")><cfoutput>value="#form.document_revision#"</cfoutput></cfif>>
 								<cfif isdefined("document_revision_error")>
 									<cfoutput><span class="form_error">#document_revision_error#</span></cfoutput>								
 								</cfif>
@@ -220,40 +224,40 @@
 						</tr>
 
 						<tr>
-							<td>Description:</td>
+							<td><label>Description</label></td>
 							<td>
-								<textarea name="description"><cfif isdefined("form.description")><cfoutput>#form.description#</cfoutput></cfif></textarea>
+								<textarea <cfif isdefined("description_error")>class="error_field"</cfif>  name="description"><cfif isdefined("form.description")><cfoutput>#form.description#</cfoutput></cfif></textarea>
 								<cfif isdefined("description_error")>
 									<cfoutput><span class="form_error">#description_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>		
 						<tr>
-							<td>File:</td>
+							<td><label>File</label></td>
 							<td><input type="file" name="upload_file"></td>
 						</tr>													
 						<tr>
-							<td>Subdivision:</td>
+							<td><label>Subdivision</label></td>
 							<td>
-								<input type="text" name="subdivision" <cfif isdefined("form.subdivision")>value=<cfoutput>#form.subdivision#</cfoutput></cfif>>
+								<input <cfif isdefined("subdivision_error")>class="error_field"</cfif>  type="text" name="subdivision" <cfif isdefined("form.subdivision")>value=<cfoutput>#form.subdivision#</cfoutput></cfif>>
 								<cfif isdefined("subdivision_error")>
 									<cfoutput><span class="form_error">#subdivision_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>									
 						<tr>
-							<td>Lot:</td>
+							<td><label>Lot</label></td>
 							<td>
-								<input type="text" name="lot" <cfif isdefined("form.lot")>value=<cfoutput>#form.lot#</cfoutput></cfif>>
+								<input <cfif isdefined("lot_error")>class="error_field"</cfif> type="text" name="lot" <cfif isdefined("form.lot")>value=<cfoutput>#form.lot#</cfoutput></cfif>>
 								<cfif isdefined("lot_error")>
 									<cfoutput><span class="form_error">#lot_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>
 						<tr>
-							<td>Block:</td>
+							<td><label>Block</label></td>
 							<td>
-								<input type="text" name="block" <cfif isdefined("form.block")>value=<cfoutput>#form.block#</cfoutput></cfif>>
+								<input <cfif isdefined("block_error")>class="error_field"</cfif> type="text" name="block" <cfif isdefined("form.block")>value=<cfoutput>#form.block#</cfoutput></cfif>>
 								<cfif isdefined("block_error")>
 									<cfoutput><span class="form_error">#block_error#</span></cfoutput>
 								</cfif>
@@ -261,9 +265,9 @@
 						</tr>
 						
 						<tr>
-							<td>Section:</td>
+							<td><label>Section</label></td>
 							<td>
-								<input type="text" name="section" <cfif isdefined("form.section")>value=<cfoutput>#form.section#</cfoutput></cfif>>
+								<input <cfif isdefined("section_error")>class="error_field"</cfif> type="text" name="section" <cfif isdefined("form.section")>value=<cfoutput>#form.section#</cfoutput></cfif>>
 								<cfif isdefined("section_error")>
 									<cfoutput><span class="form_error">#section_error#</span></cfoutput>
 								</cfif>
@@ -271,9 +275,9 @@
 						</tr>
 						
 						<tr>
-							<td>Township:</td>
+							<td><label>Township</label></td>
 							<td>
-								<input type="text" name="township" <cfif isdefined("form.township")>value=<cfoutput>#form.township#</cfoutput></cfif>>
+								<input <cfif isdefined("township_error")>class="error_field"</cfif>  type="text" name="township" <cfif isdefined("form.township")>value=<cfoutput>#form.township#</cfoutput></cfif>>
 								<select name="township_direction">
 									<option value="" selected>Township Direction</option>
 									<option value="N">NORTH</option>
@@ -286,9 +290,9 @@
 						</tr>
 						
 						<tr>
-							<td>Range:</td>
+							<td><label>Range</label></td>
 							<td>
-								<input type="text" name="range" <cfif isdefined("form.range")>value=<cfoutput>#form.range#</cfoutput></cfif>>
+								<input <cfif isdefined("range_error")>class="error_field"</cfif> type="text" name="range" <cfif isdefined("form.range")>value=<cfoutput>#form.range#</cfoutput></cfif>>
 								<select name="range_direction">
 									<option value="" selected>Range Direction</option>
 									<option value="E">EAST</option>
@@ -301,9 +305,9 @@
 						</tr>
 						
 						<tr>
-							<td>USRS Parcel:</td>
+							<td><label>USRS parcel</label></td>
 							<td>
-								<input type="text" name="usrs_parcel" <cfif isdefined("form.usrs_parcel")>value=<cfoutput>#form.usrs_parcel#</cfoutput></cfif>>									
+								<input <cfif isdefined("usrs_parcel_error")>class="error_field"</cfif> type="text" name="usrs_parcel" <cfif isdefined("form.usrs_parcel")>value=<cfoutput>#form.usrs_parcel#</cfoutput></cfif>>									
 								<cfif isdefined("usrs_parcel_error")>
 									<cfoutput><span class="form_error">#usrs_parcel_error#</span></cfoutput>
 								</cfif>
@@ -311,18 +315,18 @@
 						</tr>
 						
 						<tr>
-							<td>USRS Sheet:</td>
+							<td><label>USRS sheet</label></td>
 							<td>
-								<input type="text" name="usrs_sheet" <cfif isdefined("form.usrs_sheet")>value=<cfoutput>#form.usrs_sheet#</cfoutput></cfif>>									
+								<input <cfif isdefined("usrs_sheet_error")>class="error_field"</cfif> type="text" name="usrs_sheet" <cfif isdefined("form.usrs_sheet")>value=<cfoutput>#form.usrs_sheet#</cfoutput></cfif>>									
 								<cfif isdefined("usrs_sheet_error")>
 									<cfoutput><span class="form_error">#usrs_sheet_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>
 						<tr>
-							<td>Owner Name:</td>
+							<td><label>Owner name</label></td>
 							<td>
-								<input type="text" name="owner_name" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>>
+								<input <cfif isdefined("owner_name_error")>class="error_field"</cfif> type="text" name="owner_name" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>>
 								<cfif isdefined("owner_name_error")>
 									<cfoutput><span class="form_error">#owner_name_error#</span></cfoutput>
 								</cfif>
@@ -330,31 +334,32 @@
 						</tr>
 						
 						<tr>
-							<td>Property Address:</td>
+							<td><label>Property address</label></td>
 							<td>
-								<label>Street: <input type="text" name="address" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>></label>
+								<label>Street <input <cfif isdefined("address_error")>class="error_field"</cfif>  type="text" name="address" <cfif isdefined("form.owner_name")>value=<cfoutput>#form.owner_name#</cfoutput></cfif>></label>
 								<cfif isdefined("address_error")>
 									<cfoutput><span class="address_error">#address_error#</span></cfoutput>
 								</cfif><br>
-								<label>City: <input type="text" name="city" <cfif isdefined("form.city")>value=<cfoutput>#form.city#</cfoutput></cfif>></label>
+								<label>City <input <cfif isdefined("city_error")>class="error_field"</cfif> type="text" name="city" <cfif isdefined("form.city")>value=<cfoutput>#form.city#</cfoutput></cfif>></label>
 								<cfif isdefined("city_error")>
 									<cfoutput><span class="city_error">#city_error#</span></cfoutput>
 								</cfif><br>
-								<label>State: <input type="text" name="state" <cfif isdefined("form.state")>value=<cfoutput>#form.state#</cfoutput></cfif>></label>
+								<label>State <input <cfif isdefined("state_error")>class="error_field"</cfif> type="text" name="state" <cfif isdefined("form.state")>value=<cfoutput>#form.state#</cfoutput></cfif>></label>
 								<cfif isdefined("state_error")>
 									<cfoutput><span class="state_error">#state_error#</span></cfoutput>
 								</cfif><br>
-								<label>ZIP Code: <input type="text" name="zip" <cfif isdefined("form.zip")>value=<cfoutput>#form.zip#</cfoutput></cfif>></label>
+								<label>ZIP code <input <cfif isdefined("zip_error")>class="error_field"</cfif> type="text" name="zip" <cfif isdefined("form.zip")>value=<cfoutput>#form.zip#</cfoutput></cfif>></label>
 								<cfif isdefined("zip_error")>
 									<cfoutput><span class="zip_error">#zip_error#</span></cfoutput>
 								</cfif><br>
 							</td>
 						</tr>
 						<tr>
-							<td>Filing date:</td>
+							<td><label>Filing date</label></td>
 							<cfoutput>
 								<td>
-									<input 
+									<input
+											<cfif isdefined("filing_date_error")>class="error_field"</cfif>  
 											type="text" 
 											name="filing_date" 
 											<cfif isdefined("form.filing_date")>
@@ -369,7 +374,7 @@
 							</cfoutput>
 						</tr>
 						<tr>
-							<td>Container:</td>
+							<td><label>Container</label></td>
 							<td>
 								<select name="filing_category">
 									<option value="FILE" selected="selected">FILE</option>
@@ -386,16 +391,16 @@
 							</td>					
 						</tr>
 						<tr>
-							<td>Container number:</td>
+							<td><label>Container number</label></td>
 							<td>
-								<input type="text" name="filing_division" size="4" <cfif isdefined("form.filing_division")><cfoutput>value="#form.filing_division#"</cfoutput></cfif>>
+								<input <cfif isdefined("filing_division_error")>class="error_field"</cfif> type="text" name="filing_division" size="4" <cfif isdefined("form.filing_division")><cfoutput>value="#form.filing_division#"</cfoutput></cfif>>
 								<cfif isdefined("filing_division_error")>
 									<cfoutput><span class="form_error">#filing_division_error#</span></cfoutput>
 								</cfif>
 							</td>					
 						</tr>
 						<tr>
-							<td>Filing material and number/label:</td>
+							<td><label>Filing material and number/label</label></td>
 							<td>
 								<select name="filing_material_type">
 									<option value="FOLDER" selected="selected">FOLDER</option>
@@ -403,16 +408,16 @@
 									<option value="PAGE">PAGE</option>
 									<option value="SLIDE">SLIDE</option>
 								</select>									
-								<input type="text" name="filing_number" <cfif isdefined("form.filing_number")><cfoutput>value="#form.filing_number#"</cfoutput></cfif>>
+								<input <cfif isdefined("filing_number_error")>class="error_field"</cfif> type="text" name="filing_number" <cfif isdefined("form.filing_number")><cfoutput>value="#form.filing_number#"</cfoutput></cfif>>
 								<cfif isdefined("filing_number_error")>
 									<cfoutput><span class="form_error">#filing_number_error#</span></cfoutput>
 								</cfif>
 							</td>
 						</tr>											
-					</table>											
-					<input type="hidden" name="self_post" id="self_post" value="asdfasdf">
-					<input type="submit" name="submit" value="Submit">	
-				</form>							
+					</table>																
+					<cfmodule template="#session.root_url#/utilities/wizard_widget.cfm" tab_count="1" current_tab="0" tab_selector="##tabs-min">
+				</form>		
+				</div>					
 				</div>	<!--- new-document --->			
 			</div> <!--- tabs-min --->	
 		</div> <!--- inner-tube --->

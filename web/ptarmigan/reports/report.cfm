@@ -35,31 +35,28 @@
 	</script>
 </head>
 <body>
+	<cfinclude template="#session.root_url#/navigation.cfm">
 	<cfoutput>
 	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 	</cfoutput>
-	<cfinclude template="#session.root_url#/navigation.cfm">
 	<!--- BEGIN LAYOUT --->	
 	<div id="container">
-		<div id="header">
-			<table width="100%">
-				<tr>
-					<td><cfoutput><h1><strong>#report.report_name#</strong></h1></cfoutput></td>
-					<td align="right">
-						<cfoutput>
-						<button class="pt_buttons" onclick="add_report('#session.root_url#');"><img src="#session.root_url#/images/add.png"></button>
-						<cfif session.user.is_admin() EQ true OR report.employee_id EQ session.user_id>
-							<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/pencil.png"></button>
-							<button class="pt_buttons" onclick="trash_object('#session.root_url#', '#report.id#');"><img src="#session.root_url#/images/trash.png"></button>
-						</cfif>
-						<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/print.png"></button>
-						</cfoutput>
-					</td>
-				</tr>
-			</table>
-		</div>	
-		<div id="content" style="margin:0px;width:100%;">
-			<div id="tabs">
+		<div id="inner-tube">
+		<div id="content-right">
+			<cfinclude template="#session.root_url#/sidebar.cfm">
+		</div> <!--- content-right --->
+		<div id="content" style="margin:0px;width:80%;">		
+			<cfmodule template="#session.root_url#/navigation-tabs.cfm">
+			<cfif session.user.is_admin() EQ true OR report.employee_id EQ session.user_id>
+				<cfoutput>
+				<div class="toolbar">
+				<div style="padding:10px;">
+				<button class="pt_buttons" onclick="window.location.replace('#session.root_url#/reports/edit_report.cfm?id=#report.id#')"><img src="#session.root_url#/images/pencil.png"> Edit Report</button>
+				</div>
+				</div>
+				</cfoutput>
+			</cfif>										
+			<div id="tabs-min">
 				<ul>
 					<cfoutput><li><a href="##results">#report.report_name#</a></li></cfoutput>
 				</ul>
@@ -68,10 +65,10 @@
 						
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-
+			</div> <!--- tabs-min --->	
+		</div> <!--- inner-tube --->
+	</div> <!--- content --->			
+</div> <!--- container --->
 </body>
-
 </html>
+

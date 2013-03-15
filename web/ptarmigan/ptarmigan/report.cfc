@@ -235,6 +235,9 @@
 		<cfreturn this.report_name>
 	</cffunction>
 	
+	<cffunction name="search_result" returntype="void" access="public" output="true">
+	</cffunction>
+	
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfquery name="d" datasource="#session.company.datasource#">
 			DELETE FROM reports WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#this.id#">

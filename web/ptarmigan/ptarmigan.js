@@ -167,14 +167,14 @@ function add_employee(root_url)
 {
 	var url = root_url + "/employee/add_employee.cfm?suppress_headers";
 
-	open_dialog(url, 'Add Employee', 630, 590);
+	window.location.replace(url);
 }
 
 function open_employee(root_url)
 {
 	var url = root_url + "/employee/choose_employee.cfm";
 
-	open_dialog(url, 'Open Employee', 630, 460);
+	window.location.replace(url);
 
 }
 
@@ -183,7 +183,7 @@ function edit_employee(root_url, id)
 	var url = root_url + "/employee/edit_employee.cfm?id=" + escape(id);
 	//alert(request(url));
 
-	open_dialog(url, 'Edit Employee', 630, 590);
+	window.location.replace(url);
 }
 
 //
@@ -192,19 +192,19 @@ function edit_employee(root_url, id)
 function add_customer(root_url)
 {
 	var url = root_url + "/customer/add_customer.cfm";
-	open_dialog(url, 'Add Customer', 630, 550);
+	window.location.replace(url);
 }
 
 function open_customer(root_url)
 {
 	var url = root_url + "/customer/choose_customer.cfm";
-	open_dialog(url, 'Open Customer', 630, 460);
+	window.location.replace(url);
 }
 
 function edit_customer(root_url, id)
 {
 	var url = root_url + "/customer/edit_customer.cfm?id=" + escape(id);
-	open_dialog(url, 'Edit Customer', 630, 550);
+	window.location.replace(url);
 }
 
 

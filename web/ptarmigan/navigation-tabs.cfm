@@ -36,7 +36,9 @@
 				<div class="sub-navigation">
 					<cfoutput>
 					<ul>
+<!--- 
 						<li><a href="javascript:discuss_object('#session.root_url#', '#current_object.id#');">Discuss</a></li>
+ --->
 						<li><a href="#session.root_url#/objects/add_to_basket.cfm?id=#current_object.id#">Add to Basket</a></li>
 						<li><a href="javascript:trash_object('#session.root_url#', '#current_object.id#');">Move to Trash Can</a></li>						
 					</ul>
@@ -86,33 +88,41 @@
 		<div id="parcels">
 			<div class="sub-navigation">
 				<ul>
+					<cfoutput>
 					<li><a href="#session.root_url#/parcels/define_parcel.cfm">New Parcel</a></li>
 					<li><a href="javascript:search_parcels('#session.root_url#');">Search Parcels</a></li>
 					<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">View Map</a></li>
+					</cfoutput>
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
 		<div id="projects">
 			<div class="sub-navigation">
 				<ul>
+					<cfoutput>
 					<li><a href="javascript:add_project('#session.root_url#');">New Project</a></li>
 					<li><a href="javascript:open_project('#session.root_url#');">Open Project</a></li>
+					</cfoutput>
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
 		<div id="customers">
 			<div class="sub-navigation">
 				<ul>
+					<cfoutput>
 					<li><a href="javascript:add_customer('#session.root_url#');">New Customer</a></li>
 					<li><a href="javascript:open_customer('#session.root_url#');">Open Customer</a></li>
+					</cfoutput>
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
 		<div id="employees">
 			<div class="sub-navigation">
 				<ul>
+					<cfoutput>
 					<li><a href="javascript:add_employee('#session.root_url#');">New Employee</a></li>
 					<li><a href="javascript:open_employee('#session.root_url#');">Open Employee</a></li>
+					</cfoutput>
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>				

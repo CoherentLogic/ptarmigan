@@ -424,6 +424,14 @@ table.calendar th, table.calendar td {
 	display:block;
 }
 
+.toolbar {
+	width:100%;
+	margin:0;
+	margin-top:-16px;
+	padding:0;
+	background-color:#7DAED4;
+}
+
 .x-dlg {
 	padding:0;
 }
@@ -599,11 +607,42 @@ table.ptarmigan_form {
  */
 
 .form_error {
-	color:red;
-	font-weight:bold;
+	color:red;	
 	font-size:10pt;
+	display:block;
 }
 
+.error_field {
+	border-color:red;
+	background-image:url(/images/error.png);
+	background-position:97% 50%;
+	background-repeat:no-repeat;
+}
+
+.form_instructions {	
+	padding:10px;
+	color:#444444;
+	font-weight:bold;
+	margin:10px;	
+	width:400px;
+}
+
+.wizard_widget {
+	width:100%;
+	float:right;
+	position:absolute;
+	bottom:0;
+	height:40px;
+	
+	text-align:right;
+}
+
+.wizard_widget input {
+	
+	color:white;
+	background-color:#367aa5;
+	border:1px solid #7daed4;
+}
 /*
  * BASKET
  */
