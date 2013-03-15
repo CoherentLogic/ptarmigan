@@ -2,8 +2,8 @@
 <cfquery name="get_classes" datasource="#session.company.datasource#">
 	SELECT * FROM object_classes ORDER BY class_name
 </cfquery>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>	
 	<cfoutput>	
 		<title>New Report - ptarmigan</title>		
@@ -77,7 +77,7 @@
 							<tr>
 								<td><label>Report name<strong>*</strong></label></td>
 								<td>
-										<input <cfif isdefined("report_name_error")>class="error_field"</cfif> type="text" name="report_name" maxlength="255" <cfif isdefined("form.report_name")><cfoutput>	value="#form.report_name#"	</cfoutput></cfif>><br />
+										<input <cfif isdefined("report_name_error")>class="error_field"</cfif> placeholder="255 or fewer characters" required type="text" name="report_name" maxlength="255" <cfif isdefined("form.report_name")><cfoutput>	value="#form.report_name#"	</cfoutput></cfif>><br />
 										<cfif IsDefined("report_name_error")>
 											<cfoutput><span class="form_error">#report_name_error#</span></cfoutput>
 										</cfif>

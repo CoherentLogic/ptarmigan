@@ -1,6 +1,6 @@
 <cfmodule template="../security/require.cfm" type="">
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>	
 	<cfoutput>	
 		<title>New Document - ptarmigan</title>		
@@ -14,6 +14,10 @@
 	</script>
 </head>
 <body>
+	<cfquery name="g_subs" datasource="#session.company.datasource#">
+		SELECT DISTINCT subdivision FROM documents
+	</cfquery>
+	
 	<cfif IsDefined("form.submit")>
 		
 		<cfset data_valid = true>
@@ -194,11 +198,16 @@
 				<div id="new-document">
 					<div style="position:relative;">
 					<cfoutput><form name="add_document" id="add_document" action="#session.root_url#/documents/add_document.cfm" method="post" enctype="multipart/form-data"></cfoutput>										
+					<datalist id="subdivisions">
+						<cfoutput query="g_subs">
+							<option value="#subdivision#">
+						</cfoutput>
+					</datalist>
 					<table>
 						<tr>
 							<td><label>Name<strong>*</strong></label></td>
 							<td>
-								<input <cfif isdefined("document_name_error")>class="error_field"</cfif> type="text" name="document_name" <cfif isdefined("form.document_name")><cfoutput>value="#form.document_name#"</cfoutput></cfif>>
+								<input <cfif isdefined("document_name_error")>class="error_field"</cfif> placeholder="255 or fewer characters" required type="text" name="document_name" <cfif isdefined("form.document_name")><cfoutput>value="#form.document_name#"</cfoutput></cfif>>
 								<cfif isdefined("document_name_error")>
 									<cfoutput><span class="form_error">#document_name_error#</span></cfoutput>
 								</cfif>
@@ -216,7 +225,7 @@
 						<tr>
 							<td><label>Revision</label></td>
 							<td>
-								<input <cfif isdefined("document_revision_error")>class="error_field"</cfif> type="text" name="document_revision" <cfif isdefined("form.document_revision")><cfoutput>value="#form.document_revision#"</cfoutput></cfif>>
+								<input <cfif isdefined("document_revision_error")>class="error_field"</cfif> placeholder="255 or fewer characters" type="text" name="document_revision" <cfif isdefined("form.document_revision")><cfoutput>value="#form.document_revision#"</cfoutput></cfif>>
 								<cfif isdefined("document_revision_error")>
 									<cfoutput><span class="form_error">#document_revision_error#</span></cfoutput>								
 								</cfif>
@@ -239,7 +248,7 @@
 						<tr>
 							<td><label>Subdivision</label></td>
 							<td>
-								<input <cfif isdefined("subdivision_error")>class="error_field"</cfif>  type="text" name="subdivision" <cfif isdefined("form.subdivision")>value=<cfoutput>#form.subdivision#</cfoutput></cfif>>
+								<input <cfif isdefined("subdivision_error")>class="error_field"</cfif> list="subdivisions" placeholder="255 or fewer characters"  type="text" name="subdivision" <cfif isdefined("form.subdivision")>value=<cfoutput>#form.subdivision#</cfoutput></cfif>>
 								<cfif isdefined("subdivision_error")>
 									<cfoutput><span class="form_error">#subdivision_error#</span></cfoutput>
 								</cfif>
@@ -248,7 +257,7 @@
 						<tr>
 							<td><label>Lot</label></td>
 							<td>
-								<input <cfif isdefined("lot_error")>class="error_field"</cfif> type="text" name="lot" <cfif isdefined("form.lot")>value=<cfoutput>#form.lot#</cfoutput></cfif>>
+								<input <cfif isdefined("lot_error")>class="error_field"</cfif> type="text" placeholder="255 or fewer characters"  name="lot" <cfif isdefined("form.lot")>value=<cfoutput>#form.lot#</cfoutput></cfif>>
 								<cfif isdefined("lot_error")>
 									<cfoutput><span class="form_error">#lot_error#</span></cfoutput>
 								</cfif>
@@ -257,7 +266,7 @@
 						<tr>
 							<td><label>Block</label></td>
 							<td>
-								<input <cfif isdefined("block_error")>class="error_field"</cfif> type="text" name="block" <cfif isdefined("form.block")>value=<cfoutput>#form.block#</cfoutput></cfif>>
+								<input <cfif isdefined("block_error")>class="error_field"</cfif> type="text" placeholder="255 or fewer characters"  name="block" <cfif isdefined("form.block")>value=<cfoutput>#form.block#</cfoutput></cfif>>
 								<cfif isdefined("block_error")>
 									<cfoutput><span class="form_error">#block_error#</span></cfoutput>
 								</cfif>
@@ -267,7 +276,7 @@
 						<tr>
 							<td><label>Section</label></td>
 							<td>
-								<input <cfif isdefined("section_error")>class="error_field"</cfif> type="text" name="section" <cfif isdefined("form.section")>value=<cfoutput>#form.section#</cfoutput></cfif>>
+								<input <cfif isdefined("section_error")>class="error_field"</cfif> type="number" min="0" max="1000" name="section" <cfif isdefined("form.section")>value=<cfoutput>#form.section#</cfoutput></cfif>>
 								<cfif isdefined("section_error")>
 									<cfoutput><span class="form_error">#section_error#</span></cfoutput>
 								</cfif>
@@ -277,7 +286,7 @@
 						<tr>
 							<td><label>Township</label></td>
 							<td>
-								<input <cfif isdefined("township_error")>class="error_field"</cfif>  type="text" name="township" <cfif isdefined("form.township")>value=<cfoutput>#form.township#</cfoutput></cfif>>
+								<input <cfif isdefined("township_error")>class="error_field"</cfif> type="number" min="0" max="1000"  type="text" name="township" <cfif isdefined("form.township")>value=<cfoutput>#form.township#</cfoutput></cfif>>
 								<select name="township_direction">
 									<option value="" selected>Township Direction</option>
 									<option value="N">NORTH</option>
@@ -292,7 +301,7 @@
 						<tr>
 							<td><label>Range</label></td>
 							<td>
-								<input <cfif isdefined("range_error")>class="error_field"</cfif> type="text" name="range" <cfif isdefined("form.range")>value=<cfoutput>#form.range#</cfoutput></cfif>>
+								<input <cfif isdefined("range_error")>class="error_field"</cfif> type="number" min="0" max="1000" name="range" <cfif isdefined("form.range")>value=<cfoutput>#form.range#</cfoutput></cfif>>
 								<select name="range_direction">
 									<option value="" selected>Range Direction</option>
 									<option value="E">EAST</option>
@@ -307,7 +316,7 @@
 						<tr>
 							<td><label>USRS parcel</label></td>
 							<td>
-								<input <cfif isdefined("usrs_parcel_error")>class="error_field"</cfif> type="text" name="usrs_parcel" <cfif isdefined("form.usrs_parcel")>value=<cfoutput>#form.usrs_parcel#</cfoutput></cfif>>									
+								<input <cfif isdefined("usrs_parcel_error")>class="error_field"</cfif>  placeholder="255 or fewer characters"  type="text" name="usrs_parcel" <cfif isdefined("form.usrs_parcel")>value=<cfoutput>#form.usrs_parcel#</cfoutput></cfif>>									
 								<cfif isdefined("usrs_parcel_error")>
 									<cfoutput><span class="form_error">#usrs_parcel_error#</span></cfoutput>
 								</cfif>
@@ -317,7 +326,7 @@
 						<tr>
 							<td><label>USRS sheet</label></td>
 							<td>
-								<input <cfif isdefined("usrs_sheet_error")>class="error_field"</cfif> type="text" name="usrs_sheet" <cfif isdefined("form.usrs_sheet")>value=<cfoutput>#form.usrs_sheet#</cfoutput></cfif>>									
+								<input <cfif isdefined("usrs_sheet_error")>class="error_field"</cfif> placeholder="255 or fewer characters"  type="text" name="usrs_sheet" <cfif isdefined("form.usrs_sheet")>value=<cfoutput>#form.usrs_sheet#</cfoutput></cfif>>									
 								<cfif isdefined("usrs_sheet_error")>
 									<cfoutput><span class="form_error">#usrs_sheet_error#</span></cfoutput>
 								</cfif>
@@ -360,7 +369,8 @@
 								<td>
 									<input
 											<cfif isdefined("filing_date_error")>class="error_field"</cfif>  
-											type="text" 
+											type="date" 
+											placeholder="MM/DD/YYYY"
 											name="filing_date" 
 											<cfif isdefined("form.filing_date")>
 												value="#form.filing_date#"

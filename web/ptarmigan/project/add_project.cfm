@@ -2,8 +2,8 @@
 <cfquery name="customers" datasource="#session.company.datasource#">
 	SELECT company_name,id FROM customers ORDER BY company_name
 </cfquery>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>	
 	<cfoutput>	
 		<title>New Project - ptarmigan</title>		
@@ -144,7 +144,7 @@
 							<tr>
 								<td><label>Project name<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("project_name_error")>class="error_field"</cfif> type="text" maxlength="255" name="project_name" <cfif isdefined("form.project_name")><cfoutput>	value="#form.project_name#"	</cfoutput></cfif>><br />
+									<input <cfif isdefined("project_name_error")>class="error_field"</cfif> type="text" plaeholder="255 or fewer characters" required maxlength="255" name="project_name" <cfif isdefined("form.project_name")><cfoutput>	value="#form.project_name#"	</cfoutput></cfif>><br />
 									<cfif IsDefined("project_name_error")>
 										<cfoutput><span class="form_error">#project_name_error#</span></cfoutput>
 									</cfif>
@@ -164,7 +164,7 @@
 							<tr>
 								<td><label>Start date<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("start_date_error")>class="error_field"</cfif> class="pt_dates" type="text" name="start_date"  <cfif isdefined("form.start_date")><cfoutput>	value="#form.start_date#"</cfoutput></cfif>><br />
+									<input <cfif isdefined("start_date_error")>class="error_field"</cfif> placeholder="MM/DD/YYYY" required class="pt_dates" type="date" name="start_date"  <cfif isdefined("form.start_date")><cfoutput>	value="#form.start_date#"</cfoutput></cfif>><br />
 									<cfif IsDefined("start_date_error")>
 										<cfoutput><span class="form_error">#start_date_error#</span></cfoutput>
 									</cfif>
@@ -174,7 +174,7 @@
 							<tr>
 								<td><label>Due date<strong>*</strong></label></td>
 								<td>					
-									<input <cfif isdefined("due_date_error")>class="error_field"</cfif> class="pt_dates" type="text" name="due_date" <cfif isdefined("form.due_date")><cfoutput>value="#form.due_date#"</cfoutput></cfif>><br />
+									<input <cfif isdefined("due_date_error")>class="error_field"</cfif> class="pt_dates" placeholder="MM/DD/YYYY" required type="date" name="due_date" <cfif isdefined("form.due_date")><cfoutput>value="#form.due_date#"</cfoutput></cfif>><br />
 									<cfif IsDefined("due_date_error")>
 										<cfoutput><span class="form_error">#due_date_error#</span></cfoutput>
 									</cfif>
@@ -183,7 +183,7 @@
 							<tr>
 								<td><label>Budget<strong>*</strong></label></td>
 								<td>					
-									<input <cfif isdefined("budget_error")>class="error_field"</cfif> type="text" name="budget" <cfif isdefined("form.budget")><cfoutput>	value="#form.budget#"	</cfoutput></cfif>><br />
+									<input <cfif isdefined("budget_error")>class="error_field"</cfif> placeholder="Enter dollar amount" required type="text" name="budget" <cfif isdefined("form.budget")><cfoutput>	value="#form.budget#"	</cfoutput></cfif>><br />
 									<cfif IsDefined("budget_error")>
 										<cfoutput><span class="form_error">#budget_error#</span></cfoutput>
 									</cfif>
@@ -192,7 +192,7 @@
 							<tr>
 								<td><label>Tax rate<strong>*</strong></label></td>
 								<td>					
-									<input <cfif isdefined("tax_rate_error")>class="error_field"</cfif> type="text" name="tax_rate" size="4" <cfif isdefined("form.tax_rate")><cfoutput>	value="#form.tax_rate#"	</cfoutput></cfif>><strong>%</strong><br />
+									<input <cfif isdefined("tax_rate_error")>class="error_field"</cfif> placeholder="Percentage" required type="number" min="0" max="100" name="tax_rate" <cfif isdefined("form.tax_rate")><cfoutput>	value="#form.tax_rate#"	</cfoutput></cfif>><strong>%</strong><br />
 									<cfif IsDefined("tax_rate_error")>
 										<cfoutput><span class="form_error">#tax_rate_error#</span></cfoutput>
 									</cfif>

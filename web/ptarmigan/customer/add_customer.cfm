@@ -1,6 +1,6 @@
 <cfmodule template="#session.root_url#/security/require.cfm" type="admin">
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>	
 	<cfoutput>	
 		<title>New Customer - ptarmigan</title>		
@@ -102,7 +102,7 @@
 							<tr>
 								<td valign="top"><label>Customer name<strong>*</strong></label></td>
 								<td valign="top">
-									<input <cfif isdefined("company_name_error")>class="error_field"</cfif> type="text" name="company_name" <cfif isdefined("form.company_name")><cfoutput>value="#form.company_name#"</cfoutput></cfif>><br>
+									<input <cfif isdefined("company_name_error")>class="error_field"</cfif> type="text" name="company_name" placeholder="1-255 characters" required <cfif isdefined("form.company_name")><cfoutput>value="#form.company_name#"</cfoutput></cfif>><br>
 									<label><input type="checkbox" name="electronic_billing">Electronic billing</label>
 									<cfif isdefined("company_name_error")>
 										<cfoutput><span class="form_error">#company_name_error#</span></cfoutput>
@@ -112,7 +112,7 @@
 							<tr>
 								<td><label>Point of contact<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("poc_error")>class="error_field"</cfif> type="text" name="poc" <cfif isdefined("form.poc")><cfoutput>value="#form.poc#"</cfoutput></cfif>>
+									<input <cfif isdefined("poc_error")>class="error_field"</cfif> type="text" placeholder="1-255 characters" required name="poc" <cfif isdefined("form.poc")><cfoutput>value="#form.poc#"</cfoutput></cfif>>
 									<cfif isdefined("poc_error")>
 										<cfoutput><span class="form_error">#poc_error#</span></cfoutput>
 									</cfif>
@@ -121,7 +121,7 @@
 							<tr>
 								<td><label>E-mail address<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("email_error")>class="error_field"</cfif> type="text" name="email"  <cfif isdefined("form.email")><cfoutput>value="#form.email#"</cfoutput></cfif>>
+									<input <cfif isdefined("email_error")>class="error_field"</cfif> type="email" name="email" placeholder="255 or fewer characters" required  <cfif isdefined("form.email")><cfoutput>value="#form.email#"</cfoutput></cfif>>
 									<cfif isdefined("email_error")>
 										<cfoutput><span class="form_error">#email_error#</span></cfoutput>
 									</cfif>
@@ -130,7 +130,7 @@
 							<tr>
 								<td><label>Phone number<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("phone_number_error")>class="error_field"</cfif> type="text" maxlength="50" name="phone_number"  <cfif isdefined("form.phone_number")><cfoutput>value="#form.phone_number#"</cfoutput></cfif>>
+									<input <cfif isdefined("phone_number_error")>class="error_field"</cfif> placeholder="50 or fewer characters" required type="text" maxlength="50" name="phone_number"  <cfif isdefined("form.phone_number")><cfoutput>value="#form.phone_number#"</cfoutput></cfif>>
 									<cfif isdefined("phone_number_error")>
 										<cfoutput><span class="form_error">#phone_number_error#</span></cfoutput>
 									</cfif>

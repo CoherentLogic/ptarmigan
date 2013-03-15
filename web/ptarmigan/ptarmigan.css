@@ -73,7 +73,7 @@ input,select,textarea {
 	color:gray;
 	padding:2px;
 	margin:4px;
-	border-radius:4px;
+	border-radius:2px;
 }
 input:focus,select:focus,textarea:focus {
 	border:1px solid whitesmoke;
@@ -618,6 +618,23 @@ table.ptarmigan_form {
 	background-position:97% 50%;
 	background-repeat:no-repeat;
 }
+
+input:required:invalid {
+	border-color:red;
+	background-image:url(/images/error.png);
+	background-position:97% 50%;
+	background-repeat:no-repeat;
+	padding-right:30px;
+}
+
+input:required:valid {
+	border-color:green;
+	background-image:url(/images/accept.png);
+	background-position:97% 50%;
+	background-repeat:no-repeat;
+	padding-right:30px;
+}
+
 
 .form_instructions {	
 	padding:10px;
