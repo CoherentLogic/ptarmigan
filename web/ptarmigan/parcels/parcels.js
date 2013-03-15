@@ -1,3 +1,11 @@
+var map = null;
+
+function resizeMap()
+{
+	google.maps.event.trigger(map, 'resize');
+	map.setZoom( map.getZoom() );
+}
+
 function define_parcel() 
 {
         var mapOptions = {
@@ -6,7 +14,7 @@ function define_parcel()
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-        var map = new google.maps.Map(document.getElementById('map'),
+        map = new google.maps.Map(document.getElementById('map'),
           mapOptions);
 
         var drawingManager = new google.maps.drawing.DrawingManager({
@@ -56,8 +64,7 @@ function define_parcel()
 
 		document.getElementById("center_latitude").value = bounds.getCenter().lat();
 		document.getElementById("center_longitude").value = bounds.getCenter().lng();
-				
-		document.forms['parcel_properties'].submit();
+						
 	});
 
 }
