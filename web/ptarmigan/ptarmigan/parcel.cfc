@@ -123,11 +123,11 @@
 		this.members['SECTION'].label = "Section";
 		
 		this.members['TOWNSHIP'] = StructNew();
-		this.members['TOWNSHIP'].type = "text";
+		this.members['TOWNSHIP'].type = "township";
 		this.members['TOWNSHIP'].label = "Township";
 		
 		this.members['RANGE'] = StructNew();
-		this.members['RANGE'].type = "text";
+		this.members['RANGE'].type = "range";
 		this.members['RANGE'].label = "Range";
 		
 		this.members['RECEPTION_NUMBER'] = StructNew();
