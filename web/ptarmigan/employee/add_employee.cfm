@@ -368,7 +368,7 @@
 								<tr>
 								<td><label>Username<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("username_error")>class="error_field"</cfif> min="3" required type="text" placeholder="8 or fewer characters" name="t_username" autocomplete="off" <cfif isdefined("form.t_username")><cfoutput>value="#form.t_username#"</cfoutput></cfif> maxlength="8">
+									<input <cfif isdefined("username_error")>class="error_field"</cfif> min="3" type="text" placeholder="8 or fewer characters" name="t_username" autocomplete="off" <cfif isdefined("form.t_username")><cfoutput>value="#form.t_username#"</cfoutput></cfif> maxlength="8">
 									<cfif isdefined("username_error")>
 										<cfoutput><span class="form_error">#username_error#</span></cfoutput>
 									</cfif>
@@ -377,7 +377,7 @@
 								<tr>
 								<td><label>Password<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("password_error")>class="error_field"</cfif> required min="3" placeholder="16 or fewer characters" type="password" name="t_password" autocomplete="off" value="" maxlength="16">
+									<input <cfif isdefined("password_error")>class="error_field"</cfif> min="3" placeholder="16 or fewer characters" type="password" name="t_password" autocomplete="off" value="" maxlength="16">
 									<cfif isdefined("password_error")>
 										<cfoutput><span class="form_error">#password_error#</span></cfoutput>
 									</cfif>
@@ -385,7 +385,7 @@
 								</tr>
 								<tr>
 								<td>&nbsp;</td>
-								<td><label><input type="checkbox" name="active">Active</label></td>
+								<td><label><input type="checkbox" name="active">Make account active</label></td>
 								</tr>
 								</table>
 								<cfmodule template="#session.root_url#/utilities/wizard_widget.cfm" tab_count="#tab_count#" current_tab="1" tab_selector="##tabs-min">
@@ -460,7 +460,7 @@
 								<tr>
 								<td><label>First name<strong>*</strong></label></td>		
 								<td>
-									<input <cfif isdefined("first_name_error")>class="error_field"</cfif> required placeholder="50 or fewer characters"  type="text" name="first_name" maxlength="50" <cfif isdefined("form.first_name")><cfoutput>value="#form.first_name#"</cfoutput></cfif>>
+									<input <cfif isdefined("first_name_error")>class="error_field"</cfif> placeholder="50 or fewer characters"  type="text" name="first_name" maxlength="50" <cfif isdefined("form.first_name")><cfoutput>value="#form.first_name#"</cfoutput></cfif>>
 									<cfif isdefined("first_name_error")>
 										<span class="form_error"><cfoutput>#first_name_error#</cfoutput></span>
 									</cfif>
@@ -478,7 +478,7 @@
 								<tr>
 								<td><label>Last name<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("last_name_error")>class="error_field"</cfif> required placeholder="50 or fewer characters"  type="text" name="last_name" maxlength="50" <cfif isdefined("form.last_name")><cfoutput>value="#form.last_name#"</cfoutput></cfif>>
+									<input <cfif isdefined("last_name_error")>class="error_field"</cfif>  placeholder="50 or fewer characters"  type="text" name="last_name" maxlength="50" <cfif isdefined("form.last_name")><cfoutput>value="#form.last_name#"</cfoutput></cfif>>
 									<cfif isdefined("last_name_error")>
 										<cfoutput><span class="form_error">#last_name_error#</span></cfoutput>
 									</cfif>
@@ -503,7 +503,7 @@
 								<tr>
 								<td><label>Job title<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("title_error")>class="error_field"</cfif> required placeholder="255 or fewer characters"  type="text" name="title" maxlength="255" <cfif isdefined("form.title")><cfoutput>value="#form.title#"</cfoutput></cfif>>
+									<input <cfif isdefined("title_error")>class="error_field"</cfif>  placeholder="255 or fewer characters"  type="text" name="title" maxlength="255" <cfif isdefined("form.title")><cfoutput>value="#form.title#"</cfoutput></cfif>>
 									<cfif isdefined("title_error")>
 										<cfoutput><span class="form_error">#title_error#</span></cfoutput>
 									</cfif>
@@ -546,7 +546,7 @@
 								<tr>
 								<td><label>City<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("mail_city_error")>class="error_field"</cfif> type="text" name="mail_city" placeholder="255 or fewer characters" required maxlength="255" <cfif isdefined("form.mail_city")><cfoutput>value="#form.mail_city#"</cfoutput></cfif>>
+									<input <cfif isdefined("mail_city_error")>class="error_field"</cfif> type="text" name="mail_city" placeholder="255 or fewer characters"  maxlength="255" <cfif isdefined("form.mail_city")><cfoutput>value="#form.mail_city#"</cfoutput></cfif>>
 									<cfif isdefined("mail_city_error")>
 										<cfoutput><span class="form_error">#mail_city_error#</span></cfoutput>
 									</cfif>
@@ -555,7 +555,7 @@
 								<tr>
 								<td><label>State<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("mail_state_error")>class="error_field"</cfif> placeholder="XX" required type="text" size="2" maxlength="2" name="mail_state" <cfif isdefined("form.mail_state")><cfoutput>value="#form.mail_state#"</cfoutput></cfif>>
+									<input <cfif isdefined("mail_state_error")>class="error_field"</cfif> placeholder="XX"  type="text" size="2" maxlength="2" name="mail_state" <cfif isdefined("form.mail_state")><cfoutput>value="#form.mail_state#"</cfoutput></cfif>>
 									<cfif isdefined("mail_state_error")>
 										<cfoutput><span class="form_error">#mail_state_error#</span></cfoutput>
 									</cfif>
@@ -564,7 +564,7 @@
 								<tr>
 								<td><label>ZIP code<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("mail_zip_error")>class="error_field"</cfif> placeholder="XXXXX" required type="text" size="5" maxlength="5" name="mail_zip" <cfif isdefined("form.mail_zip")><cfoutput>value="#form.mail_zip#"</cfoutput></cfif>>
+									<input <cfif isdefined("mail_zip_error")>class="error_field"</cfif> placeholder="XXXXX"  type="text" size="5" maxlength="5" name="mail_zip" <cfif isdefined("form.mail_zip")><cfoutput>value="#form.mail_zip#"</cfoutput></cfif>>
 									<cfif isdefined("mail_zip_error")>
 										<cfoutput><span class="form_error">#mail_zip_error#</span></cfoutput>
 									</cfif>
@@ -573,7 +573,7 @@
 								<tr>
 								<td><label>E-mail address<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("email_error")>class="error_field"</cfif> type="email" required placeholder="myname@mydomain.com" name="email" maxlength="255" <cfif isdefined("form.email")><cfoutput>value="#form.email#"</cfoutput></cfif>>
+									<input <cfif isdefined("email_error")>class="error_field"</cfif> type="email"  placeholder="myname@mydomain.com" name="email" maxlength="255" <cfif isdefined("form.email")><cfoutput>value="#form.email#"</cfoutput></cfif>>
 									<cfif isdefined("email_error")>
 										<cfoutput><span class="form_error">#email_error#</span></cfoutput>
 									</cfif>
@@ -582,7 +582,7 @@
 								<tr>
 								<td><label>Work phone<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("work_phone_error")>class="error_field"</cfif> type="tel" required placeholder="(XXX) XXX-XXXX" name="work_phone" maxlength="255" <cfif isdefined("form.work_phone")><cfoutput>value="#form.work_phone#"</cfoutput></cfif>>
+									<input <cfif isdefined("work_phone_error")>class="error_field"</cfif> type="tel"  placeholder="(XXX) XXX-XXXX" name="work_phone" maxlength="255" <cfif isdefined("form.work_phone")><cfoutput>value="#form.work_phone#"</cfoutput></cfif>>
 									<cfif isdefined("work_phone_error")>
 										<cfoutput><span class="form_error">#work_phone_error#</span></cfoutput>
 									</cfif>
@@ -600,7 +600,7 @@
 								<tr>
 								<td><label>Mobile phone<strong>*</strong></label></td>
 								<td>
-									<input <cfif isdefined("mobile_phone_error")>class="error_field"</cfif> type="tel" placeholder="(XXX) XXX-XXXX" required name="mobile_phone" maxlength="255" <cfif isdefined("form.mobile_phone")><cfoutput>value="#form.mobile_phone#"</cfoutput></cfif>>
+									<input <cfif isdefined("mobile_phone_error")>class="error_field"</cfif> type="tel" placeholder="(XXX) XXX-XXXX"  name="mobile_phone" maxlength="255" <cfif isdefined("form.mobile_phone")><cfoutput>value="#form.mobile_phone#"</cfoutput></cfif>>
 									<cfif isdefined("mobile_phone_error")>
 										<cfoutput><span class="form_error">#mobile_phone_error#</span></cfoutput>
 									</cfif>
