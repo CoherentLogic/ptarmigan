@@ -321,104 +321,42 @@
 								<p>Please press <strong>Next</strong> to continue.</p>
 							<cfelse>
 								<cfif data_valid EQ false>							
-								<h1>Oops...</h1>
-								<p>You have the following errors in your data entry:</p>
-								<table width="100%">
-								<tr>
-								<td valign="top">
-								<blockquote>
-									<!---
-									<cfset authentication_errors = 0>
-									<cfset identity_errors = 0>
-									<cfset employment_errors = 0>
-									<cfset contact_info_errors = 0>
-									--->
-									<cfoutput>
-									<cfif authentication_errors GT 0>										
-										<em>#authentication_errors# errors in <strong>Authentication</strong></em>
-										<p>
-											<cfif isdefined("username_error")>
-												Username: #username_error#<br>
-											</cfif>
-											<cfif isdefined("password_error")>
-												Password: #password_error#<br>
-											</cfif>
-										</p>
-									</cfif>
-									<cfif identity_errors GT 0>										
-										<em>#identity_errors# errors in <strong>Identity</strong></em>
-										<p>
-											<cfif isdefined("first_name_error")>
-												First name: #first_name_error#<br>
-											</cfif>
-											<cfif isdefined("middle_initial_error")>
-												Middle initial: #middle_initial_error#<br>
-											</cfif>
-											<cfif isdefined("last_name_error")>
-												First name: #last_name_error#<br>
-											</cfif>
-											<cfif isdefined("suffix_error")>
-												First name: #suffix_error#<br>
-											</cfif>
-										</p>
-									</cfif>
-									<cfif employment_errors GT 0>										
-										<em>#employment_errors# errors in <strong>Employment</strong></em>
-										<p>
-											<cfif isdefined("title_error")>
-												Title: #title_error#<br>
-											</cfif>
-											<cfif isdefined("hire_date_error")>
-												Hire date: #hire_date_error#<br>
-											</cfif>
-											<cfif isdefined("term_date_error")>
-												Termination date: #term_date_error#<br>
-											</cfif>
-											
-										</p>
-									</cfif>
-									</cfoutput>
-								</blockquote>
-								</td>
-								<td valign="top">
+									<h1>Oops...</h1>
+									<p>You have the following errors in your data entry:</p>
+									<table width="100%">
+									<tr>
+									<td valign="top">
 									<blockquote>
-									<cfoutput>
-									<cfif contact_info_errors GT 0>										
-										<em>#contact_info_errors# errors in <strong>Contact Info</strong></em>
-										<p>
-											<cfif isdefined("mail_address_error")>
-												Mailing address: #mail_address_error#<br>
-											</cfif>
-											<cfif isdefined("mail_city_error")>
-												City: #mail_city_error#<br>
-											</cfif>
-											<cfif isdefined("mail_state_error")>
-												State: #mail_state_error#<br>
-											</cfif>
-											<cfif isdefined("mail_zip_error")>
-												ZIP code: #mail_zip_error#<br>
-											</cfif>
-											<cfif isdefined("email_error")>
-												E-mail address: #email_error#<br>
-											</cfif>
-											<cfif isdefined("work_phone_error")>
-												Work phone: #work_phone_error#<br>
-											</cfif>
-											<cfif isdefined("home_phone_error")>
-												Home phone: #home_phone_error#<br>
-											</cfif>
-											<cfif isdefined("mobile_phone_error")>
-												mobile phone: #mobile_phone_error#<br>
-											</cfif>
-											
-										</p>
-									</cfif>
-									</cfoutput>
+										<!---
+										<cfset authentication_errors = 0>
+										<cfset identity_errors = 0>
+										<cfset employment_errors = 0>
+										<cfset contact_info_errors = 0>
+										--->
+										<cfoutput>
+										<cfif authentication_errors GT 0>										
+											<em>#authentication_errors# errors in <strong>Authentication</strong></em>										
+										</cfif>
+										<cfif identity_errors GT 0>										
+											<em>#identity_errors# errors in <strong>Identity</strong></em>							
+										</cfif>
+										<cfif employment_errors GT 0>										
+											<em>#employment_errors# errors in <strong>Employment</strong></em>							
+										</cfif>
+										</cfoutput>
 									</blockquote>
-								</td>
-								</tr>
-								</table>
-								
+									</td>
+									<td valign="top">
+										<blockquote>
+										<cfoutput>
+										<cfif contact_info_errors GT 0>										
+											<em>#contact_info_errors# errors in <strong>Contact Info</strong></em>
+										</cfif>
+										</cfoutput>
+										</blockquote>
+									</td>
+									</tr>
+									</table>								
 								</cfif>
 							</cfif>
 							<cfmodule template="#session.root_url#/utilities/wizard_widget.cfm" tab_count="#tab_count#" current_tab="0" tab_selector="##tabs-min">
