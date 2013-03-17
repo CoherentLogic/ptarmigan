@@ -100,7 +100,7 @@
 		this.members['MAIL_CITY'].label = "City";
 
 		this.members['MAIL_STATE'] = StructNew();
-		this.members['MAIL_STATE'].type = "text";
+		this.members['MAIL_STATE'].type = "usstate";
 		this.members['MAIL_STATE'].label = "State";
 
 		this.members['MAIL_ZIP'] = StructNew();

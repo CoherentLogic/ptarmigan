@@ -1,229 +1,203 @@
-<cfmodule template="../security/require.cfm" type="admin">
-<cfset t = CreateObject("component", "ptarmigan.employee").open(url.id)>
-<cfif IsDefined("form.self_post")>		
-	<cfset t.username = UCase(form.username)>
-	<cfif trim(form.password) NEQ "">
-		<cfset t.password_hash = hash(form.password)>
-	</cfif>
-	
-	<cfif IsDefined("form.active")>
-		<cfset t.active = 1>
-	<cfelse>
-		<cfset t.active = 0>
-	</cfif>
-	
-	<cfset t.honorific = form.honorific>
-	<cfset t.first_name = UCase(form.first_name)>
-	<cfset t.middle_initial = UCase(form.middle_initial)>
-	<cfset t.last_name = UCase(form.last_name)>
-	<cfset t.suffix = UCase(form.suffix)>
-	
-	<cfset t.title = UCase(form.title)>
-	<cfset t.hire_date = CreateODBCDate(form.hire_date)>
-	<cfif trim(form.term_date) NEQ "">
-		<cfset t.term_date = CreateODBCDate(form.term_date)>
-	<cfelse>
-		<cfset t.term_date = 0>
-	</cfif>
-	
-	<cfset t.mail_address = UCase(form.mail_address)>
-	<cfset t.mail_city = UCase(form.mail_city)>
-	<cfset t.mail_state = UCase(form.mail_state)>
-	<cfset t.mail_zip = UCase(form.mail_zip)>
-	
-	<cfset t.email = form.email>
-	<cfset t.work_phone = UCase(form.work_phone)>
-	<cfset t.home_phone = UCase(form.home_phone)>
-	<cfset t.mobile_phone = UCase(form.mobile_phone)>
-	
-	<cfset emp_id = t.update()> 
-	
-	<cfif IsDefined("form.admin")>
-		<cfset t.admin(true)>
-	<cfelse>
-		<cfset t.admin(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.time_approver")>
-		<cfset t.time_approver(true)>
-	<cfelse>
-		<cfset t.time_approver(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.project_manager")>
-		<cfset t.project_manager(true)>
-	<cfelse>
-		<cfset t.project_manager(false)>
-	</cfif>
-	
-	<cfif IsDefined("form.billing_manager")>
-		<cfset t.billing_manager(true)>
-	<cfelse>
-		<cfset t.billing_manager(false)>
-	</cfif>
-	
-	<cflocation url="#session.root_url#/dashboard.cfm" addtoken="false">
-<cfelse>
-	<div style="position:relative; height:100%; width:100%; background-color:white;">
-		<cfmodule template="#session.root_url#/utilities/dialog_header.cfm" caption="Edit Employee" icon="#session.root_url#/images/project_dialog.png">
-	
-		<form name="edit_employee" id="edit_employee" action="#session.root_url#/employee/edit_employee.cfm?id=#t.id#" method="post">
-			<div style="padding:20px;margin-top:40px;">
-				<cfoutput>
-				<div id="tabs" class="pt_tabs">
-					<ul>
-						<li><a href="##tAuth">Authentication</a></li>
-						<li><a href="##tRoles">Roles</a></li>			
-						<li><a href="##tIdentity">Identity</a></li>			
-						<li><a href="##tEmployment">Employment</a></li>			
-						<li><a href="##tContact">Contact</a></li>			
-					
-					</ul>
-					<div id="tAuth">	
-						<div style="height:250px; width:450px;">
-							<table>				
-							<tr>
-							<td>Username:</td>
-							<td><input type="text" name="username" value="#t.username#"></td>
-							</tr>
-							<tr>
-							<td>Password:</td>
-							<td><input type="password" name="password"></td>
-							</tr>
-							<tr>
-							<td>&nbsp;</td>
-							<td><input type="checkbox" name="active" <cfif t.active EQ 1>checked</cfif>>Active</td>
-							</tr>
-							</table>
-						</div>
+<cfmodule template="#session.root_url#/security/require.cfm" type="admin">
+<cfsilent>
+	<cfset object =  CreateObject("component", "ptarmigan.object").open(url.id)>
+	<cfset employee = object.get()>
+</cfsilent>
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+	<cfoutput>	
+		<title>#object.get().object_name()# - ptarmigan</title>		
+		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
+	</cfoutput>		
+	<script type="text/javascript">
+		 $(document).ready(function() {   											
+				bound_fields_init();
+				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">												
+   		 });
+	</script>
+</head>
+<body>
+	<cfinclude template="#session.root_url#/navigation.cfm">
+	<cfoutput>
+	<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
+	</cfoutput>
+	<!--- BEGIN LAYOUT --->	
+	<div id="container">
+		<div id="inner-tube">
+		<div id="content-right">
+			<cfinclude template="#session.root_url#/sidebar.cfm">
+		</div> <!--- content-right --->
+		<div id="content" style="margin:0px;width:80%;">		
+			<cfmodule template="#session.root_url#/navigation-tabs.cfm">							
+			<div id="tabs-min">				
+				<ul>																			
+					<li><a href="#t_authentication">Authentication</a></li>
+					<li><a href="#t_roles">Roles</a></li>
+					<li><a href="#t_identity">Identity</a></li>
+					<li><a href="#t_employment">Employment</a></li>
+					<li><a href="#t_contact">Contact Info</a></li>										
+				</ul>																
+				<div id="t_authentication">
+					<div style="height:500px; width:100%; position:relative;">
+						<table width="100%">
+						<tr>
+						<td><label>Username<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="username" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<!--- <tr>
+						<td><label>Password<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="password" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr> --->
+						<tr>
+						<td><label>Account active</label></td>
+						<td><cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="active" width="auto" show_label="false" full_refresh="false"></td>
+						</tr>
+						</table>
 					</div>
-					<div id="tRoles">
-						<div style="height:250px; width:450px;">
-							<table>
-							<tr>				
-							<td>
-								<label><input type="checkbox" name="admin" <cfif t.is_admin() EQ true>checked</cfif>>Site administrator</label><br>
-								<label><input type="checkbox" name="time_approver" <cfif t.is_time_approver() EQ true>checked</cfif>>Time collection manager</label><br>
-								<label><input type="checkbox" name="project_manager" <cfif t.is_project_manager() EQ true>checked</cfif>>Project manager</label><br>
-								<label><input type="checkbox" name="billing_manager" <cfif t.is_billing_manager() EQ true>checked</cfif>>Billing manager</label>
-							</td>
-							</tr>
-							</table>
-						</div>
+				</div>
+				<div id="t_roles">
+					<div style="height:500px; width:100%; position:relative;">
+						<table width="100%">
+						<tr>
+						<td>
+						<label><input type="checkbox" name="admin">Site administrator</label><br>
+						<label><input type="checkbox" name="time_approver">Time collection manager</label><br>
+						<label><input type="checkbox" name="project_manager">Project manager</label><br>
+						<label><input type="checkbox" name="billing_manager">Billing manager</label>
+						</td>
+						</tr>
+						</table>
 					</div>
-					<div id="tIdentity">
-						<div style="height:250px; width:450px;">
-							<table>				
-							<tr>
-							<td>Gender:</td>
-							<td>
-								<select name="gender">
-									<option value="M" <cfif t.gender EQ "M">selected</cfif>>Male</option>
-									<option value="F" <cfif t.gender EQ "F">selected</cfif>>Female</option>
-								</select>
-							</td>
-							</tr>
-							<tr>
-							<td>Honorific:</td>
-							<td><select name="honorific">
-									<option value="MR." <cfif t.honorific EQ "MR.">selected</cfif>>Mr.</option>
-									<option value="MASTER" <cfif t.honorific EQ "MASTER">selected</cfif>>Master</option>
-									<option value="MRS." <cfif t.honorific EQ "MRS.">selected</cfif>>Mrs.</option>
-									<option value="MS." <cfif t.honorific EQ "MS.">selected</cfif>>Ms.</option>
-									<option value="MISS" <cfif t.honorific EQ "MISS">selected</cfif>>Miss</option>
-									<option value="DR." <cfif t.honorific EQ "DR.">selected</cfif>>Dr.</option>
-									<option value="FR." <cfif t.honorific EQ "FR.">selected</cfif>>Fr.</option>
-									<option value="SR." <cfif t.honorific EQ "SR.">selected</cfif>>Sr.</option>
-									<option value="REV." <cfif t.honorific EQ "REV.">selected</cfif>>Rev.</option>
-								</select>
-							</td>
-							</tr>
-							<tr>
-							<td>First name:</td>		
-							<td><input type="text" name="first_name" value="#t.first_name#"></td>
-							</tr>
-							<tr>
-							<td>Middle initial:</td>
-							<td><input type="text" name="middle_initial" size="1" value="#t.middle_initial#"></td>
-							</tr>
-							<tr>
-							<td>Last name:</td>
-							<td><input type="text" name="last_name" value="#t.last_name#"></td>
-							</tr>
-							<tr>
-							<td>Suffix:</td>
-							<td><input type="text" name="suffix" size="3" value="#t.suffix#"></td>
-							</tr>
-							</table>
-						</div>
+				</div>
+				<div id="t_identity">
+					<div style="height:500px; width:100%; position:relative;">
+						<table>
+						<tr>
+						<td><label>Gender<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="gender" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Honorific<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="honorific" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>First name<strong>*</strong></label></td>		
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="first_name" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Middle initial</label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="middle_initial" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Last name<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="last_name" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Suffix</label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="suffix" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						</table>
 					</div>
-					<div id="tEmployment">
-						<div style="height:250px; width:450px;">
-							<table>
-							<tr>
-							<td>Title:</td>
-							<td><input type="text" name="title" value="#t.title#"></td>
-							</tr>
-							<tr>
-							<td>Hire date (MM/DD/YYYY):</td>
-							<td><input class="pt_dates" type="text" name="hire_date" value="#dateFormat(t.hire_date, 'mm/dd/yyyy')#"></td>
-							</tr>
-							<tr>
-							<td>Termination date (MM/DD/YYYY):</td>
-							<td><input class="pt_dates" type="text" name="term_date" value="#dateFormat(t.term_date, 'mm/dd/yyyy')#"></td>
-							</tr>
-							</table>
-						</div>
+				</div>
+				<div id="t_employment">
+					<div style="height:500px; width:100%; position:relative;">					
+						<table width="90%">
+						<tr>
+						<td><label>Job title<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="title" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Hire date</label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="hire_date" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Termination date</label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="term_date" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						</table>
 					</div>
-					<div id="tContact">
-						<div style="height:250px; width:450px;">
-							<table>				
-							<tr>
-							<td>Mailing Address:</td>
-							<td><input type="text" name="mail_address" value="#t.mail_address#"></td>
-							</tr>
-							<tr>
-							<td>City:</td>
-							<td><input type="text" name="mail_city" value="#t.mail_city#"></td>
-							</tr>
-							<tr>
-							<td>State:</td>
-							<td><input type="text" size="2" maxlength="2" name="mail_state" value="#t.mail_state#"></td>
-							</tr>
-							<tr>
-							<td>ZIP:</td>
-							<td><input type="text" size="5" maxlength="5" name="mail_zip" value="#t.mail_zip#"></td>
-							</tr>
-							<tr>
-							<td>E-Mail Address:</td>
-							<td><input type="text" name="email" value="#t.email#"></td>
-							</tr>
-							<tr>
-							<td>Work Phone:</td>
-							<td><input type="text" name="work_phone" value="#t.work_phone#"></td>
-							</tr>
-							<tr>
-							<td>Home Phone:</td>
-							<td><input type="text" name="home_phone" value="#t.home_phone#"></td>
-							</tr>
-							<tr>
-							<td>Mobile Phone:</td>
-							<td><input type="text" name="mobile_phone" value="#t.mobile_phone#"></td>
-							</tr>				
-							</table>
-						</div>
-					</div> <!--- tContact --->
-				</div> <!--- tabs --->				
-				</cfoutput>
-			</div>
-			<input type="hidden" name="self_post" id="self_post" value="">
-		</form>
-		
-		<div style="position:absolute; bottom:0px; border-top:1px solid #c0c0c0; width:100%; height:45px; background-color:#efefef;">
-	    	<div style="padding:8px; float:right;">
-	        	<a class="button" href="##" onclick="window.location.reload();"><span>Cancel</span></a>			
-				<a class="button" href="##" onclick="form_submit('edit_employee');"><span>Apply</span></a>
-			</div>
-		</div>
-	</div>
-</cfif>
+				</div>
+				<div id="t_contact">
+					<div style="height:500px; width:100%; position:relative;">					
+						<table>
+						<tr>
+						<td><label>Mailing address<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mail_address" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>City<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mail_city" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>State<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mail_state" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>ZIP code<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mail_zip" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>E-mail address<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="email" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Work phone<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="work_phone" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Home phone</label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="home_phone" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						<tr>
+						<td><label>Mobile phone<strong>*</strong></label></td>
+						<td>
+							<cfmodule template="#session.root_url#/objects/bound_field.cfm" id="#url.id#" member="mobile_phone" width="auto" show_label="false" full_refresh="false">
+						</td>
+						</tr>
+						</table>
+					</div>
+				</div>
+			</div> <!--- tabs-min --->			
+		</div> <!--- inner-tube --->
+	</div> <!--- content --->			
+</div> <!--- container --->
+</body>
+</html>
+
