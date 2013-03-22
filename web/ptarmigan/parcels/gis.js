@@ -15,6 +15,9 @@ var se_latitude = 0;
 var se_longitude = 0;
 var overlays = [];
 var current_control_id;
+var leftclick_mode = "info";
+var search_results_visible = false;
+
 
 function init_map(control_id, center_latitude, center_longitude)
 {
@@ -39,6 +42,12 @@ function init_map(control_id, center_latitude, center_longitude)
    		$("#current-longitude").html(theLng);
 	});
     
+}
+
+function map_recenter(latitude, longitude)
+{
+	var newLatLng = new google.maps.LatLng(latitude, longitude);
+	map.setCenter(newLatLng);
 }
 
 
@@ -167,7 +176,7 @@ function display_info(parcel_index)
 
 function open_window(parcel_index)
 {
-    var url = '/ptarmigan/parcels/parcel_window.cfm?id=' + escape(current_parcels.PARCELS[parcel_index].ID) + '&suppress_headers';
+    var url = '/parcels/parcel_window.cfm?id=' + escape(current_parcels.PARCELS[parcel_index].ID);
 
     
     open_dialog(url, "Parcel " + current_parcels.PARCELS[parcel_index].PARCEL_ID, 650, 590);
@@ -194,12 +203,77 @@ function update_viewport_parameters()
  
 }
 
-function getPos(el) {
+function getPos(el) 
+{
     // yay readability
     for (var lx=0, ly=0;
          el != null;
          lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
     return {x: lx,y: ly};
+}
+
+function set_search_type() 
+{
+	var search_type = $("#search-type").val();
+	var search_div = "#" + search_type;
+
+	hide_search_types();	
+	$(search_div).show();
+}
+
+function hide_search_types () 
+{
+	$("#search-geocode").hide();
+	$("#search-property-address").hide();
+	$("#search-apn").hide();
+	$("#search-reception-number").hide();
+	$("#search-account-number").hide();
+	$("#search-owner-name").hide();
+	$("#search-legal-section").hide();
+	$("#search-subdivision").hide();
+	
+}
+
+function map_search ()
+{
+	search_results_visible = true;
+	size_ui();
+	
+	var url = "/parcels/map_search_results.cfm?search_type=" + escape($("#search-type").val());
+	
+	switch($("#search-type").val()) {
+		case "search-geocode":
+			url += "&geocode=" + $("#s-geocode").val();
+		break;
+		case "search-property-address":
+			url += "&property_address=" + $("#s-property-address").val();
+		break;
+		case "search-apn":
+			url += "&apn=" + $("#s-apn").val();
+		break;
+		case "search-reception-number":
+			url += "&reception_number=" + $("#s-reception-number").val();
+		break;
+		case "search-account-number":
+			url += "&account_number=" + $("#s-account-number").val();
+		break;
+		case "search-owner-name":
+			url += "&owner_name=" + $("#s-owner-name").val();
+		break;
+		case "search-legal-section":
+			url += "&section=" + $("#s-section").val(); 
+			url += "&township=" + $("#s-township").val();
+			url += "&range=" + $("#s-range").val();
+		break;
+		case "search-subdivision":
+			url += "&subdivision=" + $("#s-subdivision").val(); 
+			url += "&lot=" + $("#s-lot").val();
+			url += "&block=" + $("#s-block").val();
+		
+		break;
+		
+	}
+	$("#map-search-results").html(request(url));
 }
 
 // A static class for converting between Decimal and DMS formats for a location

@@ -92,18 +92,41 @@
 	padding-bottom:5px;
 }
 
-#map-toolbar-search {
-	background-image:url(/OpenHorizon/Resources/Graphics/Silk/zoom.png);
-	background-position:99% 50%;
-	background-repeat:no-repeat;
-	width:350px;
-	border-top-left-radius:6px;
-	border-bottom-left-radius:6px;
-	border-top-right-radius:0px;
-	border-bottom-right-radius:0px;
+.map-toolbar-search {
+	width:300px;
+	border:none;
 	padding-left:8px;
+	margin-right:0px;
 }
 
+.map-toolbar-search-middle {
+	width:300px;
+	border:none;
+	padding-left:8px;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+.map-toolbar-search-right {	
+	width:300px;
+	border:none;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+.search-wrapper {
+	width:auto;
+	display:inline-block;
+	background-color:white;
+	border:1px solid #efefef;
+	border-radius:3px;
+	padding:-30px;
+	margin-left:8px;
+}
+
+.search-wrapper input,select,button {
+	margin:0;
+}
 #status-bar-right {
 	float:right;
 	padding-right:10px;
@@ -121,5 +144,11 @@ html, body {
 	overflow:hidden;
 }
 
+#map-search-results {
+	overflow:auto;	
+	margin:0;
+	padding:0;
+	background-color:white;	
+}
 
 

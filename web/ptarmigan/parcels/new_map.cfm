@@ -21,9 +21,22 @@
 			});
 			
 			function size_ui() {
-				$("#map-inner-container").height($(document).height() - $("#header").height() - $("#map-toolbar").height() - $("#map-status-bar").height());		
+				$("#map-inner-container").height($(document).height() - $("#header").height() - $("#map-toolbar").height() - $("#map-status-bar").height());	
+
 				$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
-				$("#map").height($("#map-inner-container").height());
+			
+				
+				if (search_results_visible) {
+					
+					$("#map-search-results").show();
+					$("#map-search-results").height($("#map-inner-container").height() / 3);
+					$("#map").height($("#map-inner-container").height() - $("#map-search-results").height());
+					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);			
+				}
+				else {
+					$("#map_search_results").hide();
+					$("#map").height($("#map-inner-container").height());
+				}
 				
 			}
 			
@@ -36,7 +49,7 @@
 			</div>			
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
-					<input type="text" placeholder="Search" id="map-toolbar-search">
+					<cfinclude template="map_search.cfm">
 					<div style="float:right; padding-right:20px;">
 					<cfoutput>
 					<button class="left-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"> Info</button>
@@ -111,6 +124,8 @@
 						<td><span id="GROUND_SURVEY"></span></td>
 					</tr>
 					</table>
+				</div>
+				<div id="map-search-results" style="display:none;">
 				</div>
 				<div id="map">
 						map	
