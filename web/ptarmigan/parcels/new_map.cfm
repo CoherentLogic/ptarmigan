@@ -37,6 +37,16 @@
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
 					<input type="text" placeholder="Search" id="map-toolbar-search">
+					<div style="float:right; padding-right:20px;">
+					<cfoutput>
+					<button class="left-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"> Info</button>
+					<button class="middle-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"> Measure</button>
+					<button class="middle-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/star.png" style="vertical-align:middle;"> Bookmark</button>
+<!--- 
+					<button class="right-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"> New Parcel</button>
+ --->
+					</cfoutput>
+					</div>
 				</div>
 			</div>		
 		
@@ -48,6 +58,59 @@
 						<li><a href="##">Las Cruces</a></li>
 						<li><a href="##">Truth or Consequences</a></li>
 					</ul>					
+					
+					<span class="map-sidebar-header">Current Parcel</span>
+					
+					<table>
+					<tr>
+						<td>APN:</td>
+						<td><span id="PARCEL_ID"></span></td>
+					</tr>
+					<tr>
+						<td>Account Number:</td>
+						<td><span id="ACCOUNT_NUMBER"></span></td>
+					</tr>
+					<tr>
+						<td>Reception Number:</td>
+						<td><span id="RECEPTION_NUMBER"></span></td>
+					</tr>
+					<tr>
+						<td>Owner Name:</td>
+						<td><span id="OWNER_NAME"></span></td>
+					</tr>
+					<tr>
+						<td>Mailing Address:</td>
+						<td><span id="MAILING_ADDRESS"></span></td>
+					</tr>
+					<tr>
+						<td>Physical Address:</td>
+						<td><span id="PHYSICAL_ADDRESS"></span></td>
+					</tr>
+					<tr>
+						<td>Legal Section:</td>
+						<td><span id="LEGAL_SECTION"></span></td>
+					</tr>
+					<tr>
+						<td>Subdivision:</td>
+						<td><span id="SUBDIVISION"></span></td>
+					</tr>
+					<tr>
+						<td>Land Value:</td>
+						<td><span id="LAND_VALUE"></span></td>
+					</tr>
+					<tr>
+						<td>Building Value:</td>
+						<td><span id="BUILDING_VALUE"></span></td>
+					</tr>
+					<tr>
+						<td>Area:</td>
+						<td><span id="AREA"></span></td>
+					</tr>
+					<tr>
+						<td>Ground Survey:</td>
+						<td><span id="GROUND_SURVEY"></span></td>
+					</tr>
+					</table>
 				</div>
 				<div id="map">
 						map	
@@ -56,12 +119,13 @@
 			
 		
 			<div id="map-status-bar">
-				<div id="map-toolbar-tube" style="padding-top:10px;">				
-				<span id="loader">
-				</span>
+							
+				<span id="status" class="status-bar-segment-right">Ready</span>
+				<span id="loader" class="status-bar-segment"></span>
 				<div id="status-bar-right">
-				<span class="status-bar-segment-right" id="current-latitude">Latitude</span>
-				<span class="status-bar-segment" id="current-longitude">Longitude</span>
+					<span class="status-bar-segment-right" id="current-parcel">No Parcel</span>
+					<span class="status-bar-segment-right" id="current-latitude">Latitude</span>
+					<span class="status-bar-segment" id="current-longitude">Longitude</span>
 				</div>
 			</div>
 		

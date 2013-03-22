@@ -31,8 +31,12 @@ function init_map(control_id, center_latitude, center_longitude)
 
     google.maps.event.addListener(map, 'idle', redraw);
     google.maps.event.addListener(map, 'mousemove', function(e) {
-   		$("#current-latitude").html(e.latLng.lat().toFixed(5) + "&deg;");
-   		$("#current-longitude").html(e.latLng.lng().toFixed(5) + "&deg;");
+   		var theLat = LocationFormatter.decimalLatToDMS(e.latLng.lat());
+   		var theLng = LocationFormatter.decimalLongToDMS(e.latLng.lng());
+   		
+   		
+   		$("#current-latitude").html(theLat);
+   		$("#current-longitude").html(theLng);
 	});
     
 }
@@ -148,6 +152,7 @@ function display_info(parcel_index)
     var p = current_parcels.PARCELS[parcel_index];
 
     load("PARCEL_ID", p.PARCEL_ID);
+    load("current-parcel", "APN " + p.PARCEL_ID);
     load("ACCOUNT_NUMBER", p.ACCOUNT_NUMBER);
     load("RECEPTION_NUMBER", p.RECEPTION_NUMBER);
     load("OWNER_NAME", p.OWNER_NAME);
@@ -197,5 +202,52 @@ function getPos(el) {
     return {x: lx,y: ly};
 }
 
+// A static class for converting between Decimal and DMS formats for a location
+// ported from: http://andrew.hedges.name/experiments/convert_lat_long/
+// Decimal Degrees = Degrees + minutes/60 + seconds/3600
+// more info on formats here: http://www.maptools.com/UsingLatLon/Formats.html
+// use: LocationFormatter.DMSToDecimal( 45, 35, 38, LocationFormatter.SOUTH );
+// or:  LocationFormatter.decimalToDMS( -45.59389 );
+
+function LocationFormatter(){
+};
+
+LocationFormatter.NORTH = 'N';
+LocationFormatter.SOUTH = 'S';
+LocationFormatter.EAST = 'E';
+LocationFormatter.WEST = 'W';
+
+LocationFormatter.roundToDecimal = function( inputNum, numPoints ) {
+ var multiplier = Math.pow( 10, numPoints );
+ return Math.round( inputNum * multiplier ) / multiplier;
+};
+
+LocationFormatter.decimalToDMS = function( location, hemisphere ){
+ if( location < 0 ) location *= -1; // strip dash '-'
+ 
+ var degrees = Math.floor( location );          // strip decimal remainer for degrees
+ var minutesFromRemainder = ( location - degrees ) * 60;       // multiply the remainer by 60
+ var minutes = Math.floor( minutesFromRemainder );       // get minutes from integer
+ var secondsFromRemainder = ( minutesFromRemainder - minutes ) * 60;   // multiply the remainer by 60
+ var seconds = LocationFormatter.roundToDecimal( secondsFromRemainder, 2 ); // get minutes by rounding to integer
+
+ return degrees + '° ' + minutes + "' " + seconds + '" ' + hemisphere;
+};
+
+LocationFormatter.decimalLatToDMS = function( location ){
+ var hemisphere = ( location < 0 ) ? LocationFormatter.SOUTH : LocationFormatter.NORTH; // south if negative
+ return LocationFormatter.decimalToDMS( location, hemisphere );
+};
+
+LocationFormatter.decimalLongToDMS = function( location ){
+ var hemisphere = ( location < 0 ) ? LocationFormatter.WEST : LocationFormatter.EAST;  // west if negative
+ return LocationFormatter.decimalToDMS( location, hemisphere );
+};
+
+LocationFormatter.DMSToDecimal = function( degrees, minutes, seconds, hemisphere ){
+ var ddVal = degrees + minutes / 60 + seconds / 3600;
+ ddVal = ( hemisphere == LocationFormatter.SOUTH || hemisphere == LocationFormatter.WEST ) ? ddVal * -1 : ddVal;
+ return LocationFormatter.roundToDecimal( ddVal, 5 );  
+};
 
 

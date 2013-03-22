@@ -28,6 +28,11 @@
 	border-right:1px solid #c1c1c1;
 }
 
+#map-sidebar td {
+	font-size:8pt;
+	font-weight:bold;
+}
+
 #map {
 	float:left;
 }
@@ -63,17 +68,23 @@
 }
 
 .status-bar-segment {
-	min-width:90px;
+	min-width:180px;
 	text-align:center;
-	padding-left:8px;
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-top:4px;
+	display:inline-block;
 }
 
 .status-bar-segment-right {
-	min-width:90px;
+	min-width:180px;
 	border-right:1px solid #444444;
 	display:inline-block;
 	padding-left:8px;
 	text-align:center;
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-top:4px;
 }
 
 #map-toolbar-tube {
@@ -109,3 +120,6 @@ html, body {
 	padding:0;
 	overflow:hidden;
 }
+
+
+
