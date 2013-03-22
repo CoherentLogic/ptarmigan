@@ -29,43 +29,42 @@ function define_parcel()
         });
         drawingManager.setMap(map);
 
-	google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-	var paths = polygon.getPath();
-	var path_count = paths.getLength();
-	var lat;
-	var lon;
-	var points = "";
-	var bounds = new google.maps.LatLngBounds();
-
-
-		for (var i = 0; i < path_count ;i++)
-		{
-			lat = paths.getAt(i).lat();
-			lon = paths.getAt(i).lng();
-			points += lat;
-			points += ":";
-			points += lon;
-			points += ",";			
-		}   
-
-		area = google.maps.geometry.spherical.computeArea(paths);
-		area_acres = round_number(area * 0.000247105, 2);
-		area_sq_ft = round_number(area * 10.7639, 2);
-		area_sq_yd = round_number(area * 1.19599, 2);
-		document.getElementById("area_acres").value = area_acres;
-		document.getElementById("area_sq_ft").value = area_sq_ft;
-		document.getElementById("area_sq_yd").value = area_sq_yd;
-		document.getElementById("points").value = points;
-
-		
-		for (i = 0; i < paths.length; i++) {
-			bounds.extend(paths.getAt(i));
-		}
-
-		document.getElementById("center_latitude").value = bounds.getCenter().lat();
-		document.getElementById("center_longitude").value = bounds.getCenter().lng();
-						
-	});
+		google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+			var paths = polygon.getPath();
+			var path_count = paths.getLength();
+			var lat;
+			var lon;
+			var points = "";
+			var bounds = new google.maps.LatLngBounds();
+	
+	
+			for (var i = 0; i < path_count ;i++)
+			{
+				lat = paths.getAt(i).lat();
+				lon = paths.getAt(i).lng();
+				points += lat;
+				points += ":";
+				points += lon;
+				points += ",";			
+			}   
+	
+			area = google.maps.geometry.spherical.computeArea(paths);
+			area_acres = round_number(area * 0.000247105, 2);
+			area_sq_ft = round_number(area * 10.7639, 2);
+			area_sq_yd = round_number(area * 1.19599, 2);
+			document.getElementById("area_acres").value = area_acres;
+			document.getElementById("area_sq_ft").value = area_sq_ft;
+			document.getElementById("area_sq_yd").value = area_sq_yd;
+			document.getElementById("points").value = points;
+	
+			
+			for (i = 0; i < paths.length; i++) {
+				bounds.extend(paths.getAt(i));
+			}
+	
+			document.getElementById("center_latitude").value = bounds.getCenter().lat();
+			document.getElementById("center_longitude").value = bounds.getCenter().lng();							
+		});
 
 }
 

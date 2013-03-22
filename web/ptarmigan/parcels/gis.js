@@ -30,29 +30,21 @@ function init_map(control_id, center_latitude, center_longitude)
     map = new google.maps.Map(document.getElementById(control_id), map_options);
 
     google.maps.event.addListener(map, 'idle', redraw);
+    google.maps.event.addListener(map, 'mousemove', function(e) {
+   		$("#current-latitude").html(e.latLng.lat().toFixed(5) + "&deg;");
+   		$("#current-longitude").html(e.latLng.lng().toFixed(5) + "&deg;");
+	});
     
 }
 
 
 function loading(value)
 {
-    var loading_div = document.getElementById('loading_div');
-    var map_div = document.getElementById(current_control_id);
-    var map_width = map_div.offsetWidth;
-    var map_height = map_div.offsetHeight;
-    var loading_width = 400;
-    var loading_height = 300;
-    var map_div_left = getPos(map_div).x;
-    var loading_left = 0;
-    var loading_right = 0;
-	
+
     if(value) {
-	loading_div.style.left = (((map_width / 2) - (loading_width / 2)) + map_div_left) + "px";
-	loading_div.style.top = (((map_height - 200) / 2) - (loading_height / 2)) + "px";
-	loading_div.style.display = "block";
+	
     }
     else {
-	loading_div.style.display = "none";
 
     }
 
@@ -68,12 +60,12 @@ function redraw()
 
 function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 {
-    var url = "/ptarmigan/parcels/json/parcels.cfm?nw_latitude=" + escape(nw_latitude);
+    var url = "/parcels/json/parcels.cfm?nw_latitude=" + escape(nw_latitude);
     url = url + "&nw_longitude=" + escape(nw_longitude);
     url = url + "&se_latitude=" + escape(se_latitude);
     url = url + "&se_longitude=" + escape(se_longitude);
-    url = url + "&suppress_everything";
-
+    
+        
     var xml_http;
     xml_http = http_request_object();
         
@@ -131,7 +123,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    overlays.push(polygon);	 
 	    overlays[overlays.length - 1].setMap(map);	    	    
 	}
-	document.getElementById('loader').innerHTML =  current_parcel_count + " PARCELS IN VIEWPORT";
+	document.getElementById('loader').innerHTML =  current_parcel_count + " parcels in viewport";
 	set_progress(0);
 
 	break;
@@ -192,6 +184,8 @@ function update_viewport_parameters()
     nw_longitude = nw.lng();
     se_latitude = se.lat();
     se_longitude = se.lng();
+    
+    //alert("nw_lat: " + nw_latitude + " nw_lon: " + nw_longitude + " se_lat: " + se_latitude + " se_lon: " + se_longitude);
  
 }
 

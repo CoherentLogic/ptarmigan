@@ -7,7 +7,7 @@
 	
 	<cfset this.parcels = ArrayNew(1)>
 	
-	<cffunction name="create" returntype="ptarmigan.parcels.area" access="public" output="false">
+	<cffunction name="create" returntype="parcels.area" access="public" output="false">
 		
 		<cfquery name="get_parcels" datasource="#session.company.datasource#">
 			SELECT id FROM parcels 

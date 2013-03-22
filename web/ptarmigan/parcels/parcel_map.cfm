@@ -61,6 +61,7 @@
 		</div>
 		</div>
 		<span id="loader"></span>
+		<span id="map_debug"></span>
 		</div>
 	</div>
 </body>
