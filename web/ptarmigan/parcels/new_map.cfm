@@ -126,6 +126,11 @@
 						<td><span id="GROUND_SURVEY"></span></td>
 					</tr>
 					</table>
+					<span class="map-sidebar-header">Mensuration</span>
+					
+					<span id="mensuration-results">
+					<strong>Please click "Measure" on the toolbar, then click two points.</strong>
+					</span>
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>

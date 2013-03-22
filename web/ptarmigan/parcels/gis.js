@@ -62,11 +62,27 @@ function init_map(control_id, center_latitude, center_longitude)
 				if (got_first_point) {
 					second_lat = e.latLng.lat();
 					second_lng = e.latLng.lng();
-					var bear = bearing(first_lat, first_lng, second_lat, second_lng);
+					var azimuth = forward_azimuth(first_lat, first_lng, second_lat, second_lng);
 					var dist = distance(first_lat, first_lng, second_lat, second_lng);
 					
-					alert(dist + "km" + " " + bear);
+					var brng = bearing(azimuth_to_angle(azimuth));					
 					
+					$("#mensuration-results").html('<strong>' + brng + ' ' + dist.toFixed(2) + "'</strong><br>Forward Azimuth: " + azimuth);
+	
+					
+					var mensurationCoords = [
+						new google.maps.LatLng(first_lat, first_lng),
+					    new google.maps.LatLng(second_lat, second_lng)					   
+					];
+					var mensurationPLine = new google.maps.Polyline({
+					    path: mensurationCoords,
+					    strokeColor: "red",
+					    strokeOpacity: 1.0,
+					    strokeWeight: 2
+					});
+					
+					mensurationPLine.setMap(map);
+										
 					got_first_point = false;
 				}
 				else {
@@ -94,10 +110,53 @@ function distance(lat1, lon1, lat2, lon2)
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 	var d = R * c;
 	
-	return(d);
+		
+	return(d * 3280.84);
 }
 
-function bearing(lat1, lon1, lat2, lon2)
+Number.prototype.between = function(first,last)
+{
+    return (first < last ? this >= first && this <= last : this >= last && this <= first);
+}
+
+function bearing(azimuth)
+{
+	var quadrant = 0;
+	var ns = "";
+	var ew = "";
+	
+	var out_brng = "";
+		
+	
+	if(azimuth.between(0, 89)) {
+		quadrant = 1;
+		ns = "N";
+		ew = "E";
+		out_brng = azimuth;
+	}
+	if(azimuth.between(90, 179)) {
+		quadrant = 2;
+		ns = "S";
+		ew = "E";
+		out_brng = 180 - azimuth;
+	}
+	if(azimuth.between(180, 269)) {
+		quadrant = 3;
+		ns = "S";
+		ew = "W";		
+		out_brng = azimuth - 180;
+	}
+	if(azimuth.between(270, 359)) {
+		quadrant = 4;
+		ns = "N";
+		ew = "W";
+		out_brng = 360 - azimuth;
+	}
+	
+	return(LocationFormatter.decimalBearingToDMS(out_brng, ns, ew));
+}
+
+function forward_azimuth(lat1, lon1, lat2, lon2)
 {
 	var dLat = (lat2-lat1).toRad();
 	var dLon = (lon2-lon1).toRad();
@@ -107,7 +166,18 @@ function bearing(lat1, lon1, lat2, lon2)
 	var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
 	var brng = Math.atan2(y, x).toDeg();
 		
+
 	return(brng);
+}
+
+function azimuth_to_angle(fwd_az)
+{
+	if (fwd_az > 0) {
+		return (fwd_az);
+	}
+	else {
+		return (360 - Math.abs(fwd_az));
+	}
 }
 
 function map_recenter(latitude, longitude)
@@ -382,6 +452,18 @@ LocationFormatter.decimalToDMS = function( location, hemisphere ){
  var seconds = LocationFormatter.roundToDecimal( secondsFromRemainder, 2 ); // get minutes by rounding to integer
 
  return degrees + '° ' + minutes + "' " + seconds + '" ' + hemisphere;
+};
+
+LocationFormatter.decimalBearingToDMS = function( location, northsouth, eastwest ){
+ if( location < 0 ) location *= -1; // strip dash '-'
+ 
+ var degrees = Math.floor( location );          // strip decimal remainer for degrees
+ var minutesFromRemainder = ( location - degrees ) * 60;       // multiply the remainer by 60
+ var minutes = Math.floor( minutesFromRemainder );       // get minutes from integer
+ var secondsFromRemainder = ( minutesFromRemainder - minutes ) * 60;   // multiply the remainer by 60
+ var seconds = LocationFormatter.roundToDecimal( secondsFromRemainder, 2 ); // get minutes by rounding to integer
+
+ return northsouth + " " + degrees + '° ' + minutes + "' " + seconds + '" ' + eastwest;
 };
 
 LocationFormatter.decimalLatToDMS = function( location ){
