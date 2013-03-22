@@ -15,9 +15,20 @@ var se_latitude = 0;
 var se_longitude = 0;
 var overlays = [];
 var current_control_id;
-var leftclick_mode = "info";
+var left_click_mode = "info";
 var search_results_visible = false;
 
+var got_first_point = false;
+
+var first_lat = 0;
+var first_lng = 0;
+var second_lat = 0;
+var second_lng = 0;
+
+function click_mode(mode)
+{
+	left_click_mode = mode;
+}
 
 function init_map(control_id, center_latitude, center_longitude)
 {
@@ -41,26 +52,82 @@ function init_map(control_id, center_latitude, center_longitude)
    		$("#current-latitude").html(theLat);
    		$("#current-longitude").html(theLng);
 	});
+	
+	google.maps.event.addListener(map, 'click', function(e) {
+		
+		switch(left_click_mode) {
+			case 'info':
+				break;
+			case 'measure':
+				if (got_first_point) {
+					second_lat = e.latLng.lat();
+					second_lng = e.latLng.lng();
+					var bear = bearing(first_lat, first_lng, second_lat, second_lng);
+					var dist = distance(first_lat, first_lng, second_lat, second_lng);
+					
+					alert(dist + "km" + " " + bear);
+					
+					got_first_point = false;
+				}
+				else {
+					first_lat = e.latLng.lat();
+					first_lng = e.latLng.lng();
+					got_first_point = true;
+				}
+				break;
+			
+		}
+		
+	});
     
+}
+
+function distance(lat1, lon1, lat2, lon2)
+{
+	var R = 6371; // km
+	var dLat = (lat2-lat1).toRad();
+	var dLon = (lon2-lon1).toRad();
+	var lat1 = lat1.toRad();
+	var lat2 = lat2.toRad();
+	
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c;
+	
+	return(d);
+}
+
+function bearing(lat1, lon1, lat2, lon2)
+{
+	var dLat = (lat2-lat1).toRad();
+	var dLon = (lon2-lon1).toRad();
+	var lat1 = lat1.toRad();
+	var lat2 = lat2.toRad();
+	var y = Math.sin(dLon) * Math.cos(lat2);
+	var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+	var brng = Math.atan2(y, x).toDeg();
+		
+	return(brng);
 }
 
 function map_recenter(latitude, longitude)
 {
 	var newLatLng = new google.maps.LatLng(latitude, longitude);
 	map.setCenter(newLatLng);
+	var marker = new google.maps.Marker({	   
+        position: newLatLng,
+        map: map
+    });
 }
-
 
 function loading(value)
 {
-
     if(value) {
 	
     }
     else {
 
     }
-
 } 
 
 function redraw()
@@ -130,7 +197,9 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    display_info(this.parcel_index);
 		});
 	    google.maps.event.addListener(polygon, 'click', function () {
-		    open_window(this.parcel_index);
+		    if (left_click_mode == 'info') {
+		    	open_window(this.parcel_index);
+		    }
 		});
 
 	    overlays.push(polygon);	 
@@ -274,6 +343,13 @@ function map_search ()
 		
 	}
 	$("#map-search-results").html(request(url));
+}
+
+function close_map_search()
+{
+	search_results_visible = false;
+	size_ui();
+	
 }
 
 // A static class for converting between Decimal and DMS formats for a location

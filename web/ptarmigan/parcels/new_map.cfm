@@ -8,6 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 		<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
+		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
+		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
 		</cfoutput>
 		<script type="text/javascript">
 			$(document).ready(function() {   								
@@ -34,7 +36,7 @@
 					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);			
 				}
 				else {
-					$("#map_search_results").hide();
+					$("#map-search-results").hide();
 					$("#map").height($("#map-inner-container").height());
 				}
 				
@@ -52,9 +54,9 @@
 					<cfinclude template="map_search.cfm">
 					<div style="float:right; padding-right:20px;">
 					<cfoutput>
-					<button class="left-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"> Info</button>
-					<button class="middle-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"> Measure</button>
-					<button class="middle-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/star.png" style="vertical-align:middle;"> Bookmark</button>
+					<button class="left-button" onclick="click_mode('info');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"> Info</button>
+					<button class="middle-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"> Measure</button>
+					<button class="middle-button" onclick="click_mode('bookmark');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/star.png" style="vertical-align:middle;"> Bookmark</button>
 <!--- 
 					<button class="right-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"> New Parcel</button>
  --->
