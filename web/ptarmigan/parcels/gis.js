@@ -140,7 +140,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 
 function set_progress(value)
 {
-    document.getElementById('progress_bar').style.width = value + "%";
+    //document.getElementById('progress_bar').style.width = value + "%";
 }
 
 function display_info(parcel_index) 
