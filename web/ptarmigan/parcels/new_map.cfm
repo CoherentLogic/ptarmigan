@@ -189,7 +189,8 @@
 			<div id="map-status-bar">
 							
 				<span id="gis-status" class="status-bar-segment-right">Ready</span>
-				<span id="loader" class="status-bar-segment"></span>
+				<span id="loader" class="status-bar-segment-right">0 parcels in viewport</span>
+				<span id="network-status" class="status-bar-segment">Network Idle</span>
 				<div id="status-bar-right">
 					<span class="status-bar-segment-right" id="current-parcel">No Parcel</span>
 					<span class="status-bar-segment-right" id="current-latitude">Latitude</span>

@@ -56,8 +56,12 @@ function init_map(control_id, center_latitude, center_longitude)
 		maxZoom: 18	
 	});
 	
-	tile_layer.on('load', redraw);
+	
 	tile_layer.addTo(map);
+
+	map.on('viewreset', redraw);
+	map.on('moveend', redraw);
+	map.on('dragend', redraw);
 
 	map.on('mousemove', function(e) {
    		var theLat = LocationFormatter.decimalLatToDMS(e.latlng.lat);
@@ -221,6 +225,14 @@ function redraw()
     retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude);
 }
 
+function network_status(status)
+{
+	$("#network-status").html(status);
+}
+
+
+var request_active = false;
+var xml_http = false;
 
 function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 {
@@ -229,8 +241,11 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     url = url + "&se_latitude=" + escape(se_latitude);
     url = url + "&se_longitude=" + escape(se_longitude);
     
+    if(xml_http) {
+    	xml_http.abort();
+    }
         
-    var xml_http;
+    
     xml_http = http_request_object();
         
         
@@ -238,6 +253,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     {
 	switch(xml_http.readyState) {
 	case 4:
+	network_status("Network Idle");
 	//ready
 	current_parcels = eval('(' + xml_http.responseText + ')');
 	current_parcel_count = current_parcels.PARCELS.length;
@@ -299,6 +315,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 
 	break;
 	case 1:
+	network_status('Awaiting Response');
 	document.getElementById('loader').innerHTML = "Loading...";
 	loading(true);
 	//in progress
