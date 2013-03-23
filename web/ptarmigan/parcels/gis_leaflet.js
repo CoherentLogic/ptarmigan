@@ -241,6 +241,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     url = url + "&se_latitude=" + escape(se_latitude);
     url = url + "&se_longitude=" + escape(se_longitude);
     
+    $("#debugging-json-link").val("http://ptarmigan.coherent-logic.com" + url);
+    
     if(xml_http) {
     	if (request_active) {
     		xml_http.abort();
@@ -269,8 +271,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	//ready
 	current_parcels = eval('(' + xml_http.responseText + ')');
 	current_parcel_count = current_parcels.PARCELS.length;
-	
-	alert(current_parcels.QUERY_TIME);
+		
 	
 	document.getElementById('loader').innerHTML = "Loaded " + current_parcel_count + " parcels.";
 

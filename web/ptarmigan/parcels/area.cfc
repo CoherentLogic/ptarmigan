@@ -12,6 +12,10 @@
 	
 	<cffunction name="create" returntype="parcels.area" access="public" output="false">
 		
+		
+		
+		
+		
 		<cfquery name="get_parcels" datasource="#session.company.datasource#">
 			SELECT id FROM parcels 
 			WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))		
