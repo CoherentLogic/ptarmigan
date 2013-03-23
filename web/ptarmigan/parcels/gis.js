@@ -115,6 +115,7 @@ function init_map(control_id, center_latitude, center_longitude)
 		
 	});
     
+    $("#gis-status").html('Google GIS support loaded');
 }
 
 function distance(lat1, lon1, lat2, lon2)
@@ -276,10 +277,10 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    coords.length = point_count;
 
 	    for(j = 0; j < point_count; j++) {		
-		coords[j] = new google.maps.LatLng(current_parcels.PARCELS[i].POLYGONS[j].LATITUDE, current_parcels.PARCELS[i].POLYGONS[j].LONGITUDE);		
+			coords[j] = new google.maps.LatLng(current_parcels.PARCELS[i].POLYGONS[j].LATITUDE, current_parcels.PARCELS[i].POLYGONS[j].LONGITUDE);		
 	    }
 	    
-	    current_parcel = current_parcels[i]
+	    current_parcel = current_parcels[i];
 		polygon = new google.maps.Polygon({paths: coords, parcel_index: i, fillColor: 'silver', strokeColor: 'gray', strokeWeight: 1});
 	    parcel_id = current_parcels.PARCELS[i].ID;
 	    google.maps.event.addListener(polygon, 'mouseover', function () {	    

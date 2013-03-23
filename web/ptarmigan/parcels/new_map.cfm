@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Parcel Map - ptarmigan</title>
-		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+		<title>Parcel Map - ptarmigan</title>		
 		<cfoutput>
+		<cfif url.map_type EQ "osm">
+			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
+			<script src="#session.root_url#/leaflet/leaflet.js"></script>
+			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>
+		<cfelse>
+			<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+			<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
+		</cfif>
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-		<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
+		
 		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
 		</cfoutput>
@@ -181,7 +188,7 @@
 		
 			<div id="map-status-bar">
 							
-				<span id="status" class="status-bar-segment-right">Ready</span>
+				<span id="gis-status" class="status-bar-segment-right">Ready</span>
 				<span id="loader" class="status-bar-segment"></span>
 				<div id="status-bar-right">
 					<span class="status-bar-segment-right" id="current-parcel">No Parcel</span>
