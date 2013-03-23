@@ -265,9 +265,13 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		network_status('<span style="color:red">Network Error ' + xml_http.status +  '</span>');
 		request_active = false;
 	}
+	
 	//ready
 	current_parcels = eval('(' + xml_http.responseText + ')');
 	current_parcel_count = current_parcels.PARCELS.length;
+	
+	alert(current_parcels.QUERY_TIME);
+	
 	document.getElementById('loader').innerHTML = "Loaded " + current_parcel_count + " parcels.";
 
 	var i = 0;

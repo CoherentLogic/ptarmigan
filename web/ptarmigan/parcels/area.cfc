@@ -5,6 +5,9 @@
 	<cfset this.se_latitude = 0>
 	<cfset this.se_longitude = 0>
 	
+	<cfset this.query_time = 0>
+	<cfset this.instantiation_time = 0>
+	
 	<cfset this.parcels = ArrayNew(1)>
 	
 	<cffunction name="create" returntype="parcels.area" access="public" output="false">
@@ -14,11 +17,15 @@
 			WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))		
 		</cfquery>
 		
+		<cfset this.query_time = cfquery.ExecutionTime>
+		
 		<cfset this.parcels = ArrayNew(1)>
 		<cfoutput query="get_parcels">
 			<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(get_parcels.id)>
 			<cfset ArrayAppend(this.parcels, parcel)>
 		</cfoutput>
+		
+		
 		
 		<cfreturn this>
 	</cffunction>
