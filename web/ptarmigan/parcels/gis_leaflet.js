@@ -242,9 +242,12 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     url = url + "&se_longitude=" + escape(se_longitude);
     
     if(xml_http) {
-    	xml_http.abort();
+    	if (request_active) {
+    		xml_http.abort();
+    	}
     }
         
+    request_active = true;
     
     xml_http = http_request_object();
         
@@ -256,9 +259,11 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	
 	if(xml_http.status == 200) {
 		network_status("Request Completed");
+		request_active = false;
 	}
 	else {
-		network_status('<span style="color:red">Network Error</span>');
+		network_status('<span style="color:red">Network Error ' + xml_http.status +  '</span>');
+		request_active = false;
 	}
 	//ready
 	current_parcels = eval('(' + xml_http.responseText + ')');
@@ -321,12 +326,14 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 
 	break;
 	case 1:
+	request_active = true;
 	network_status('Connection Established');
 	document.getElementById('loader').innerHTML = "Loading...";
 	loading(true);
 	//in progress
 	break;
 	case 3:
+	request_active = true;
 	network_status('Processing Request');
 	break;
 	}
