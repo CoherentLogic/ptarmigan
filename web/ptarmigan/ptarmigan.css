@@ -693,6 +693,16 @@ input:required:valid {
 	text-decoration:underline;
 }
 
+.search_result p {
+	margin:0;
+}
+
+.search_result p a {
+	font-size:8pt;
+	font-weight:lighter;
+	text-decoration:underline;
+}
+
 .search_class {
 	color:green;
 	font-size:8pt;

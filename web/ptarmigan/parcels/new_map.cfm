@@ -74,62 +74,101 @@
 						<li><a href="##">Truth or Consequences</a></li>
 					</ul>					
 					
-					<span class="map-sidebar-header">Current Parcel</span>
 					
-					<table>
-					<tr>
-						<td>APN:</td>
-						<td><span id="PARCEL_ID"></span></td>
-					</tr>
-					<tr>
-						<td>Account Number:</td>
-						<td><span id="ACCOUNT_NUMBER"></span></td>
-					</tr>
-					<tr>
-						<td>Reception Number:</td>
-						<td><span id="RECEPTION_NUMBER"></span></td>
-					</tr>
-					<tr>
-						<td>Owner Name:</td>
-						<td><span id="OWNER_NAME"></span></td>
-					</tr>
-					<tr>
-						<td>Mailing Address:</td>
-						<td><span id="MAILING_ADDRESS"></span></td>
-					</tr>
-					<tr>
-						<td>Physical Address:</td>
-						<td><span id="PHYSICAL_ADDRESS"></span></td>
-					</tr>
-					<tr>
-						<td>Legal Section:</td>
-						<td><span id="LEGAL_SECTION"></span></td>
-					</tr>
-					<tr>
-						<td>Subdivision:</td>
-						<td><span id="SUBDIVISION"></span></td>
-					</tr>
-					<tr>
-						<td>Land Value:</td>
-						<td><span id="LAND_VALUE"></span></td>
-					</tr>
-					<tr>
-						<td>Building Value:</td>
-						<td><span id="BUILDING_VALUE"></span></td>
-					</tr>
-					<tr>
-						<td>Area:</td>
-						<td><span id="AREA"></span></td>
-					</tr>
-					<tr>
-						<td>Ground Survey:</td>
-						<td><span id="GROUND_SURVEY"></span></td>
-					</tr>
-					</table>
-					<span class="map-sidebar-header">Mensuration</span>
-					
-					<span id="mensuration-results">
-					<strong>Please click "Measure" on the toolbar, then click two points.</strong>
+					<span id="information">
+						<span class="map-sidebar-header">Current Parcel</span>
+						
+						<div class="map-sidebar-wrapper">
+						<table>
+						<tr>
+							<td>APN:</td>
+							<td><span id="PARCEL_ID"></span></td>
+						</tr>
+						<tr>
+							<td>Account Number:</td>
+							<td><span id="ACCOUNT_NUMBER"></span></td>
+						</tr>
+						<tr>
+							<td>Reception Number:</td>
+							<td><span id="RECEPTION_NUMBER"></span></td>
+						</tr>
+						<tr>
+							<td>Owner Name:</td>
+							<td><span id="OWNER_NAME"></span></td>
+						</tr>
+						<tr>
+							<td>Mailing Address:</td>
+							<td><span id="MAILING_ADDRESS"></span></td>
+						</tr>
+						<tr>
+							<td>Physical Address:</td>
+							<td><span id="PHYSICAL_ADDRESS"></span></td>
+						</tr>
+						<tr>
+							<td>Legal Section:</td>
+							<td><span id="LEGAL_SECTION"></span></td>
+						</tr>
+						<tr>
+							<td>Subdivision:</td>
+							<td><span id="SUBDIVISION"></span></td>
+						</tr>
+						<tr>
+							<td>Land Value:</td>
+							<td><span id="LAND_VALUE"></span></td>
+						</tr>
+						<tr>
+							<td>Building Value:</td>
+							<td><span id="BUILDING_VALUE"></span></td>
+						</tr>
+						<tr>
+							<td>Area:</td>
+							<td><span id="AREA"></span></td>
+						</tr>
+						<tr>
+							<td>Ground Survey:</td>
+							<td><span id="GROUND_SURVEY"></span></td>
+						</tr>
+						</table>
+						</div>
+					</span>
+					<span id="mensuration" style="display:none;">
+						<span class="map-sidebar-header">Mensuration</span>
+						
+						<div class="map-sidebar-wrapper">
+							<table>
+							<tr>
+								<td><label for="mensuration-origin-lat">Origin Latitude</label></td>
+								<td><input type="text" readonly id="mensuration-origin-lat"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-origin-lng">Origin Longitude</label></td>
+								<td><input type="text" readonly id="mensuration-origin-lng"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-endpoint-lat">Endpoint Latitude</label></td>
+								<td><input type="text" readonly id="mensuration-endpoint-lat"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-endpoint-lng">Endpoint Longitude</label></td>
+								<td><input type="text" readonly id="mensuration-endpoint-lng"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-bearing">Bearing</label></td>
+								<td><input type="text" readonly id="mensuration-bearing"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-distance">Distance</label></td>
+								<td><input type="text" readonly id="mensuration-distance"></td>
+							</tr>
+							<tr>
+								<td><label for="mensuration-forward-azimuth">Forward Azimuth</label></td>
+								<td><input type="text" readonly id="mensuration-forward-azimuth"></td>
+							</tr>						
+							</table>
+							
+							<button onclick="reset_mensuration();">Clear</button>
+							
+						</div>
 					</span>
 				</div>
 				<div id="map-search-results" style="display:none;">

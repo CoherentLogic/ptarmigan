@@ -28,6 +28,17 @@ var second_lng = 0;
 function click_mode(mode)
 {
 	left_click_mode = mode;
+	
+	switch (mode) {
+		case 'info':
+			$("#information").show();
+			$("#mensuration").hide();
+			break;
+		case 'measure':
+			$("#information").hide();
+			$("#mensuration").show();
+			break;
+	}
 }
 
 function init_map(control_id, center_latitude, center_longitude)
@@ -38,7 +49,8 @@ function init_map(control_id, center_latitude, center_longitude)
 	center:new google.maps.LatLng(center_latitude, center_longitude),
 	zoom: 16,
 	minZoom: 15,
-	mapTypeId: google.maps.MapTypeId.ROADMAP
+	mapTypeId: google.maps.MapTypeId.ROADMAP,
+	draggableCursor:'crosshair'
     };
 
     map = new google.maps.Map(document.getElementById(control_id), map_options);
@@ -67,8 +79,12 @@ function init_map(control_id, center_latitude, center_longitude)
 					
 					var brng = bearing(azimuth_to_angle(azimuth));					
 					
-					$("#mensuration-results").html('<strong>' + brng + ' ' + dist.toFixed(2) + "'</strong><br>Forward Azimuth: " + azimuth);
-	
+					
+					$("#mensuration-endpoint-lat").val(LocationFormatter.decimalLatToDMS(second_lat));
+					$("#mensuration-endpoint-lng").val(LocationFormatter.decimalLongToDMS(second_lng));
+					$("#mensuration-bearing").val(brng);
+					$("#mensuration-forward-azimuth").val(azimuth);
+					$("#mensuration-distance").val(dist.toFixed(2) + "'");
 					
 					var mensurationCoords = [
 						new google.maps.LatLng(first_lat, first_lng),
@@ -88,6 +104,9 @@ function init_map(control_id, center_latitude, center_longitude)
 				else {
 					first_lat = e.latLng.lat();
 					first_lng = e.latLng.lng();
+					$("#mensuration-origin-lat").val(LocationFormatter.decimalLatToDMS(first_lat));
+					$("#mensuration-origin-lng").val(LocationFormatter.decimalLatToDMS(first_lng));
+					
 					got_first_point = true;
 				}
 				break;
