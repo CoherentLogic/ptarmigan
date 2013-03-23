@@ -253,7 +253,13 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     {
 	switch(xml_http.readyState) {
 	case 4:
-	network_status("Network Idle");
+	
+	if(xml_http.status == 200) {
+		network_status("Request Completed");
+	}
+	else {
+		network_status('<span style="color:red">Network Error</span>');
+	}
 	//ready
 	current_parcels = eval('(' + xml_http.responseText + ')');
 	current_parcel_count = current_parcels.PARCELS.length;
@@ -315,10 +321,13 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 
 	break;
 	case 1:
-	network_status('Awaiting Response');
+	network_status('Connection Established');
 	document.getElementById('loader').innerHTML = "Loading...";
 	loading(true);
 	//in progress
+	break;
+	case 3:
+	network_status('Processing Request');
 	break;
 	}
     }
