@@ -2,7 +2,7 @@
 	SELECT id FROM parcels
 </cfquery>
 
-<cfoutput query="g_parcels">
+<cfoutput query="g_parcels" maxrows="10">
 	<cfmodule template="parcel_conversion_phase_2.cfm" parcel_id="#id#">
 	
 </cfoutput>
