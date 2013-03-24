@@ -11,6 +11,7 @@
 			<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
 			<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
 		</cfif>
+		<script src="#session.root_url#/ux.js"></script>
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">

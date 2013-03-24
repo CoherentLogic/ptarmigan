@@ -9,6 +9,20 @@
 
 var perm_root = "";
 
+function ptarmigan () {
+	this.root_url = perm_root;
+	
+	return (this);
+}
+
+ptarmigan.prototype.session = function () {
+	var url = perm_root & "/utilities/sess_json.cfm";
+	var sess_results = request(url);
+	var sess_json = eval("'" + sess_results + "'");
+	
+	return (sess_json);
+}
+
 function about_ptarmigan()
 {
 	var url = perm_root + "/about.cfm";

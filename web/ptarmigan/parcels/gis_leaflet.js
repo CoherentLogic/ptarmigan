@@ -340,6 +340,10 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    
 	    polygon.on('contextmenu', function (e) {
 	    	//alert('contextmenu on ' + e.target.parcel_id);
+	    	
+	    	mnu = new ux_menu('test_id');
+	    	mnu.add_item('map_edit.png', 'Edit Parcel', '');
+	    	mnu.display(0, 0);
 	    });
 	    
 	    polygon.on('mouseover',  function (e) {	 
