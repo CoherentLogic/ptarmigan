@@ -5,5 +5,3 @@
 	SET boundary=GeomFromText('#attributes.wkt#') 
 	WHERE id='#attributes.parcel_id#'
 </cfquery>
-
-<cfoutput>#sqlquery#</cfoutput>
