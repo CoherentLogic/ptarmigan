@@ -338,6 +338,10 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
             fillColor: current_parcels.PARCELS[i].FILL_COLOR
         });
 	    
+	    polygon.on('contextmenu', function (e) {
+	    	alert('contextmenu on ' + e.target.parcel_index);
+	    });
+	    
 	    polygon.on('mouseover',  function (e) {	 
 	    	e.target.setStyle({fillColor:highlight_color, color:"green", fillOpacity: 0.9});
 		    display_info(e.target.parcel_index);
