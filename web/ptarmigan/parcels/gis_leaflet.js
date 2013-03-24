@@ -371,18 +371,7 @@ function display_info(parcel_index)
 {
     var p = current_parcels.PARCELS[parcel_index];
 
-    load("PARCEL_ID", p.PARCEL_ID);
     load("current-parcel", "APN " + p.PARCEL_ID);
-    load("ACCOUNT_NUMBER", p.ACCOUNT_NUMBER);
-    load("RECEPTION_NUMBER", p.RECEPTION_NUMBER);
-    load("OWNER_NAME", p.OWNER_NAME);
-    load("MAILING_ADDRESS", p.MAILING_ADDRESS + "<br>" + p.MAILING_CITY + " " + p.MAILING_STATE + " " + p.MAILING_ZIP);
-    load("PHYSICAL_ADDRESS", p.PHYSICAL_ADDRESS + "<br>" + p.PHYSICAL_CITY + " " + p.PHYSICAL_STATE + " " + p.PHYSICAL_ZIP);
-    load("LEGAL_SECTION", p.SECTION + " T" + p.TOWNSHIP + " R" + p.RANGE);
-    load("SUBDIVISION", p.SUBDIVISION + " LOT " + p.LOT + " BLOCK " + p.BLOCK);
-    load("LAND_VALUE", "$" + p.ASSESSED_LAND_VALUE);
-    load("BUILDING_VALUE", "$" + p.ASSESSED_BUILDING_VALUE);
-    load("AREA", p.AREA_ACRES);
 }
 
 function open_window(parcel_index)

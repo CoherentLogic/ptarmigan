@@ -16,32 +16,6 @@
 		<cfquery name="get_parcels" datasource="#session.company.datasource#" >
 			SELECT 	id,
 					parcel_id,
-					area_sq_ft,
-					area_sq_yd,
-					area_acres,
-					account_number,
-					mailing_address,
-					mailing_city,
-					mailing_state,
-					mailing_zip,
-					subdivision,
-					lot,
-					block,
-					physical_address,
-					physical_city,
-					physical_state,
-					physical_zip,
-					assessed_land_value,
-					assessed_building_value,
-					`section`,
-					township,
-					`range`,
-					reception_number,
-					owner_name,
-					metes_and_bounds,
-					ground_survey,
-					center_latitude,
-					center_longitude,
 					AsText(boundary) AS boundary_text
 			FROM 	parcels 
 			WHERE 	MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
@@ -53,34 +27,8 @@
 		<cfoutput query="get_parcels">
 			<cfset ts = StructNew()>
 			
-			<cfset ts.subdivision = subdivision>
-			<cfset ts.township = township>
-			<cfset ts.owner_name = owner_name>
-			<cfset ts.range = range>
-			<cfset ts.mailing_zip = mailing_zip>		
-			<cfset ts.center_latitude = center_latitude>
-			<cfset ts.block = block>
-			<cfset ts.area_acres = area_acres>
-			<cfset ts.physical_zip = physical_zip>
-			<cfset ts.assessed_building_value = assessed_building_value>
 			<cfset ts.id = id>
-			<cfset ts.physical_city = physical_city>
-			<cfset ts.ground_survey = ground_survey>
-			<cfset ts.area_sq_yd = area_sq_yd>
-			<cfset ts.mailing_state = mailing_state>
-			<cfset ts.physical_address = physical_address>
-			<cfset ts.assessed_land_value = assessed_land_value>	
-			<cfset ts.center_longitude = center_longitude>
-			<cfset ts.physical_state = physical_state>
 			<cfset ts.parcel_id = parcel_id>
-			<cfset ts.account_number = account_number>
-			<cfset ts.mailing_address = mailing_address>
-			<cfset ts.section = section>
-			<cfset ts.reception_number = reception_number>
-			<cfset ts.lot = lot>
-			<cfset ts.mailing_city = mailing_city>
-			<cfset ts.metes_and_bounds = metes_and_bounds>
-			<cfset ts.area_sq_ft = area_sq_ft>
 					
 			<cfset ts.polygons = ArrayNew(1)>
 						
