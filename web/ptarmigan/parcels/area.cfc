@@ -86,7 +86,7 @@
 						
 			<cfif len(boundary_text) GT 0>
 				<cfset tmpPoly = mid(boundary_text, 10)>
-				<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
+				<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 3)>
 				
 				<cfset tmpArray = ListToArray(tmpPoly, ",")>
 				<cfset tmpStruct = StructNew()>
