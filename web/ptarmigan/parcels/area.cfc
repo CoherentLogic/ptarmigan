@@ -6,7 +6,6 @@
 	<cfset this.se_longitude = 0>
 	
 	<cfset this.query_time = 0>
-	<cfset this.instantiation_time = 0>
 	
 	<cfset this.parcels = ArrayNew(1)>
 	
@@ -15,54 +14,81 @@
 		
 		
 		<cfquery name="get_parcels" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
+			SELECT 	id,
+					parcel_id,
+					area_sq_ft,
+					area_sq_yd,
+					area_acres,
+					account_number,
+					mailing_address,
+					mailing_city,
+					mailing_state,
+					mailing_zip,
+					subdivision,
+					lot,
+					block,
+					physical_address,
+					physical_city,
+					physical_state,
+					physical_zip,
+					assessed_land_value,
+					assessed_building_value,
+					`section`,
+					township,
+					`range`,
+					reception_number,
+					owner_name,
+					metes_and_bounds,
+					ground_survey,
+					center_latitude,
+					center_longitude,
+					AsText(boundary) AS BPOLY
+			FROM 	parcels 
+			WHERE 	MBRWITHIN(boundary, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
 		</cfquery>
-		
-<!--- 		prc.subdivision,
-					prc.township,
-					prc.owner_name,
-					prc.range,
-					prc.mailing_zip,
-					prc.center_latitude,
-					prc.block,
-					prc.area_acres,
-					prc.physical_zip,
-					prc.assessed_building_value,
-					prc.id,
-					prc.physical_city,
-					prc.ground_survey,
-					prc.area_sq_yd,
-					prc.mailing_state,
-					prc.physical_address,
-					prc.assessed_land_value,
-					prc.center_longitude,
-					prc.physical_state,
-					prc.parcel_id,
-					prc.account_number,
-					prc.mailing_address,
-					`prc.section`,
-					prc.reception_number,
-					prc.lot,
-					prc.mailing_city,
-					prc.metes_and_bounds,
-					prc.area_sq_ft,
-					GROUP_CONCAT() --->
-		
-		
-		<!---
-		<cfquery name="get_parcels" datasource="#session.company.datasource#">
-			SELECT id FROM parcels 
-			WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))		
-		</cfquery>
-		
+					
 		<cfset this.query_time = cfquery.ExecutionTime>
 		
 		<cfset this.parcels = ArrayNew(1)>
 		<cfoutput query="get_parcels">
-			<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(get_parcels.id)>
-			<cfset ArrayAppend(this.parcels, parcel)>
+			<cfset ts = StructNew()>
+			
+			<cfset ts.subdivision = subdivision>
+			<cfset ts.township = township>
+			<cfset ts.owner_name = owner_name>
+			<cfset ts.range = range>
+			<cfset ts.mailing_zip = mailing_zip>		
+			<cfset ts.center_latitude = center_latitude>
+			<cfset ts.block = block>
+			<cfset ts.area_acres = area_acres>
+			<cfset ts.physical_zip = physical_zip>
+			<cfset ts.assessed_building_value = assessed_building_value>
+			<cfset ts.id = id>
+			<cfset ts.physical_city = physical_city>
+			<cfset ts.ground_survey = ground_survey>
+			<cfset ts.area_sq_yd = area_sq_yd>
+			<cfset ts.mailing_state = mailing_state>
+			<cfset ts.physical_address = physical_address>
+			<cfset ts.assessed_land_value = assessed_land_value>	
+			<cfset ts.center_longitude = center_longitude>
+			<cfset ts.physical_state = physical_state>
+			<cfset ts.parcel_id = parcel_id>
+			<cfset ts.account_number = account_number>
+			<cfset ts.mailing_address = mailing_address>
+			<cfset ts.section = section>
+			<cfset ts.reception_number = reception_number>
+			<cfset ts.lot = lot>
+			<cfset ts.mailing_city = mailing_city>
+			<cfset ts.metes_and_bounds = metes_and_bounds>
+			<cfset ts.area_sq_feet = area_sq_feet>
+			
+			<cfset ts.bpoly = BPOLY>
+			
+			
+			
+			<cfset ArrayAppend(this.parcels, ts)>
 		</cfoutput>
-		--->
+		
 		
 		
 		<cfreturn this>
