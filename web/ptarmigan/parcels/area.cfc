@@ -88,7 +88,7 @@
 			<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
 			
 			<cfset tmpArray = ListToArray(tmpPoly, ",")>
-			<cfset tmpStruct = StructNew(1)>
+			<cfset tmpStruct = StructNew()>
 			
 			<cfloop array="#tmpArray#" index="item">
 				<cfset tLat = left(item, find(" ", item) - 1)>
