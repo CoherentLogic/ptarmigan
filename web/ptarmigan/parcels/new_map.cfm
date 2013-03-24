@@ -22,7 +22,7 @@
 			$(document).ready(function() {   								
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				size_ui();	   		 
-				init_map('map', 32.3197, -106.7653);
+				init_map('map', 33.1283, -107.2522);
 	   		});	   		 	
 	   		
 	   		$(window).resize(function() {
