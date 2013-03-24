@@ -53,6 +53,9 @@
 		</script>
 	</head>
 	<body>
+		<div id="parcel-context-menu" class="context-menu" style="display:none;">
+		
+		</div>
 		<div id="map-outer-container">
 			<div id="header">
 				<cfoutput><img src="#session.root_url#/ptarmigan-full.png" style="margin-top:25px;"></cfoutput>	
