@@ -343,7 +343,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    display_info(e.target.parcel_index);
 		});
 		
-		polygon.on('mouseout', function (e)) {
+		polygon.on('mouseout', function (e) {
 			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR});
 		});
 		
