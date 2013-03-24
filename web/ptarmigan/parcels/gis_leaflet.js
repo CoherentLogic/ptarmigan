@@ -335,7 +335,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
             weight: 1,
             opacity: 0.6,
             fillOpacity: 0.1,
-            fillColor: current_parcels.PARCELS[i].FILL_COLOR;
+            fillColor: current_parcels.PARCELS[i].FILL_COLOR
         });
 	    
 	    polygon.on('mouseover',  function (e) {	 
