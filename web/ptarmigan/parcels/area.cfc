@@ -92,8 +92,8 @@
 				<cfset tmpStruct = StructNew()>
 				
 				<cfloop array="#tmpArray#" index="item">
-					<cfset tLng = left(item, find(" ", item))>
-					<cfset tLat = mid(item, find(" ", item))>
+					<cfset tLng = val(trim(left(item, find(" ", item))))>
+					<cfset tLat = val(trim(mid(item, find(" ", item))))>
 					
 					
 					<cfset tmpStruct.latitude = tLat>
