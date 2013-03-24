@@ -81,9 +81,25 @@
 			<cfset ts.mailing_city = mailing_city>
 			<cfset ts.metes_and_bounds = metes_and_bounds>
 			<cfset ts.area_sq_ft = area_sq_ft>
+					
+			<cfset ts.polygons = ArrayNew(1)>
 			
-			<cfset ts.polygons = "'CCC" & boundary_text & "CCC'">
+			<cfset tmpPoly = mid(boundary_text, 10)>
+			<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
 			
+			<cfset tmpArray = ListToArray(tmpPoly, ",")>
+			<cfset tmpStruct = StructNew(1)>
+			
+			<cfloop array="#tmpArray#" index="item">
+				<cfset tLat = left(item, find(" ", item) - 1)>
+				<cfset tLng = mid(item, find(" "), item) + 1>
+				
+				
+				<cfset tmpStruct.latitude = tLat>
+				<cfset tmpStruct.longitude = tLng>
+				
+				<cfset ArrayAppend(ts.polygons, tt)>				
+			</cfloop>						
 			
 			
 			<cfset ArrayAppend(this.parcels, ts)>
