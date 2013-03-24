@@ -340,7 +340,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    
 	    polygon.on('contextmenu', function (e) {
 	    	//alert('contextmenu on ' + e.target.parcel_id);
-	    	$("#parcel-context-menu").html(request("/parcels/parcel_context_menu.cfm?id=" + e.target.parcel_id));
+	    	$("#parcel-context-menu").html(request("/parcels/parcel_context_menu.cfm?parcel_id=" + e.target.parcel_id));
 	    	$("#parcel-context-menu").show();
 	    });
 	    
