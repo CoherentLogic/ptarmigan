@@ -82,7 +82,7 @@
 			<cfset ts.metes_and_bounds = metes_and_bounds>
 			<cfset ts.area_sq_ft = area_sq_ft>
 			
-			<cfset ts.polygons = boundary_text>
+			<cfset ts.polygons = "'CCC" & boundary_text & "CCC'">
 			
 			
 			
