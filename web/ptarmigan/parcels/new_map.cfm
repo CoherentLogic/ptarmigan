@@ -193,7 +193,7 @@
 				<div id="map-search-results" style="display:none;">
 				</div>
 				<div id="map">
-						map	
+							
 				</div>
 			</div>
 			

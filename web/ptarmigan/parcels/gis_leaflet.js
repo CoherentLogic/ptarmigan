@@ -56,12 +56,13 @@ function init_map(control_id, center_latitude, center_longitude)
 		maxZoom: 18	
 	});
 	
-	
+
+	tile_layer.on('load', redraw);	
 	tile_layer.addTo(map);
 
 	map.on('viewreset', redraw);
-	map.on('moveend', redraw);
-	map.on('dragend', redraw);
+	//map.on('moveend', redraw);
+	//map.on('dragend', redraw);
 
 	map.on('mousemove', function(e) {
    		var theLat = LocationFormatter.decimalLatToDMS(e.latlng.lat);
