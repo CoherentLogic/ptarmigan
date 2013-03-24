@@ -51,7 +51,7 @@ function init_map(control_id, center_latitude, center_longitude)
 
     map = L.map(control_id).setView([center_latitude, center_longitude], 13);
 	
-	tile_layer = L.tileLayer('http://osm.coherent-logic.com/osm/{z}/{x}/{y}.png', {
+	tile_layer = L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; OpenStreetMap contributors',
 		maxZoom: 18	
 	});
