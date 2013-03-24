@@ -339,7 +339,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
         });
 	    
 	    polygon.on('mouseover',  function (e) {	 
-	    	e.target.setStyle({fillColor:highlight_color, color:"green"});
+	    	e.target.setStyle({fillColor:highlight_color, color:"green", fillOpacity: 0.9});
 		    display_info(e.target.parcel_index);
 		});
 		
@@ -350,7 +350,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    else {
 		    	parcel_color = alert_color;
 		    }	
-			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR, color:parcel_color});
+			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR, color:parcel_color, fillOpacity: 0.1});
 		});
 		
 	    
