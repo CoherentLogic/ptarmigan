@@ -42,7 +42,7 @@
 					ground_survey,
 					center_latitude,
 					center_longitude,
-					AsText(boundary) AS boundary
+					boundary
 			FROM 	parcels 
 			WHERE 	MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
 		</cfquery>
