@@ -177,18 +177,7 @@
 							
 						</div>
 					</span>
-					<span id="debug">
-						<span class="map-sidebar-header">Debugging</span>
-						
-						<div class="map-sidebar-wrapper">
-							<table>
-								<tr>
-									<td>JSON Link</td>
-									<td><input type="text" readonly id="debugging-json-link"></td>
-								</tr>
-							</table>
-							
-						</div>
+					
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>

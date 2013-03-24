@@ -16,6 +16,8 @@
 		<cfquery name="get_parcels" datasource="#session.company.datasource#" >
 			SELECT 	id,
 					parcel_id,
+					fill_color,
+					alerts,
 					AsText(boundary) AS boundary_text
 			FROM 	parcels 
 			WHERE 	MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
@@ -29,6 +31,8 @@
 			
 			<cfset ts.id = id>
 			<cfset ts.parcel_id = parcel_id>
+			<cfset ts.fill_color = fill_color>
+			<cfset ts.alerts = alerts>
 					
 			<cfset ts.polygons = ArrayNew(1)>
 						

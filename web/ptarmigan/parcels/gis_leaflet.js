@@ -27,6 +27,10 @@ var first_lng = 0;
 var second_lat = 0;
 var second_lng = 0;
 
+var highlight_color = "#7daed4";
+var alert_color = "red";
+
+
 
 
 function click_mode(mode)
@@ -247,12 +251,12 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
     url = url + "&nw_longitude=" + escape(nw_longitude);
     url = url + "&se_latitude=" + escape(se_latitude);
     url = url + "&se_longitude=" + escape(se_longitude);
-    
-    $("#debugging-json-link").val("http://ptarmigan.coherent-logic.com" + url);
+        
     
     if(xml_http) {
     	if (request_active) {
     		xml_http.abort();
+    		network_status('Aborted');
     	}
     }
         
@@ -271,7 +275,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		request_active = false;
 	}
 	else {
-		network_status('<span style="color:red">Network Error ' + xml_http.status +  '</span>');
+		network_status('<span style="color:red">Network Error (' + xml_http.status +  ')</span>');
 		request_active = false;
 	}
 	
@@ -288,7 +292,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	var coords = [];
 	var polygon = "";	
 	var percent = 0;
-
+ 	var parcel_color = "";
+ 	
 	//clear all overlays
 	while(overlays[0]) {
 	    map.removeLayer(overlays.pop());
@@ -318,16 +323,28 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    polygon.parcel_id = current_parcels.PARCELS[i].ID;
 	    polygon.parcel_index = i;
 	    
+	    if (current_parcels.PARCELS[i].ALERTS == 0)  {
+	    	parcel_color = "#2262CC";
+	    }
+	    else {
+	    	parcel_color = alert_color;
+	    }
+	    
 	    polygon.setStyle({
-            color: "#2262CC",
+            color: parcel_color,
             weight: 1,
             opacity: 0.6,
             fillOpacity: 0.1,
-            fillColor: "#2262CC"
-       });
+            fillColor: current_parcels.PARCELS[i].FILL_COLOR;
+        });
 	    
-	    polygon.on('mouseover',  function (e) {	    
+	    polygon.on('mouseover',  function (e) {	 
+	    	e.target.setStyle({fillColor:highlight_color});
 		    display_info(e.target.parcel_index);
+		});
+		
+		polygon.on('mouseout', function (e)) {
+			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR});
 		});
 		
 	    
