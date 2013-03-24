@@ -80,7 +80,7 @@
 			<cfset ts.lot = lot>
 			<cfset ts.mailing_city = mailing_city>
 			<cfset ts.metes_and_bounds = metes_and_bounds>
-			<cfset ts.area_sq_feet = area_sq_feet>
+			<cfset ts.area_sq_ft = area_sq_ft>
 			
 			<cfset ts.bpoly = BPOLY>
 			
