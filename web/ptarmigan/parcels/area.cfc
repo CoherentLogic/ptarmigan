@@ -13,7 +13,7 @@
 		
 		
 		
-		<cfquery name="get_parcels" datasource="#session.company.datasource#">
+		<cfquery name="get_parcels" datasource="#session.company.datasource#" >
 			SELECT 	id,
 					parcel_id,
 					area_sq_ft,
@@ -42,7 +42,7 @@
 					ground_survey,
 					center_latitude,
 					center_longitude,
-					CAST(AsText(boundary), CHAR) AS BPOLY
+					AsText(boundary) AS boundary
 			FROM 	parcels 
 			WHERE 	MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
 		</cfquery>
@@ -82,7 +82,7 @@
 			<cfset ts.metes_and_bounds = metes_and_bounds>
 			<cfset ts.area_sq_ft = area_sq_ft>
 			
-			<cfset ts.bpoly = BPOLY>
+			<cfset ts.polygons = boundary>
 			
 			
 			
