@@ -51,7 +51,7 @@ function init_map(control_id, center_latitude, center_longitude)
 
     map = L.map(control_id).setView([center_latitude, center_longitude], 13);
 	
-	tile_layer = L.tileLayer('http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1913/256/{z}/{x}/{y}.png', {
+	tile_layer = L.tileLayer('http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; OpenStreetMap contributors',
 		maxZoom: 18	
 	});
