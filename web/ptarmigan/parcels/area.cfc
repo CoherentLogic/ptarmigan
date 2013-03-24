@@ -84,7 +84,7 @@
 					
 			<cfset ts.polygons = ArrayNew(1)>
 						
-			<cfif ArrayLen(ts.polygons) GT 0>
+			<cfif len(boundary_text) GT 0>
 				<cfset tmpPoly = mid(boundary_text, 10)>
 				<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
 				
