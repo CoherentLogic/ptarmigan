@@ -94,8 +94,7 @@
 		<cfreturn this>
 	</cffunction>
 	
-	<cffunction name="get_json" returntype="void" access="public" output="true">
-		<cfdump var="#this.parcels#">
+	<cffunction name="get_json" returntype="void" access="public" output="true">		
 		<cfoutput>#serializeJSON(this)#</cfoutput>
 	</cffunction>
 
