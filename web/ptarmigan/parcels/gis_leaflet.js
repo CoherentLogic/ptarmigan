@@ -312,6 +312,14 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    polygon.parcel_id = current_parcels.PARCELS[i].ID;
 	    polygon.parcel_index = i;
 	    
+	    polygon.setStyle({
+            color: "#2262CC",
+            weight: 1,
+            opacity: 0.6,
+            fillOpacity: 0.1,
+            fillColor: "#2262CC"
+       });
+	    
 	    polygon.on('mouseover',  function (e) {	    
 		    display_info(e.target.parcel_index);
 		});
