@@ -21,7 +21,7 @@ function ux_menu (id)
 }
 
 ux_menu.prototype.add_item = function (menu_item) {
-	items.push(menu_item);
+	this.items.push(menu_item);
 }
 
 ux_menu.prototype.display = function (x, y) {
