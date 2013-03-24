@@ -341,7 +341,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	break;
 	case 1:
 	request_active = true;
-	network_status('Received ' + xml_http.responseText.length + ' bytes');
+	network_status('Connection Established');
 	document.getElementById('loader').innerHTML = "Loading...";
 	loading(true);
 	//in progress
