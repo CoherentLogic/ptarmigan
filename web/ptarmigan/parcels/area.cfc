@@ -98,7 +98,7 @@
 				<cfset tmpStruct.latitude = tLat>
 				<cfset tmpStruct.longitude = tLng>
 				
-				<cfset ArrayAppend(ts.polygons, tt)>				
+				<cfset ArrayAppend(ts.polygons, tmpStruct)>				
 			</cfloop>						
 			
 			
