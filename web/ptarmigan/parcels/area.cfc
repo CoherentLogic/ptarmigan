@@ -44,7 +44,7 @@
 					center_longitude,
 					AsText(boundary) AS BPOLY
 			FROM 	parcels 
-			WHERE 	MBRWITHIN(boundary, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
+			WHERE 	MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
 		</cfquery>
 					
 		<cfset this.query_time = cfquery.ExecutionTime>
