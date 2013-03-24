@@ -342,7 +342,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    	//alert('contextmenu on ' + e.target.parcel_id);
 	    	
 	    	mnu = new ux_menu('test_id');
-	    	mnu.add_item('map_edit.png', 'Edit Parcel', '');
+	    	mnu_item = new ux_menu_item('map_edit.png', 'Edit Parcel', '');
+	    	mnu.add_item(mnu_item);
 	    	mnu.display(0, 0);
 	    });
 	    
