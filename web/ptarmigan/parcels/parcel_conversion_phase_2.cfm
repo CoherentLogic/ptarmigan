@@ -19,4 +19,6 @@
 	<cfset wkt = left(wkt, len(wkt) - 1) & "))">
 	
 	<cfmodule template="parcel_conversion_phase_3.cfm" parcel_id="#attributes.parcel_id#" wkt="#wkt#">
+<cfelse>
+	Ignoring parcel <cfoutput>#attributes.parcel_id#</cfoutput><br>
 </cfif>
