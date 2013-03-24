@@ -14,8 +14,42 @@
 		
 		
 		
+		<cfquery name="get_parcels" datasource="#session.company.datasource#">
+			SELECT * FROM parcels WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))	
+		</cfquery>
+		
+<!--- 		prc.subdivision,
+					prc.township,
+					prc.owner_name,
+					prc.range,
+					prc.mailing_zip,
+					prc.center_latitude,
+					prc.block,
+					prc.area_acres,
+					prc.physical_zip,
+					prc.assessed_building_value,
+					prc.id,
+					prc.physical_city,
+					prc.ground_survey,
+					prc.area_sq_yd,
+					prc.mailing_state,
+					prc.physical_address,
+					prc.assessed_land_value,
+					prc.center_longitude,
+					prc.physical_state,
+					prc.parcel_id,
+					prc.account_number,
+					prc.mailing_address,
+					`prc.section`,
+					prc.reception_number,
+					prc.lot,
+					prc.mailing_city,
+					prc.metes_and_bounds,
+					prc.area_sq_ft,
+					GROUP_CONCAT() --->
 		
 		
+		<!---
 		<cfquery name="get_parcels" datasource="#session.company.datasource#">
 			SELECT id FROM parcels 
 			WHERE MBRWITHIN(center, GeomFromText('MULTIPOINT(#this.nw_latitude# #this.nw_longitude#, #this.se_latitude# #this.se_longitude#)'))		
@@ -28,7 +62,7 @@
 			<cfset parcel = CreateObject("component", "ptarmigan.parcel").open(get_parcels.id)>
 			<cfset ArrayAppend(this.parcels, parcel)>
 		</cfoutput>
-		
+		--->
 		
 		
 		<cfreturn this>
