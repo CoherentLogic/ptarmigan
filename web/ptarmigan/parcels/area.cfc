@@ -83,23 +83,25 @@
 			<cfset ts.area_sq_ft = area_sq_ft>
 					
 			<cfset ts.polygons = ArrayNew(1)>
-			
-			<cfset tmpPoly = mid(boundary_text, 10)>
-			<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
-			
-			<cfset tmpArray = ListToArray(tmpPoly, ",")>
-			<cfset tmpStruct = StructNew()>
-			
-			<cfloop array="#tmpArray#" index="item">
-				<cfset tLat = left(item, find(" ", item) - 1)>
-				<cfset tLng = mid(item, find(" ", item) + 1)>
+						
+			<cfif ArrayLen(ts.polygons) GT 0>
+				<cfset tmpPoly = mid(boundary_text, 10)>
+				<cfset tmpPoly = left(tmpPoly, len(tmpPoly) - 2)>
 				
+				<cfset tmpArray = ListToArray(tmpPoly, ",")>
+				<cfset tmpStruct = StructNew()>
 				
-				<cfset tmpStruct.latitude = tLat>
-				<cfset tmpStruct.longitude = tLng>
-				
-				<cfset ArrayAppend(ts.polygons, tmpStruct)>				
-			</cfloop>						
+				<cfloop array="#tmpArray#" index="item">
+					<cfset tLat = left(item, find(" ", item) - 1)>
+					<cfset tLng = mid(item, find(" ", item) + 1)>
+					
+					
+					<cfset tmpStruct.latitude = tLat>
+					<cfset tmpStruct.longitude = tLng>
+					
+					<cfset ArrayAppend(ts.polygons, tmpStruct)>				
+				</cfloop>						
+			</cfif>
 			
 			
 			<cfset ArrayAppend(this.parcels, ts)>
