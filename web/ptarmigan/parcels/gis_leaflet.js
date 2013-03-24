@@ -339,12 +339,18 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
         });
 	    
 	    polygon.on('mouseover',  function (e) {	 
-	    	e.target.setStyle({fillColor:highlight_color});
+	    	e.target.setStyle({fillColor:highlight_color, color:"green"});
 		    display_info(e.target.parcel_index);
 		});
 		
-		polygon.on('mouseout', function (e) {
-			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR});
+		polygon.on('mouseout', function (e) {		
+			if (current_parcels.PARCELS[e.target.parcel_index].ALERTS == 0)  {
+		    	parcel_color = "#2262CC";
+		    }
+		    else {
+		    	parcel_color = alert_color;
+		    }	
+			e.target.setStyle({fillColor:current_parcels.PARCELS[e.target.parcel_index].FILL_COLOR, color:parcel_color});
 		});
 		
 	    
