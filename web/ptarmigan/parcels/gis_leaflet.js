@@ -382,6 +382,10 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    	var url = '/parcels/plugins/ParcelQuery/result.cfm?parcel_id=' + escape(e.target.parcel_id);
 		    	$('#research-results').html(request(url));
 		    }
+		    if (left_click_mode == 'documents') {
+		    	var url = '/parcels/plugins/Documents/result.cfm?parcel_id=' + escape(e.target.parcel_id);
+		    	$('#documents-results').html(request(url));
+		    }
 		});
 
 	    overlays.push(polygon);	 
