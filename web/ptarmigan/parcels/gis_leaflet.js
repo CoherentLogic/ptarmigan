@@ -30,6 +30,7 @@ var second_lng = 0;
 var highlight_color = "#7daed4";
 var alert_color = "red";
 
+var control_manager = null;
 
 
 
@@ -83,6 +84,17 @@ function init_map(control_id, center_latitude, center_longitude)
 	};
 	
 	L.control.layers(baseMaps).addTo(map);	
+
+	control_manager = L.control();
+	control_manager.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'leaflet-control');
+		this.update();
+		return this._div;
+	};	
+	control_manager.update = function (properties) {
+		var cm_url = '/parcels/control_manager.cfm';
+		this._div.innerHTML = request(url);
+	};
 
 
 	map.on('viewreset', redraw);
