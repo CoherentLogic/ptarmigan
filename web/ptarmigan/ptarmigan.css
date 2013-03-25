@@ -823,11 +823,14 @@ input:required:valid {
 .leaflet-plugin {
 	padding: 5px;
     font: 14px/16px Tahoma,Verdana,Arial, Helvetica, sans-serif;
-     background: #7daed4;
-    background: rgba(125, 174, 212, 0.19);
+}
+
+.leaflet-plugin-header {
+	    background: rgba(125, 174, 212, 0.19);
     margin:5px;
     border-radius:5px;
     border:1px solid #7daed4;
+	
 }
 
 .leaflet-plugin h1 {
