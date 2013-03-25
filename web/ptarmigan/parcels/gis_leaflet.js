@@ -405,7 +405,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    
 	    polygon.on('click', function (e) {
 		    if (left_click_mode == 'research') {
-		    	alert('research');
+		    	var url = '/parcels/plugins/ParcelQuery/result.cfm?parcel_id=' + escape(e.target.parcel_id);
+		    	$('#research-results').html(request(url));
 		    }
 		});
 
