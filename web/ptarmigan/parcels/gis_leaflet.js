@@ -36,43 +36,28 @@ var control_manager = null;
 
 function click_mode(mode)
 {
+	hide_all_plugins();
 	left_click_mode = mode;
 	
 	switch (mode) {
 		case 'research':
-			
+			$("#plugin-1").show();
 			break;
 		case 'measure':
-
+			$("#plugin-2").show();
 			break;
 		case 'documents':
-		
+			$("#plugin-3").show();
 			break;
 	}
 }
 
-function show_plugin(index, direction) 
+function hide_all_plugins()
 {
-	var basename = "#plugin-";
-	var control_to_hide = "";
-	var control_to_show = "";
-	var index_to_hide = 0;
-	
-	if (direction == 'forward') {
-		index_to_hide = index - 1;
-		control_to_hide = basename + index_to_hide.toString();
-		control_to_show = basename + index.toString();		
-	}
-	else {
-		index_to_hide = index + 1;
-		control_to_hide = basename + index_to_hide.toString();
-		control_to_show = basename + index.toString();				
-	}
-	
-	$(control_to_hide).hide();
-	$(control_to_show).show();
+	$("#plugin-1").hide();
+	$("#plugin-2").hide();
+	$("#plugin-3").hide();	
 }
-
 function init_map(control_id, center_latitude, center_longitude)
 {
     current_control_id = control_id;
@@ -436,14 +421,6 @@ function display_info(parcel_index)
     load("current-parcel", "APN " + p.PARCEL_ID);
 }
 
-function open_window(parcel_index)
-{
-    var url = '/parcels/parcel_window.cfm?id=' + escape(current_parcels.PARCELS[parcel_index].ID);
-
-    
-    open_dialog(url, "Parcel " + current_parcels.PARCELS[parcel_index].PARCEL_ID, 650, 590);
-
-}
 
 function load(span_id, value)
 {
