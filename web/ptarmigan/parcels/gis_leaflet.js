@@ -69,12 +69,12 @@ function init_map(control_id, center_latitude, center_longitude)
 	map = L.map(control_id, {
 		center: new L.LatLng(center_latitude, center_longitude),
 		zoom: 16,
-		layers: [basemap, aerial]
+		layers: [aerial, basemap]
 	});
 	
 	var baseMaps = {
-		"Basemap": basemap,
-		"Aerial": aerial
+		"Aerial Imagery": aerial,
+		"Basemap": basemap		
 	};
 	
 	L.control.layers(baseMaps).addTo(map);
