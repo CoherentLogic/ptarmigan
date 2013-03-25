@@ -53,13 +53,32 @@ function init_map(control_id, center_latitude, center_longitude)
 {
     current_control_id = control_id;
 
-    map = L.map(control_id).setView([center_latitude, center_longitude], 16);
+    
+
+	var cloudmadeUrl = 'http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png';
+	var basemap = L.tileLayer(cloudmadeUrl, {attribution:'Map data &copy; OpenStreetMap contributors'});
 	
-	tile_layer = L.tileLayer('http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png', {
-		attribution: 'Map data &copy; OpenStreetMap contributors',
-		maxZoom: 18	
+	var mqAerialUrl = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
+	var aerial = L.tileLayer(mqAerialUrl, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
+	
+	
+	basemap.on('load', redraw);
+	aerial.on('load', redraw);
+	
+	
+	map = L.map(control_id, {
+		center: new L.LatLng(center_latitude, center_longitude),
+		zoom: 16,
+		layers: [basemap, aerial]
 	});
 	
+	var baseMaps = {
+		"Basemap": basemap,
+		"Aerial": aerial
+	};
+	
+	L.control.layers(baseMaps).addTo(map);
+
 	
 	/*tile_layer = L.tileLayer('http://osm.coherent-logic.com/osm/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; OpenStreetMap contributors',
@@ -67,8 +86,6 @@ function init_map(control_id, center_latitude, center_longitude)
 	});*/
 	
 
-	tile_layer.on('load', redraw);	
-	tile_layer.addTo(map);
 
 	map.on('viewreset', redraw);
 	//map.on('moveend', redraw);
