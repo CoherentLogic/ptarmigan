@@ -77,10 +77,9 @@ function init_map(control_id, center_latitude, center_longitude)
 	});
 	
 	var baseMaps = {
-		"Basemap (CloudMade)": basemap_cm,
+		"Aerial Imagery": aerial,
 		"Basemap (Coherent Logic)":basemap_cld,
-		"Aerial Imagery": aerial
-			
+		"Basemap (CloudMade)": basemap_cm							
 	};
 	
 	L.control.layers(baseMaps).addTo(map);	
