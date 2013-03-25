@@ -337,13 +337,7 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
             fillOpacity: 0.1,
             fillColor: current_parcels.PARCELS[i].FILL_COLOR
         });
-	    
-	    polygon.on('contextmenu', function (e) {
-	    	//alert('contextmenu on ' + e.target.parcel_id);
-	    	$("#parcel-context-menu").html(request("/parcels/parcel_context_menu.cfm?parcel_id=" + e.target.parcel_id));
-	    	$("#parcel-context-menu").show(2000);
-	    	//alert(e.originalEvent.clientX);	    	
-	    });
+	    	   
 	    
 	    polygon.on('mouseover',  function (e) {	 
 	    	e.target.setStyle({fillColor:highlight_color, color:"green", fillOpacity: 0.9});

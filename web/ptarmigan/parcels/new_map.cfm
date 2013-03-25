@@ -33,8 +33,9 @@
 			function size_ui() {
 				$("#map-inner-container").height($(document).height() - $("#header").height() - $("#map-toolbar").height() - $("#map-status-bar").height());	
 
-				$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
+				//$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
 			
+				$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
 				
 				if (search_results_visible) {
 					
@@ -77,71 +78,14 @@
 			</div>		
 		
 			<div id="map-inner-container">
-				<div id="map-sidebar">
+				<div id="map-sidebar" style="display:none;">
 					<span class="map-sidebar-header">Bookmarks</span>					
 					
 					<ul>
 						<li><a href="##">Las Cruces</a></li>
 						<li><a href="##">Truth or Consequences</a></li>
 					</ul>					
-					
-					
-					<span id="information">
-						<span class="map-sidebar-header">Current Parcel</span>
-						
-						<div class="map-sidebar-wrapper">
-						<table>
-						<tr>
-							<td>APN:</td>
-							<td><span id="PARCEL_ID"></span></td>
-						</tr>
-						<tr>
-							<td>Account Number:</td>
-							<td><span id="ACCOUNT_NUMBER"></span></td>
-						</tr>
-						<tr>
-							<td>Reception Number:</td>
-							<td><span id="RECEPTION_NUMBER"></span></td>
-						</tr>
-						<tr>
-							<td>Owner Name:</td>
-							<td><span id="OWNER_NAME"></span></td>
-						</tr>
-						<tr>
-							<td>Mailing Address:</td>
-							<td><span id="MAILING_ADDRESS"></span></td>
-						</tr>
-						<tr>
-							<td>Physical Address:</td>
-							<td><span id="PHYSICAL_ADDRESS"></span></td>
-						</tr>
-						<tr>
-							<td>Legal Section:</td>
-							<td><span id="LEGAL_SECTION"></span></td>
-						</tr>
-						<tr>
-							<td>Subdivision:</td>
-							<td><span id="SUBDIVISION"></span></td>
-						</tr>
-						<tr>
-							<td>Land Value:</td>
-							<td><span id="LAND_VALUE"></span></td>
-						</tr>
-						<tr>
-							<td>Building Value:</td>
-							<td><span id="BUILDING_VALUE"></span></td>
-						</tr>
-						<tr>
-							<td>Area:</td>
-							<td><span id="AREA"></span></td>
-						</tr>
-						<tr>
-							<td>Ground Survey:</td>
-							<td><span id="GROUND_SURVEY"></span></td>
-						</tr>
-						</table>
-						</div>
-					</span>
+															
 					<span id="mensuration" style="display:none;">
 						<span class="map-sidebar-header">Mensuration</span>
 						

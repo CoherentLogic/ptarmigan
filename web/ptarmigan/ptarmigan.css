@@ -829,6 +829,7 @@ input:required:valid {
 	position:absolute;
 	left:400px;
 	top:400px;
+	z-index:99999;
 }
 
 .context-menu-item {
