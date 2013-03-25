@@ -39,15 +39,38 @@ function click_mode(mode)
 	left_click_mode = mode;
 	
 	switch (mode) {
-		case 'info':
-			$("#information").show();
-			$("#mensuration").hide();
+		case 'research':
+			
 			break;
 		case 'measure':
-			$("#information").hide();
-			$("#mensuration").show();
+
+			break;
+		case 'documents':
+		
 			break;
 	}
+}
+
+function show_plugin(index, direction) 
+{
+	var basename = "#plugin-";
+	var control_to_hide = "";
+	var control_to_show = "";
+	var index_to_hide = 0;
+	
+	if (direction == 'forward') {
+		index_to_hide = index - 1;
+		control_to_hide = basename + index_to_hide.toString();
+		control_to_show = basename + index.toString();		
+	}
+	else {
+		index_to_hide = index + 1;
+		control_to_hide = basename + index_to_hide.toString();
+		control_to_show = basename + index.toString();				
+	}
+	
+	$(control_to_hide).hide();
+	$(control_to_show).show();
 }
 
 function init_map(control_id, center_latitude, center_longitude)
@@ -87,7 +110,7 @@ function init_map(control_id, center_latitude, center_longitude)
 
 	control_manager = L.control({position: 'bottomleft'});
 	control_manager.onAdd = function (map) {
-		this._div = L.DomUtil.create('div', 'leaflet-control');
+		this._div = L.DomUtil.create('div', 'leaflet-plugin');
 		this.update();
 		return this._div;
 	};	
@@ -112,7 +135,7 @@ function init_map(control_id, center_latitude, center_longitude)
 	map.on('click', function(e) {
 		
 		switch(left_click_mode) {
-			case 'info':
+			case 'research':
 				break;
 			case 'measure':
 				if (got_first_point) {
@@ -124,11 +147,10 @@ function init_map(control_id, center_latitude, center_longitude)
 					var brng = bearing(azimuth_to_angle(azimuth));					
 					
 					
-					$("#mensuration-endpoint-lat").val(LocationFormatter.decimalLatToDMS(second_lat));
-					$("#mensuration-endpoint-lng").val(LocationFormatter.decimalLongToDMS(second_lng));
-					$("#mensuration-bearing").val(brng);
-					$("#mensuration-forward-azimuth").val(azimuth);
-					$("#mensuration-distance").val(dist.toFixed(2) + "'");
+					var res = '<h3>' + brng + ' ' + dist.toFixed(2) + "'</h3>";
+					res += '<p>Forward azimuth ' + azimuth.toFixed(6) + '</p>'; 
+										
+					$("#mensuration-results").html(res);
 					
 					var mensurationCoords = [
 						new L.LatLng(first_lat, first_lng),
@@ -382,8 +404,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		
 	    
 	    polygon.on('click', function (e) {
-		    if (left_click_mode == 'info') {
-		    	open_window(e.target.parcel_index);
+		    if (left_click_mode == 'research') {
+		    	alert('research');
 		    }
 		});
 

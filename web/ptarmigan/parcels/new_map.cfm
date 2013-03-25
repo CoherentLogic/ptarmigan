@@ -66,10 +66,11 @@
 					<cfinclude template="map_search.cfm">
 					<div style="float:right; padding-right:20px;">
 					<cfoutput>
+					<!---
 					<button class="left-button" onclick="click_mode('info');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"> Info</button>
 					<button class="middle-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"> Measure</button>
 					<button class="middle-button" onclick="click_mode('bookmark');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/star.png" style="vertical-align:middle;"> Bookmark</button>
-<!--- 
+
 					<button class="right-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"> New Parcel</button>
  --->
 					</cfoutput>
@@ -79,53 +80,7 @@
 		
 			<div id="map-inner-container">
 				<div id="map-sidebar" style="display:none;">
-					<span class="map-sidebar-header">Bookmarks</span>					
-					
-					<ul>
-						<li><a href="##">Las Cruces</a></li>
-						<li><a href="##">Truth or Consequences</a></li>
-					</ul>					
-															
-					<span id="mensuration" style="display:none;">
-						<span class="map-sidebar-header">Mensuration</span>
-						
-						<div class="map-sidebar-wrapper">
-							<table>
-							<tr>
-								<td><label for="mensuration-origin-lat">Origin Latitude</label></td>
-								<td><input type="text" readonly id="mensuration-origin-lat"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-origin-lng">Origin Longitude</label></td>
-								<td><input type="text" readonly id="mensuration-origin-lng"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-endpoint-lat">Endpoint Latitude</label></td>
-								<td><input type="text" readonly id="mensuration-endpoint-lat"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-endpoint-lng">Endpoint Longitude</label></td>
-								<td><input type="text" readonly id="mensuration-endpoint-lng"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-bearing">Bearing</label></td>
-								<td><input type="text" readonly id="mensuration-bearing"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-distance">Distance</label></td>
-								<td><input type="text" readonly id="mensuration-distance"></td>
-							</tr>
-							<tr>
-								<td><label for="mensuration-forward-azimuth">Forward Azimuth</label></td>
-								<td><input type="text" readonly id="mensuration-forward-azimuth"></td>
-							</tr>						
-							</table>
-							
-							<button onclick="reset_mensuration();">Clear</button>
-							
-						</div>
-					</span>
-					
+										
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>
