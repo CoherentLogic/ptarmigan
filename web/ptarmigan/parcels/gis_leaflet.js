@@ -95,6 +95,7 @@ function init_map(control_id, center_latitude, center_longitude)
 		var cm_url = '/parcels/control_manager.cfm';
 		this._div.innerHTML = request(url);
 	};
+	control_manager.addTo(map);
 
 
 	map.on('viewreset', redraw);
