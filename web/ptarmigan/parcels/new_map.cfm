@@ -35,14 +35,14 @@
 
 				//$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
 			
-				$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
+				$("#map").width($(document).width());
 				
 				if (search_results_visible) {
 					
 					$("#map-search-results").show();
 					$("#map-search-results").height($("#map-inner-container").height() / 3);
 					$("#map").height($("#map-inner-container").height() - $("#map-search-results").height());
-					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);			
+					$("#map_search_results").width($(document).width());			
 				}
 				else {
 					$("#map-search-results").hide();
