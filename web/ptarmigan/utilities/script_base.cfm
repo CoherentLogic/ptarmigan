@@ -5,8 +5,7 @@
 <link rel="stylesheet" href="#session.root_url#/jquery_ui/css/jquery.ui.menubar.css" />
 <link type="text/css" href="#session.root_url#/jquery_ui/css/#session.ui_theme#/jquery-ui-1.8.23.custom.css" rel="Stylesheet" />	
 <link rel="stylesheet" type="text/css" href="#session.root_url#/DataTables/media/css/jquery.dataTables_themeroller.css">
-<script src="/jquery.js"></script>
-<!---<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-1.7.2.js"></script>--->
+<script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.hotkeys.js"></script>
 <script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery-ui.js"></script>
 <script type="text/javascript" src="#session.root_url#/jquery_ui/js/jquery.ui.menu.js"></script>
