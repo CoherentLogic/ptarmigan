@@ -85,7 +85,7 @@ function init_map(control_id, center_latitude, center_longitude)
 	
 	L.control.layers(baseMaps).addTo(map);	
 
-	control_manager = L.control();
+	control_manager = L.control({position: 'bottomleft'});
 	control_manager.onAdd = function (map) {
 		this._div = L.DomUtil.create('div', 'leaflet-control');
 		this.update();
