@@ -2,7 +2,11 @@
 
 <cfset tmp_array = ArrayNew(1)>
 
-<cfloop array="#parcel_object.get_associated_objects('OBJ_DOCUMENT', 'TARGET')#" index="assoc">
+<cfloop array="#parcel_object.get_associated_objects('OBJ_DOCUMENT', 'TARGET')#" index="assoc">	
+		<cfset ArrayAppend(tmp_array, assoc.id)>
+</cfloop>
+
+<cfloop array="#parcel_object.get_associated_objects('OBJ_DOCUMENT', 'SOURCE')#" index="assoc">
 	<cfif not arrayfind(tmp_array, assoc.id)>
 		<cfset ArrayAppend(tmp_array, assoc.id)>
 	</cfif>
