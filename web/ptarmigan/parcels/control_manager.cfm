@@ -23,7 +23,7 @@
 			<tr>
 				<td valign="middle"><img src="plugins/Mensuration/icon.png" width="64"></td>
 				<td valign="middle">
-					<h1>Mensuration</h1>
+					<h1>Measure</h1>
 					<p>Measure the bearing and distance between two points.</p>
 				</td>
 			</tr>
