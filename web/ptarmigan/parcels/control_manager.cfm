@@ -15,7 +15,7 @@
 				
 		</div>	
 		<div style="float:right;overflow:hidden;">
-			<a class="button" onclick="clickmode('research');"><span>Begin</span></a>
+			<a class="button" onclick="click_mode('research');"><span>Begin</span></a>
 		</div>
 	</div>
 	
@@ -57,7 +57,7 @@
 					
 		</div>	
 		<div style="float:right;overflow:hidden;">
-			<a class="button" onclick="clickmode('documents');"><span>Begin</span></a>
+			<a class="button" onclick="click_mode('documents');"><span>Begin</span></a>
 		</div>
 	</div>
 </div>
