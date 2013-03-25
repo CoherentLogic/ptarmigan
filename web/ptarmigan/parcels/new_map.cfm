@@ -33,16 +33,16 @@
 			function size_ui() {
 				$("#map-inner-container").height($(document).height() - $("#header").height() - $("#map-toolbar").height() - $("#map-status-bar").height());	
 
-				//$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
+				$("#map").width($(document).width() - $("#map-sidebar").width() - 1);
 			
-				$("#map").width($(document).width());
+				//$("#map").width($(document).width());
 				
 				if (search_results_visible) {
 					
 					$("#map-search-results").show();
 					$("#map-search-results").height($("#map-inner-container").height() / 3);
 					$("#map").height($("#map-inner-container").height() - $("#map-search-results").height());
-					$("#map_search_results").width($(document).width());			
+					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);			
 				}
 				else {
 					$("#map-search-results").hide();
@@ -79,8 +79,8 @@
 			</div>		
 		
 			<div id="map-inner-container">
-				<div id="map-sidebar" style="display:none;">
-										
+				<div id="map-sidebar">
+					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">		
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>

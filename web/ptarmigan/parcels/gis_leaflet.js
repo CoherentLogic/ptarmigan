@@ -108,17 +108,6 @@ function init_map(control_id, center_latitude, center_longitude)
 	
 	L.control.layers(baseMaps).addTo(map);	
 
-	control_manager = L.control({position: 'bottomleft'});
-	control_manager.onAdd = function (map) {
-		this._div = L.DomUtil.create('div', 'leaflet-plugin');
-		this.update();
-		return this._div;
-	};	
-	control_manager.update = function (properties) {
-		var cm_url = '/parcels/control_manager.cfm';
-		this._div.innerHTML = request(cm_url);
-	};
-	control_manager.addTo(map);
 
 
 	map.on('viewreset', redraw);
