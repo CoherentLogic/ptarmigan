@@ -1,34 +1,28 @@
-<div style="max-width:540px;min-width:440px;">
+<div class="leaflet-plugin">
 	<div id="plugin-1">
 		<table>
 		<tr>
-			<td valign="middle"><cfoutput> <img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_rewind.png"></cfoutput></td>
 			<td valign="middle"><img src="plugins/ParcelQuery/icon.png" width="64"></td>
-			<td valign="middle" style="width:415px;">
+			<td valign="middle">
 				<h1>Research</h1>
 				<p>Look up ownership, location, valuation, and other information for a parcel.</p>
 			</td>
-			<td valign="middle"><cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_fastforward_blue.png" onclick="show_plugin(2, 'forward');"></cfoutput></td>
 		</tr>
 		</table>
 		<div class="leaflet-plugin-results" id="research-results">
 				
 		</div>	
-		<div style="float:right;overflow:hidden;">
-			<a class="button" onclick="click_mode('research');"><span>Begin</span></a>
-		</div>
+
 	</div>
 	
 	<div id="plugin-2" style="display:none;">
 		<table>
 		<tr>
-			<td valign="middle"><cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_rewind_blue.png" onclick="show_plugin(1, 'reverse');"></cfoutput></td>
 			<td valign="middle"><img src="plugins/Mensuration/icon.png" width="64"></td>
-			<td valign="middle" style="width:415px;">
+			<td valign="middle">
 				<h1>Mensuration</h1>
 				<p>Measure the bearing and distance between two points.</p>
 			</td>
-			<td valign="middle"><cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_fastforward_blue.png" onclick="show_plugin(3, 'forward');"></cfoutput></td>
 		</tr>
 		</table>
 		<center>
@@ -36,28 +30,22 @@
 					
 		</div>	
 		</center>
-		<div style="float:right;overflow:hidden;">
-			<a class="button" onclick="click_mode('measure'); event.stopPropagation();"><span>Begin</span></a>
-		</div>
+
 	</div>
 	
 	<div id="plugin-3" style="display:none;">
 		<table>
 		<tr>
-			<td valign="middle"><cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_rewind_blue.png" onclick="show_plugin(2, 'reverse');"></cfoutput></td>
 			<td valign="middle"><img src="plugins/Documents/icon.png" width="64"></td>
-			<td valign="middle" style="width:415px;">
+			<td valign="middle">
 				<h1>Documents</h1>
 				<p>View documents pertaining to the selected parcel.</p>
 			</td>
-			<td valign="middle"><cfoutput><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/control_fastforward.png"></cfoutput></td>
 		</tr>
 		</table>
 		<div class="leaflet-plugin-results" id="documents-results">
 					
 		</div>	
-		<div style="float:right;overflow:hidden;">
-			<a class="button" onclick="click_mode('documents');"><span>Begin</span></a>
-		</div>
+
 	</div>
 </div>

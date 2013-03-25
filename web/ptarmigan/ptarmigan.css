@@ -821,12 +821,9 @@ input:required:valid {
 
 
 .leaflet-plugin {
-	padding: 10px;
+	padding: 5px;
     font: 14px/16px Arial, Helvetica, sans-serif;
     background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
 }
 
 .leaflet-plugin h1 {
@@ -842,10 +839,10 @@ input:required:valid {
 	font-size:10pt;
 	letter-spacing:-1px;
 	margin-bottom:0;
+	font-weight:normal;
 }
 
 .leaflet-plugin-results {
-	margin-left:16px;
 	margin-bottom:30px;
 	max-width:480px;
 	max-height:300px;
