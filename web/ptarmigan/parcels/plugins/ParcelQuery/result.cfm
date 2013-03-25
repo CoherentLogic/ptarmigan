@@ -2,6 +2,9 @@
 <cfset parcel = parcel_object.get()>
 
 <cfoutput>
+<cfif session.logged_in EQ true>
+	<button class="left-button" onclick="click_mode('research');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_edit.png" style="vertical-align:middle;"> <a href="#session.root_url#/objects/dispatch.cfm?id=#url.parcel_id#" target="_blank">Edit Parcel</a></button>
+</cfif>
 <table>
 	<thead>
 		<tr>
@@ -118,4 +121,5 @@
 		</tr>				
 	</tbody>
 </table>
+
 </cfoutput>
