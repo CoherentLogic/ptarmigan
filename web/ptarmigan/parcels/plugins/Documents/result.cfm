@@ -19,5 +19,7 @@
 </cfloop>
 
 <cfloop array="#obj_array#" index="obj">
-	<cfdump var="#obj#">
+	<cfoutput>
+	<img src="#obj.get_icon()#" align="absmiddle"> <a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a><br>
+	</cfoutput>
 </cfloop>
