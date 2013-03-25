@@ -53,7 +53,7 @@
 		</script>
 	</head>
 	<body>
-		<div id="parcel-context-menu" class="context-menu" style="display:none;">
+		<div id="parcel-context-menu" class="context-menu" style="display:none;left:400;top:400;">
 		
 		</div>
 		<div id="map-outer-container">
