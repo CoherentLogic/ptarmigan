@@ -1,4 +1,4 @@
-<div style="max-width:540px;min-width:440px;" onclick="event.stopPropagation();" ondblclick="event.stopPropagation();">
+<div style="max-width:540px;min-width:440px;" onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" onmousedown="event.stopPropagation();" onmouseup="event.stopPropagation();" onmouseover="event.stopPropagation();">
 	<div id="plugin-1">
 		<table>
 		<tr>
