@@ -846,7 +846,7 @@ input:required:valid {
 
 .leaflet-plugin-results {
 	margin-left:16px;
-	max-width:415px;
+	max-width:480px;
 	max-height:300px;
 	overflow:auto;
 }
