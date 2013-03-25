@@ -15,7 +15,7 @@ var se_latitude = 0;
 var se_longitude = 0;
 var overlays = [];
 var current_control_id;
-var left_click_mode = "info";
+var left_click_mode = "research";
 var search_results_visible = false;
 
 var tile_layer = null;
