@@ -827,6 +827,8 @@ input:required:valid {
 	border:1px solid #c0c0c0;
 	border-radius:4px;
 	position:absolute;
+	left:400px;
+	top:400px;
 }
 
 .context-menu-item {
