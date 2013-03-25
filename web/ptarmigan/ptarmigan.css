@@ -843,3 +843,10 @@ input:required:valid {
 	letter-spacing:-1px;
 	margin-bottom:0;
 }
+
+.leaflet-plugin-results {
+	margin-left:16px;
+	max-width:415px;
+	max-height:300px;
+	overflow:auto;
+}
