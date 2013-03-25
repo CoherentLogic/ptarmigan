@@ -84,15 +84,21 @@
 		</tr>
 		<tr>
 			<td>Building Value</td>
-			<td>#parcel.assessed_building_value#</td>
+			<td>#numberFormat(parcel.assessed_building_value, ',_$___.__')#</td>
 		</tr>
 		<tr>
 			<td>Land Value</td>
-			<td>#parcel.assessed_land_value#</td>
+			<td>#numberFormat(parcel.assessed_land_value, ',_$___.__')#</td>
 		</tr>		
 		<tr>
 			<td>Has Ground Survey</td>
-			<td>#parcel.ground_survey#</td>
+			<td>
+				<cfif parcel.ground_survey EQ 0>
+					No
+				<cfelse>
+					Yes
+				</cfif>
+			</td>
 		</tr>
 		<tr>
 			<td>Area (Sq. Ft.)</td>
