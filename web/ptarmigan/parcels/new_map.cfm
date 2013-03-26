@@ -60,6 +60,9 @@
 		<div id="map-outer-container">
 			<div id="header">
 				<cfoutput><img src="#session.root_url#/ptarmigan-full.png" style="margin-top:25px;"></cfoutput>	
+				<div style="float:right; margin-right:20px; margin-top:15px;">
+					<cfoutput><img src="#session.root_url#/images/sierra-county.png"></cfoutput>
+				</div>
 			</div>			
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
