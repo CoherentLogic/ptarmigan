@@ -7,6 +7,44 @@
 			SELECT * FROM parcels WHERE parcel_id LIKE '%#url.apn#'
 		</cfquery>
 	</cfcase>
+	<cfcase value="search-property-address">						
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT * FROM parcels WHERE physical_address LIKE '%#url.property_address#'
+		</cfquery>
+	</cfcase>	
+	<cfcase value="search-reception-number">
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT * FROM parcels WHERE reception_number LIKE '%#url.reception_number#'
+		</cfquery>
+	</cfcase>
+	<cfcase value="search-account-number">
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT * FROM parcels WHERE account_number LIKE '%#url.account_number#'
+		</cfquery>
+	</cfcase>
+	<cfcase value="search-owner-name">
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT * FROM parcels WHERE owner_name LIKE '%#url.owner_name#'
+		</cfquery>
+	</cfcase>
+	<cfcase value="search-legal-section">
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT 	* 
+			FROM 	parcels 
+			WHERE 	`section` LIKE '%#url.section#%'
+			AND		`township` LIKE '%#url.township#%'
+			AND 	`range` LIKE '%#url.range#%'
+		</cfquery>
+	</cfcase>
+	<cfcase value="search-subdivision">
+		<cfquery name="s" datasource="#session.company.datasource#">
+			SELECT 	* 
+			FROM 	parcels 
+			WHERE 	subdivision LIKE '%#url.subdivision#%'
+			AND 	lot LIKE '%#url.lot#%'
+			AND 	block LIKE '%#url.block#%'
+		</cfquery>
+	</cfcase>
 </cfswitch>
 
 <span class="map-sidebar-header">Search Results <a style="float:right;" href="##" onclick="close_map_search();"><img style="vertical-align:center;" <Cfoutput>src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/cross.png"</cfoutput>></a></span>
@@ -36,9 +74,6 @@
 				<div class="search_result">
 					<a href="##" onclick="map_recenter(#s.center_latitude#, #s.center_longitude#)">#s.parcel_id#</a>
 					<div class="search_class">Parcel</div>
-					<p>
-						<a href="##" onclick="set_bookmark(#s.center_latitude#, #s.center_longitude#, '#s.parcel_id#');">Set Bookmark</a> | <a href="##">Share Location</a>																						
-					</p>
 				</div>
 			</cfoutput>
 		</cfif>
