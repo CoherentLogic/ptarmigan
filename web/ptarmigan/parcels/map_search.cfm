@@ -6,7 +6,7 @@
 	<input type="text" id="s-property-address" placeholder="Property address" class="map-toolbar-search-right">
 </span>
 <span id="search-apn" style="display:none;">
-	<input type="text" id="s-apn" placeholder="APN" class="map-toolbar-search-right">
+	<input type="text" id="s-apn" placeholder="Property code" class="map-toolbar-search-right">
 </span>
 <span id="search-reception-number" style="display:none;">
 	<input type="text" id="s-reception-number" placeholder="Reception number" class="map-toolbar-search-right">
@@ -30,7 +30,7 @@
 <select name="search-type" id="search-type" style="border:none; width:30px;" onclick="set_search_type();">
 	<option value="search-geocode" selected>Find address on map</option>
 	<option value="search-property-address">Search by property address</option>
-	<option value="search-apn">Search by APN</option>
+	<option value="search-apn">Search by property code</option>
 	<option value="search-reception-number">Search by reception number</option>
 	<option value="search-account-number">Search by account number</option>
 	<option value="search-owner-name">Search by owner name</option>
