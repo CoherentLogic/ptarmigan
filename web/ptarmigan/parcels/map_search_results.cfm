@@ -4,27 +4,27 @@
 	</cfcase>
 	<cfcase value="search-apn">
 		<cfquery name="s" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE parcel_id LIKE '%#url.apn#'
+			SELECT * FROM parcels WHERE parcel_id LIKE '%#url.apn#%'
 		</cfquery>
 	</cfcase>
 	<cfcase value="search-property-address">						
 		<cfquery name="s" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE physical_address LIKE '%#url.property_address#'
+			SELECT * FROM parcels WHERE physical_address LIKE '%#url.property_address#%'
 		</cfquery>
 	</cfcase>	
 	<cfcase value="search-reception-number">
 		<cfquery name="s" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE reception_number LIKE '%#url.reception_number#'
+			SELECT * FROM parcels WHERE reception_number LIKE '%#url.reception_number#%'
 		</cfquery>
 	</cfcase>
 	<cfcase value="search-account-number">
 		<cfquery name="s" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE account_number LIKE '%#url.account_number#'
+			SELECT * FROM parcels WHERE account_number LIKE '%#url.account_number#%'
 		</cfquery>
 	</cfcase>
 	<cfcase value="search-owner-name">
 		<cfquery name="s" datasource="#session.company.datasource#">
-			SELECT * FROM parcels WHERE owner_name LIKE '%#url.owner_name#'
+			SELECT * FROM parcels WHERE owner_name LIKE '%#url.owner_name#%'
 		</cfquery>
 	</cfcase>
 	<cfcase value="search-legal-section">
