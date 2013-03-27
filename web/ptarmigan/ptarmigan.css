@@ -859,9 +859,14 @@ input:required:valid {
 	font-size:10pt;
 }
 
-.leaflet-plugin-results td {
+.leaflet-plugin-results table td {
 	text-align:left;
 	font-weight:normal;
 	font-size:10pt;
+}
+
+.vsplitbar {
+	width: 5px;
+	background: #aaa;
 }
 

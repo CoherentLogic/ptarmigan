@@ -6,7 +6,7 @@
 		<cfif url.map_type EQ "osm">
 			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
 			<script src="#session.root_url#/leaflet/leaflet.js"></script>
-			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>
+			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>			
 		<cfelse>
 			<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
 			<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
@@ -15,7 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-		
+		<script type="text/javascript" src="#session.root_url#/jstree/jquery.jstree.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
 		</cfoutput>
@@ -42,7 +42,7 @@
 					$("#map-search-results").show();
 					$("#map-search-results").height($("#map-inner-container").height() / 3);
 					$("#map").height($("#map-inner-container").height() - $("#map-search-results").height());
-					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);			
+					$("#map_search_results").width($(document).width() - $("#map-sidebar").width() - 1);													
 				}
 				else {
 					$("#map-search-results").hide();
@@ -74,9 +74,9 @@
 					<button class="middle-button" onclick="click_mode('documents');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"> Documents</button>
 					<button class="right-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"> Measure</button>
 
-<!---
-					<button class="right-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"> New Parcel</button>
- --->
+					<cfif session.logged_in EQ true>
+						<button class="right-button"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"> New Parcel</button>
+					</cfif>
 					</cfoutput>
 					</div>
 				</div>
