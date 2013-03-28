@@ -47,9 +47,9 @@
 	</cfcase>
 </cfswitch>
 
-<span class="map-sidebar-header">Search Results <a style="float:right;" href="##" onclick="close_map_search();"><img style="vertical-align:center;" <Cfoutput>src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/cross.png"</cfoutput>></a></span>
 <div style="padding:20px; overflow:auto;">
 	<div class="panel">
+		<h1>Search Results</h1>		
 		
 		<cfif url.search_type EQ "search-geocode">
 			<cfset search_result = deserializejson(cfhttp.filecontent)>
@@ -62,7 +62,7 @@
 						<div class="search_class">Physical Address (#arr.geometry.location_type#)</div>
 
 						<p>
-							<a href="##" onclick="set_bookmark(#arr.geometry.location.lat#, #arr.geometry.location.lng#, '#arr.formatted_address#');">Set Bookmark</a> | <a href="##">Share Location</a>																						
+							<a href="##" onclick="close_map_search();">Hide Search Results</a>
 						</p>
 					</cfoutput>
 				</div>
@@ -74,6 +74,10 @@
 				<div class="search_result">
 					<a href="##" onclick="map_recenter(#s.center_latitude#, #s.center_longitude#)">#s.parcel_id#</a>
 					<div class="search_class">Parcel</div>
+					
+					<p>
+						<a href="##" onclick="close_map_search();">Hide Search Results</a>
+					</p>
 				</div>
 			</cfoutput>
 		</cfif>

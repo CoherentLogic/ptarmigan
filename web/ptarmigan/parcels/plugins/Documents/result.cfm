@@ -18,6 +18,10 @@
 	<cfset arrayappend(obj_array, createobject("component", "ptarmigan.object").open(itm))>
 </cfloop>
 
+<cfif arraylen(obj_array) EQ 0>
+	<p>No documents associated with the selected parcel.</p>
+</cfif>
+
 
 <div class="tree">
 <cfloop array="#obj_array#" index="obj">

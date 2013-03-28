@@ -853,13 +853,13 @@ input:required:valid {
 	overflow:auto;
 }
 
-.leaflet-plugin-results th {
+.leaflet-plugin-results table thead th {
 	text-align:left;
 	font-weight:bold;
 	font-size:10pt;
 }
 
-.leaflet-plugin-results table td {
+.leaflet-plugin-results table tbody td {
 	text-align:left;
 	font-weight:normal;
 	font-size:10pt;

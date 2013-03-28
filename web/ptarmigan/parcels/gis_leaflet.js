@@ -237,7 +237,7 @@ function azimuth_to_angle(fwd_az)
 
 function map_recenter(latitude, longitude)
 {
-	map.setView([latitude, longitude], 13);	
+	map.setView([latitude, longitude], 18);	
 	var marker = new L.marker([latitude, longitude]).addTo(map);
 }
 
@@ -381,6 +381,13 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    if (left_click_mode == 'research') {
 		    	var url = '/parcels/plugins/ParcelQuery/result.cfm?parcel_id=' + escape(e.target.parcel_id);
 		    	$('#research-results').html(request(url));
+		    	$('.tree').jstree({
+		    		"themes" : {
+		    			"theme" : "apple",
+		    			"dots" : false,
+		    			"icons" : false
+		    		},
+		    		"plugins" : [ "themes", "html_data" ]});
 		    }
 		    if (left_click_mode == 'documents') {
 		    	var url = '/parcels/plugins/Documents/result.cfm?parcel_id=' + escape(e.target.parcel_id);
