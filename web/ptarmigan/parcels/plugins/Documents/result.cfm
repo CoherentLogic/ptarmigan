@@ -23,7 +23,7 @@
 <cfloop array="#obj_array#" index="obj">
 	<cfset doc = assoc.get()>
 	<cfoutput>	
-	<div class="tree">
+	<div id="poop1">
 	<ul>
 		<li>
 			<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
