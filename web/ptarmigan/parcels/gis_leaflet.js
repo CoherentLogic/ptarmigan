@@ -385,7 +385,13 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    if (left_click_mode == 'documents') {
 		    	var url = '/parcels/plugins/Documents/result.cfm?parcel_id=' + escape(e.target.parcel_id);
 		    	$('#documents-results').html(request(url));
-		    	$('.tree').jstree({"plugins" : [ "html_data" ]});
+		    	$('.tree').jstree({
+		    		"themes" : {
+		    			"theme" : "apple",
+		    			"dots" : false;
+		    			"icons" : false;
+		    		},
+		    		"plugins" : [ "themes", "html_data" ]});
 		    }
 		});
 
