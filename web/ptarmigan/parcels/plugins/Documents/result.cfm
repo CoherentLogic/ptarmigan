@@ -19,11 +19,11 @@
 </cfloop>
 
 
-
+<div class="tree">
 <cfloop array="#obj_array#" index="obj">
 	<cfset doc = assoc.get()>
 	<cfoutput>	
-	<div class="tree">
+	
 	<ul>
 		<li>
 			<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
@@ -52,6 +52,7 @@
 			</ul>
 		</li>
 	</ul>
-	</div>
+	
 	</cfoutput>
 </cfloop>
+</div>
