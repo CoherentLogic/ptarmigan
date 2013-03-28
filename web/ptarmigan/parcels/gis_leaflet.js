@@ -388,8 +388,8 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 		    	$('.tree').jstree({
 		    		"themes" : {
 		    			"theme" : "apple",
-		    			"dots" : false;
-		    			"icons" : false;
+		    			"dots" : false,
+		    			"icons" : false
 		    		},
 		    		"plugins" : [ "themes", "html_data" ]});
 		    }
