@@ -28,7 +28,7 @@
 		<li>
 			<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
 			<ul>
-				<li>Document ##: #doc.document_number#</li>
+				<li><a href="##">Document ##: #doc.document_number#</a></li>
 				<li>Revision: #doc.document_revision#</li>
 				<li>Filing category: #doc.filing_category#</li>
 				<li>Filing container: #doc.filing_container#</li>
