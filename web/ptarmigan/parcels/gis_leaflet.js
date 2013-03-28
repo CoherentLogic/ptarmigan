@@ -393,14 +393,14 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	    overlays[overlays.length - 1].addTo(map);
 	       	    
 	}
-	document.getElementById('loader').innerHTML =  current_parcel_count + " parcels in viewport";
+	$("#loader").html(current_parcel_count + " parcels in viewport");
 	set_progress(0);
 
 	break;
 	case 1:
 	request_active = true;
 	network_status('Connection Established');
-	document.getElementById('loader').innerHTML = "Loading...";
+	$("#loader").html("Loading...");
 	loading(true);
 	//in progress
 	break;

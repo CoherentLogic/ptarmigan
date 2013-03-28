@@ -18,10 +18,12 @@
 	<cfset arrayappend(obj_array, createobject("component", "ptarmigan.object").open(itm))>
 </cfloop>
 
-<ul>
+
+
 <cfloop array="#obj_array#" index="obj">
 	<cfset doc = assoc.get()>
-	<cfoutput>
+	<cfoutput>	
+	<ul class="tree">
 	<li>
 	<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
 	<ul>
@@ -47,6 +49,7 @@
 		<li>ZIP: #doc.zip#</li>
 		<li>Owner name: #doc.owner_name#</li>
 	</ul>
+	</ul>
+
 	</cfoutput>
 </cfloop>
-</ul>
