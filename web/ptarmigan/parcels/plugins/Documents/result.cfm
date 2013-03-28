@@ -29,26 +29,26 @@
 			<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
 			<ul>
 				<li><a href="##">Document ##: #doc.document_number#</a></li>
-				<li>Revision: #doc.document_revision#</li>
-				<li>Filing category: #doc.filing_category#</li>
-				<li>Filing container: #doc.filing_container#</li>
-				<li>Filing division: #doc.filing_division#</li>
-				<li>Filing material: #doc.filing_material_type#</li>
-				<li>Filing number: #doc.filing_number#</li>
-				<li>Filing date: #doc.filing_date#</li>
-				<li>Section: #doc.section#</li>
-				<li>Township: #doc.township#</li>
-				<li>Range: #doc.range#</li>
-				<li>Subdivision: #doc.subdivision#</li>
-				<li>Lot: #doc.lot#</li>
-				<li>Block: #doc.block#</li>
-				<li>USRS Parcel: #doc.usrs_parcel#</li>
-				<li>USRS Sheet: #doc.usrs_sheet#</li>
-				<li>Address: #doc.address#</li>
-				<li>City: #doc.city#</li>
-				<li>State: #doc.state#</li>
-				<li>ZIP: #doc.zip#</li>
-				<li>Owner name: #doc.owner_name#</li>
+				<li><a href="##">Revision: #doc.document_revision#</a></li>
+				<li><a href="##">Filing category: #doc.filing_category#</a></li>
+				<li><a href="##">Filing container: #doc.filing_container#</a></li>
+				<li><a href="##">Filing division: #doc.filing_division#</a></li>
+				<li><a href="##">Filing material: #doc.filing_material_type#</a></li>
+				<li><a href="##">Filing number: #doc.filing_number#</a></li>
+				<li><a href="##">Filing date: #doc.filing_date#</a></li>
+				<li><a href="##">Section: #doc.section#</a></li>
+				<li><a href="##">Township: #doc.township#</a></li>
+				<li><a href="##">Range: #doc.range#</a></li>
+				<li><a href="##">Subdivision: #doc.subdivision#</a></li>
+				<li><a href="##">Lot: #doc.lot#</a></li>
+				<li><a href="##">Block: #doc.block#</a></li>
+				<li><a href="##">USRS Parcel: #doc.usrs_parcel#</a></li>
+				<li><a href="##">USRS Sheet: #doc.usrs_sheet#</a></li>
+				<li><a href="##">Address: #doc.address#</a></li>
+				<li><a href="##">City: #doc.city#</a></li>
+				<li><a href="##">State: #doc.state#</a></li>
+				<li><a href="##">ZIP: #doc.zip#</a></li>
+				<li><a href="##">Owner name: #doc.owner_name#</a></li>
 			</ul>
 		</li>
 	</ul>
