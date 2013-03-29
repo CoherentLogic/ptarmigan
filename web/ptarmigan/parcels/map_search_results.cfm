@@ -13,7 +13,7 @@
 		</cfquery>
 	</cfcase>	
 	<cfcase value="search-reception-number">
-		<cfquery name="s" datasource="#session.company.datasource#">
+		<cfquery name="s" datasource="#session.company.datasource#"V>
 			SELECT * FROM parcels WHERE reception_number LIKE '%#url.reception_number#%'
 		</cfquery>
 	</cfcase>
@@ -50,6 +50,7 @@
 <div style="padding:20px; overflow:auto;">
 	<div class="panel">
 		<h1>Search Results</h1>		
+		<a href="##" onclick="close_map_search();">Hide Search Results</a>
 		
 		<cfif url.search_type EQ "search-geocode">
 			<cfset search_result = deserializejson(cfhttp.filecontent)>
@@ -62,7 +63,7 @@
 						<div class="search_class">Physical Address (#arr.geometry.location_type#)</div>
 
 						<p>
-							<a href="##" onclick="close_map_search();">Hide Search Results</a>
+							
 						</p>
 					</cfoutput>
 				</div>
@@ -76,7 +77,7 @@
 					<div class="search_class">Parcel</div>
 					
 					<p>
-						<a href="##" onclick="close_map_search();">Hide Search Results</a>
+												
 					</p>
 				</div>
 			</cfoutput>
