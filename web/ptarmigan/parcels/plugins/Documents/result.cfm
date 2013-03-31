@@ -30,7 +30,7 @@
 	
 	<ul>
 		<li>
-			<a href="#session.root_url#/objects/dispatch.cfm?id=#obj.id#">#assoc.get().object_name()#</a>
+			<a href="##" onclick="inline_doc_view('#assoc.get().id#')">#assoc.get().object_name()#</a>
 			<ul>
 				<li><a href="##">Document ##: #doc.document_number#</a></li>
 				<li><a href="##">Revision: #doc.document_revision#</a></li>

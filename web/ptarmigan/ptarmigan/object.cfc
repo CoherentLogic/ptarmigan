@@ -332,9 +332,9 @@
 			<cfcase value="object">
 				<cfset obj = CreateObject("component", "ptarmigan.object").open(m)>
 				<cfif obj.class_id NEQ "">
-				<cfreturn obj.get().object_name()>
+					<cfreturn obj.get().object_name()>
 				<cfelse>
-				<cfreturn "*** NO LONGER EXISTS ***">
+					<cfreturn "*** NO LONGER EXISTS ***">
 				</cfif>
 			</cfcase>
 			<cfcase value="boolean">

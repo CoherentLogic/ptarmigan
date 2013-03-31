@@ -40,9 +40,15 @@
 			<li><a href="##">Area (Sq. Ft.): #parcel.area_sq_ft#</a></li>
 			<li><a href="##">Area (Sq. Yd.): #parcel.area_sq_yd#</a></li>
 			<li><a href="##">Area (Acres): #parcel.area_acres#</a></li>
-			<li><a href="##">Legal Description: #parcel.metes_and_bounds#</a></li>
+			<li><a href="##">Legal Description: #parcel.metes_and_bounds#</a></li>			
 		</ul>
 	</li>
 </ul>
 </div>
+
+<p>Boundary WKT:</p>
+<center>
+<textarea style="width:350px; height:70px;" readonly>#parcel.wkt#</textarea>
+</center>
 </cfoutput>
+

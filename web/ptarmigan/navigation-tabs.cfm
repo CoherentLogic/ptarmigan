@@ -25,11 +25,19 @@
 		</cfif>
 		<li><a href="#ptarmigan">Ptarmigan</a></li>
 		<li><a href="#reports">Reports</a></li>
-		<li><a href="#projects">Projects</a></li>
-		<li><a href="#documents">Documents</a></li>
-		<li><a href="#customers">Customers</a></li>
+		<cfif session.system.service_check(1)>
+			<li><a href="#projects">Projects</a></li>
+		</cfif>
+		<cfif session.system.service_check(2)>
+			<li><a href="#documents">Documents</a></li>
+		</cfif>
+		<cfif session.system.service_check(4)>
+			<li><a href="#customers">Customers</a></li>
+		</cfif>
 		<li><a href="#employees">Employees</a></li>
-		<li><a href="#parcels">Parcels</a></li>
+		<cfif session.system.service_check(8)>
+			<li><a href="#parcels">Parcels</a></li>
+		</cfif>
 	</ul>
 		<cfif object_loaded EQ true>
 			<div id="object">
@@ -73,6 +81,7 @@
 			</ul>
 			</div> <!--- sub-navigation --->
 		</div>
+		<cfif session.system.service_check(2)>
 		<div id="documents">
 			<div class="sub-navigation">
 				<ul>
@@ -85,17 +94,21 @@
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
+		</cfif>
+		<cfif session.system.service_check(8)>
 		<div id="parcels">
 			<div class="sub-navigation">
 				<ul>
 					<cfoutput>
 					<li><a href="#session.root_url#/parcels/define_parcel.cfm">New Parcel</a></li>
 					<li><a href="javascript:search_parcels('#session.root_url#');">Search Parcels</a></li>
-					<li><a href="#session.root_url#/parcels/parcel_map.cfm" target="_blank">View Map</a></li>
+					<li><a href="#session.root_url#/parcels/parcel_map.cfm?map_type=osm" target="_blank">View Map</a></li>
 					</cfoutput>
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
+		</cfif>
+		<cfif session.system.service_check(1)>
 		<div id="projects">
 			<div class="sub-navigation">
 				<ul>
@@ -106,6 +119,8 @@
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
+		</cfif>
+		<cfif session.system.service_check(4)>
 		<div id="customers">
 			<div class="sub-navigation">
 				<ul>
@@ -116,6 +131,7 @@
 				</ul>
 			</div> <!--- sub-navigation --->
 		</div>
+		</cfif>
 		<div id="employees">
 			<div class="sub-navigation">
 				<ul>

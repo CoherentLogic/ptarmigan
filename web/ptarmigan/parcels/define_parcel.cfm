@@ -204,15 +204,30 @@
 			
 			<cfset points_array = ListToArray(form.points)>
 			
+			<cfset wkt_string = "POLYGON((">
+			
 			<cfloop array="#points_array#" index="pts">
 				<cfset lat = left(pts, find(":", pts) - 1)>
 				<cfset lon = mid(pts, find(":", pts) + 1, len(pts))>
+				
+				<cfset wkt_string = wkt_string & lon & " " & lat & ",">
 				
 				<cfoutput>
 					Latitude: '#lat#' Longitude: '#lon#'<br>
 				</cfoutput>
 				<cfset p.add_point(lat, lon)>
 			</cfloop>
+			
+			<cfset first_point = points_array[1]>
+			<cfset lat = left(first_point, find(":", first_point) - 1)>
+			<cfset lon = mid(first_point, find(":", first_point) + 1, len(first_point))>
+			<cfset wkt_string = wkt_string & lon & " " & lat & ",">
+			
+			<cfset wkt_string = left(wkt_string, len(wkt_string) - 1) & "))">
+			<cfset p.wkt = wkt_string>
+			<cfset p.update()>
+			
+			<cfoutput>#p.wkt#</cfoutput>
 			
 			<cflocation url="#session.root_url#/objects/dispatch.cfm?id=#p.id#" addtoken="no">
 		</cfif>

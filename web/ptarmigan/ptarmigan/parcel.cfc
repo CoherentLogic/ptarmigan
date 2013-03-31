@@ -27,6 +27,7 @@
 	<cfset this.reception_number = "">
 	<cfset this.center_latitude = 0.0>
 	<cfset this.center_longitude = 0.0>
+	<cfset this.wkt = "">
 	
 	<cfset this.polygons = ArrayNew(1)>
 	
@@ -140,7 +141,12 @@
 		
 		this.members['CENTER_LONGITUDE'] = StructNew();
 		this.members['CENTER_LONGITUDE'].type = "text";
-		this.members['CENTER_LONGITUDE'].label = "Center longitude";																								
+		this.members['CENTER_LONGITUDE'].label = "Center longitude";		
+		
+		this.members['WKT'] = StructNew();
+		this.members['WKT'].type = "text";
+		this.members['WKT'].label = "Boundary WKT";	
+																							
 	</cfscript>						
 	
 	<cfset this.written = false>
@@ -178,7 +184,11 @@
 							reception_number,
 							center_latitude,
 							center_longitude,
-							center)
+							center
+							<cfif this.wkt NEQ "">
+								,boundary
+							</cfif>
+							)
 			VALUES			('#this.id#',
 							'#this.parcel_id#',
 							#this.area_sq_ft#,
@@ -207,7 +217,11 @@
 							'#this.reception_number#',
 							#this.center_latitude#,
 							#this.center_longitude#,
-							POINT(#this.center_latitude#, #this.center_longitude#))
+							POINT(#this.center_latitude#, #this.center_longitude#)
+							<cfif this.wkt NEQ "">
+								,GeomFromText('#this.wkt#')
+							</cfif>
+							)
 		</cfquery>
 		<cfset session.message = "Parcel #this.parcel_id# added.">
 
@@ -238,6 +252,10 @@
 		<cfquery name="p" datasource="#session.company.datasource#">
 			SELECT * FROM parcels WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#id#">
 		</cfquery>
+	
+		<cfquery name="get_wkt" datasource="#session.company.datasource#">
+			SELECT AsText(boundary) AS bndy FROM parcels WHERE id=<cfqueryparam cfsqltype="cf_sql_varchar" maxlength="255" value="#id#">
+		</cfquery>
 		
 		<cfset this.id = id>
 		<cfset this.parcel_id = p.parcel_id>
@@ -267,6 +285,7 @@
 		<cfset this.ground_survey = p.ground_survey>
 		<cfset this.center_latitude = p.center_latitude>
 		<cfset this.center_longitude = p.center_longitude>
+		<cfset this.wkt = get_wkt.bndy>
 		
 		<cfquery name="get_polygons" datasource="#session.company.datasource#">
 			SELECT * FROM parcel_points WHERE parcel_id='#this.id#'
@@ -314,7 +333,8 @@
 					ground_survey=#this.ground_survey#,
 					center_latitude=#this.center_latitude#,
 					center_longitude=#this.center_longitude#,
-					center=GeomFromText('POINT(#this.center_latitude# #this.center_longitude#)')
+					center=GeomFromText('POINT(#this.center_latitude# #this.center_longitude#)'),
+					boundary=GeomFromText('#this.wkt#')
 			WHERE	id='#this.id#'			
 		</cfquery>
 
@@ -363,6 +383,10 @@
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfquery name="d" datasource="#session.company.datasource#">
 			DELETE FROM parcels WHERE id='#this.id#'
+		</cfquery>
+		
+		<cfquery name="d2" datasource="#session.company.datasource#">
+			DELETE FROM parcel_points WHERE parcel_id='#this.id#'
 		</cfquery>
 		
 		<cfset this.written = false>

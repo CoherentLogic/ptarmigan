@@ -37,6 +37,10 @@
 	float:left;
 }
 
+#content-box {
+	float:left;
+}
+
 #map-status-bar {
 	margin:0;
 	width:100%;

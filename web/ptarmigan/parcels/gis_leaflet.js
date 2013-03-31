@@ -16,7 +16,9 @@ var se_longitude = 0;
 var overlays = [];
 var current_control_id;
 var left_click_mode = "research";
+
 var search_results_visible = false;
+var map_visible = true;
 
 var tile_layer = null;
 
@@ -33,11 +35,35 @@ var alert_color = "red";
 var control_manager = null;
 
 
+function inline_doc_view(document_id) 
+{
+	var url = '/parcels/plugins/Documents/view.cfm?id=' + escape(document_id);
+	
+	switch_views('content');
+	$("#content-box").html(request(url));
+}
+
+function switch_views(view_name)
+{
+	switch(view_name) {
+		case 'map':
+			map_visible = true;
+			break;
+		case 'content':
+			map_visible = false;
+			break;
+	}
+	
+	size_ui();
+}
+
 
 function click_mode(mode)
 {
 	hide_all_plugins();
 	left_click_mode = mode;
+	
+	switch_views('map');
 	
 	switch (mode) {
 		case 'research':
@@ -67,27 +93,26 @@ function init_map(control_id, center_latitude, center_longitude)
 	var cloudmadeUrl = 'http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png';
 	var basemap_cm = L.tileLayer(cloudmadeUrl, {attribution:'Map data &copy; OpenStreetMap contributors'});
 	
-	var cldUrl = 'http://osm.coherent-logic.com/osm/{z}/{x}/{y}.png';
-	var basemap_cld = L.tileLayer(cldUrl, {attribution:'Map data &copy; OpenStreetMap contributors'});
+	//var cldUrl = 'http://osm.coherent-logic.com/osm/{z}/{x}/{y}.png';
+	//var basemap_cld = L.tileLayer(cldUrl, {attribution:'Map data &copy; OpenStreetMap contributors'});
 	
 	var mqAerialUrl = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
 	var aerial = L.tileLayer(mqAerialUrl, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
 	
 	
 	basemap_cm.on('load', redraw);
-	basemap_cld.on('load', redraw);	
+	//basemap_cld.on('load', redraw);	
 	aerial.on('load', redraw);
 	
 	
 	map = L.map(control_id, {
 		center: new L.LatLng(center_latitude, center_longitude),
 		zoom: 16,
-		layers: [aerial, basemap_cld, basemap_cm]
+		layers: [aerial, basemap_cm]
 	});
 	
 	var baseMaps = {
-		"Aerial Imagery": aerial,
-		"Basemap (Coherent Logic)":basemap_cld,
+		"Aerial Imagery": aerial,		
 		"Basemap (CloudMade)": basemap_cm							
 	};
 	

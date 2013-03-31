@@ -13,7 +13,7 @@
 		</cfquery>
 	</cfcase>	
 	<cfcase value="search-reception-number">
-		<cfquery name="s" datasource="#session.company.datasource#"V>
+		<cfquery name="s" datasource="#session.company.datasource#">
 			SELECT * FROM parcels WHERE reception_number LIKE '%#url.reception_number#%'
 		</cfquery>
 	</cfcase>

@@ -6,7 +6,8 @@
 		<cfif url.map_type EQ "osm">
 			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
 			<script src="#session.root_url#/leaflet/leaflet.js"></script>
-			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>			
+			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
+			<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
 		<cfelse>
 			<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
 			<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>

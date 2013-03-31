@@ -10,6 +10,7 @@
 	<cfset this.phone = "">
 	<cfset this.fax = "">
 	<cfset this.ini_path = "">
+	<cfset this.service = 0>
 	
 	<cffunction name="object_name" returntype="string" access="public" output="false">
 		<cfreturn this.company_name>
@@ -31,6 +32,7 @@
 		<cfset this.phone = GetProfileString(this.ini_path, "Company", "phone")>
 		<cfset this.fax = GetProfileString(this.ini_path, "Company", "fax")>
 		<cfset this.logo = GetProfileString(this.ini_path, "Company", "logo")>
+		<cfset this.service = GetProfileString(this.ini_path, "company", "service")>		
 
 		<cfreturn this>
 	</cffunction>	
