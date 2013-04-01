@@ -6,6 +6,7 @@
 		<cfif url.map_type EQ "osm">
 			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
 			<script src="#session.root_url#/leaflet/leaflet.js"></script>
+			<script src="#session.root_url#/leaflet/leaflet.textpath.js"></script>
 			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
 			<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
 		<cfelse>
@@ -27,6 +28,12 @@
 				<cfoutput>
 				init_map('map', #session.system.center_latitude#, #session.system.center_longitude#);
 				</cfoutput>
+				
+				$("#view-group").buttonset();
+				$("#clickmode-group").buttonset();
+				$("#map-search").button();
+				$("#help-mode").button();
+				$("#toggle-header").button();
 	   		});	   		 	
 	   		
 	   		$(window).resize(function() {
@@ -91,16 +98,38 @@
 			</div>			
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
-				
+					
+					<div class="button-group">
 					<cfinclude template="map_search.cfm">
+					</div>
 					<cfoutput>
-					<button id="view-content" class="middle-button" onclick="switch_views('content');" style="margin-left:5px;"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"> </button>
+					
+					<div id="view-group" class="button-group">
+						<input type="radio" name="view-group" id="view-map" onclick="switch_views('map');" checked="checked"><label for="view-map"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="view-group" id="view-content" onclick="switch_views('content');"><label for="view-content"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"></label>
+
+					</div>
+					
+					<div id="clickmode-group" class="button-group">
+						<input type="radio" name="clickmode-group" id="click-research" onclick="click_mode('research');" checked="checked"><label for="click-research"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="clickmode-group" id="click-documents" onclick="click_mode('documents');"><label for="click-documents"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="clickmode-group" id="click-measure" onclick="click_mode('measure');"><label for="click-measure"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/ruler_2.png" style="vertical-align:middle;"></label>
+					</div>
+					
+					<div class="button-group">
+						<input type="checkbox" id="toggle-header"><label for="toggle-header"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/arrow_out.png" style="vertical-align:middle;"></label>						
+						<input type="checkbox" id="help-mode"><label for="help-mode"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/help.png" style="vertical-align:middle;"></label>
+					</div>
+					
+					
+					<!---
+<button id="view-content" class="middle-button" onclick="switch_views('content');" style="margin-left:5px;"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"> </button>
 					<button id="view-map" class="middle-button" onclick="switch_views('map');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map.png" style="vertical-align:middle;"> </button>
 				
-					<button id="click-research" class="middle-button" style="margin-left:10px;" onclick="click_mode('research');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></button>
-					<button id="click-documents" class="middle-button" onclick="click_mode('documents');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></button>
-					<button id="click-measure" class="right-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"></button>
-
+<button id="click-research" class="middle-button" style="margin-left:10px;" onclick="click_mode('research');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></button>
+<button id="click-documents" class="middle-button" onclick="click_mode('documents');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></button>
+<button id="click-measure" class="right-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"></button>
+					--->
 					<!--- <cfif session.logged_in EQ true>
 						<button class="right-button" style="margin-left:10px;"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"></button>
 					</cfif> --->

@@ -39,5 +39,5 @@
 </select>
 </span>
 <cfoutput>
-<button onclick="map_search();"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/zoom.png" style="vertical-align:middle;"></button>
+<button id="map-search" onclick="map_search();"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/zoom.png" style="vertical-align:middle;"></button>
 </cfoutput>

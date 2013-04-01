@@ -5,7 +5,7 @@
 <cfparam name="session.message" default="">
 <cfparam name="session.company" default="">
 <cfparam name="session.current_object" default="">
-<cfparam name="session.ui_theme" default="redmond">
+<cfparam name="session.ui_theme" default="smoothness">
 <cfparam name="session.basket" default="#ArrayNew(1)#">
 <cfparam name="session.root_url" default="">
 <cfparam name="session.upload_path" default="">

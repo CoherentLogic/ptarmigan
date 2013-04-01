@@ -34,11 +34,19 @@ var alert_color = "red";
 
 var control_manager = null;
 
+var polylines = [];
+var polyline_count = 0;
+
+var markers = [];
+var marker_count = 0;
+
+
+
 
 function inline_doc_view(document_id) 
 {
 	var url = '/parcels/plugins/Documents/view.cfm?id=' + escape(document_id);
-	
+	$("#view-content").click();
 	switch_views('content');
 	$("#content-box").html(request(url));
 }
@@ -113,7 +121,7 @@ function init_map(control_id, center_latitude, center_longitude)
 	
 	var baseMaps = {
 		"Aerial Imagery": aerial,		
-		"Basemap (CloudMade)": basemap_cm							
+		"Basemap": basemap_cm							
 	};
 	
 	L.control.layers(baseMaps).addTo(map);	
@@ -129,6 +137,25 @@ function init_map(control_id, center_latitude, center_longitude)
    		
    		$("#current-latitude").html(theLat);
    		$("#current-longitude").html(theLng);
+   		
+   		if(left_click_mode == 'measure') {
+   			
+   			if (got_first_point) {
+	   			for(i in polylines) {
+					map.removeLayer(polylines[i]);
+				}
+				polyline_count = 0;
+				
+				var mCoords = [
+					new L.LatLng(first_lat, first_lng),
+					new L.LatLng(e.latlng.lat, e.latlng.lng)
+				];
+				
+				polyline_count++;
+				polylines[polyline_count] = new L.Polyline(mCoords);
+				polylines[polyline_count].addTo(map);
+			}
+   		}
 	});
 	
 	map.on('click', function(e) {
@@ -148,24 +175,36 @@ function init_map(control_id, center_latitude, center_longitude)
 					
 					var res = '<h3>' + brng + ' ' + dist.toFixed(2) + "'</h3>";
 					res += '<p>Forward azimuth ' + azimuth.toFixed(6) + '</p>'; 
-										
+								
+					var text_path = brng + ' ' + dist.toFixed(2) + "'";
+							
 					$("#mensuration-results").html(res);
 					
 					var mensurationCoords = [
 						new L.LatLng(first_lat, first_lng),
 					    new L.LatLng(second_lat, second_lng)								   		  
 					];
-					var mensurationPLine = new L.Polyline(mensurationCoords)
 					
-					mensurationPLine.addTo(map);
+					polyline_count++;
+					polylines[polyline_count] = new L.Polyline(mensurationCoords);
+					try {
+					polylines[polyline_count].setText(text_path, {repeat: false, fillColor: 'blue'});
+					}
+					catch (ex) {
+						//do nothing
+					}					
+					polylines[polyline_count].addTo(map);
 										
 					got_first_point = false;
 				}
 				else {
+					reset_mensuration();
 					first_lat = e.latlng.lat;
 					first_lng = e.latlng.lng;
-					$("#mensuration-origin-lat").val(LocationFormatter.decimalLatToDMS(first_lat));
-					$("#mensuration-origin-lng").val(LocationFormatter.decimalLatToDMS(first_lng));
+					var res = '<p>Measuring from ' + LocationFormatter.decimalLatToDMS(first_lat) + ', ' + LocationFormatter.decimalLatToDMS(first_lng) + '...</p>';
+					res += '<p>Please click a second point in order to complete this measurement.</p>';
+					
+					$("#mensuration-results").html(res);
 					
 					got_first_point = true;
 				}
@@ -178,6 +217,16 @@ function init_map(control_id, center_latitude, center_longitude)
     $("#gis-status").html('OSM GIS support loaded');
 }
 
+function reset_mensuration ()
+{
+	for(i in polylines) {
+		map.removeLayer(polylines[i]);
+	}
+	
+	polyline_count = 0;
+	
+	$("#mensuration-results").html('<p>Click on two map points to measure the bearing and distance between them.</p>');
+}
 function distance(lat1, lon1, lat2, lon2)
 {
 	var R = 6371; // km
