@@ -34,7 +34,7 @@ function start_tour()
 		attachTo: "#click-research",
 		buttons: [{name: "Exit Tour", onclick: guiders.hideAll},
 				  {name: "Next"}],
-		description: "This is the button for selecting the <strong>Research</strong> query mode. When this query mode is selected, clicking a parcel will show you ownership, location, valuation, and other information pertinent to the parcel. The Research query mode also allows you to export point data from the selected parcel in one of over 8,000 mapping projections supported by Ptarmigan GIS.<br><br>Click <strong>Next</strong> to learn about the <strong>Documents</strong> mode.",
+		description: "This is the button for selecting the <strong>Research</strong> query mode. When this query mode is selected, clicking a parcel will show you ownership, location, valuation, and other information pertinent to the parcel.<br><br>Click <strong>Next</strong> to learn about the <strong>Documents</strong> mode.",
 		id: "tour-querymodes-research",
 		next: "tour-querymodes-documents",
 		overlay: false,
