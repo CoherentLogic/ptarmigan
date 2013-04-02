@@ -523,7 +523,7 @@ function display_info(parcel_index)
 {
     var p = current_parcels.PARCELS[parcel_index];
 
-    load("current-parcel", "APN " + p.PARCEL_ID);
+    load("current-parcel", "UPC " + p.PARCEL_ID);
 }
 
 

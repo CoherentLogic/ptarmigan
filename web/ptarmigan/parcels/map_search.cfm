@@ -1,6 +1,6 @@
 <span class="search-wrapper">
 <span id="search-geocode" style="display:inline-block;">
-	<input type="text" id="s-geocode" placeholder="Find an address" class="map-toolbar-search-right">	
+	<input type="text" id="s-geocode" placeholder="Geocode an address" class="map-toolbar-search-right">	
 </span>
 <span id="search-property-address" style="display:none;">
 	<input type="text" id="s-property-address" placeholder="Property address" class="map-toolbar-search-right">
@@ -28,7 +28,7 @@
 	<input type="text" id="s-block" placeholder="Block" class="map-toolbar-search-right" style="width:60px;">
 </span>
 <select name="search-type" id="search-type" style="border:none; width:30px;" onclick="set_search_type();">
-	<option value="search-geocode" selected>Find address on map</option>
+	<option value="search-geocode" selected>Geocode an address</option>
 	<option value="search-property-address">Search by property address</option>
 	<option value="search-apn">Search by property code</option>
 	<option value="search-reception-number">Search by reception number</option>
@@ -39,5 +39,5 @@
 </select>
 </span>
 <cfoutput>
-<button id="map-search" onclick="map_search();"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/zoom.png" style="vertical-align:middle;"></button>
+<button id="map-search" title="Perform search" onclick="map_search();"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/zoom.png" style="vertical-align:middle;"></button>
 </cfoutput>

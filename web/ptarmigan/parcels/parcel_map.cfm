@@ -110,19 +110,19 @@
 					<cfoutput>
 					
 					<div id="view-group" class="button-group">
-						<input type="radio" name="view-group" id="view-map" onclick="switch_views('map');" checked="checked"><label for="view-map"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map.png" style="vertical-align:middle;"></label>
-						<input type="radio" name="view-group" id="view-content" onclick="switch_views('content');"><label for="view-content"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="view-group" id="view-map" onclick="switch_views('map');" checked="checked"><label title="Show map" for="view-map"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="view-group" id="view-content" onclick="switch_views('content');"><label title="Show document" for="view-content"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"></label>
 
 					</div>
 					
 					<div id="clickmode-group" class="button-group">
-						<input type="radio" name="clickmode-group" id="click-research" onclick="click_mode('research');" checked="checked"><label for="click-research"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></label>
-						<input type="radio" name="clickmode-group" id="click-documents" onclick="click_mode('documents');"><label for="click-documents"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></label>
-						<input type="radio" name="clickmode-group" id="click-measure" onclick="click_mode('measure');"><label for="click-measure"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/ruler_2.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="clickmode-group" id="click-research" onclick="click_mode('research');" checked="checked"><label title="Research query mode" for="click-research"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="clickmode-group" id="click-documents" onclick="click_mode('documents');"><label title="Documents query mode" for="click-documents"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></label>
+						<input type="radio" name="clickmode-group" id="click-measure" onclick="click_mode('measure');"><label title="Measure query mode" for="click-measure"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/ruler_2.png" style="vertical-align:middle;"></label>
 					</div>
 					
 					<div class="button-group">
-						<input type="checkbox" id="toggle-header" onchange="toggle_header();"><label for="toggle-header"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/arrow_out.png" style="vertical-align:middle;"></label>						
+						<input type="checkbox" id="toggle-header" onchange="toggle_header();"><label title="Full-screen mode" for="toggle-header"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/arrow_out.png" style="vertical-align:middle;"></label>						
 					</div>
 					
 					</cfoutput>
@@ -155,13 +155,13 @@
 		
 			<div id="map-status-bar">
 							
-				<span id="gis-status" class="status-bar-segment-right">Ready</span>
-				<span id="loader" class="status-bar-segment-right">0 parcels in viewport</span>
-				<span id="network-status" class="status-bar-segment">Network Idle</span>
+				<span id="gis-status" class="status-bar-segment-right" title="System status">Ready</span>
+				<span id="loader" class="status-bar-segment-right" title="Map status">0 parcels in viewport</span>
+				<span id="network-status" class="status-bar-segment" title="Network status">Network Idle</span>
 				<div id="status-bar-right">
-					<span class="status-bar-segment-right" id="current-parcel">No Parcel</span>
-					<span class="status-bar-segment-right" id="current-latitude">Latitude</span>
-					<span class="status-bar-segment" id="current-longitude">Longitude</span>
+					<span class="status-bar-segment-right" id="current-parcel" title="Current parcel">No Parcel</span>
+					<span class="status-bar-segment-right" id="current-latitude" title="Current latitude">Latitude</span>
+					<span class="status-bar-segment" id="current-longitude" title="Current longitude">Longitude</span>
 				</div>
 			</div>
 		
