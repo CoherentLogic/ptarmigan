@@ -41,8 +41,6 @@ var markers = [];
 var marker_count = 0;
 
 
-
-
 function inline_doc_view(document_id) 
 {
 	var url = '/parcels/plugins/Documents/view.cfm?id=' + escape(document_id);
@@ -62,6 +60,21 @@ function switch_views(view_name)
 			break;
 	}
 	
+	size_ui();
+}
+
+function toggle_header() 
+{
+	var chkState = $("#toggle-header").is(":checked");
+	
+	if (chkState) {
+		$("#header").css("height", "0px");
+		$("#header").hide();
+	}
+	else {
+		$("#header").css("height", "100px");
+		$("#header").show();
+	}
 	size_ui();
 }
 

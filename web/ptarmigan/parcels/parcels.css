@@ -26,6 +26,7 @@
 	background-color:white;
 	float:left;
 	border-right:1px solid #c1c1c1;
+	position:relative;
 }
 
 #map-sidebar td {
@@ -33,6 +34,21 @@
 	font-weight:bold;
 }
 
+.sidebar-box {
+	width:350px;
+	border-radius:10px;
+	position:absolute;
+	padding:10px;
+	background:rgba(125, 174, 212, 0.19);
+	margin:0 auto;	
+	bottom:10px;
+	left:15px;
+}
+
+.sidebar-box p {
+	font-size:8pt;
+	font-weight:bold;
+}
 #map {
 	float:left;
 }

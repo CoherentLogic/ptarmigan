@@ -32,8 +32,10 @@
 		<div class="leaflet-plugin-results" id="mensuration-results">
 			<p>Click on two map points to measure the bearing and distance between them.</p>
 		</div>	
-		<button class="middle-button" onclick="reset_mensuration();">Reset</button>
 		
+		<div style="padding:20px; float:right;">
+		<button class="middle-button" id="reset-mensuration" onclick="reset_mensuration();">Reset</button>
+		</div>
 
 	</div>
 	

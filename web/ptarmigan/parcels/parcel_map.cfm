@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Parcel Map - ptarmigan</title>		
+		<title>Ptarmigan GIS</title>		
 		<cfoutput>
 		<cfif url.map_type EQ "osm">
 			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
@@ -16,8 +16,11 @@
 		<script src="#session.root_url#/ux.js"></script>
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
+		<link rel="stylesheet" type="text/css" href="#session.root_url#/guiders/guiders-1.3.0.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 		<script type="text/javascript" src="#session.root_url#/jstree/jquery.jstree.js"></script>
+		<script type="text/javascript" src="#session.root_url#/guiders/guiders-1.3.0.js"></script>
+		<script type="text/javascript" src="#session.root_url#/parcels/map_guider.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
 		</cfoutput>
@@ -34,6 +37,8 @@
 				$("#map-search").button();
 				$("#help-mode").button();
 				$("#toggle-header").button();
+				$("#start-tour").button();
+				$("#reset-mensuration").button();
 	   		});	   		 	
 	   		
 	   		$(window).resize(function() {
@@ -117,22 +122,9 @@
 					</div>
 					
 					<div class="button-group">
-						<input type="checkbox" id="toggle-header"><label for="toggle-header"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/arrow_out.png" style="vertical-align:middle;"></label>						
-						<input type="checkbox" id="help-mode"><label for="help-mode"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/help.png" style="vertical-align:middle;"></label>
+						<input type="checkbox" id="toggle-header" onchange="toggle_header();"><label for="toggle-header"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/arrow_out.png" style="vertical-align:middle;"></label>						
 					</div>
 					
-					
-					<!---
-<button id="view-content" class="middle-button" onclick="switch_views('content');" style="margin-left:5px;"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white.png" style="vertical-align:middle;"> </button>
-					<button id="view-map" class="middle-button" onclick="switch_views('map');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map.png" style="vertical-align:middle;"> </button>
-				
-<button id="click-research" class="middle-button" style="margin-left:10px;" onclick="click_mode('research');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/information.png" style="vertical-align:middle;"></button>
-<button id="click-documents" class="middle-button" onclick="click_mode('documents');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/page_white_copy.png" style="vertical-align:middle;"></button>
-<button id="click-measure" class="right-button" onclick="click_mode('measure');"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/timeline_marker.png" style="vertical-align:middle;"></button>
-					--->
-					<!--- <cfif session.logged_in EQ true>
-						<button class="right-button" style="margin-left:10px;"><img src="#session.root_url#/OpenHorizon/Resources/Graphics/Silk/map_add.png" style="vertical-align:middle;"></button>
-					</cfif> --->
 					</cfoutput>
 					
 				</div>
@@ -140,7 +132,15 @@
 		
 			<div id="map-inner-container">
 				<div id="map-sidebar">
-					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">		
+					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">	
+					
+					<div class="sidebar-box">
+						<p>You can take a guided tour of the Ptarmigan GIS system to familiarize yourself with its use.</p>
+						<p>You can click &quot;Exit Tour&quot; at any time to end the tour. </p>
+						<div style="float:right;">
+							<button id="start-tour" onclick="start_tour();">Start Tour</button>
+						</div>
+					</div>
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>
