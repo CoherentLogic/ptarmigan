@@ -138,7 +138,7 @@
 						<p>You can take a guided tour of the Ptarmigan GIS system to familiarize yourself with its use.</p>
 						<p>You can click &quot;Exit Tour&quot; at any time to end the tour. </p>
 						<div style="float:right; overflow:hidden;">
-							<button  onclick="start_tour();">Start Tour</button>
+							<button id="start-tour" onclick="start_tour();">Start Tour</button>
 						</div>
 					</div>
 				</div>
