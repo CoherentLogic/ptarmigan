@@ -41,6 +41,7 @@
 	padding:10px;
 	background:rgba(125, 174, 212, 0.19);
 	margin:0 auto;
+	overflow:hidden;
 }
 
 .sidebar-box p {
