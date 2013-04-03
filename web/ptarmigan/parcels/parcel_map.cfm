@@ -131,8 +131,7 @@
 			</div>		
 		
 			<div id="map-inner-container">
-				<div id="map-sidebar">
-				asdfasdfasdf
+				<div id="map-sidebar">				
 					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">	
 					
 					<div class="sidebar-box">
