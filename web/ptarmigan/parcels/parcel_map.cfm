@@ -6,7 +6,7 @@
 		<cfif url.map_type EQ "osm">
 			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
 			<script src="#session.root_url#/leaflet/leaflet.js"></script>
-			<script src="#session.root_url#/leaflet/leaflet.textpath.js"></script>
+			
 			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
 			<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
 		<cfelse>
