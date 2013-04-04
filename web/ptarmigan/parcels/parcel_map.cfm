@@ -96,13 +96,19 @@
 				<cfif session.logged_in EQ true>
 				<div id="account-info">
 					<cfoutput>
-					#session.user.full_name()#
+					#session.user.full_name()#<br>
+					
 					</cfoutput>
 				</div>
 				</cfif>
+				
 			</div>			
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
+					
+					<div class="button-group" id="layers-group">
+						<cfinclude template="layers.cfm">
+					</div>
 					
 					<div class="button-group">
 					<cfinclude template="map_search.cfm">
