@@ -13,7 +13,7 @@
 		
 		
 		
-		<cfquery name="get_parcels" datasource="#session.company.datasource#" >
+		<cfquery name="get_parcels" datasource="#session.company.datasource#">
 			SELECT 	id,
 					parcel_id,
 					fill_color,

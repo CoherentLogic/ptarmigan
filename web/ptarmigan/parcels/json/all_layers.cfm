@@ -1,0 +1,1 @@
+<cfcontent type="application/json"><cfsilent><cfset layers = createobject("component", "ptarmigan.gis.core").layers()></cfsilent><cfoutput>#serializejson(layers)#</cfoutput>

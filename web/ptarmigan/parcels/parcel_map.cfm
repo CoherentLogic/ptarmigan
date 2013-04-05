@@ -2,18 +2,12 @@
 <html lang="en">
 	<head>
 		<title>Ptarmigan GIS</title>		
-		<cfoutput>
-		<cfif url.map_type EQ "osm">
-			<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
-			<script src="#session.root_url#/leaflet/leaflet.js"></script>
-			<script src="#session.root_url#/leaflet/leaflet.textpath.js"></script>
-			<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
-			<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
-		<cfelse>
-			<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
-			<script type="text/javascript" src="#session.root_url#/parcels/gis.js"></script>
-		</cfif>
-		<script src="#session.root_url#/ux.js"></script>
+		<cfoutput>		
+		<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
+		<script src="#session.root_url#/leaflet/leaflet-src.js"></script>
+		<script type="text/javascript" src="#session.root_url#/parcels/layers.js"></script>		
+		<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
+		<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/guiders/guiders-1.3.0.css">
@@ -28,9 +22,7 @@
 			$(document).ready(function() {   								
 				<cfinclude template="#session.root_url#/utilities/jquery_init.cfm">
 				size_ui();	   		 
-				<cfoutput>
-				init_map('map', #session.system.center_latitude#, #session.system.center_longitude#);
-				</cfoutput>
+				
 				
 				$("#view-group").buttonset();
 				$("#clickmode-group").buttonset();
@@ -39,6 +31,10 @@
 				$("#toggle-header").button();
 				$("#start-tour").button();
 				$("#reset-mensuration").button();
+				
+				<cfoutput>
+				init_map('map', '#session.root_url#', '#session.system.cloudmade_api_key#', #session.system.center_latitude#, #session.system.center_longitude#, update_status_bar);
+				</cfoutput>
 	   		});	   		 	
 	   		
 	   		$(window).resize(function() {
@@ -106,7 +102,7 @@
 			<div id="map-toolbar">
 				<div id="map-toolbar-tube">
 					
-					<div class="button-group" id="layers-group">
+					<div class="button-group" id="layers-group" style="margin-top:2px;">
 						<cfinclude template="layers.cfm">
 					</div>
 					
@@ -138,7 +134,20 @@
 		
 			<div id="map-inner-container">
 				<div id="map-sidebar">
+					<cfinclude template="#session.root_url#/parcels/layer_control.cfm">
 					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">	
+					
+					<cfif IsDefined("url.pt_debug")>
+						<cfset debug_visibility = "block">
+					<cfelse>
+						<cfset debug_visibility = "none">
+					</cfif>
+					
+					<cfoutput>
+					<div style="display:#debug_visibility#;">
+						<textarea id="pt-debug" rows="10" style="width:100%;"></textarea>
+					</div>
+					</cfoutput>
 					
 					<div class="sidebar-box">
 						<p>You can take a guided tour of the Ptarmigan GIS system to familiarize yourself with its use.</p>
@@ -160,15 +169,27 @@
 			
 		
 			<div id="map-status-bar">
-							
-				<span id="gis-status" class="status-bar-segment-right" title="System status">Ready</span>
-				<span id="loader" class="status-bar-segment-right" title="Map status">0 parcels in viewport</span>
-				<span id="network-status" class="status-bar-segment" title="Network status">Network Idle</span>
-				<div id="status-bar-right">
-					<span class="status-bar-segment-right" id="current-parcel" title="Current parcel">No Parcel</span>
-					<span class="status-bar-segment-right" id="current-latitude" title="Current latitude">Latitude</span>
-					<span class="status-bar-segment" id="current-longitude" title="Current longitude">Longitude</span>
-				</div>
+			 	<!---
+			 		this.system_message = "Welcome to Ptarmigan GIS";
+	this.network_status = "Network Idle";
+	this.network_busy = false;
+	this.network_response = null;
+	this.layer = "No Layer";
+	this.latitude = "--";
+	this.longitude = "--";
+	this.parcel_id = "No Parcel";
+	this.parcel_count = 0;
+	this.bounding_rectangle = null;
+}
+			 	--->
+				<span id="system_message" class="status-bar-segment-right" title="System message"></span>
+				<span id="network_status" class="status-bar-segment-right" title="Network status"></span>
+				<span id="layer" class="status-bar-segment-right" title="Current layer"></span>
+				<span id="parcel_count" class="status-bar-segment-right" title="Parcel count"></span>				
+				<span class="status-bar-segment-right" id="parcel_id" title="Current parcel">No Parcel</span>
+				<span class="status-bar-segment-right" id="latitude" title="Current latitude">Latitude</span>
+				<span class="status-bar-segment" id="longitude" title="Current longitude">Longitude</span>
+				
 			</div>
 		
 		</div>

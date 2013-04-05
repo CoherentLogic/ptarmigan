@@ -17,6 +17,8 @@ var overlays = [];
 var current_control_id;
 var left_click_mode = "research";
 
+var active_layer = "";
+
 var search_results_visible = false;
 var map_visible = true;
 
@@ -40,6 +42,38 @@ var polyline_count = 0;
 var markers = [];
 var marker_count = 0;
 
+var default_viewport = "";
+
+function update_status_bar(status) {
+	/*
+	 * this.system_message = "Welcome to Ptarmigan GIS";
+	this.network_status = "Network Idle";
+	this.network_busy = false;
+	this.network_response = null;
+	this.layer = "No Layer";
+	this.latitude = "--";
+	this.longitude = "--";
+	this.parcel_id = "No Parcel";
+	this.parcel_count = 0;
+	this.bounding_rectangle = null;
+	 */
+	
+	$("#system_message").html(status.system_message);
+	$("#network_status").html(status.network_status);
+	$("#layer").html(status.layer);
+	$("#latitude").html(status.latitude);
+	$("#longitude").html(status.longitude);
+	$("#parcel_id").html(status.parcel_id);
+	$("#parcel_count").html(status.parcel_count + " parcels in viewport");
+	$("#layer").html(status.layer);
+	
+	if (status.system_busy) {
+		$('#map').css('cursor', 'progress');	
+	}
+	else {		
+		$('#map').css('cursor', 'default');
+	}
+}
 
 function inline_doc_view(document_id) 
 {
@@ -105,13 +139,31 @@ function hide_all_plugins()
 	$("#plugin-2").hide();
 	$("#plugin-3").hide();	
 }
-function init_map(control_id, center_latitude, center_longitude)
+
+var default_map = "";
+
+
+function init_map(control_id, root_url, cloudmade_api_key, center_latitude, center_longitude, status_changed_callback) 
 {
+	default_map = new pt_map({attach_to: control_id,
+							root_url: root_url,
+							cloudmade_api_key: cloudmade_api_key,
+							initial_center_latitude: center_latitude,
+							initial_center_longitude: center_longitude,
+							initial_zoom_level: 16,
+							on_status_changed: status_changed_callback});
+}
+
+function zyzzyx(control_id, center_latitude, center_longitude)
+{
+	default_viewport = new pt_viewport()
+
     current_control_id = control_id;
 
-    
 
-	var cloudmadeUrl = 'http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png';
+
+    
+  	var cloudmadeUrl = 'http://b.tile.cloudmade.com/60fe8cc7e8bb44579699f32a87bc7c2a/1155/256/{z}/{x}/{y}.png';
 	var basemap_cm = L.tileLayer(cloudmadeUrl, {attribution:'Map data &copy; OpenStreetMap contributors'});
 	
 	//var cldUrl = 'http://osm.coherent-logic.com/osm/{z}/{x}/{y}.png';
@@ -352,7 +404,7 @@ function network_status(status)
 
 
 var request_active = false;
-var xml_http = false;
+//var xml_http = false;
 
 function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 {
@@ -421,8 +473,9 @@ function retrieve_parcels(nw_latitude, nw_longitude, se_latitude, se_longitude)
 	   
 	    point_count = current_parcels.PARCELS[i].POLYGONS.length;
 	    
+	    coords = new Array();
 	    coords.length = point_count;
-
+		
 	    for(j = 0; j < point_count; j++) {		
 			coords[j] = new L.LatLng(current_parcels.PARCELS[i].POLYGONS[j].LATITUDE, current_parcels.PARCELS[i].POLYGONS[j].LONGITUDE);		
 	    }

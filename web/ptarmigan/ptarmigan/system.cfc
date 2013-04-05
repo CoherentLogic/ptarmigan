@@ -13,6 +13,7 @@
 	
 	<cfset this.center_latitude = "">
 	<cfset this.center_longitude = "">
+	<cfset this.cloudmade_api_key = "">
 	
 	<cffunction name="init" access="public" output="false" returntype="ptarmigan.system">
 		<cfset ini_path = expandpath("/ptarmigan.ini")>
@@ -24,8 +25,9 @@
 		<cfset this.base_url = getprofilestring(ini_path, "Network", "base_url")>
 		<cfset this.service = getprofilestring(ini_path, "Company", "service")>
 		
-		<cfset this.center_latitude = getprofilestring(ini_path, "Company", "center_latitude")>
-		<cfset this.center_longitude = getprofilestring(ini_path, "Company", "center_longitude")>
+		<cfset this.center_latitude = getprofilestring(ini_path, "GIS", "center_latitude")>
+		<cfset this.center_longitude = getprofilestring(ini_path, "GIS", "center_longitude")>
+		<cfset this.cloudmade_api_key = getprofilestring(ini_path, "GIS", "cloudmade_api_key")>
 		
 		<cfset session.root_url = this.root_url>
 		<cfset session.upload_path = this.upload_path>

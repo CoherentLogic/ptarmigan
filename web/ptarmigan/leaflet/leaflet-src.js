@@ -385,7 +385,7 @@ L.Mixin.Events = {
 
 		var listeners = this[key][type].slice();
 
-		for (var i = 0, len = listeners.length; i < len; i++) {
+		for (var i = 0, len = listeners.length; i < len; i++) {						
 			listeners[i].action.call(listeners[i].context || this, event);
 		}
 

@@ -10,7 +10,7 @@
 	<cfset this.layer_public = 1>
 	<cfset this.layer_projection = "">
 	<cfset this.layer_projection_name = "">
-	<cfset this.layer_geom_field = "">
+	<cfset this.layer_geom_field = "">	
 	
 	<cfset this.written = false>
 	
@@ -33,6 +33,7 @@
 			<cfset this.layer_projection = layer_projection>
 			<cfset this.layer_projection_name = layer_projection_name>
 			<cfset this.layer_geom_field = layer_geom_field>
+			<cfset this.layer_enabled = layer_enabled_default>
 		</cfoutput>
 		
 		<cfset this.written = true>
@@ -48,19 +49,30 @@
 
 		<cfset wgs84_geographic_srid = 4326>
 
-		<cfquery name="q_parcels_in_rect" datasource="#session.company.datasource#">
+				
+		
+
+		<cfquery name="q_parcels_in_rect" datasource="#session.company.datasource#">		
 			SELECT  #this.layer_key_field# AS pt_parcel_key,
 					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary
 			FROM 	#this.layer_table# 
-			WHERE 	ST_Within(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#), ST_GeomFromText('MULTIPOINT(#nw_latitude# #nw_longitude#, #se_latitude# #se_longitude#)'))	
+			WHERE  ST_Transform(geom, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326);
 		</cfquery>		
-
-		<cfset parcels = ArrayNew(1)>
+		
+		<cfset pstr = StructNew()>
+		<cfset pstr.layer_id = this.id>
+		<cfset pstr.layer_name = this.layer_name>
+		<cfset pstr.layer_key_name = this.layer_key_name>
+		<cfset pstr.layer_key_abbreviation = this.layer_key_abbreviation>
+		<cfset pstr.layer_projection = this.layer_projection>
+		<cfset pstr.layer_projection_name = this.layer_projection_name>		
+		<cfset pstr.parcels = ArrayNew(1)>
+		
 		
 		<cfoutput query="q_parcels_in_rect">
 			<cfset ts = StructNew()>
-						
-			<cfset ts.parcel_key = pt_parcel_key>
+
+			<cfset ts.parcel_key = q_parcels_in_rect.pt_parcel_key>
 			<cfset ts.fill_color = this.layer_color>
 					
 			<cfset ts.polygons = ArrayNew(1)>
@@ -85,10 +97,10 @@
 				</cfloop>						
 			</cfif>
 						
-			<cfset ArrayAppend(parcels, ts)>
+			<cfset ArrayAppend(pstr.parcels, ts)>
 		</cfoutput>
 		
-		<cfreturn ts>
+		<cfreturn pstr>
 	</cffunction>
 
 </cfcomponent>

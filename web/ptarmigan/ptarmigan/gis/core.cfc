@@ -10,6 +10,6 @@
 			<cfset ArrayAppend(output_array, tmp_layer)>
 		</cfoutput>
 		
-		<cfreturn oa>
+		<cfreturn output_array>
 	</cffunction>
 </cfcomponent>
