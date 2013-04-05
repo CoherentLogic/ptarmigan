@@ -1,0 +1,169 @@
+
+<html>
+	<head>
+	
+
+<style type="text/css">
+.leaflet-container{
+
+	font-family: 'Source Sans Pro', sans-serif!important;
+	font-weight: regular;
+}
+
+.leaflet-popup-content a:link, a:active, a:visited { 
+	color:#c90557!important;
+	text-decoration: underline!important; 
+	} 
+
+.leaflet-popup-content a:hover	{ 
+	color:#c90557!important;
+	text-decoration: none!important; 
+	}
+
+.info {
+    padding: 6px 8px;
+    font: 18/19px Source Sans Pro, sans-serif!important;
+    background: white;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+	width:300px;
+	height:400px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #c10557;
+}
+
+
+</style>
+
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+		 <!--[if lte IE 8]>
+			 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+		 <![endif]-->
+		 <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+
+	</head>
+	<body>
+		<div id="map" style="height: 600px; width: 915px;"></div>
+		
+<script type="text/javascript">
+
+// LEAFLET START
+var map = L.map('map').setView([51.624624,10.170198], 10);
+
+L.tileLayer('http://{s}.tile.cloudmade.com/3c9b6b3586f2430cb2a7dc7203171dd4/{styleId}/256/{z}/{x}/{y}.png', {
+    key: '58c88eb68e6545fbb3139eb6c4538926',
+    styleId: 90844,
+    maxZoom: 17
+}).addTo(map);
+
+// Definition Marker
+var text_icon = L.icon({
+    iconUrl: 'http://monsters.bildungsmafia.de/relaunch/wordpress/icon_text.png',
+    iconSize:     [32, 37], // size of the icon
+    shadowSize:   [0, 0], // size of the shadow
+    iconAnchor:   [16, 37], // point of the icon which will correspond to marker's location
+    shadowAnchor: [0, 0],  // the same for the shadow
+    popupAnchor:  [10, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+function highlightFeature(e) {
+    info.update(e.target.display_data);
+}
+
+function resetHighlight(e) {
+    info.update();
+}
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Neonazis in der Region</h4>' +  (props ?
+        '<b>' + props + '</b>'
+        : 'Klicke auf ein Icon, um Details zum Tatort zu erfahren.');
+}; 
+info.addTo(map);
+
+// LEAFLET ENDE
+
+
+
+//<![CDATA[
+
+// Change these parameters to customize map
+var param_wsId = "od6";
+var param_ssKey = "0AleNGc4xGPL5dEQyMmVYWjYyR3lBRGxQTzBoU3BHS3c";
+var param_useSidebar = false;
+var param_titleColumn = "headline";
+var param_descriptionColumn = "text";
+var param_latColumn = "latitude";
+var param_lngColumn = "longitude";
+
+cm_getJSON();
+
+/** 
+ * Called when JSON is loaded. Creates Marker from Sheet.
+ */       
+function cm_loadMapJSON(json) {
+
+
+  for (var i = 0; i < json.feed.entry.length; i++) {
+    var entry = json.feed.entry[i];
+    if(entry["gsx$" + param_latColumn]) {
+      var lat = parseFloat(entry["gsx$" + param_latColumn].$t);
+      var lng = parseFloat(entry["gsx$" + param_lngColumn].$t);
+
+      var title = entry["gsx$"+param_titleColumn].$t;
+	  var html = '';
+      if(entry["gsx$" + param_descriptionColumn]) {
+        html += entry["gsx$"+param_descriptionColumn].$t;
+      }
+
+      // create the marker
+      var marker = L.marker([lat,lng], {icon: text_icon}).addTo(map);
+      //marker.bindPopup(html);
+
+	marker.display_data = html;
+
+	marker.on({
+		click: highlightFeature
+    });
+
+    }
+  }
+}
+
+
+/**
+ * Creates a script tag in the page that loads in the 
+ * JSON feed for the specified key/ID. 
+ * Once loaded, it calls cm_loadMapJSON.
+ */
+function cm_getJSON() {
+
+  // Retrieve the JSON feed.
+  var script = document.createElement('script');
+
+  script.setAttribute('src', 'http://spreadsheets.google.com/feeds/list'
+                         + '/' + param_ssKey + '/' + param_wsId + '/public/values' +
+                        '?alt=json-in-script&callback=cm_loadMapJSON');
+  script.setAttribute('id', 'jsonScript');
+  script.setAttribute('type', 'text/javascript');
+  document.documentElement.firstChild.appendChild(script);
+}
+
+setTimeout('cm_load()', 500); 
+
+//]]>
+
+</script>
+
