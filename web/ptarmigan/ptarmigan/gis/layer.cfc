@@ -41,7 +41,7 @@
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="parcels_in_rect" returntype="struct" output="false" access="public">
+	<cffunction name="features_in_rect" returntype="struct" output="false" access="public">
 		<cfargument name="nw_latitude" type="numeric" required="true">
 		<cfargument name="nw_longitude" type="numeric" required="true">
 		<cfargument name="se_latitude" type="numeric" required="true">
@@ -52,7 +52,7 @@
 				
 		
 
-		<cfquery name="q_parcels_in_rect" datasource="#session.company.datasource#">		
+		<cfquery name="q_features_in_rect" datasource="#session.company.datasource#">		
 			SELECT  #this.layer_key_field# AS pt_parcel_key,
 					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary,
 					ST_AsGeoJSON(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_geo_json	
@@ -71,7 +71,7 @@
 		
 		
 		
-		<cfoutput query="q_parcels_in_rect">
+		<cfoutput query="q_features_in_rect">
 			<cfset ts = StructNew()>
 
 			<cfset ts.parcel_key = q_parcels_in_rect.pt_parcel_key>
@@ -105,7 +105,7 @@
 		<cfreturn pstr>
 	</cffunction>
 	
-	<cffunction name="parcels_in_rect_geojson" returntype="string" access="public" output="false">
+	<cffunction name="features_in_rect_geojson" returntype="string" access="public" output="false">
 		<cfargument name="nw_latitude" type="numeric" required="true">
 		<cfargument name="nw_longitude" type="numeric" required="true">
 		<cfargument name="se_latitude" type="numeric" required="true">
@@ -113,7 +113,7 @@
 
 		<cfset wgs84_geographic_srid = 4326>
 						
-		<cfquery name="q_parcels_in_rect_geojson" datasource="#session.company.datasource#">	
+		<cfquery name="q_features_in_rect_geojson" datasource="#session.company.datasource#">	
 			SELECT row_to_json(fc)::VARCHAR
 			 FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features
 			 FROM (SELECT 'Feature' As type
@@ -123,7 +123,56 @@
 			   FROM #this.layer_table# As lg WHERE ST_Transform(lg.#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326)) As f)  As fc
 		</cfquery>						
 		
-		<cfreturn q_parcels_in_rect_geojson.row_to_json>
+		<cfreturn q_features_in_rect_geojson.row_to_json>
+	</cffunction>
+	
+	<cffunction name="feature" returntype="string" access="public" output="false">
+		<cfargument name="feature_key" type="string" required="true">
+		
+		<cfquery name="q_feature" datasource="#session.company.datasource#">
+			SELECT * FROM #this.layer_table#
+			WHERE #this.layer_key_field#='#feature_key#'
+		</cfquery>
+		
+		<cfset ts = structnew()>
+		<cfset ts.aoColumns = arraynew(1)>
+		<cfset ts.aoColumns[1] = structnew()>
+		<cfset ts.aoColumns[1].sTitle = "Attribute">
+		<cfset ts.aoColumns[2] = structnew()>
+		<cfset ts.aoColumns[2].sTitle = "Value">
+		
+		<cfset column_array = arraynew(1)>
+		<cfset column_array = ListToArray(q_feature.ColumnList)>
+				
+		<cfset arr_index = 1>
+		
+		<cfset ts.aaData = arraynew(1)>
+		<cfloop array="#column_array#" index="col">
+			<cfset tAttrib = this.attribute_mapping(col)>
+			<cfset tValue = evaluate("q_feature.#col#")> 
+			
+			
+			<cfif tAttrib NEQ "">
+			<cfset ts.aaData[arr_index] = arraynew(1)>
+			<cfset ts.aaData[arr_index][1] = tAttrib>
+			<cfset ts.aaData[arr_index][2] = tValue>
+			<cfset arr_index = arr_index + 1>
+			</cfif>
+			
+			
+		</cfloop>
+	
+		<cfreturn serializejson(ts)>
+	</cffunction>
+	
+	<cffunction name="attribute_mapping" returntype="string" access="public" output="false">
+		<cfargument name="attribute_key" type="string" required="true">
+		
+		<cfquery name="q_amap" datasource="#session.company.datasource#">
+			SELECT attribute_name FROM parcel_layer_mappings WHERE source_layer_id='#this.id#' AND source_attribute='#lcase(attribute_key)#'
+		</cfquery>
+		
+		<cfreturn q_amap.attribute_name>
 	</cffunction>
 
 </cfcomponent>

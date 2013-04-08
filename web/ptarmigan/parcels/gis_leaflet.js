@@ -61,8 +61,8 @@ function update_status_bar(status) {
 	$("#system_message").html(status.system_message);
 	$("#network_status").html(status.network_status);
 	$("#layer").html(status.layer);
-	$("#latitude").html(status.latitude);
-	$("#longitude").html(status.longitude);
+	$("#latitude").html(LocationFormatter.decimalLatToDMS(status.latitude));
+	$("#longitude").html(LocationFormatter.decimalLatToDMS(status.longitude));
 	$("#parcel_id").html(status.feature_id);
 	$("#parcel_count").html(status.feature_count + " parcels in viewport");
 	$("#layer").html(status.layer);
@@ -376,8 +376,8 @@ function azimuth_to_angle(fwd_az)
 
 function map_recenter(latitude, longitude)
 {
-	map.setView([latitude, longitude], 18);	
-	var marker = new L.marker([latitude, longitude]).addTo(map);
+	default_map.leaflet_map.setView([latitude, longitude], 18);	
+	var marker = new L.marker([latitude, longitude]).addTo(default_map.leaflet_map);
 }
 
 function loading(value)

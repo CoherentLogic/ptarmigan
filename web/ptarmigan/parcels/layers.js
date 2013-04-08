@@ -46,7 +46,7 @@ function pt_map(options)
 		zoom: options.initial_zoom_level,
 		layers: [base_layer_aerial, base_layer_osm]
 	});
-	
+		
 	var base_maps = {
 		"Aerial": base_layer_aerial,		
 		"Base": base_layer_osm							
@@ -76,33 +76,79 @@ function pt_map(options)
 	 * default plugin for handling feature hover
 	 */
 	var map_accessor = this;
-	var __pt_plugin_featurehover = new pt_plugin({
-		plugin_name: '__pt_plugin_parcelhover',
+	
+	this.leaflet_map.on('mousemove', function (e) {
+		map_accessor.on_map_hover(e);
+	});
+	
+	this.leaflet_map.on('click', function (e) {
+		map_accessor.on_map_click(e);
+	});
+
+	
+	var __pt_plugin_default = new pt_plugin({
+		plugin_name: '__pt_plugin_default',
 		on_activate: function () { return (true); },
 		on_deactivate: function () { return (true); },
 		on_feature_hover: function (event_object, layer_object) {
-			map_accessor.status.feature_id = layer_object.layer_key_abbreviation + ' ' + event_object.target.feature._pt_feature_id;
-			map_accessor.status.layer = layer_object.layer_name;
-			map_accessor.on_status_changed(map_accessor.status);
-		}				
+			this.map_object.status.feature_id = layer_object.layer_key_abbreviation + ' ' + event_object.target.feature._pt_feature_id;
+			this.map_object.status.layer = layer_object.layer_name;
+			this.map_object.on_status_changed(map_accessor.status);
+			event_object.target.setStyle({color:'blue'});
+		},
+		on_feature_mouseout: function(event_object, layer_object) {
+			event_object.target.setStyle({color:layer_object.color});
+		},
+		on_map_hover: function (event_object) {
+			this.map_object.status.latitude = event_object.latlng.lat;
+			this.map_object.status.longitude = event_object.latlng.lng;
+			this.map_object.on_status_changed(map_accessor.status);
+		},
+		on_map_click: function (event_object) {
+			
+		}
 	});
 	
-	this.install_plugin(__pt_plugin_featurehover);
+	this.install_plugin(__pt_plugin_default);
 
 	return(this);
 }
 
 pt_map.prototype.install_plugin = function (plugin) {
+	plugin.map_object = this;
 	this.plugins.push(plugin);
+	this.plugins[this.plugins.length - 1].on_activate();
+	
+	return(this.plugins.length - 1);
 };
 
 pt_map.prototype.on_feature_click = function (event_object, layer_object) {
-	alert(event_object.target.feature._pt_feature_id);
+	for(i = 0; i < this.plugins.length; i++) {
+		this.plugins[i].on_feature_click(event_object, layer_object);
+	}
 };
 
 pt_map.prototype.on_feature_hover = function (event_object, layer_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-			this.plugins[i].on_feature_hover(event_object, layer_object);
+		this.plugins[i].on_feature_hover(event_object, layer_object);
+	}
+};
+
+pt_map.prototype.on_feature_mouseout = function (event_object, layer_object) {
+	for(i = 0; i < this.plugins.length; i++) {
+		this.plugins[i].on_feature_mouseout(event_object, layer_object);
+	}
+};
+
+pt_map.prototype.on_map_hover = function (event_object) {
+	for(i = 0; i < this.plugins.length; i++) {
+		this.plugins[i].on_map_hover(event_object);
+	}
+};
+
+pt_map.prototype.on_map_click = function (event_object) {
+	for(i = 0; i < this.plugins.length; i++) {
+		this.plugins[i].on_map_click(event_object);
 	}
 };
 
@@ -118,19 +164,19 @@ pt_layer.prototype.AJAX_PROCESSING = 3;
 function pt_layer(layer_json) {
 	
 	// set the object's properties based on the passed-in JSON structure
-	this.id = layer_json.ID;
-	this.layer_name = layer_json.LAYER_NAME;
-	this.projection = layer_json.LAYER_PROJECTION;
-	this.projection_name = layer_json.LAYER_PROJECTION_NAME;
-	this.layer_key_abbreviation = layer_json.LAYER_KEY_ABBREVIATION;
-	this.layer_key_name = layer_json.LAYER_KEY_NAME;
-	this.color = layer_json.LAYER_COLOR;
+	this.id = layer_json.id;
+	this.layer_name = layer_json.layer_name;
+	this.projection = layer_json.layer_projection;
+	this.projection_name = layer_json.layer_projection_name;
+	this.layer_key_abbreviation = layer_json.layer_key_abbreviation;
+	this.layer_key_name = layer_json.layer_key_name;
+	this.color = layer_json.layer_color;
 	
 	// network stuff
 	this.request_pending = false;
 	this.xml_http = http_request_object();
 	
-	switch(layer_json.LAYER_ENABLED) {
+	switch(layer_json.layer_enabled) {
 		case 0: this.enabled = false; break;
 		case 1: this.enabled = true; break;		
 	} 
@@ -148,7 +194,7 @@ pt_layer.prototype.render = function (viewport) {
 	
 	pt_debug(layer_url);
 	
-	// clear all polygons from viewport
+	// clear all features from viewport
 	viewport.clear_features();
 	
 	// set up network transfer callback
@@ -179,37 +225,42 @@ pt_layer.prototype.render = function (viewport) {
 				
 				// parse the JSON from the server
 				var current_features = eval('(' + layer_obj.xml_http.responseText + ')');
-				var current_feature_count = current_features.features.length;
-				var current_feature = new L.geoJson(current_features, {
-					onEachFeature: function (feature, layer) {
-						layer.feature._pt_feature_id = feature.properties.feature_id;
-						layer.feature._pt_layer_id = feature.properties.layer_id;
-						
-						layer.on('click', function (e) {
-							viewport.ptarmigan_map.on_feature_click(e, layer_obj);
-						});
-						
-						layer.on('mouseover', function (e) {
-							viewport.ptarmigan_map.on_feature_hover(e, layer_obj)
-						});
-					},
-					style: {
-						color:layer_obj.color,
-						weight:1,
-						opacity:1
-					}
-				});
-				
-				
-				viewport.features.push(current_feature);	 
-	    		viewport.features[viewport.features.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
-				
-				layer_obj.request_pending = false;
-				
-				viewport.ptarmigan_map.status.feature_count = current_feature_count;
-				viewport.ptarmigan_map.status.system_busy = false;
-				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
-				
+				if (current_features.features) {
+					var current_feature_count = current_features.features.length;
+								
+					var current_feature = new L.geoJson(current_features, {
+						onEachFeature: function (feature, layer) {
+							layer.feature._pt_feature_id = feature.properties.feature_id;
+							layer.feature._pt_layer_id = feature.properties.layer_id;
+							
+							layer.on('click', function (e) {
+								viewport.ptarmigan_map.on_feature_click(e, layer_obj);
+							});
+							
+							layer.on('mouseover', function (e) {
+								viewport.ptarmigan_map.on_feature_hover(e, layer_obj);
+							});
+							
+							layer.on('mouseout', function (e) {
+								viewport.ptarmigan_map.on_feature_mouseout(e, layer_obj);
+							});
+						},
+						style: {
+							color:layer_obj.color,
+							weight:1,
+							opacity:1
+						}
+					});					
+					
+					viewport.features.push(current_feature);	 
+		    		viewport.features[viewport.features.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
+					
+					layer_obj.request_pending = false;
+					
+					viewport.ptarmigan_map.status.feature_count = current_feature_count;
+					viewport.ptarmigan_map.status.system_busy = false;
+					viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
+				}
 				break;
 		
 		}
@@ -241,8 +292,7 @@ function pt_viewport(map_object) {
 	this.nw_longitude = null;
 	this.se_latitude = null;
 	this.se_longitude = null;
-		
-	
+			
 	return(this);
 }
 
@@ -322,6 +372,12 @@ function pt_plugin (options)
 	else {
 		this.on_feature_hover = function (event, layer_object) { return(true); };
 	}
+	if (options.on_feature_mouseout) {
+		this.on_feature_mouseout = options.on_feature_mouseout;
+	}
+	else {
+		this.on_feature_mouseout = function (event, layer_object) { return(true); };
+	}
 	if (options.on_map_click) {
 		this.on_map_click = options.on_map_click;
 	}
@@ -340,9 +396,6 @@ function pt_plugin (options)
 pt_plugin.prototype.gather_coordinates = function (count) {
 	
 };
-
-
-
 
 /**
  * pt_status 
