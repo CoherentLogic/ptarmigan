@@ -118,7 +118,7 @@
 			 FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features
 			 FROM (SELECT 'Feature' As type
 			    , ST_AsGeoJSON(ST_Transform(lg.#this.layer_geom_field#, #wgs84_geographic_srid#))::json As geometry
-			    , row_to_json((SELECT l FROM (SELECT #this.layer_key_field# AS parcel_id, '#this.id#' AS layer_id) As l
+			    , row_to_json((SELECT l FROM (SELECT #this.layer_key_field# AS feature_id, '#this.id#' AS layer_id) As l
 			      )) As properties
 			   FROM #this.layer_table# As lg WHERE ST_Transform(lg.#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326)) As f)  As fc
 		</cfquery>						

@@ -29,6 +29,9 @@ function pt_map(options)
 	this.status = new pt_status();
 	this.on_status_changed(this.status);
 
+	// the plugins array
+	this.plugins = new Array();
+
 	// set up OSM layer
 	var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + options.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
 	var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
@@ -64,14 +67,44 @@ function pt_map(options)
 	// define this map's viewport
 	this.viewport = new pt_viewport(this);
 
-	// set up the base layers to regenerate the viewport when loaded
-	var vp_obj = this.viewport;
+	// set up the base layers to regenerate the viewport when loaded	
 	base_layer_osm.on('load', this.viewport.regenerate, this.viewport);	
 	base_layer_aerial.on('load', this.viewport.regenerate, this.viewport);
 	this.leaflet_map.on('viewreset', this.viewport.regenerate, this.viewport);
+	
+	/**
+	 * default plugin for handling feature hover
+	 */
+	var map_accessor = this;
+	var __pt_plugin_featurehover = new pt_plugin({
+		plugin_name: '__pt_plugin_parcelhover',
+		on_activate: function () { return (true); },
+		on_deactivate: function () { return (true); },
+		on_feature_hover: function (event_object, layer_object) {
+			map_accessor.status.feature_id = layer_object.layer_key_abbreviation + ' ' + event_object.target.feature._pt_feature_id;
+			map_accessor.status.layer = layer_object.layer_name;
+			map_accessor.on_status_changed(map_accessor.status);
+		}				
+	});
+	
+	this.install_plugin(__pt_plugin_featurehover);
 
 	return(this);
 }
+
+pt_map.prototype.install_plugin = function (plugin) {
+	this.plugins.push(plugin);
+};
+
+pt_map.prototype.on_feature_click = function (event_object, layer_object) {
+	alert(event_object.target.feature._pt_feature_id);
+};
+
+pt_map.prototype.on_feature_hover = function (event_object, layer_object) {
+	for(i = 0; i < this.plugins.length; i++) {
+			this.plugins[i].on_feature_hover(event_object, layer_object);
+	}
+};
 
 /**
  * pt_layer
@@ -146,8 +179,20 @@ pt_layer.prototype.render = function (viewport) {
 				
 				// parse the JSON from the server
 				var current_features = eval('(' + layer_obj.xml_http.responseText + ')');
-				var current_feature_count = current_features.length;
+				var current_feature_count = current_features.features.length;
 				var current_feature = new L.geoJson(current_features, {
+					onEachFeature: function (feature, layer) {
+						layer.feature._pt_feature_id = feature.properties.feature_id;
+						layer.feature._pt_layer_id = feature.properties.layer_id;
+						
+						layer.on('click', function (e) {
+							viewport.ptarmigan_map.on_feature_click(e, layer_obj);
+						});
+						
+						layer.on('mouseover', function (e) {
+							viewport.ptarmigan_map.on_feature_hover(e, layer_obj)
+						});
+					},
 					style: {
 						color:layer_obj.color,
 						weight:1,
@@ -161,7 +206,7 @@ pt_layer.prototype.render = function (viewport) {
 				
 				layer_obj.request_pending = false;
 				
-				viewport.ptarmigan_map.status.parcel_count = current_parcel_count;
+				viewport.ptarmigan_map.status.feature_count = current_feature_count;
 				viewport.ptarmigan_map.status.system_busy = false;
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
@@ -240,6 +285,63 @@ pt_viewport.prototype.regenerate = function() {
 	
 	return(this);
 };
+
+/**
+ * pt_plugin
+ */
+function pt_plugin (options) 
+{
+	if (!options.on_activate) {
+		alert('Plugin Error: Callback function on_activate() is not defined.');		
+		return(false)
+	}
+	else {
+		this.on_activate = options.on_activate;
+	}
+	if (options.on_deactivate) {
+		this.on_deactivate = options.on_deactivate;
+	}
+	else {
+		this.on_deactivate = function () { return (true); };
+	}
+	if (!options.plugin_name) {
+		alert('Plugin Error: Plugin name is not defined.');
+	}
+	else {
+		this.plugin_name = options.plugin_name;
+	}
+	if (options.on_feature_click) {
+		this.on_feature_click = options.on_feature_click;
+	}
+	else {
+		this.on_feature_click = function (event, layer_object) { return(true); };
+	}
+	if (options.on_feature_hover) {
+		this.on_feature_hover = options.on_feature_hover;
+	}
+	else {
+		this.on_feature_hover = function (event, layer_object) { return(true); };
+	}
+	if (options.on_map_click) {
+		this.on_map_click = options.on_map_click;
+	}
+	else {
+		this.on_map_click = function (event) { return(true); };
+	}
+	if (options.on_map_hover) {
+		this.on_map_hover = options.on_map_hover;
+	}
+	else {
+		this.on_map_hover = function (event) { return(true); };
+	}
+		
+}
+
+pt_plugin.prototype.gather_coordinates = function (count) {
+	
+};
+
+
 
 
 /**

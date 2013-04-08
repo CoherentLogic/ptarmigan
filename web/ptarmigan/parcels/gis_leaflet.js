@@ -63,8 +63,8 @@ function update_status_bar(status) {
 	$("#layer").html(status.layer);
 	$("#latitude").html(status.latitude);
 	$("#longitude").html(status.longitude);
-	$("#parcel_id").html(status.parcel_id);
-	$("#parcel_count").html(status.parcel_count + " parcels in viewport");
+	$("#parcel_id").html(status.feature_id);
+	$("#parcel_count").html(status.feature_count + " parcels in viewport");
 	$("#layer").html(status.layer);
 	
 	if (status.system_busy) {
