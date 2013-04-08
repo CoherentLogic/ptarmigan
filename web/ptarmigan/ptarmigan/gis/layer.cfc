@@ -54,9 +54,10 @@
 
 		<cfquery name="q_parcels_in_rect" datasource="#session.company.datasource#">		
 			SELECT  #this.layer_key_field# AS pt_parcel_key,
-					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary
+					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary,
+					ST_AsGeoJSON(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_geo_json	
 			FROM 	#this.layer_table# 
-			WHERE  ST_Transform(geom, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326);
+			WHERE  ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326);
 		</cfquery>		
 		
 		<cfset pstr = StructNew()>
@@ -69,12 +70,13 @@
 		<cfset pstr.parcels = ArrayNew(1)>
 		
 		
+		
 		<cfoutput query="q_parcels_in_rect">
 			<cfset ts = StructNew()>
 
 			<cfset ts.parcel_key = q_parcels_in_rect.pt_parcel_key>
-			<cfset ts.fill_color = this.layer_color>
-					
+			<cfset ts.fill_color = this.layer_color>			
+			
 			<cfset ts.polygons = ArrayNew(1)>
 						
 			<cfif len(pt_parcel_boundary) GT 0>
@@ -101,6 +103,27 @@
 		</cfoutput>
 		
 		<cfreturn pstr>
+	</cffunction>
+	
+	<cffunction name="parcels_in_rect_geojson" returntype="string" access="public" output="false">
+		<cfargument name="nw_latitude" type="numeric" required="true">
+		<cfargument name="nw_longitude" type="numeric" required="true">
+		<cfargument name="se_latitude" type="numeric" required="true">
+		<cfargument name="se_longitude" type="numeric" required="true">
+
+		<cfset wgs84_geographic_srid = 4326>
+						
+		<cfquery name="q_parcels_in_rect_geojson" datasource="#session.company.datasource#">	
+			SELECT row_to_json(fc)::VARCHAR
+			 FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features
+			 FROM (SELECT 'Feature' As type
+			    , ST_AsGeoJSON(ST_Transform(lg.#this.layer_geom_field#, #wgs84_geographic_srid#))::json As geometry
+			    , row_to_json((SELECT l FROM (SELECT #this.layer_key_field# AS parcel_id, '#this.id#' AS layer_id) As l
+			      )) As properties
+			   FROM #this.layer_table# As lg WHERE ST_Transform(lg.#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326)) As f)  As fc
+		</cfquery>						
+		
+		<cfreturn q_parcels_in_rect_geojson.row_to_json>
 	</cffunction>
 
 </cfcomponent>

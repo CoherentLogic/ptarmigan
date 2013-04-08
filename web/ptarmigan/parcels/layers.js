@@ -30,7 +30,7 @@ function pt_map(options)
 	this.on_status_changed(this.status);
 
 	// set up OSM layer
-	var cloudmade_url = 'http://b.tile.cloudmade.com/' + options.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
+	var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + options.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
 	var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
 	
 	// set up aerial layer
@@ -107,7 +107,7 @@ function pt_layer(layer_json) {
 
 
 pt_layer.prototype.render = function (viewport) {
-	var layer_url = viewport.ptarmigan_map.root_url + '/parcels/json/layer.cfm?layer_id=' + escape(this.id);
+	var layer_url = viewport.ptarmigan_map.root_url + '/parcels/json/geojson.cfm?layer_id=' + escape(this.id);
 	layer_url += '&nw_latitude=' + escape(viewport.nw_latitude);
 	layer_url += '&nw_longitude=' + escape(viewport.nw_longitude);
 	layer_url += '&se_latitude=' + escape(viewport.se_latitude);
@@ -116,7 +116,7 @@ pt_layer.prototype.render = function (viewport) {
 	pt_debug(layer_url);
 	
 	// clear all polygons from viewport
-	viewport.clear_polygons();
+	viewport.clear_features();
 	
 	// set up network transfer callback
 	this.xml_http = http_request_object();
@@ -145,38 +145,21 @@ pt_layer.prototype.render = function (viewport) {
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
 				// parse the JSON from the server
-				var current_parcels = eval('(' + layer_obj.xml_http.responseText + ')');
-				var current_parcel_count = current_parcels.PARCELS.length;
-				var point_count = 0;
-				var coords = [];
-				var polygon = "";					
-			 	var parcel_color = "";
-			 	
-				//loop through the parcels array
-				for(i = 0; i < current_parcel_count; i++) {
-					var point_count = current_parcels.PARCELS[i].POLYGONS.length;
-					
-					coords = [];
-					for(j = 0; j < point_count; j++) {		
-						coords[j] = new L.LatLng(current_parcels.PARCELS[i].POLYGONS[j].LATITUDE, current_parcels.PARCELS[i].POLYGONS[j].LONGITUDE);		
-				    }
-				    current_parcel = current_parcels[i];
-					polygon = new L.Polygon(coords);		
-					polygon.parcel_key = current_parcels.PARCELS[i].PARCEL_KEY;
-					polygon.parcel_index = i;					    
-				    parcel_color = "#2262CC";
-					    
-					polygon.setStyle({
-				        color: parcel_color,
-				        weight: 1,
-				        opacity: 0.6,
-				        fillOpacity: 0.1,
-				        fillColor: current_parcels.PARCELS[i].FILL_COLOR
-				    });
-				    					    	   					    
-					viewport.polygons.push(polygon);	 
-	    			viewport.polygons[viewport.polygons.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
-				} // parcels
+				var current_features = eval('(' + layer_obj.xml_http.responseText + ')');
+				var current_feature_count = current_features.length;
+				var current_feature = new L.geoJson(current_features, {
+					style: {
+						color:layer_obj.color,
+						weight:1,
+						opacity:1
+					}
+				});
+				
+				
+				viewport.features.push(current_feature);	 
+	    		viewport.features[viewport.features.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
+				
+				layer_obj.request_pending = false;
 				
 				viewport.ptarmigan_map.status.parcel_count = current_parcel_count;
 				viewport.ptarmigan_map.status.system_busy = false;
@@ -192,6 +175,15 @@ pt_layer.prototype.render = function (viewport) {
 	return(this);		
 };
 
+pt_layer.prototype.abort_active_transfers = function () {
+	if (this.xml_http) {
+		if (this.request_pending === true) {
+			this.xml_http.abort();
+			this.request_pending = false;
+		}
+	}
+};
+
 /**
  * pt_viewport
  *  
@@ -199,7 +191,7 @@ pt_layer.prototype.render = function (viewport) {
  */
 function pt_viewport(map_object) {
 	this.ptarmigan_map = map_object;	
-	this.polygons = new Array();
+	this.features = new Array();
 	this.nw_latitude = null;
 	this.nw_longitude = null;
 	this.se_latitude = null;
@@ -223,10 +215,10 @@ pt_viewport.prototype.update_bounds = function () {
     return(this);
 };
 
-pt_viewport.prototype.clear_polygons = function () {
-	if (this.polygons) {
-		while(this.polygons[0]) {		   
-		    this.ptarmigan_map.leaflet_map.removeLayer(this.polygons.pop());		    
+pt_viewport.prototype.clear_features = function () {
+	if (this.features) {
+		while(this.features[0]) {		   
+		    this.ptarmigan_map.leaflet_map.removeLayer(this.features.pop());		    
 		}
 	}
 	
@@ -241,6 +233,7 @@ pt_viewport.prototype.regenerate = function() {
 	// loop through the layers and tell them to render themselves to this viewport
 	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
 		if(this.ptarmigan_map.layers[i].enabled) {
+			this.ptarmigan_map.layers[i].abort_active_transfers();
 			this.ptarmigan_map.layers[i].render(this);
 		}
 	}
@@ -261,8 +254,8 @@ function pt_status () {
 	this.layer = "No Layer";
 	this.latitude = "--";
 	this.longitude = "--";
-	this.parcel_id = "No Parcel";
-	this.parcel_count = 0;
+	this.feature_id = "No Parcel";
+	this.feature_count = 0;
 	this.bounding_rectangle = null;
 }
 

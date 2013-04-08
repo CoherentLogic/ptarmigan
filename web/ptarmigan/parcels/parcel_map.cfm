@@ -3,8 +3,8 @@
 	<head>
 		<title>Ptarmigan GIS</title>		
 		<cfoutput>		
-		<link rel="stylesheet" href="#session.root_url#/leaflet/leaflet.css">
-		<script src="#session.root_url#/leaflet/leaflet-src.js"></script>
+		<link rel="stylesheet" href="#session.root_url#/leaflet-master/leaflet.css">
+		<script src="#session.root_url#/leaflet-master/leaflet-src.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/layers.js"></script>		
 		<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
 		<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
