@@ -12,11 +12,11 @@
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/guiders/guiders-1.3.0.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
-		<script type="text/javascript" src="#session.root_url#/jstree/jquery.jstree.js"></script>
 		<script type="text/javascript" src="#session.root_url#/guiders/guiders-1.3.0.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/map_guider.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
 		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
+		<script type="text/javascript" src="#session.root_url#/parcels/plugins/query_attributes.js"></script>
 		</cfoutput>
 		<script type="text/javascript">
 			$(document).ready(function() {   								
@@ -31,7 +31,7 @@
 				$("#toggle-header").button();
 				$("#start-tour").button();
 				$("#reset-mensuration").button();
-				
+				//$("#sidebar-accordion").accordion();
 				<cfoutput>
 				init_map('map', '#session.root_url#', '#session.system.cloudmade_api_key#', #session.system.center_latitude#, #session.system.center_longitude#, update_status_bar);
 				</cfoutput>
@@ -83,6 +83,8 @@
 		</script>
 	</head>
 	<body>
+		<div id="plugin-output" style="display:none;">
+		</div>
 		<cfoutput>
 		<script src="#session.root_url#/wz_tooltip.js" type="text/javascript"></script>
 		</cfoutput>
@@ -133,9 +135,19 @@
 			</div>		
 		
 			<div id="map-inner-container">
-				<div id="map-sidebar">
-					<cfinclude template="#session.root_url#/parcels/layer_control.cfm">
-					<cfinclude template="#session.root_url#/parcels/control_manager.cfm">	
+				<div id="map-sidebar" style="background-color:#eeeeee;">
+				
+					<div id="sidebar-accordion">						
+						<div>
+							<p>
+							<cfinclude template="layer_control.cfm">
+							</p>
+						</div>
+						
+						
+					</div>
+					
+					
 					
 					<cfif IsDefined("url.pt_debug")>
 						<cfset debug_visibility = "block">
@@ -149,13 +161,13 @@
 					</div>
 					</cfoutput>
 					
-					<div class="sidebar-box">
+					<!--- <div class="sidebar-box">
 						<p>You can take a guided tour of the Ptarmigan GIS system to familiarize yourself with its use.</p>
 						<p>You can click &quot;Exit Tour&quot; at any time to end the tour. </p>
 						<div style="float:right;">
 							<button id="start-tour" onclick="start_tour();">Start Tour</button>
 						</div>
-					</div>
+					</div> --->
 				</div>
 				<div id="map-search-results" style="display:none;">
 				</div>

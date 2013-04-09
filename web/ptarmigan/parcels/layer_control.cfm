@@ -3,13 +3,14 @@
 	SELECT * FROM parcel_layers
 </cfquery>
 
-<div style="width:320px;background-color:white;padding:5px;">
+<div style="width:100%;">
 <table cellpadding="3">
 	
 	<cfoutput query="get_layers">
 	<tr>		
-		<td><input type="checkbox" title="Layer enabled" id="layer_enabled_#id#" checked="checked" onclick="layer_toggle('#id#');"></td>	
-		<td>#layer_name#</td>		
+		<td title="Show/hide layer"><input type="checkbox" title="Layer enabled" id="layer_enabled_#id#" checked="checked" onclick="layer_toggle('#id#');"></td>	
+		<td title="Layer color"><div style="width:16px;height:16px;background-color:#layer_color#"></td>
+		<td title="Layer name">#layer_name#</td>		
 	</tr>	
 	
 	</cfoutput>

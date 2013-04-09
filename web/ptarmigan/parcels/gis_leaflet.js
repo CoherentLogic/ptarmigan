@@ -64,7 +64,7 @@ function update_status_bar(status) {
 	$("#latitude").html(LocationFormatter.decimalLatToDMS(status.latitude));
 	$("#longitude").html(LocationFormatter.decimalLatToDMS(status.longitude));
 	$("#parcel_id").html(status.feature_id);
-	$("#parcel_count").html(status.feature_count + " parcels in viewport");
+	$("#parcel_count").html(status.feature_count + " Features");
 	$("#layer").html(status.layer);
 	
 	if (status.system_busy) {
@@ -152,6 +152,8 @@ function init_map(control_id, root_url, cloudmade_api_key, center_latitude, cent
 							initial_center_longitude: center_longitude,
 							initial_zoom_level: 16,
 							on_status_changed: status_changed_callback});
+							
+	default_map.install_plugin(__pt_query_attributes);
 }
 
 function zyzzyx(control_id, center_latitude, center_longitude)

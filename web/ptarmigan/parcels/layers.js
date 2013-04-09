@@ -393,6 +393,14 @@ function pt_plugin (options)
 		
 }
 
+pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
+	var feature_json_url = this.map_object.root_url + '/parcels/json/feature.cfm?feature_id=' + feature_id + '&layer_id=' + layer_id;
+	var feature_json = eval('(' + request(feature_json_url) + ')');
+	
+	return (feature_json);
+};
+
+
 pt_plugin.prototype.gather_coordinates = function (count) {
 	
 };
