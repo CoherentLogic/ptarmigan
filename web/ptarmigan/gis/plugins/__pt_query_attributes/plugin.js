@@ -1,6 +1,10 @@
 var __pt_query_attributes = new pt_plugin({
 		plugin_name: 'Query Attributes',
 		
+		on_installed: function () {
+			
+		},
+		
 		on_activate: function () { 
 			return (true); 
 		},
@@ -15,19 +19,39 @@ var __pt_query_attributes = new pt_plugin({
 			
 			var feature_json = this.get_feature_data(layer_id, feature_id);
 			
-			feature_json.bJQueryUI = true;
-			feature_json.bPaginate = false;
-			feature_json.bFilter = false;
-			feature_json.bSort = false;
-			feature_json.bInfo = false;
-			$("#plugin-output").html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="feature-data"></table>');
-			$("#feature-data").dataTable(feature_json);
-			$("#plugin-output").dialog({
-				width: 800,
-				height: 400,
-				title: 'Feature ' + feature_id + ' (' + layer_object.layer_name +  ')',
-				resizable: true
+			Ext.create('Ext.data.Store', {
+				storeId: 'featureAttributes',
+				fields: ['attribute', 'value'],
+				data: feature_json,
+				proxy: {
+					type: 'memory',
+					reader: {
+						type: 'json'
+					}
+				}
+			})
+			
+			if(this.grid) {
+				Ext.getCmp('plugin-box').remove(this.grid);
+			}
+			
+			this.grid = Ext.create('Ext.grid.Panel', {
+				title: 'Feature Attributes',
+				width: 400,
+				forceFit: true,
+				constrain: true,
+				store: Ext.data.StoreManager.lookup('featureAttributes'),
+				autoScroll: true,
+				columns: [
+					{ text: 'Attribute', dataIndex: 'attribute'},
+					{ text: 'Value', dataIndex: 'value'}
+				],				
 			});
+			
+			
+			Ext.getCmp('plugin-box').add(this.grid);
+			
+		
 			
 		}
 	}

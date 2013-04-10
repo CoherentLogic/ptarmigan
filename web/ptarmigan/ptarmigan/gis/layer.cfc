@@ -11,6 +11,8 @@
 	<cfset this.layer_projection = "">
 	<cfset this.layer_projection_name = "">
 	<cfset this.layer_geom_field = "">	
+	<cfset this.layer_enabled = true>
+	<cfset this.success = true>
 	
 	<cfset this.written = false>
 	
@@ -134,28 +136,23 @@
 			WHERE #this.layer_key_field#='#feature_key#'
 		</cfquery>
 		
-		<cfset ts = structnew()>
-		<cfset ts.aoColumns = arraynew(1)>
-		<cfset ts.aoColumns[1] = structnew()>
-		<cfset ts.aoColumns[1].sTitle = "Attribute">
-		<cfset ts.aoColumns[2] = structnew()>
-		<cfset ts.aoColumns[2].sTitle = "Value">
 		
+				
 		<cfset column_array = arraynew(1)>
 		<cfset column_array = ListToArray(q_feature.ColumnList)>
 				
 		<cfset arr_index = 1>
 		
-		<cfset ts.aaData = arraynew(1)>
+		<cfset ts = arraynew(1)>
 		<cfloop array="#column_array#" index="col">
 			<cfset tAttrib = this.attribute_mapping(col)>
 			<cfset tValue = evaluate("q_feature.#col#")> 
 			
 			
 			<cfif tAttrib NEQ "">
-			<cfset ts.aaData[arr_index] = arraynew(1)>
-			<cfset ts.aaData[arr_index][1] = tAttrib>
-			<cfset ts.aaData[arr_index][2] = tValue>
+			<cfset ts[arr_index] = structnew()>
+			<cfset ts[arr_index].attribute = tAttrib>
+			<cfset ts[arr_index].value = tValue>
 			<cfset arr_index = arr_index + 1>
 			</cfif>
 			

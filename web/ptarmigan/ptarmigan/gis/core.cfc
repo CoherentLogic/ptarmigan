@@ -12,4 +12,8 @@
 		
 		<cfreturn output_array>
 	</cffunction>
+	
+	<cffunction name="layers_json" access="public" returntype="string" output="false">				
+		<cfreturn serializejson(this.layers())>
+	</cffunction>
 </cfcomponent>

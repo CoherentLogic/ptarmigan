@@ -5,18 +5,17 @@
 		<cfoutput>		
 		<link rel="stylesheet" href="#session.root_url#/leaflet-master/leaflet.css">
 		<script src="#session.root_url#/leaflet-master/leaflet-src.js"></script>
-		<script type="text/javascript" src="#session.root_url#/parcels/layers.js"></script>		
-		<script type="text/javascript" src="#session.root_url#/parcels/gis_leaflet.js"></script>		
-		<script type="text/javascript" src="#session.root_url#/parcels/proj4js/lib/proj4js-combined.js"></script>	
+		<script type="text/javascript" src="#session.root_url#/gis/gis.js"></script>		
+		<script type="text/javascript" src="#session.root_url#/gis/gis_ui.js"></script>		
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/ptarmigan.css">
-		<link rel="stylesheet" type="text/css" href="#session.root_url#/parcels/parcels.css">
+		<link rel="stylesheet" type="text/css" href="#session.root_url#/gis/gis.css">
 		<link rel="stylesheet" type="text/css" href="#session.root_url#/guiders/guiders-1.3.0.css">
 		<cfinclude template="#session.root_url#/utilities/script_base.cfm">
 		<script type="text/javascript" src="#session.root_url#/guiders/guiders-1.3.0.js"></script>
-		<script type="text/javascript" src="#session.root_url#/parcels/map_guider.js"></script>
-		<script type="text/javascript" src="#session.root_url#/parcels/geo.js"></script>
-		<script type="text/javascript" src="#session.root_url#/parcels/latlon.js"></script>
-		<script type="text/javascript" src="#session.root_url#/parcels/plugins/query_attributes.js"></script>
+		<script type="text/javascript" src="#session.root_url#/gis/map_guider.js"></script>
+		<script type="text/javascript" src="#session.root_url#/gis/geo.js"></script>
+		<script type="text/javascript" src="#session.root_url#/gis/latlon.js"></script>
+		<script type="text/javascript" src="#session.root_url#/gis/plugins/__pt_query_attributes/plugin.js"></script>
 		</cfoutput>
 		<script type="text/javascript">
 			$(document).ready(function() {   								

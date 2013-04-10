@@ -35,6 +35,7 @@ function pt_map(options)
 	// set up OSM layer
 	var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + options.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
 	var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
+	var base_layer_osm_overview = L.tileLayer(cloudmade_url, {attribution:''});
 	
 	// set up aerial layer
 	var mapquest_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
@@ -45,6 +46,18 @@ function pt_map(options)
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
 		layers: [base_layer_aerial, base_layer_osm]
+	});
+	
+	this.overview_map = L.map("area-overview", {
+		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
+		zoom: 12,
+		layers: [base_layer_osm_overview],
+		dragging: false,
+		touchZoom: false,
+		scrollWheelZoom: false,
+		boxZoom: false,
+		zoomControl: false,
+		attributionControl: false
 	});
 		
 	var base_maps = {
@@ -57,7 +70,7 @@ function pt_map(options)
 	// set up the layers structure
 	this.layers = new Array();
 
-	url = options.root_url + '/parcels/json/all_layers.cfm';
+	url = options.root_url + '/gis/json/all_layers.cfm';
 	var layers_json = eval('(' + request(url) + ')');
 
 	for(i = 0; i < layers_json.length; i++) {
@@ -67,11 +80,10 @@ function pt_map(options)
 	// define this map's viewport
 	this.viewport = new pt_viewport(this);
 
-	// set up the base layers to regenerate the viewport when loaded	
-	base_layer_osm.on('load', this.viewport.regenerate, this.viewport);	
-	base_layer_aerial.on('load', this.viewport.regenerate, this.viewport);
-	this.leaflet_map.on('viewreset', this.viewport.regenerate, this.viewport);
-	
+	// set up the base layers to regenerate the viewport when loaded		
+	this.leaflet_map.on('moveend', this.viewport.regenerate, this.viewport);
+	this.leaflet_map.on('zoomend', this.viewport.regenerate, this.viewport);
+	this.viewport.regenerate();
 	/**
 	 * default plugin for handling feature hover
 	 */
@@ -88,6 +100,7 @@ function pt_map(options)
 	
 	var __pt_plugin_default = new pt_plugin({
 		plugin_name: '__pt_plugin_default',
+		on_installed: function () { return(true); },
 		on_activate: function () { return (true); },
 		on_deactivate: function () { return (true); },
 		on_feature_hover: function (event_object, layer_object) {
@@ -117,8 +130,9 @@ function pt_map(options)
 pt_map.prototype.install_plugin = function (plugin) {
 	plugin.map_object = this;
 	this.plugins.push(plugin);
-	this.plugins[this.plugins.length - 1].on_activate();
+	this.plugins[this.plugins.length - 1].on_installed();
 	
+	pt_debug('Installed plugin ' + plugin.plugin_name + ' (plugin count ' + this.plugins.length + ')');
 	return(this.plugins.length - 1);
 };
 
@@ -186,13 +200,13 @@ function pt_layer(layer_json) {
 
 
 pt_layer.prototype.render = function (viewport) {
-	var layer_url = viewport.ptarmigan_map.root_url + '/parcels/json/geojson.cfm?layer_id=' + escape(this.id);
+	var layer_url = viewport.ptarmigan_map.root_url + '/gis/json/geojson.cfm?layer_id=' + escape(this.id);
 	layer_url += '&nw_latitude=' + escape(viewport.nw_latitude);
 	layer_url += '&nw_longitude=' + escape(viewport.nw_longitude);
 	layer_url += '&se_latitude=' + escape(viewport.se_latitude);
 	layer_url += '&se_longitude=' + escape(viewport.se_longitude);
 	
-	pt_debug(layer_url);
+	pt_debug('Rendering ' + this.layer_name);
 	
 	// clear all features from viewport
 	viewport.clear_features();
@@ -292,7 +306,8 @@ function pt_viewport(map_object) {
 	this.nw_longitude = null;
 	this.se_latitude = null;
 	this.se_longitude = null;
-			
+	this.overview_rect = null;
+	
 	return(this);
 }
 
@@ -306,6 +321,14 @@ pt_viewport.prototype.update_bounds = function () {
     this.nw_longitude = nw.lng;
     this.se_latitude = se.lat;
     this.se_longitude = se.lng;
+    
+    if(this.overview_rect) {
+    	this.ptarmigan_map.overview_map.removeLayer(this.overview_rect);
+    }
+    
+    this.overview_rect = L.rectangle(bounds, {color: 'red', weight:2, fill: false, opacity: 1.0});
+    this.overview_rect.addTo(this.ptarmigan_map.overview_map);
+    
     
     return(this);
 };
@@ -341,6 +364,12 @@ pt_viewport.prototype.regenerate = function() {
  */
 function pt_plugin (options) 
 {
+	if (!options.on_installed) {
+		alert('Plugin Error: Callback function on_installed() is not defined.');
+	}
+	else {
+		this.on_installed = options.on_installed;
+	}
 	if (!options.on_activate) {
 		alert('Plugin Error: Callback function on_activate() is not defined.');		
 		return(false)
@@ -394,7 +423,7 @@ function pt_plugin (options)
 }
 
 pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
-	var feature_json_url = this.map_object.root_url + '/parcels/json/feature.cfm?feature_id=' + feature_id + '&layer_id=' + layer_id;
+	var feature_json_url = this.map_object.root_url + '/gis/json/feature.cfm?feature_id=' + feature_id + '&layer_id=' + layer_id;
 	var feature_json = eval('(' + request(feature_json_url) + ')');
 	
 	return (feature_json);
@@ -426,5 +455,5 @@ function pt_status () {
  * utilities 
  */
 function pt_debug(msg) {
-	$("#pt-debug").text(msg);	
+	console.log(msg);
 }
