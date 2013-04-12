@@ -3,7 +3,12 @@ Ext.define('pt_gis.view.layers.list' ,{
 	alias: 'widget.layerlist',
 	store: 'layers',
 	title: 'Layers',
-	
+	id: 'layers-list',	
+	plugins: [
+	 	Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1
+        })
+	],
 	initComponent: function() {
 		this.columns = [
 			{
@@ -11,18 +16,7 @@ Ext.define('pt_gis.view.layers.list' ,{
 				dataIndex: 'layer_enabled', 
 				flex: 0, 
 				width: 40,
-				renderer: function (value) {
-					var extraParams = '';
-					if(value === 0) {
-						extraParams = '';
-					}
-					else {
-						extraParams = 'checked="checked"';
-					}
-					
-					return Ext.String.format('<input type="checkbox" {0}>', extraParams);					
-				
-				} 
+				xtype: 'checkcolumn'						
 			},
 			{
 				header: 'Color', 

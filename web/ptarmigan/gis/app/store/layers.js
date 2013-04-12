@@ -5,7 +5,7 @@ Ext.define('pt_gis.store.layers', {
 	autoLoad: true,
 	proxy: {
 		type: 'ajax',
-		url: 'app/data/layers.cfm',
+		url: 'app/data/layers_read.cfm',
 		reader: {
 			type: 'json'
 		}

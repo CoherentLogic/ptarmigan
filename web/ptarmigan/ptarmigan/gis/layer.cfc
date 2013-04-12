@@ -131,33 +131,67 @@
 	<cffunction name="feature" returntype="string" access="public" output="false">
 		<cfargument name="feature_key" type="string" required="true">
 		
-		<cfquery name="q_feature" datasource="#session.company.datasource#">
+		<cfquery name="q_feature_attributes" datasource="#session.company.datasource#">
 			SELECT * FROM #this.layer_table#
 			WHERE #this.layer_key_field#='#feature_key#'
+		</cfquery>
+		
+		<cfquery name="q_derived_attributes" datasource="#session.company.datasource#">
+			SELECT ST_AsText(ST_Transform(ST_Centroid(#this.layer_geom_field#), 4326)) AS feature_centroid,
+				   ST_Area(ST_Transform(#this.layer_geom_field#, 4326)) AS feature_area
+			FROM   #this.layer_table#
+			WHERE  #this.layer_key_field#='#feature_key#'				 				   
 		</cfquery>
 		
 		
 				
 		<cfset column_array = arraynew(1)>
-		<cfset column_array = ListToArray(q_feature.ColumnList)>
+		<cfset column_array = ListToArray(q_feature_attributes.ColumnList)>
 				
 		<cfset arr_index = 1>
 		
-		<cfset ts = arraynew(1)>
+		<cfset ts = structnew()>
+		<cfset ts.layer_id = this.id>
+		<cfset ts.layer_name = this.layer_name>
+		<cfset ts.layer_table = this.layer_table>
+		<cfset ts.layer_key_name = this.layer_key_name>
+		<cfset ts.layer_key_field = this.layer_key_field>
+		<cfset ts.layer_color = this.layer_color>
+		<cfset ts.layer_public = this.layer_public>
+		<cfset ts.layer_projection = this.layer_projection>
+		<cfset ts.layer_projection_name = this.layer_projection_name>
+		<cfset ts.layer_enabled = this.layer_enabled>
+		<cfset ts.layer_geom_field = this.layer_geom_field>
+				
+		<cfset ts.feature_attributes = arraynew(1)>
 		<cfloop array="#column_array#" index="col">
 			<cfset tAttrib = this.attribute_mapping(col)>
-			<cfset tValue = evaluate("q_feature.#col#")> 
+			<cfset tValue = evaluate("q_feature_attributes.#col#")> 
+			<cfset tCol = col>
 			
 			
 			<cfif tAttrib NEQ "">
-			<cfset ts[arr_index] = structnew()>
-			<cfset ts[arr_index].attribute = tAttrib>
-			<cfset ts[arr_index].value = tValue>
-			<cfset arr_index = arr_index + 1>
-			</cfif>
-			
-			
+				<cfset ts.feature_attributes[arr_index] = structnew()>
+				<cfset ts.feature_attributes[arr_index].attribute = tAttrib>
+				<cfset ts.feature_attributes[arr_index].value = tValue>
+				<cfset ts.feature_attributes[arr_index].column_name = tCol>
+				<cfset ts.feature_attributes[arr_index].derived = false>
+				<cfset arr_index = arr_index + 1>
+			</cfif>						
 		</cfloop>
+		
+		<cfset ts.feature_attributes[arr_index] = structnew()>
+		<cfset ts.feature_attributes[arr_index].attribute = "Area">
+		<cfset ts.feature_attributes[arr_index].value = q_derived_attributes.feature_area>
+		<cfset ts.feature_attributes[arr_index].column_name = "derived_attributes_area">
+		<cfset ts.feature_attributes[arr_index].derived = true>
+		<cfset arr_index = arr_index + 1>
+		<cfset ts.feature_attributes[arr_index] = structnew()>
+		<cfset ts.feature_attributes[arr_index].attribute = "Centroid">
+		<cfset ts.feature_attributes[arr_index].value = q_derived_attributes.feature_centroid>
+		<cfset ts.feature_attributes[arr_index].column_name = "derived_attributes_centroid">
+		<cfset ts.feature_attributes[arr_index].derived = true>
+		
 	
 		<cfreturn serializejson(ts)>
 	</cffunction>

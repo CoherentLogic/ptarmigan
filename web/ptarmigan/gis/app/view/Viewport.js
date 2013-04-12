@@ -1,14 +1,3 @@
-/*
- * 
- * 	$("#system_message").html(status.system_message);
-	$("#network_status").html(status.network_status);
-	$("#layer").html(status.layer);
-	$("#latitude").html(LocationFormatter.decimalLatToDMS(status.latitude));
-	$("#longitude").html(LocationFormatter.decimalLatToDMS(status.longitude));
-	$("#parcel_id").html(status.feature_id);
-	$("#parcel_count").html(status.feature_count + " Features");
-	$("#layer").html(status.layer);
- */
 var __pt_status_network = Ext.create('Ext.toolbar.TextItem', {text: 'Network Idle', width:180});
 var __pt_status_layer = Ext.create('Ext.toolbar.TextItem', {text: 'No Layer', width:180});
 var __pt_status_latitude = Ext.create('Ext.toolbar.TextItem', {text: '--', width:180});
@@ -20,11 +9,12 @@ Ext.define('pt_gis.view.Viewport', {
 	extend: 'Ext.container.Viewport',
 	requires: [
 		'pt_gis.view.search.search_tools',
-		'pt_gis.view.layers.list'
+		'pt_gis.view.layers.list',
+		'pt_gis.view.feature_attributes.feature_attributes'
 	],
     layout: 'border',
-    initComponent: function () {    	
-    	console.log('Viewport.initComponent() start');
+    initComponent: function () {    
+    		
     	this.items = [{
     			xtype: 'panel',
     			region: 'north',
@@ -72,9 +62,9 @@ Ext.define('pt_gis.view.Viewport', {
     			region: 'west',
     			contentEl: 'sidebar',    			
     			title: 'Area',
-    			width: 400,
-    			minWidth: 200,
-    			maxWidth: 600,
+    			width: 300,
+    			minWidth: 300,
+    			maxWidth: 300,
     			collapsible: true,
     			animCollapse: true,
     			margins: '0 0 0 0',
@@ -84,10 +74,21 @@ Ext.define('pt_gis.view.Viewport', {
     				html: '<div id="area-overview" style="width:100%;height:250px;"></div>'	
     			},{
     				xtype: 'layerlist'    				
-    			},{
-    				xtype: 'panel',
-    				id: 'plugin-box'				
     			}]    			
+    		}, {
+    			region: 'east',
+    			title: 'Feature Attributes',
+    			id: 'feature-attributes-container',
+    			margins: '0 0 0 0',
+    			collapsible: true,
+    			animCollapse: true,
+    			collapsed: true,
+    			width:400,
+    			autoScroll: true,
+    			items: [{
+    				xtype: 'panel',
+    				id: 'plugin-box'    							    		
+    			}]
     		},	Ext.create('Ext.tab.Panel', {
     				region: 'center',
     				deferredRender: false,

@@ -13,7 +13,7 @@
  */
 function pt_map(options) 
 {
-
+	
 	// initialize object
 	this.root_url = options.root_url;
 	
@@ -100,8 +100,20 @@ function pt_map(options)
 	
 	var __pt_plugin_default = new pt_plugin({
 		plugin_name: '__pt_plugin_default',
-		on_installed: function () { return(true); },
-		on_activate: function () { return (true); },
+		on_installed: function () {
+			pt_debug('Ptarmigan GIS Default Plugin (V0.02-EXP) [Installed]');
+		},
+		on_activate: function () { 
+			// The default plugin must always own the map in order to 
+			// fire UI update events. However, the default plugin is 
+			// well-behaved, in that it will not do anything to interfere 
+			// with the operations of other plugins that own the map.				
+			this.take_map_ownership();
+			
+			pt_debug('Ptarmigan GIS Default Plugin (V0.02-EXP) [Activated]');						
+			
+			return(true);
+		},
 		on_deactivate: function () { return (true); },
 		on_feature_hover: function (event_object, layer_object) {
 			this.map_object.status.feature_id = layer_object.layer_key_abbreviation + ' ' + event_object.target.feature._pt_feature_id;
@@ -122,7 +134,10 @@ function pt_map(options)
 		}
 	});
 	
+	
+	
 	this.install_plugin(__pt_plugin_default);
+	this.activate_plugin('__pt_plugin_default');    
 
 	return(this);
 }
@@ -131,38 +146,59 @@ pt_map.prototype.install_plugin = function (plugin) {
 	plugin.map_object = this;
 	this.plugins.push(plugin);
 	this.plugins[this.plugins.length - 1].on_installed();
-	
-	pt_debug('Installed plugin ' + plugin.plugin_name + ' (plugin count ' + this.plugins.length + ')');
+		
 	return(this.plugins.length - 1);
+};
+
+pt_map.prototype.activate_plugin = function (plugin_name) {		
+	for(i = 0; i < this.plugins.length; i++) {
+		if(this.plugins[i].plugin_name === plugin_name) {
+			return(this.plugins[i].activate());
+		}
+	}
+	
 };
 
 pt_map.prototype.on_feature_click = function (event_object, layer_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-		this.plugins[i].on_feature_click(event_object, layer_object);
+		if(this.plugins[i].active && this.plugins[i].owns_map) {
+			this.plugins[i].on_feature_click(event_object, layer_object);
+		}
 	}
 };
 
 pt_map.prototype.on_feature_hover = function (event_object, layer_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-		this.plugins[i].on_feature_hover(event_object, layer_object);
+		if(this.plugins[i].active && this.plugins[i].owns_map) {
+			this.plugins[i].on_feature_hover(event_object, layer_object);
+		}
+		else {
+			
+		}
 	}
 };
 
 pt_map.prototype.on_feature_mouseout = function (event_object, layer_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-		this.plugins[i].on_feature_mouseout(event_object, layer_object);
+		if(this.plugins[i].active && this.plugins[i].owns_map) {
+			this.plugins[i].on_feature_mouseout(event_object, layer_object);
+		}
 	}
 };
 
 pt_map.prototype.on_map_hover = function (event_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-		this.plugins[i].on_map_hover(event_object);
+		if(this.plugins[i].active && this.plugins[i].owns_map) {
+			this.plugins[i].on_map_hover(event_object);
+		}
 	}
 };
 
 pt_map.prototype.on_map_click = function (event_object) {
 	for(i = 0; i < this.plugins.length; i++) {
-		this.plugins[i].on_map_click(event_object);
+		if(this.plugins[i].active && this.plugins[i].owns_map) {
+			this.plugins[i].on_map_click(event_object);			
+		}
 	}
 };
 
@@ -204,9 +240,7 @@ pt_layer.prototype.render = function (viewport) {
 	layer_url += '&nw_latitude=' + escape(viewport.nw_latitude);
 	layer_url += '&nw_longitude=' + escape(viewport.nw_longitude);
 	layer_url += '&se_latitude=' + escape(viewport.se_latitude);
-	layer_url += '&se_longitude=' + escape(viewport.se_longitude);
-	
-	pt_debug('Rendering ' + this.layer_name);
+	layer_url += '&se_longitude=' + escape(viewport.se_longitude);	
 	
 	// clear all features from viewport
 	viewport.clear_features();
@@ -240,7 +274,7 @@ pt_layer.prototype.render = function (viewport) {
 				// parse the JSON from the server
 				var current_features = eval('(' + layer_obj.xml_http.responseText + ')');
 				if (current_features.features) {
-					var current_feature_count = current_features.features.length;
+					layer_obj.current_feature_count = current_features.features.length;
 								
 					var current_feature = new L.geoJson(current_features, {
 						onEachFeature: function (feature, layer) {
@@ -271,7 +305,7 @@ pt_layer.prototype.render = function (viewport) {
 					
 					layer_obj.request_pending = false;
 					
-					viewport.ptarmigan_map.status.feature_count = current_feature_count;
+					viewport.ptarmigan_map.status.feature_count = viewport.current_feature_count();
 					viewport.ptarmigan_map.status.system_busy = false;
 					viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				}
@@ -307,6 +341,7 @@ function pt_viewport(map_object) {
 	this.se_latitude = null;
 	this.se_longitude = null;
 	this.overview_rect = null;
+	
 	
 	return(this);
 }
@@ -358,6 +393,16 @@ pt_viewport.prototype.regenerate = function() {
 	
 	return(this);
 };
+
+pt_viewport.prototype.current_feature_count = function() {
+	var tmp_fc = 0;
+	
+	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
+		tmp_fc = tmp_fc + this.ptarmigan_map.layers[i].current_feature_count;	
+	}
+	
+	return(tmp_fc);
+}
 
 /**
  * pt_plugin
@@ -419,7 +464,13 @@ function pt_plugin (options)
 	else {
 		this.on_map_hover = function (event) { return(true); };
 	}
-		
+	this.active = false;		
+	this.owns_map = false;
+}
+
+pt_plugin.prototype.activate = function () {
+	this.active = true;
+	return (this.on_activate());
 }
 
 pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
@@ -429,10 +480,63 @@ pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
 	return (feature_json);
 };
 
+pt_plugin.prototype.take_map_ownership = function () {
+	// Revoke map ownership from all plugins above index id 0 (the default plugin),
+	// and give this plugin ownership over the map. This will allow the plugin's
+	// mouse event handlers to fire.	
+	for(i = 1; i < this.map_object.plugins.length; i++) {
+		this.map_object.plugins[i].owns_map = false;
+	}
+	
+	pt_debug("Plugin " + this.plugin_name + " has taken ownership of the map.");
+	
+	this.owns_map = true;
+};
+
+pt_plugin.prototype.release_map_ownership = function () {
+	pt_debug("Plugin " + this.plugin_name + " has released ownership of the map.");
+	
+	this.owns_map = false
+};
 
 pt_plugin.prototype.gather_coordinates = function (count) {
 	
 };
+
+function pt_plugin_manager (map_object) {
+	this.map_obj = map_object;	
+	return (this);
+}
+
+pt_plugin_manager.prototype.load_plugin = function (plugin_name) {
+	var script_url = 'plugins/' + plugin_name + '/plugin.js';
+	var script_element = document.createElement('script');
+	
+	script_element.setAttribute("type", "text/javascript");
+	script_element.setAttribute("src", script_url);		
+	
+	var accessor = this;
+	script_element.onload = function () {
+		var plugin_var = eval(plugin_name);
+		console.log('Plugin ' + plugin_name + ' has been dynamically loaded.');
+		accessor.map_obj.install_plugin(plugin_var);
+		accessor.map_obj.activate_plugin(plugin_var.plugin_name);
+	};
+	document.getElementsByTagName("head")[0].appendChild(script_element);	
+
+};
+
+pt_plugin_manager.prototype.load_all = function(store) {
+		
+	var accessor = this;
+	store.each(function (r) {
+		var plugin_name = r.get('plugin_name');		
+		accessor.load_plugin(plugin_name);
+	});
+	
+};
+
+
 
 /**
  * pt_status 

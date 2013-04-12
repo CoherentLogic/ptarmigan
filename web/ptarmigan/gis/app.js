@@ -3,14 +3,12 @@ Ext.application({
     name: 'pt_gis',
 	autoCreateViewport: true,
     appFolder: 'app',
-	models: ['layer'],
-	stores: ['layers'],
+	models: ['session', 'layer', 'pt_plugin', 'feature_attribute'],
+	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute'],
+	controllers: ['session', 'layers', 'features'],
     launch: function() {
-        
-        /*this.__ptarmigan_session = new pt_session({
-        	
-        });*/        
-        this.__ptarmigan_map = new pt_map({
+    	              
+        this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
 			root_url: '',
 			cloudmade_api_key: '60fe8cc7e8bb44579699f32a87bc7c2a',
@@ -28,7 +26,12 @@ Ext.application({
 			}       	
 		}); /* this.__ptarmigan_map */
 		
-		this.__ptarmigan_map.install_plugin(__pt_query_attributes);																										   
+		
+		 
+		//this.__ptarmigan_gis.install_plugin(__pt_query_attributes);	
+		//this.__ptarmigan_gis.activate_plugin(__pt_query_attributes.plugin_name);	
+		
+																										   
     } /* launch() */
 });
 

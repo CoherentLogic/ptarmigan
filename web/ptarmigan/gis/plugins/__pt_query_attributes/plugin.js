@@ -1,15 +1,18 @@
 var __pt_query_attributes = new pt_plugin({
-		plugin_name: 'Query Attributes',
+		plugin_name: '__pt_query_attributes',
 		
 		on_installed: function () {
-			
+			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Installed]');
 		},
 		
 		on_activate: function () { 
+			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Activated]');
+			this.take_map_ownership();
 			return (true); 
 		},
 		
 		on_deactivate: function () { 
+			this.release_map_ownership();
 			return (true); 
 		},
 		
@@ -17,39 +20,18 @@ var __pt_query_attributes = new pt_plugin({
 			var layer_id = layer_object.id;
 			var feature_id =  event_object.target.feature._pt_feature_id;
 			
-			var feature_json = this.get_feature_data(layer_id, feature_id);
+			if(this.view) {
+				Ext.getCmp('plugin-box').remove(this.view);
+			}					
 			
-			Ext.create('Ext.data.Store', {
-				storeId: 'featureAttributes',
-				fields: ['attribute', 'value'],
-				data: feature_json,
-				proxy: {
-					type: 'memory',
-					reader: {
-						type: 'json'
-					}
-				}
-			})
+			this.data_store = Ext.create('pt_gis.store.feature_attribute');
+			this.data_store.getProxy().extraParams.feature_id = feature_id;
+			this.data_store.getProxy().extraParams.layer_id = layer_id;
+			this.data_store.reload();
+			this.view = Ext.widget('featureattributes', {store: this.data_store});						
 			
-			if(this.grid) {
-				Ext.getCmp('plugin-box').remove(this.grid);
-			}
-			
-			this.grid = Ext.create('Ext.grid.Panel', {
-				title: 'Feature Attributes',
-				width: 400,
-				forceFit: true,
-				constrain: true,
-				store: Ext.data.StoreManager.lookup('featureAttributes'),
-				autoScroll: true,
-				columns: [
-					{ text: 'Attribute', dataIndex: 'attribute'},
-					{ text: 'Value', dataIndex: 'value'}
-				],				
-			});
-			
-			
-			Ext.getCmp('plugin-box').add(this.grid);
+			Ext.getCmp('plugin-box').add(this.view);					
+			Ext.getCmp('feature-attributes-container').expand();
 			
 		
 			
