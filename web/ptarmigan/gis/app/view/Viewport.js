@@ -22,27 +22,14 @@ Ext.define('pt_gis.view.Viewport', {
     			dockedItems: [{
     				dock: 'top',
     				xtype: 'toolbar',
-    				height: 50,
-    				items: [{
-    					xtype: 'searchtools'    					
-    				}, 
-    				'-',
-    				{
-    					xtype: 'splitbutton',
-    					text: 'Research'
-    				},
-    				{
-    					xtype: 'button',
-    					text: 'Documents'
-    				},
-    				{
-    					xtype: 'button',
-    					text: 'Measure'
-    				}, '-', {
-    					xtype: 'button',
-    					text: 'Tour'
-    				}
-    				]
+    				id: 'main-toolbar',
+    				height: 50/*,
+    				items: [
+    					{
+    						xtype: 'panel',
+    						id: '__pt_plugins_bar'
+    					}
+    				]*/
     			}]
     		}, {
     			region: 'south',

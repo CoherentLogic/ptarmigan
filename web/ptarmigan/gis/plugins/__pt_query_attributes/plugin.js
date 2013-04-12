@@ -2,16 +2,26 @@ var __pt_query_attributes = new pt_plugin({
 		plugin_name: '__pt_query_attributes',
 		
 		on_installed: function () {
-			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Installed]');
+			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Installed]');			
 		},
 		
 		on_activate: function () { 
 			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Activated]');
+			if(this.view) {
+				Ext.getCmp('plugin-box').remove(this.view);
+			}
+			attrib_container = 	Ext.getCmp('feature-attributes-container');
+			attrib_container.text = 'test';
+			attrib_container.expand();
 			this.take_map_ownership();
 			return (true); 
 		},
 		
 		on_deactivate: function () { 
+			if(this.view) {
+				Ext.getCmp('plugin-box').remove(this.view);
+			}
+			Ext.getCmp('feature-attributes-container').collapse();			
 			this.release_map_ownership();
 			return (true); 
 		},
@@ -31,11 +41,10 @@ var __pt_query_attributes = new pt_plugin({
 			this.view = Ext.widget('featureattributes', {store: this.data_store});						
 			
 			Ext.getCmp('plugin-box').add(this.view);					
-			Ext.getCmp('feature-attributes-container').expand();
-			
-		
-			
-		}
+			Ext.getCmp('feature-attributes-container').expand();							
+		},
+		selectable: true,
+		text: 'Query Attributes'
 	}
 );
 

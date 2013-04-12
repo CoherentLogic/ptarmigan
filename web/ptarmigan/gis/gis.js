@@ -145,6 +145,29 @@ function pt_map(options)
 pt_map.prototype.install_plugin = function (plugin) {
 	plugin.map_object = this;
 	this.plugins.push(plugin);
+	
+	
+	if(plugin.selectable) {
+		// add it to the main toolbar
+		var tb = Ext.getCmp('main-toolbar');
+		var __pt_acc_plugin = plugin;
+		plugin.toolbar_button = Ext.create('Ext.button.Button', {
+			__pt_plugin: plugin,
+			icon: 'plugins/' + plugin.plugin_name + '/toolbar-icon.png',
+			text: plugin.text,
+			enableToggle: true,
+			handler: function () {
+				if(this.pressed) {
+					this.__pt_plugin.activate();
+				}
+				else {
+					this.__pt_plugin.deactivate();
+				}
+			}
+		});
+		tb.add(plugin.toolbar_button);
+	}
+	
 	this.plugins[this.plugins.length - 1].on_installed();
 		
 	return(this.plugins.length - 1);
@@ -464,13 +487,28 @@ function pt_plugin (options)
 	else {
 		this.on_map_hover = function (event) { return(true); };
 	}
+	if (options.selectable) {
+		this.selectable = true;
+	}
+	else {
+		this.selectable = false;
+	}
+	if (options.text) {
+		this.text = options.text;
+	}
 	this.active = false;		
 	this.owns_map = false;
+
 }
 
 pt_plugin.prototype.activate = function () {
 	this.active = true;
 	return (this.on_activate());
+}
+
+pt_plugin.prototype.deactivate = function () {
+	this.active = false;
+	return (this.on_deactivate());
 }
 
 pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
@@ -519,8 +557,7 @@ pt_plugin_manager.prototype.load_plugin = function (plugin_name) {
 	script_element.onload = function () {
 		var plugin_var = eval(plugin_name);
 		console.log('Plugin ' + plugin_name + ' has been dynamically loaded.');
-		accessor.map_obj.install_plugin(plugin_var);
-		accessor.map_obj.activate_plugin(plugin_var.plugin_name);
+		accessor.map_obj.install_plugin(plugin_var);		
 	};
 	document.getElementsByTagName("head")[0].appendChild(script_element);	
 
