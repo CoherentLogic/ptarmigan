@@ -30,9 +30,7 @@
 							<cfqueryparam value="#this.deleted#" cfsqltype="cf_sql_tinyint">,
 							<cfqueryparam value="#this.trashcan_handle#" cfsqltype="cf_sql_varchar">)
 		</cfquery>
-		
-		<cflog application="true" file="pt_otrack" type="information" text="PT_OTRACK: #session.user.full_name()# created #this.class_id#:#this.id#">
-		
+				
 		<cfset this.update_class_info()>
 		
 		<cfset this.written = true>

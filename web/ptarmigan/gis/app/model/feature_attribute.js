@@ -4,6 +4,7 @@ Ext.define('pt_gis.model.feature_attribute', {
 		'attribute',
 		'value',
 		'derived',
-		'column_name'
+		'column_name',
+		'attribute_type'
 	]	
 });

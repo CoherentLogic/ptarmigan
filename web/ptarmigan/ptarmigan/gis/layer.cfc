@@ -166,6 +166,7 @@
 		<cfset ts.feature_attributes = arraynew(1)>
 		<cfloop array="#column_array#" index="col">
 			<cfset tAttrib = this.attribute_mapping(col)>
+			<cfset tType = this.attribute_type(col)>
 			<cfset tValue = evaluate("q_feature_attributes.#col#")> 
 			<cfset tCol = col>
 			
@@ -175,6 +176,7 @@
 				<cfset ts.feature_attributes[arr_index].attribute = tAttrib>
 				<cfset ts.feature_attributes[arr_index].value = tValue>
 				<cfset ts.feature_attributes[arr_index].column_name = tCol>
+				<cfset ts.feature_attributes[arr_index].attribute_type = tType>
 				<cfset ts.feature_attributes[arr_index].derived = false>
 				<cfset arr_index = arr_index + 1>
 			</cfif>						
@@ -204,6 +206,19 @@
 		</cfquery>
 		
 		<cfreturn q_amap.attribute_name>
+	</cffunction>
+	
+	<cffunction name="attribute_type" returntype="string" access="public" output="false">
+		<cfargument name="attribute_key" type="string" required="true">
+		
+		<cfquery name="q_at" datasource="#session.company.datasource#">
+			SELECT data_type::VARCHAR AS d_type
+			FROM information_schema.columns
+			WHERE table_name='#this.layer_table#'
+			AND column_name='#lcase(attribute_key)#'
+		</cfquery>
+		
+		<cfreturn q_at.d_type>
 	</cffunction>
 
 </cfcomponent>

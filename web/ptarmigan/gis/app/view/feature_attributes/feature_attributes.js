@@ -8,7 +8,8 @@ Ext.define('pt_gis.view.feature_attributes.feature_attributes' ,{
 		this.columns = [
 			{ text: 'Attribute', dataIndex: 'attribute'},
 			{ text: 'Value', dataIndex: 'value'},
-			{ text: 'Derived', dataIndex: 'derived', hidden:true}
+			{ text: 'Derived', dataIndex: 'derived', hidden:true},
+			{ text: 'Type', dataIndex: 'attribute_type', hidden:true}
 		],
 		
 		this.features = [
