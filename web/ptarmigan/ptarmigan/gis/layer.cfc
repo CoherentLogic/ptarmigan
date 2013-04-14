@@ -63,70 +63,6 @@
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="features_in_rect" returntype="struct" output="false" access="public">
-		<cfargument name="nw_latitude" type="numeric" required="true">
-		<cfargument name="nw_longitude" type="numeric" required="true">
-		<cfargument name="se_latitude" type="numeric" required="true">
-		<cfargument name="se_longitude" type="numeric" required="true">
-
-		<cfset wgs84_geographic_srid = 4326>
-
-				
-		
-
-		<cfquery name="q_features_in_rect" datasource="#session.company.datasource#">		
-			SELECT  #this.layer_key_field# AS pt_parcel_key,
-					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary,
-					ST_AsGeoJSON(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_geo_json	
-			FROM 	#this.layer_table# 
-			WHERE  ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, #wgs84_geographic_srid#);
-		</cfquery>		
-		
-		<cfset pstr = StructNew()>
-		<cfset pstr.layer_id = this.id>
-		<cfset pstr.layer_name = this.layer_name>
-		<cfset pstr.layer_key_name = this.layer_key_name>
-		<cfset pstr.layer_key_abbreviation = this.layer_key_abbreviation>
-		<cfset pstr.layer_projection = this.layer_projection>
-		<cfset pstr.layer_projection_name = this.layer_projection_name>		
-		<cfset pstr.parcels = ArrayNew(1)>
-		
-		
-		
-		<cfoutput query="q_features_in_rect">
-			<cfset ts = StructNew()>
-
-			<cfset ts.parcel_key = q_parcels_in_rect.pt_parcel_key>
-			<cfset ts.fill_color = this.layer_color>			
-			
-			<cfset ts.polygons = ArrayNew(1)>
-						
-			<cfif len(pt_parcel_boundary) GT 0>
-				<cfset tmpPoly = mid(pt_parcel_boundary, 10)>
-				<cfset tmpPoly = left(tmpPoly, find(")", tmpPoly) - 1)>
-				
-				<cfset tmpArray = ListToArray(tmpPoly, ",")>
-				
-				
-				<cfloop array="#tmpArray#" index="item">
-					<cfset tmpStruct = StructNew()>
-					<cfset tLng = val(trim(left(item, find(" ", item))))>
-					<cfset tLat = val(trim(mid(item, find(" ", item))))>
-					
-					
-					<cfset tmpStruct.latitude = tLat>
-					<cfset tmpStruct.longitude = tLng>
-					
-					<cfset ArrayAppend(ts.polygons, tmpStruct)>				
-				</cfloop>						
-			</cfif>
-						
-			<cfset ArrayAppend(pstr.parcels, ts)>
-		</cfoutput>
-		
-		<cfreturn pstr>
-	</cffunction>
-	
 	<cffunction name="features_in_rect_geojson" returntype="string" access="public" output="false">
 		<cfargument name="nw_latitude" type="numeric" required="true">
 		<cfargument name="nw_longitude" type="numeric" required="true">
@@ -254,7 +190,7 @@
 			<cfset ts.source_attribute = source_attribute>
 			<cfset ts.attribute_name = attribute_name>
 			<cfset ts.column_type = this.attribute_type(source_attribute)>
-			<cfset ts.operator = "BEGINS WITH">
+			<cfset ts.operator = "CONTAINS">
 			<cfset ts.value = "">
 			<cfset ts.use_in_search = false>
 			<cfset ts.id = id>
@@ -295,6 +231,35 @@
 					<cfset t_open_value = "">
 					<cfset t_close_value = "">
 				</cfcase>
+				<cfcase value="IS GREATER THAN">
+					<cfset t_op = ">">
+					<cfset t_open_value = "">
+					<cfset t_close_value = "">
+				</cfcase>
+				<cfcase value="IS LESS THAN">
+					<cfset t_op = "<">
+					<cfset t_open_value = "">
+					<cfset t_close_value = "">
+				</cfcase>
+				<cfcase value="IS NOT EQUAL TO">
+					<cfset t_op = "!=">
+					<cfset t_open_value = "">
+					<cfset t_close_value = "">
+				</cfcase>
+				<cfcase value="DOES NOT CONTAIN">
+					<cfset t_op = " NOT LIKE ">
+					<cfset t_open_value = "%">
+					<cfset t_close_value = "%">
+				</cfcase>
+				<cfcase value="DOES NOT BEGIN WITH">
+					<cfset t_op = " NOT LIKE ">
+					<cfset t_open_value = "%">
+					<cfset t_close_value = "">
+				</cfcase>
+			
+				
+			
+									
 			</cfswitch>
 			<cfif col.column_type EQ "character varying">
 				<cfset quot = "'">
@@ -328,6 +293,8 @@
 			<cfset tmp_coords = listtoarray(tmp, " ")>		
 			<cfset ts.center_longitude = tmp_coords[1]>
 			<cfset ts.center_latitude = tmp_coords[2]>
+			<cfset ts.layer_id = this.id>
+			<cfset ts.layer_name = this.layer_name>
 			<cfset arrayappend(oa, ts)>
 		</cfoutput>
 		

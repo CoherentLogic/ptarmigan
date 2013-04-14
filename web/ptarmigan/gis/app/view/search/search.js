@@ -38,18 +38,23 @@ Ext.define('pt_gis.view.search.search', {
 					dataIndex: 'attribute_name'				
 				}, {
 					text: 'Search Type',
-					width: 70,
+					width: 80,
 					dataIndex: 'operator',
 					editor: {
 						xtype: 'combo',
 						listClass: 'x-combo-list-small',
-						width:70,
+						width: 80,
 						store: new Ext.data.ArrayStore({
 							fields: ['id', 'operator'],
-							data: [
-								['BEGINS WITH', 'BEGINS WITH'],
+							data: [								
 								['CONTAINS', 'CONTAINS'],
-								['IS EQUAL TO', 'IS EQUAL TO']
+								['BEGINS WITH', 'BEGINS WITH'],
+								['IS EQUAL TO', 'IS EQUAL TO'],
+								['IS GREATER THAN', 'IS GREATER THAN'],
+								['IS LESS THAN', 'IS LESS THAN'],
+								['IS NOT EQUAL TO', 'IS NOT EQUAL TO'],
+								['DOES NOT CONTAIN', 'DOES NOT CONTAIN'],
+								['DOES NOT BEGIN WITH', 'DOES NOT BEGIN WITH']
 							]
 						}),
 						displayField: 'operator',

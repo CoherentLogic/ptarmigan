@@ -10,13 +10,18 @@ Ext.application({
 	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute', 'layer_mappings'],
 	controllers: ['session', 'layers', 'features'],
     launch: function() { 		
+    	
+    	var req_json = request('app/data/session_read.cfm');
+    	this.__ptarmigan_session = eval('(' + req_json + ')');
+    	
+    	console.log("session: %o", this.__ptarmigan_session);
 		    	              
         this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
 			root_url: '',
-			cloudmade_api_key: '60fe8cc7e8bb44579699f32a87bc7c2a',
-			initial_center_latitude: 32.7881,
-			initial_center_longitude: -107.2822,
+			cloudmade_api_key: this.__ptarmigan_session.system.cloudmade_api_key,
+			initial_center_latitude: this.__ptarmigan_session.system.center_latitude,
+			initial_center_longitude: this.__ptarmigan_session.system.center_longitude,
 			initial_zoom_level: 16,
 			on_status_changed: function (status) {
 				__pt_status_network.update(status.network_status);
