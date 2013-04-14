@@ -1,3 +1,9 @@
+body {
+	/*background-color:#367AA5;*/
+	background-image:url(images/ajax-loader.gif);
+	background-repeat:no-repeat;
+	background-position:center;
+}
 #map-outer-container {
 	width:100%;
 	height:100%;
@@ -178,5 +184,25 @@ html, body {
 
 .map-sidebar-wrapper {
 	padding:10px;
+}
+
+/* Custom styling */
+.ux-notification-light .x-window-header {
+	background-color: transparent;
+}
+
+body .ux-notification-light {
+	background-image: url('images/fader.png');
+}
+.ux-notification-light .x-window-body {
+	text-align: center;
+	padding: 15px 5px 18px 5px;
+	width: 200px;
+	background-color: transparent;
+	border: 0px solid white;
+}
+
+.ux-notification-icon-information {
+	background-image: url('images/icon16_info.png');
 }
 

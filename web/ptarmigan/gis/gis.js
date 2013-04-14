@@ -45,7 +45,8 @@ function pt_map(options)
 	this.leaflet_map = L.map(options.attach_to, {
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
-		layers: [base_layer_aerial, base_layer_osm]
+		layers: [base_layer_aerial, base_layer_osm],
+		zoomControl: false
 	});
 	
 	this.overview_map = L.map("area-overview", {
@@ -149,7 +150,7 @@ pt_map.prototype.install_plugin = function (plugin) {
 	
 	if(plugin.selectable) {
 		// add it to the main toolbar
-		var tb = Ext.getCmp('main-toolbar');
+		var tb = Ext.getCmp('__pt_plugins_bar');
 		var __pt_acc_plugin = plugin;
 		plugin.toolbar_button = Ext.create('Ext.button.Button', {
 			__pt_plugin: plugin,
@@ -244,6 +245,13 @@ function pt_layer(layer_json) {
 	this.layer_key_abbreviation = layer_json.layer_key_abbreviation;
 	this.layer_key_name = layer_json.layer_key_name;
 	this.color = layer_json.layer_color;
+	this.southwest_longitude = layer_json.southwest_coordinates[0];
+	this.southwest_latitude = layer_json.southwest_coordinates[1];
+	this.northeast_longitude = layer_json.northeast_coordinates[0];
+	this.northeast_latitude = layer_json.northeast_coordinates[1];
+	var south_west = new L.LatLng(this.southwest_latitude, this.southwest_longitude);
+	var north_east = new L.LatLng(this.northeast_latitude, this.northeast_longitude);
+	this.bounds = new L.LatLngBounds(south_west, north_east);
 	
 	// network stuff
 	this.request_pending = false;
@@ -349,6 +357,11 @@ pt_layer.prototype.abort_active_transfers = function () {
 			this.request_pending = false;
 		}
 	}
+};
+
+pt_layer.prototype.zoom_extents = function () {
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+	current_map.leaflet_map.fitBounds(this.bounds);
 };
 
 /**
@@ -573,6 +586,52 @@ pt_plugin_manager.prototype.load_all = function(store) {
 	
 };
 
+/**
+ * pt_search
+ */
+function pt_search(layer_id, search_type) {
+	//this.pt_map_object = pt_gis.getApplication().__ptarmigan_gis;
+	this.layer_id = layer_id;
+	this.search_type = search_type;
+	this.columns = new Array();	
+}
+
+pt_search.prototype.add_column = function(search_column) {
+	this.columns.push(search_column);	
+}
+
+pt_search.prototype.exec = function() {
+	console.log("Search object: %o", this);		
+	
+	Ext.Ajax.request({
+		url: 'app/data/search_results.cfm',
+		success: function (response) {
+			var json_result = eval('(' + response.responseText + ')');
+			
+			this.data_store = Ext.create('Ext.data.Store', {
+				model: 'pt_gis.model.search_result',
+				data: json_result
+			});
+			this.view = Ext.widget('featuresearchresults', {store: this.data_store});
+			this.view.show();
+		},
+		failure: function (response) {
+			console.log("failure: " + response.responseText);
+		},
+		jsonData: this
+	});
+}
+
+function pt_search_column (configs) {
+	this.src_attribute = configs.src_attribute;
+	this.operator = configs.operator;
+	this.search_value = configs.search_value;
+	this.column_type = configs.column_type;
+	
+	return(this);
+}
+
+
 
 
 /**
@@ -597,4 +656,41 @@ function pt_status () {
  */
 function pt_debug(msg) {
 	console.log(msg);
+}
+
+function pt_toggle_layer(layer_id) 
+{
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+	var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
+	var enabled_value = chk_element.checked;
+		
+	for(i = 0; i < current_map.layers.length; i++) {
+		if(current_map.layers[i].id === layer_id) {
+			current_map.layers[i].enabled = enabled_value;			
+			current_map.viewport.regenerate();			
+			return;
+		}
+	}		
+}
+
+function pt_layer_zoom_extents(layer_id)
+{
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+		
+	for(i = 0; i < current_map.layers.length; i++) {
+		if(current_map.layers[i].id === layer_id) {
+			current_map.layers[i].zoom_extents();		
+			return;
+		}
+	}		
+	
+}
+
+function pt_search_layer(layer_id) 
+{
+	this.data_store = Ext.create('pt_gis.store.layer_mappings');	
+	this.data_store.getProxy().extraParams.layer_id = layer_id;
+	this.data_store.reload();
+	this.view = Ext.widget('featuresearch', {store: this.data_store});
+	this.view.show();		
 }

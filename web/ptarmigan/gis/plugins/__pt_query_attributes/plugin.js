@@ -11,8 +11,22 @@ var __pt_query_attributes = new pt_plugin({
 				Ext.getCmp('plugin-box').remove(this.view);
 			}
 			attrib_container = 	Ext.getCmp('feature-attributes-container');
-			attrib_container.text = 'test';
-			attrib_container.expand();
+			//attrib_container.expand();
+			Ext.create('widget.uxNotification', {
+												position: 't',
+												useXAxis: true,
+												cls: 'ux-notification-light',
+												iconCls: 'ux-notification-icon-information',
+												closable: false,
+												title: this.text,
+												html: 'Click a geographic feature with the left mouse button to show its attributes.',
+												slideInDuration: 800,
+												slideBackDuration: 1500,
+												autoCloseDelay: 6000,
+												slideInAnimation: 'bounceOut',
+												slideBackAnimation: 'easeIn'
+											}).show();
+			
 			this.take_map_ownership();
 			return (true); 
 		},

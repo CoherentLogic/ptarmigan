@@ -12,6 +12,8 @@
 	<cfset this.layer_projection_name = "">
 	<cfset this.layer_geom_field = "">	
 	<cfset this.layer_enabled = true>
+	<cfset this.layer_extents = "">
+	<cfset this.layer_boundary = "">
 	<cfset this.success = true>
 	
 	<cfset this.written = false>
@@ -22,7 +24,7 @@
 		<cfquery name="q_open" datasource="#session.company.datasource#">
 			SELECT * FROM parcel_layers WHERE id='#layer_id#'
 		</cfquery>
-		
+						
 		<cfoutput query="q_open">
 			<cfset this.id = id>
 			<cfset this.layer_name = layer_name>		
@@ -37,6 +39,24 @@
 			<cfset this.layer_geom_field = layer_geom_field>
 			<cfset this.layer_enabled = layer_enabled_default>
 		</cfoutput>
+		
+		<cfquery name="q_layer_geometry" datasource="#session.company.datasource#">
+			SELECT ST_AsText(ST_extent(ST_Transform(#this.layer_geom_field#, 4326))) AS layer_boundary,
+				   st_astext(st_makepoint(st_xmin(st_extent(ST_Transform(#this.layer_geom_field#, 4326))), st_ymin(st_extent(ST_Transform(#this.layer_geom_field#, 4326))))) AS southwest_extent,
+				   st_astext(st_makepoint(st_xmax(st_extent(ST_Transform(#this.layer_geom_field#, 4326))), st_ymax(st_extent(ST_Transform(#this.layer_geom_field#, 4326))))) AS northeast_extent
+				   		   
+			FROM	#this.layer_table#			
+		</cfquery>
+		
+		<cfset this.layer_boundary = q_layer_geometry.layer_boundary>
+		<cfset this.layer_southwest_extent = mid(q_layer_geometry.southwest_extent, 7, len(q_layer_geometry.southwest_extent) - 7)>
+		<cfset this.layer_northeast_extent = mid(q_layer_geometry.northeast_extent, 7, len(q_layer_geometry.northeast_extent) - 7)>
+		
+		<cfset this.southwest_coordinates = listtoarray(this.layer_southwest_extent, " ")>
+		<cfset this.northeast_coordinates = listtoarray(this.layer_northeast_extent, " ")>
+		
+		
+		
 		
 		<cfset this.written = true>
 		
@@ -59,7 +79,7 @@
 					ST_AsText(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_parcel_boundary,
 					ST_AsGeoJSON(ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#)) AS pt_geo_json	
 			FROM 	#this.layer_table# 
-			WHERE  ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, 4326);
+			WHERE  ST_Transform(#this.layer_geom_field#, #wgs84_geographic_srid#) && ST_SetSRID('BOX3D(#nw_longitude# #nw_latitude#,#se_longitude# #se_latitude#)'::box3d, #wgs84_geographic_srid#);
 		</cfquery>		
 		
 		<cfset pstr = StructNew()>
@@ -219,6 +239,99 @@
 		</cfquery>
 		
 		<cfreturn q_at.d_type>
+	</cffunction>
+
+	<cffunction name="mappings_json" returntype="string" access="public" output="false">
+		<cfquery name="q_mappings_json" datasource="#session.company.datasource#">
+			SELECT * FROM parcel_layer_mappings WHERE source_layer_id='#this.id#'
+		</cfquery>
+		
+		<cfset oa = arraynew(1)>
+
+		<cfoutput query="q_mappings_json">
+			<cfset ts = structnew()>
+			<cfset ts.source_layer_id = source_layer_id>
+			<cfset ts.source_attribute = source_attribute>
+			<cfset ts.attribute_name = attribute_name>
+			<cfset ts.column_type = this.attribute_type(source_attribute)>
+			<cfset ts.operator = "BEGINS WITH">
+			<cfset ts.value = "">
+			<cfset ts.use_in_search = false>
+			<cfset ts.id = id>
+			<cfset arrayappend(oa, ts)>
+		</cfoutput>
+		
+		<cfreturn serializejson(oa)>
+	</cffunction>
+	
+	<cffunction name="feature_search" returntype="string" access="public" output="false">
+		<cfargument name="s" type="struct" required="true">
+		
+		<cfset qual = " WHERE ">
+		
+		<cfsavecontent variable="sql_query">
+			<cfoutput>
+				SELECT #this.layer_key_field# AS feature_key,
+						ST_AsText(ST_Centroid(ST_Transform(#this.layer_geom_field#, 4326))) AS result_centroid
+				FROM #this.layer_table#
+			</cfoutput>
+		</cfsavecontent>
+
+		
+		<cfloop array="#s.columns#" index="col">
+			<cfswitch expression="#col.operator#">
+				<cfcase value="BEGINS WITH">
+					<cfset t_op = " LIKE ">
+					<cfset t_open_value = "%">
+					<cfset t_close_value = "">
+				</cfcase>
+				<cfcase value="CONTAINS">
+					<cfset t_op = " LIKE ">
+					<cfset t_open_value = "%">
+					<cfset t_close_value = "%">
+				</cfcase>
+				<cfcase value="IS EQUAL TO">
+					<cfset t_op = "=">
+					<cfset t_open_value = "">
+					<cfset t_close_value = "">
+				</cfcase>
+			</cfswitch>
+			<cfif col.column_type EQ "character varying">
+				<cfset quot = "'">
+			<cfelse>
+				<cfset quot = "">
+			</cfif>
+			<cfset sql_query = sql_query & qual & col.src_attribute & t_op & quot & t_open_value & col.search_value & t_close_value & quot>
+		    
+			<cfswitch expression="#s.search_type#">
+				<cfcase value="any">
+					<cfset qual = " OR ">
+				</cfcase>
+				<cfcase value="all">
+					<cfset qual = " AND ">
+				</cfcase>
+			</cfswitch>
+		</cfloop>
+		
+		<cfset sql_query = REReplace(sql_query,"''","'","ALL")>
+		
+		<cfquery name="q_feature_search" datasource="#session.company.datasource#">
+			#preservesinglequotes(sql_query)#
+		</cfquery>
+		
+		<cfset oa = arraynew(1)>
+		
+		<cfoutput query="q_feature_search">
+			<cfset ts = structnew()>
+			<cfset ts.feature_id = feature_key>
+			<cfset tmp = mid(result_centroid, 7, len(result_centroid) - 7)>
+			<cfset tmp_coords = listtoarray(tmp, " ")>		
+			<cfset ts.center_longitude = tmp_coords[1]>
+			<cfset ts.center_latitude = tmp_coords[2]>
+			<cfset arrayappend(oa, ts)>
+		</cfoutput>
+		
+		<cfreturn #serializejson(oa)#>
 	</cffunction>
 
 </cfcomponent>

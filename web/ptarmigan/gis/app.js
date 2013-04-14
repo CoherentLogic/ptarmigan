@@ -1,13 +1,16 @@
+Ext.Loader.setConfig({
+			enabled: true
+		});
 
 Ext.application({
     name: 'pt_gis',
 	autoCreateViewport: true,
     appFolder: 'app',
-	models: ['session', 'layer', 'pt_plugin', 'feature_attribute'],
-	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute'],
+	models: ['session', 'layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result'],
+	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute', 'layer_mappings'],
 	controllers: ['session', 'layers', 'features'],
-    launch: function() {
-    	              
+    launch: function() { 		
+		    	              
         this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
 			root_url: '',
@@ -18,8 +21,8 @@ Ext.application({
 			on_status_changed: function (status) {
 				__pt_status_network.update(status.network_status);
 				__pt_status_layer.update(status.layer);
-				__pt_status_latitude.update(LocationFormatter.decimalLatToDMS(status.latitude));
-				__pt_status_longitude.update(LocationFormatter.decimalLatToDMS(status.longitude));
+				__pt_status_latitude.update("Latitude: " + LocationFormatter.decimalLatToDMS(status.latitude));
+				__pt_status_longitude.update("Longitude: " + LocationFormatter.decimalLongToDMS(status.longitude));
 				__pt_status_feature_id.update(status.feature_id);
 				__pt_status_feature_count.update(status.feature_count + " Features");
 				return(true);

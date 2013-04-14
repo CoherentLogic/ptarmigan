@@ -7,10 +7,11 @@ var __pt_status_feature_count = Ext.create('Ext.toolbar.TextItem', {text: '0 Fea
 
 Ext.define('pt_gis.view.Viewport', {
 	extend: 'Ext.container.Viewport',
-	requires: [
-		'pt_gis.view.search.search_tools',
+	requires: [		
 		'pt_gis.view.layers.list',
-		'pt_gis.view.feature_attributes.feature_attributes'
+		'pt_gis.view.feature_attributes.feature_attributes',
+		'pt_gis.view.search.search',
+		'pt_gis.view.search.search_results'
 	],
     layout: 'border',
     initComponent: function () {    
@@ -23,17 +24,37 @@ Ext.define('pt_gis.view.Viewport', {
     				dock: 'top',
     				xtype: 'toolbar',
     				id: 'main-toolbar',
-    				height: 50/*,
-    				items: [
-    					{
-    						xtype: 'panel',
-    						id: '__pt_plugins_bar'
+    				height: 50,
+    				items: [' ',
+    				{
+    					xtype: 'button',
+    					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom.png',
+    					handler: function () {
+    						
     					}
-    				]*/
+    				}, {
+    					xtype: 'button',
+    					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_in.png',
+    					handler: function () {
+    						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomIn();
+    					}
+    				}, {
+    					xtype: 'button',
+    					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_out.png',
+    					handler: function () {
+    						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomOut();
+    					}
+    				},
+    				'-',
+    				{
+    					xtype: 'toolbar',
+    					border: false,
+    					id: '__pt_plugins_bar'
+    				}]
     			}]
     		}, {
     			region: 'south',
-    			contentEl: 'status-bar',
+    			//contentEl: 'status-bar',
     			split: false,
     			height: 45,
     			collapsible: false,
@@ -47,11 +68,11 @@ Ext.define('pt_gis.view.Viewport', {
     			})    					    			    	    				    	
     		}, { 
     			region: 'west',
-    			contentEl: 'sidebar',    			
+    			//contentEl: 'sidebar',    			
     			title: 'Area',
-    			width: 300,
-    			minWidth: 300,
-    			maxWidth: 300,
+    			width: 400,
+    			minWidth: 400,
+    			maxWidth: 400,
     			collapsible: true,
     			animCollapse: true,
     			margins: '0 0 0 0',
