@@ -80,8 +80,11 @@ Ext.define('pt_gis.view.Viewport', {
     			items: [{
     				xtype: 'panel',    				   			
     				html: '<div id="area-overview" style="width:100%;height:250px;"></div>'	
-    			},{
+    			}, {
     				xtype: 'layerlist'    				
+    			}, {
+    				xtype: 'panel',
+    				id: 'latest-search'
     			}]    			
     		}, {
     			region: 'east',

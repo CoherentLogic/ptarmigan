@@ -399,6 +399,7 @@ pt_viewport.prototype.update_bounds = function () {
     
     this.overview_rect = L.rectangle(bounds, {color: 'red', weight:2, fill: false, opacity: 1.0});
     this.overview_rect.addTo(this.ptarmigan_map.overview_map);
+    this.ptarmigan_map.overview_map.panTo(this.ptarmigan_map.leaflet_map.getCenter());
     
     
     return(this);
@@ -554,6 +555,22 @@ pt_plugin.prototype.gather_coordinates = function (count) {
 	
 };
 
+pt_plugin.prototype.notify = function(title, text) {
+	Ext.create('widget.uxNotification', {position: 't',
+										useXAxis: true,
+										cls: 'ux-notification-light',
+										iconCls: 'ux-notification-icon-information',
+										closable: false,
+										title: title,
+										html: text,
+										slideInDuration: 800,
+										slideBackDuration: 1500,
+										autoCloseDelay: 6000,
+										slideInAnimation: 'bounceOut',
+										slideBackAnimation: 'easeIn'
+										}).show();
+};
+
 function pt_plugin_manager (map_object) {
 	this.map_obj = map_object;	
 	return (this);
@@ -630,6 +647,27 @@ function pt_search_column (configs) {
 	
 	return(this);
 }
+
+function pt_feature (configs) {
+	this.feature_id = configs.feature_id;
+	this.layer_id = configs.layer_id;
+	this.data_store = Ext.create('pt_gis.store.feature_attribute');
+	this.data_store.getProxy().extraParams.feature_id = this.feature_id;
+	this.data_store.getProxy().extraParams.layer_id = this.layer_id;
+	this.data_store.reload();
+	
+	this.view = null;
+}
+
+pt_feature.prototype.show_attributes = function() {
+	Ext.getCmp('plugin-box').removeAll();
+			
+	this.view = Ext.widget('featureattributes', {store: this.data_store});						
+			
+	Ext.getCmp('plugin-box').add(this.view);					
+	Ext.getCmp('feature-attributes-container').expand();				
+};
+
 
 
 

@@ -30,9 +30,9 @@ Ext.define('pt_gis.view.search.search_results', {
 				var marker = new L.Marker(coords);
 				marker.addTo(map_accessor);
 			});
-		        	
-        	
-        	console.log("afterrender store %o", this.store);
+			
+			sess.most_recent_search = this.store;
+					        	        	        	
         }, this);
         
 		Ext.apply(this, {
@@ -66,6 +66,10 @@ Ext.define('pt_gis.view.search.search_results', {
 					renderer: function (value) {
 						return LocationFormatter.decimalLongToDMS(value);
 					}
+				}, {
+					text: 'Layer ID',
+					dataIndex: 'layer_id',
+					hidden: true
 				}]
 			}, {
 				columnWidth: 0.3,
@@ -76,18 +80,73 @@ Ext.define('pt_gis.view.search.search_results', {
 				defaultType: 'textField',
 				items: [{
 					xtype: 'displayfield',
-					renderer: function (){
-						console.log("Renderer on map div");
+					renderer: function (){						
 						return ('<div id="search_results_map" style="width:245px;height:180px;"></div>');
 					}
 					
 				}]
 			}],
 			buttons: [{
-                text: 'Open',
+                text: 'Send to Map',
                 action: 'open',
+                scope: this,
                 handler: function () {
+                	var sess = pt_gis.getApplication().__ptarmigan_session;
+                	var store = sess.most_recent_search;
+                	var main_map = pt_gis.getApplication().__ptarmigan_gis.leaflet_map;
                 	
+                	store.each(function (r) {
+                		var coords = new L.LatLng(r.get('center_latitude'), r.get('center_longitude'));
+						var marker = new L.Marker(coords);
+						marker.addTo(main_map);	
+                	});
+                	
+                	var search_res_grid = Ext.create('Ext.grid.Panel', {
+                		title: 'Search Results',
+                		store: store,
+                		forceFit: true,
+                		collapsible: true,                		
+                		columns:[{
+							text: 'Feature ID',
+							dataIndex: 'feature_id',
+							flex: 0								
+						}, {
+							text: 'Latitude',
+							dataIndex: 'center_latitude',
+							renderer: function (value) {
+								return LocationFormatter.decimalLatToDMS(value);
+							}		
+						}, {
+							text: 'Longitude',
+							dataIndex: 'center_longitude',
+							renderer: function (value) {
+								return LocationFormatter.decimalLongToDMS(value);
+							}
+						}, {
+							text: 'Layer ID',
+							dataIndex: 'layer_id',
+							hidden: true
+						}]
+                	});
+                	
+                	search_res_grid.on('itemclick', function(ctx, record, item, index, e, eOpts) {
+                		var lyr = record.get('layer_id');
+                		var feat = record.get('feature_id');
+                		var lat = record.get('center_latitude');
+                		var lng = record.get('center_longitude');
+                		var coords = new L.LatLng(lat, lng);
+                		
+                		var feature = new pt_feature({
+                			layer_id: lyr,
+                			feature_id: feat
+                		}).show_attributes();
+                		
+                		pt_gis.getApplication().__ptarmigan_gis.leaflet_map.panTo(coords);
+                	});
+                	
+                	Ext.getCmp('latest-search').add(search_res_grid);	
+                	
+                	this.close();
                 }
             }, {
                 text: 'Close',
