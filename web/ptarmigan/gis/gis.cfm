@@ -10,6 +10,7 @@
 		<script src="#session.root_url#/leaflet-master/leaflet-src.js"></script>
 		<script src="#session.root_url#/ptarmigan.js"></script>
 		<script type="text/javascript" src="gis.js"></script>
+		<script type="text/javascript" src="pt_session.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 		
 		

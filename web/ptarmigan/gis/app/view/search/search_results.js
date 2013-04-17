@@ -6,17 +6,17 @@ Ext.define('pt_gis.view.search.search_results', {
 	layout: 'column',
 	
 	initComponent: function() {			
-        
+   	
         this.on('afterrender', function () {
         	var sess = pt_gis.getApplication().__ptarmigan_session;
         	
         	// set up OSM layer
-			var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + sess.system.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
+			var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + sess.s.system.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
 			var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
 			var base_layer_osm_overview = L.tileLayer(cloudmade_url, {attribution:''});
-        	
+        	        
         	this.__results_map = L.map('search_results_map', {
-				center: new L.LatLng(sess.system.center_latitude, sess.system.center_longitude),
+				center: new L.LatLng(sess.s.system.center_latitude, sess.s.system.center_longitude),
 				zoom: 10,
 				layers: [base_layer_osm],
 				zoomControl: true,
@@ -50,6 +50,18 @@ Ext.define('pt_gis.view.search.search_results', {
 				height: 400,
 				forceFit: true,
 				store: this.store,
+				listeners: {
+					itemclick: {
+						fn: function(ctx, record, item, index, e, eOpts) {
+							var lat = record.get('center_latitude');
+							var lng = record.get('center_longitude');
+							var coords = new L.LatLng(lat, lng);
+							var parent_window = ctx.findParentByType('featuresearchresults');
+							parent_window.__results_map.panTo(coords);
+							console.log("record: %o, parent_window: %o", record, parent_window);
+						}
+					}
+				},
 				columns: [{
 					text: 'Feature ID',
 					dataIndex: 'feature_id',
@@ -154,8 +166,6 @@ Ext.define('pt_gis.view.search.search_results', {
                 handler: this.close
             }]      			
 		});
-		console.log("Items created");
-		//document.getElementById("search_results_map").innerHTML("BOOTS");
 		
 		this.callParent();
 	}

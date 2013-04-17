@@ -7,6 +7,7 @@ var __pt_status_feature_count = Ext.create('Ext.toolbar.TextItem', {text: '0 Fea
 
 Ext.define('pt_gis.view.Viewport', {
 	extend: 'Ext.container.Viewport',
+	alias: 'widget.ptviewport',
 	requires: [		
 		'pt_gis.view.layers.list',
 		'pt_gis.view.feature_attributes.feature_attributes',
@@ -25,8 +26,11 @@ Ext.define('pt_gis.view.Viewport', {
     				xtype: 'toolbar',
     				id: 'main-toolbar',
     				height: 50,
-    				items: [' ',
-    				{
+    				items: [{
+    					xtype: 'toolbar',
+    					border: false,
+    					id: '__pt_menu_bar'
+    				}, '-', {
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom.png',
     					handler: function () {
@@ -44,8 +48,19 @@ Ext.define('pt_gis.view.Viewport', {
     					handler: function () {
     						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomOut();
     					}
-    				},
-    				'-',
+    				}, {
+    					xtype: 'button',
+    					text: 'Measure',
+    					icon: '/OpenHorizon/Resources/Graphics/Silk/ruler_2.png',
+    					menu: {
+    						items: [{
+    							text: 'Polyline'    					
+    						}, {
+    							text: 'Polygon'
+    						}]
+    					}
+    					
+    				}, '-',
     				{
     					xtype: 'toolbar',
     					border: false,

@@ -102,7 +102,7 @@ function pt_map(options)
 	var __pt_plugin_default = new pt_plugin({
 		plugin_name: '__pt_plugin_default',
 		on_installed: function () {
-			pt_debug('Ptarmigan GIS Default Plugin (V0.02-EXP) [Installed]');
+			return (true);
 		},
 		on_activate: function () { 
 			// The default plugin must always own the map in order to 
@@ -110,8 +110,6 @@ function pt_map(options)
 			// well-behaved, in that it will not do anything to interfere 
 			// with the operations of other plugins that own the map.				
 			this.take_map_ownership();
-			
-			pt_debug('Ptarmigan GIS Default Plugin (V0.02-EXP) [Activated]');						
 			
 			return(true);
 		},
@@ -377,6 +375,7 @@ function pt_viewport(map_object) {
 	this.se_latitude = null;
 	this.se_longitude = null;
 	this.overview_rect = null;
+	this.layers_blocked = false;
 	
 	
 	return(this);
@@ -420,11 +419,13 @@ pt_viewport.prototype.regenerate = function() {
 	// update the viewport's boundary
 	this.update_bounds();		
 	
-	// loop through the layers and tell them to render themselves to this viewport
-	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
-		if(this.ptarmigan_map.layers[i].enabled) {
-			this.ptarmigan_map.layers[i].abort_active_transfers();
-			this.ptarmigan_map.layers[i].render(this);
+	if (!this.layers_blocked) {
+		// loop through the layers and tell them to render themselves to this viewport
+		for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
+			if(this.ptarmigan_map.layers[i].enabled) {
+				this.ptarmigan_map.layers[i].abort_active_transfers();
+				this.ptarmigan_map.layers[i].render(this);
+			}
 		}
 	}
 	
@@ -439,7 +440,22 @@ pt_viewport.prototype.current_feature_count = function() {
 	}
 	
 	return(tmp_fc);
-}
+};
+
+pt_viewport.prototype.block_layers = function () {
+	this.layers_blocked = true;
+	this.clear_features();
+	
+	return(true);
+};
+
+pt_viewport.prototype.unblock_layers = function () {
+	this.layers_blocked = false;
+	this.clear_features();
+	this.regenerate();
+	
+	return(true);
+};
 
 /**
  * pt_plugin
@@ -551,6 +567,14 @@ pt_plugin.prototype.release_map_ownership = function () {
 	this.owns_map = false
 };
 
+pt_plugin.prototype.request_bare_map = function () {
+	this.map_object.viewport.block_layers();
+};
+
+pt_plugin.prototype.release_bare_map = function () {
+	this.map_object.viewport.unblock_layers();
+};
+
 pt_plugin.prototype.gather_coordinates = function (count) {
 	
 };
@@ -659,18 +683,24 @@ function pt_feature (configs) {
 	this.view = null;
 }
 
-pt_feature.prototype.show_attributes = function() {
-	Ext.getCmp('plugin-box').removeAll();
+pt_feature.prototype.show_attributes = function(container) {
+	if(container) {
+		target_container = container;
+	}
+	else {
+		target_container = 'plugin-box';
+	}
+	
+	Ext.getCmp(target_container).removeAll();
 			
 	this.view = Ext.widget('featureattributes', {store: this.data_store});						
 			
-	Ext.getCmp('plugin-box').add(this.view);					
-	Ext.getCmp('feature-attributes-container').expand();				
+	Ext.getCmp(target_container).add(this.view);	
+	
+	if(target_container === 'plugin-box') {
+		Ext.getCmp('feature-attributes-container').expand();
+	}				
 };
-
-
-
-
 
 /**
  * pt_status 

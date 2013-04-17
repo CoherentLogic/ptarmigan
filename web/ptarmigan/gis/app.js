@@ -11,17 +11,17 @@ Ext.application({
 	controllers: ['session', 'layers', 'features'],
     launch: function() { 		
     	
-    	var req_json = request('app/data/session_read.cfm');
-    	this.__ptarmigan_session = eval('(' + req_json + ')');
-    	
-    	console.log("session: %o", this.__ptarmigan_session);
-		    	              
+    	this.__ptarmigan_session = new pt_session();
+    	//this.__ptarmigan_session.login();
+		
+		console.log("session: %o", this.__ptarmigan_session);
+		    	    	    	             
         this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
 			root_url: '',
-			cloudmade_api_key: this.__ptarmigan_session.system.cloudmade_api_key,
-			initial_center_latitude: this.__ptarmigan_session.system.center_latitude,
-			initial_center_longitude: this.__ptarmigan_session.system.center_longitude,
+			cloudmade_api_key: this.__ptarmigan_session.s.system.cloudmade_api_key,
+			initial_center_latitude: this.__ptarmigan_session.s.system.center_latitude,
+			initial_center_longitude: this.__ptarmigan_session.s.system.center_longitude,
 			initial_zoom_level: 16,
 			on_status_changed: function (status) {
 				__pt_status_network.update(status.network_status);
@@ -32,14 +32,7 @@ Ext.application({
 				__pt_status_feature_count.update(status.feature_count + " Features");
 				return(true);
 			}       	
-		}); /* this.__ptarmigan_map */
-		
-		
-		 
-		//this.__ptarmigan_gis.install_plugin(__pt_query_attributes);	
-		//this.__ptarmigan_gis.activate_plugin(__pt_query_attributes.plugin_name);	
-		
-																										   
+		}); /* this.__ptarmigan_map */																														   
     } /* launch() */
 });
 

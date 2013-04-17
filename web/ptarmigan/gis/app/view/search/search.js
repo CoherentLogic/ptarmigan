@@ -134,7 +134,7 @@ Ext.define('pt_gis.view.search.search', {
                 			});
                 			pt_search_obj.add_column(search_col);
                 		}
-                		
+                		                		
                 	});
 					pt_search_obj.exec();
 					this.close();
