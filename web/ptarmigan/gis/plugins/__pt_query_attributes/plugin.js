@@ -2,11 +2,10 @@ var __pt_query_attributes = new pt_plugin({
 		plugin_name: '__pt_query_attributes',
 		
 		on_installed: function () {
-			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Installed]');			
+			return(true);
 		},
 		
-		on_activate: function () { 
-			pt_debug('Ptarmigan GIS Feature Attributes Plugin (V0.02-EXP) [Activated]');			
+		on_activate: function (options) { 			
 			this.notify(this.text, 'Click a geographic feature with the left mouse button to show its attributes.');			
 			this.take_map_ownership();
 			return (true); 
@@ -26,7 +25,7 @@ var __pt_query_attributes = new pt_plugin({
 			var feat =  event_object.target.feature._pt_feature_id;
 			
 			var feature = new pt_feature({
-				layer_id: layer_id,
+				layer_id: layer,
 				feature_id: feat,
 			});
 			
@@ -37,4 +36,3 @@ var __pt_query_attributes = new pt_plugin({
 		text: 'Query Attributes'
 	}
 );
-

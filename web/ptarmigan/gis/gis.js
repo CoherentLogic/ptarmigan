@@ -28,7 +28,9 @@ function pt_map(options)
 	}
 	this.status = new pt_status();
 	this.on_status_changed(this.status);
-
+	this.shape = null;
+	this.shape_marker = null;
+	
 	// the plugins array
 	this.plugins = new Array();
 
@@ -59,6 +61,11 @@ function pt_map(options)
 		boxZoom: false,
 		zoomControl: false,
 		attributionControl: false
+	});
+	
+	var closure = this;
+	this.overview_map.on('click', function(event) {
+		closure.leaflet_map.panTo(event.latlng);
 	});
 		
 	var base_maps = {
@@ -97,6 +104,7 @@ function pt_map(options)
 	this.leaflet_map.on('click', function (e) {
 		map_accessor.on_map_click(e);
 	});
+	
 
 	
 	var __pt_plugin_default = new pt_plugin({
@@ -132,9 +140,7 @@ function pt_map(options)
 			
 		}
 	});
-	
-	
-	
+			
 	this.install_plugin(__pt_plugin_default);
 	this.activate_plugin('__pt_plugin_default');    
 
@@ -156,8 +162,9 @@ pt_map.prototype.install_plugin = function (plugin) {
 			text: plugin.text,
 			enableToggle: true,
 			handler: function () {
+				var plugin_options = {pickles: 'toot'};
 				if(this.pressed) {
-					this.__pt_plugin.activate();
+					this.__pt_plugin.activate(plugin_options);
 				}
 				else {
 					this.__pt_plugin.deactivate();
@@ -172,10 +179,18 @@ pt_map.prototype.install_plugin = function (plugin) {
 	return(this.plugins.length - 1);
 };
 
-pt_map.prototype.activate_plugin = function (plugin_name) {		
+pt_map.prototype.get_plugin_reference = function(plugin_name) {
 	for(i = 0; i < this.plugins.length; i++) {
 		if(this.plugins[i].plugin_name === plugin_name) {
-			return(this.plugins[i].activate());
+			return(this.plugins[i]);
+		}
+	}
+};
+
+pt_map.prototype.activate_plugin = function (plugin_name, options) {		
+	for(i = 0; i < this.plugins.length; i++) {
+		if(this.plugins[i].plugin_name === plugin_name) {
+			return(this.plugins[i].activate(options));
 		}
 	}
 	
@@ -212,6 +227,9 @@ pt_map.prototype.on_map_hover = function (event_object) {
 	for(i = 0; i < this.plugins.length; i++) {
 		if(this.plugins[i].active && this.plugins[i].owns_map) {
 			this.plugins[i].on_map_hover(event_object);
+			if(this.plugins[i].drawing_shape === true) {
+				this.plugins[i].preview_coordinates(event_object.latlng);
+			}
 		}
 	}
 };
@@ -219,10 +237,29 @@ pt_map.prototype.on_map_hover = function (event_object) {
 pt_map.prototype.on_map_click = function (event_object) {
 	for(i = 0; i < this.plugins.length; i++) {
 		if(this.plugins[i].active && this.plugins[i].owns_map) {
-			this.plugins[i].on_map_click(event_object);			
+			this.plugins[i].on_map_click(event_object);
+			if(this.plugins[i].drawing_shape === true) {
+				this.plugins[i].got_coordinates(event_object.latlng);
+			}			
 		}
 	}
 };
+
+
+pt_map.prototype.clear_shape = function () {
+	if (this.shape) {
+		this.leaflet_map.removeLayer(this.shape);
+		this.shape = null;		
+	}
+};
+
+pt_map.prototype.clear_shape_marker = function () {
+	if (this.shape_marker) {
+		this.leaflet_map.removeLayer(this.shape_marker);
+		this.shape_marker = null;
+	}
+};
+
 
 /**
  * pt_layer
@@ -462,6 +499,12 @@ pt_viewport.prototype.unblock_layers = function () {
  */
 function pt_plugin (options) 
 {
+	if (options.shape_style) {
+		this.shape_style = options.shape_style;
+	}
+	else {
+		this.shape_style = {color: '#7daed4', weight:1, opacity: 1.0}	
+	}
 	if (!options.on_installed) {
 		alert('Plugin Error: Callback function on_installed() is not defined.');
 	}
@@ -474,6 +517,18 @@ function pt_plugin (options)
 	}
 	else {
 		this.on_activate = options.on_activate;
+	}
+	if (options.on_coordinates_received) {
+		this.on_coordinates_received = options.on_coordinates_received;
+	}
+	else {
+		this.on_coordinates_received = function (coordinates) { return(true); };
+	}
+	if (options.on_shape_complete) {
+		this.on_shape_complete = options.on_shape_complete;
+	}
+	else {
+		this.on_shape_complete = function (shape, coordinates) { return(true); };
 	}
 	if (options.on_deactivate) {
 		this.on_deactivate = options.on_deactivate;
@@ -528,12 +583,16 @@ function pt_plugin (options)
 	}
 	this.active = false;		
 	this.owns_map = false;
+	this.drawing_shape = false;
+	this.shape_type = 'polyline';
+	this.coordinates = new Array();
+	this.shape_started = false;
 
 }
 
-pt_plugin.prototype.activate = function () {
+pt_plugin.prototype.activate = function (options) {
 	this.active = true;
-	return (this.on_activate());
+	return (this.on_activate(options));
 }
 
 pt_plugin.prototype.deactivate = function () {
@@ -575,9 +634,100 @@ pt_plugin.prototype.release_bare_map = function () {
 	this.map_object.viewport.unblock_layers();
 };
 
-pt_plugin.prototype.gather_coordinates = function (count) {
+pt_plugin.prototype.request_shape = function (config) {
+	this.drawing_shape = true;
+	this.shape_type = config.shape;
+	this.request_bare_map();
+	this.coordinates = new Array();
 	
+	return(this);
 };
+
+pt_plugin.prototype.got_coordinates = function (latlng) {
+	this.shape_started = true;
+	if(this.on_coordinates_received(latlng)) {
+		if(this.drawing_shape) {
+			this.coordinates.push(latlng);
+			this.map_object.clear_shape();
+			switch(this.shape_type) {
+				case 'polyline':
+					var shape = new L.Polyline(this.coordinates, this.shape_style);				 
+					break;
+				case 'polygon':
+					var shape = new L.Polygon(this.coordinates, this.shape_style);
+					break;
+				case 'rectangle':					
+					var shape = new L.Rectangle(this.coordinates, this.shape_style);
+					break;				
+			}
+			this.map_object.shape = shape;
+			this.map_object.shape.addTo(this.map_object.leaflet_map);
+			
+			
+			var plugin_closure = this;
+			this.map_object.clear_shape_marker();
+			this.map_object.shape_marker = new L.marker(latlng, {zIndexOffset: 10000});			
+			this.map_object.shape_marker.on('click', function(e) {							
+				plugin_closure.shape_complete(plugin_closure.map_object.shape);
+			});
+			this.map_object.shape_marker.addTo(this.map_object.leaflet_map);
+			
+		}
+	}
+};
+
+pt_plugin.prototype.preview_coordinates = function (latlng) {
+	if(this.shape_started) {
+		var tmp_coords = null;
+		tmp_coords = new Array();		
+		tmp_coords = pt_clone_object(this.coordinates);				
+		tmp_coords.push(latlng);
+		
+		this.map_object.clear_shape();
+		switch(this.shape_type) {
+			case 'polyline':
+				var shape = new L.Polyline(tmp_coords, this.shape_style);				 
+				break;
+			case 'polygon':
+				var shape = new L.Polygon(tmp_coords, this.shape_style);
+				break;
+			case 'rectangle':
+				var shape = new L.Rectangle(tmp_coords, this.shape_style);
+				break;				
+		}
+		this.map_object.shape = shape;
+		this.map_object.shape.addTo(this.map_object.leaflet_map);		
+	}
+};
+
+pt_plugin.prototype.shape_complete = function (shape) {
+	this.shape_started = false;
+	this.drawing_shape = false;	
+		
+	var tmp_coords = this.coordinates;
+	this.map_object.clear_shape();
+	switch(this.shape_type) {
+		case 'polyline':
+			shape = new L.Polyline(tmp_coords, this.shape_style);				 
+			break;
+		case 'polygon':
+			shape = new L.Polygon(tmp_coords, this.shape_style);
+			break;
+		case 'rectangle':
+			shape = new L.Rectangle(tmp_coords, this.shape_style);
+			break;				
+	}
+	
+	this.map_object.clear_shape_marker();
+	this.map_object.clear_shape();
+	this.map_object.shape = shape;		
+	shape.addTo(this.map_object.leaflet_map);
+	this.on_shape_complete(shape, this.coordinates);
+	this.coordinates = null;	
+
+};
+
+
 
 pt_plugin.prototype.notify = function(title, text) {
 	Ext.create('widget.uxNotification', {position: 't',
@@ -722,6 +872,16 @@ function pt_status () {
 /**
  * utilities 
  */
+function pt_clone_object (source_object) {
+  var newObj = (source_object instanceof Array) ? [] : {};
+  for (i in source_object) {
+    if (i == 'clone') continue;
+    if (source_object[i] && typeof source_object[i] == "object") {
+      newObj[i] = pt_clone_object(source_object[i]);
+    } else newObj[i] = source_object[i];
+  } return newObj;
+};
+
 function pt_debug(msg) {
 	console.log(msg);
 }

@@ -54,10 +54,23 @@ Ext.define('pt_gis.view.Viewport', {
     					icon: '/OpenHorizon/Resources/Graphics/Silk/ruler_2.png',
     					menu: {
     						items: [{
-    							text: 'Polyline'    					
+    							text: 'Polyline',
+    							icon: '/images/link.png',
+    							handler: function () {
+    								pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_mensuration', {mode: 'polyline'});
+    							}    					
     						}, {
-    							text: 'Polygon'
-    						}]
+    							text: 'Polygon',
+    							icon: '/images/parcel.png',
+    							handler: function () {
+    								pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_mensuration', {mode: 'polygon'});
+    							}
+    						}/*, {
+    							text: 'Rectangle',
+    							handler: function () {
+    								pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_mensuration', {mode: 'rectangle'});
+    							}
+    						}*/]
     					}
     					
     				}, '-',

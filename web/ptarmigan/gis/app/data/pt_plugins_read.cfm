@@ -9,5 +9,6 @@
 <cfoutput query="q_plugins">
 	<cfset ts[ti] = structnew()>
 	<cfset ts[ti].plugin_name = q_plugins.plugin_name>
+	<cfset ti = ti + 1>
 </cfoutput>
 <cfoutput>#serializejson(ts)#</cfoutput>

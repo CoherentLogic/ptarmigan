@@ -6,15 +6,13 @@ Ext.application({
     name: 'pt_gis',
 	autoCreateViewport: true,
     appFolder: 'app',
-	models: ['session', 'layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result'],
+	models: ['session', 'layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result', 'mensuration_result'],
 	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute', 'layer_mappings'],
 	controllers: ['session', 'layers', 'features'],
     launch: function() { 		
     	
     	this.__ptarmigan_session = new pt_session();
-    	//this.__ptarmigan_session.login();
-		
-		console.log("session: %o", this.__ptarmigan_session);
+    	this.__ptarmigan_session.login();
 		    	    	    	             
         this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
