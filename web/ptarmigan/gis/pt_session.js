@@ -63,6 +63,18 @@ pt_session.prototype.set_tools = function() {
 			}, {
 				text: 'Import Shapefile...',
 				icon: silk('database_add')
+			}, '-', {
+				text: 'Hide All',
+				icon: silk('vector_delete'),
+				handler: function () {
+					pt_gis.getApplication().__ptarmigan_gis.viewport.block_layers();
+				}				
+			}, {
+				text: 'Show Enabled',
+				icon: silk('vector_add'),
+				handler: function () {
+					pt_gis.getApplication().__ptarmigan_gis.viewport.unblock_layers();
+				}				
 			}]
 		});
 	
@@ -91,6 +103,28 @@ pt_session.prototype.set_tools = function() {
 				}
 			}]
 		});
+		
+		var layers_menu = Ext.widget('menu', {
+			items: [{
+				text: 'Hide All',
+				icon: silk('vector_delete'),
+				handler: function () {
+					pt_gis.getApplication().__ptarmigan_gis.viewport.block_layers();
+				}				
+			}, {
+				text: 'Show Enabled',
+				icon: silk('vector_add'),
+				handler: function () {
+					pt_gis.getApplication().__ptarmigan_gis.viewport.unblock_layers();
+				}				
+			}]
+		});
+	
+		var layers_button = Ext.widget('button', {
+			text: 'Layers',
+			icon: silk('layers'),
+			menu: layers_menu
+		});
 	} // if (this.authenticated()) {...}
 	
 	ptarmigan_button = Ext.widget('button', {
@@ -106,11 +140,8 @@ pt_session.prototype.set_tools = function() {
 	});
 	
 	bar.add(ptarmigan_button);	
-	bar.add(session_button);
-	
-	if (this.authenticated()) {
-		bar.add(layers_button);
-	}
+	bar.add(session_button);	
+	bar.add(layers_button);	
 };
 
 function silk(icon) {

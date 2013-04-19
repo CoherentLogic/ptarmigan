@@ -28,7 +28,7 @@ var __pt_mensuration = new pt_plugin({
 		},
 		
 		on_deactivate: function () { 
-			
+			this.release_bare_map();
 		},
 		
 		on_shape_complete: function (shape, coordinates) {
@@ -101,12 +101,13 @@ var __pt_mensuration = new pt_plugin({
 					model: 'pt_gis.model.mensuration_result',
 					data: resp_data
 				});
-							
-			
+					
+				var t_cls = this;
 				var resp_win = Ext.create('Ext.window.Window', {
 					title: this.text + ' (Area)',
 					width: 300,
 					height: 400,
+					id: 'mensuration_area_results',
 					items: [{
 						xtype: 'gridpanel',		
 						forceFit: true,	
@@ -122,7 +123,10 @@ var __pt_mensuration = new pt_plugin({
 					buttons: [{
 						text: 'Close',
 						scope: this,
-						handler: this.close					
+						handler: function () {
+							Ext.getCmp('mensuration_area_results').close();
+							t_cls.release_bare_map();
+						}				
 					}]
 				}).show();
 			}
@@ -158,11 +162,12 @@ var __pt_mensuration = new pt_plugin({
 					data: resp_data
 				});
 							
-			
+				var t_cls = this;
 				var resp_win = Ext.create('Ext.window.Window', {
 					title: this.text + ' (Distance)',
 					width: 300,
 					height: 400,
+					id: 'mensuration_distance_results',
 					items: [{
 						xtype: 'gridpanel',		
 						forceFit: true,	
@@ -178,15 +183,18 @@ var __pt_mensuration = new pt_plugin({
 					buttons: [{
 						text: 'Close',
 						scope: this,
-						handler: this.close					
+						handler: function () {
+							Ext.getCmp('mensuration_distance_results').close();
+							t_cls.release_bare_map();
+						}				
 					}]
 				}).show();
-			}
+			} // if (shape_type === ...)
 			
-		},
+		}, // on_shape_complete()
 		
 		selectable: false,
-		text: 'Mensuration'
+		text: 'Measurements'
 	}
 );
 

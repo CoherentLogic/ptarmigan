@@ -503,7 +503,7 @@ function pt_plugin (options)
 		this.shape_style = options.shape_style;
 	}
 	else {
-		this.shape_style = {color: '#7daed4', weight:1, opacity: 1.0}	
+		this.shape_style = {color: 'green', weight:1, opacity: 1.0}	
 	}
 	if (!options.on_installed) {
 		alert('Plugin Error: Callback function on_installed() is not defined.');
