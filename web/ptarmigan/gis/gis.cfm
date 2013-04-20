@@ -1,7 +1,7 @@
 <html>
 <head>
 	<cfoutput>
-		<title>Ptarmigan GIS</title>
+		<title>#session.company.company_name# - Ptarmigan GIS 2013</title>
 		<link rel="stylesheet" type="text/css" href="ext-4.2/resources/css/ext-all.css">
 		<link rel="stylesheet" type="text/css" href="gis.css">
 		<script type="text/javascript" src="ext-4.2/ext-debug.js"></script>

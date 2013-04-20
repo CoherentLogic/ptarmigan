@@ -33,6 +33,6 @@ var __pt_query_attributes = new pt_plugin({
 												
 		},
 		selectable: true,
-		text: 'Query Attributes'
+		text: 'Feature Query'
 	}
 );

@@ -23,3 +23,6 @@
 	</cfquery>
 	<cfoutput>#get_distance.pt_length#</cfoutput>
 </cfif>
+<cfquery name="delete_temp_shape" datasource="#session.company.datasource#">
+	DELETE FROM temp_shapes WHERE id='#row_id#'
+</cfquery>
