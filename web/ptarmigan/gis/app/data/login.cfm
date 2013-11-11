@@ -1,4 +1,5 @@
-<cfset login_packet = deserializejson(form.fieldnames)>
+<cfset requestBody = toString(getHttpRequestData().content)>
+<cfset login_packet = deserializejson(requestBody)>
 <cfset t_user = CreateObject("component", "ptarmigan.employee").open_by_username(login_packet.username)>
 <cfset auth_struct = structnew()>
 <cfif t_user.id NEQ 0>
