@@ -515,7 +515,7 @@ function pt_plugin (options)
 	}
 	if (!options.on_activate) {
 		alert('Plugin Error: Callback function on_activate() is not defined.');		
-		return(false)
+		return(false);
 	}
 	else {
 		this.on_activate = options.on_activate;
@@ -625,7 +625,7 @@ pt_plugin.prototype.take_map_ownership = function () {
 pt_plugin.prototype.release_map_ownership = function () {
 	pt_debug("Plugin " + this.plugin_name + " has released ownership of the map.");
 	
-	this.owns_map = false
+	this.owns_map = false;
 };
 
 pt_plugin.prototype.request_bare_map = function () {
