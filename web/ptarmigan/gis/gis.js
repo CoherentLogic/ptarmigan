@@ -24,7 +24,7 @@ function pt_map(options)
 	else {
 		this.on_status_changed = function (status) {
 			return(true);
-		}
+		};
 	}
 	this.status = new pt_status();
 	this.on_status_changed(this.status);
@@ -79,7 +79,7 @@ function pt_map(options)
 	this.layers = new Array();
 
 	url = options.root_url + '/gis/json/all_layers.cfm';
-	var layers_json = eval('(' + request(url) + ')');
+	var layers_json = JSON.parse(request(url));
 
 	for(i = 0; i < layers_json.length; i++) {
 		this.layers.push(new pt_layer(layers_json[i]));	
@@ -162,7 +162,7 @@ pt_map.prototype.install_plugin = function (plugin) {
 			text: plugin.text,
 			enableToggle: true,
 			handler: function () {
-				var plugin_options = {pickles: 'toot'};
+				var plugin_options = {noOptions: 'true'};
 				if(this.pressed) {
 					this.__pt_plugin.activate(plugin_options);
 				}
@@ -280,6 +280,7 @@ function pt_layer(layer_json) {
 	this.layer_key_abbreviation = layer_json.layer_key_abbreviation;
 	this.layer_key_name = layer_json.layer_key_name;
 	this.color = layer_json.layer_color;
+	this.current_feature_count = 0;
 	this.southwest_longitude = layer_json.southwest_coordinates[0];
 	this.southwest_latitude = layer_json.southwest_coordinates[1];
 	this.northeast_longitude = layer_json.northeast_coordinates[0];
@@ -324,21 +325,21 @@ pt_layer.prototype.render = function (viewport) {
 				
 				break;
 			case layer_obj.AJAX_PROCESSING:
-				viewport.ptarmigan_map.status.network_status = "Processing Data"
+				viewport.ptarmigan_map.status.network_status = "Processing Data";
 				viewport.ptarmigan_map.status.system_busy = true;				
 				viewport.ptarmigan_map.status.network_busy = false;
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
 				break;
 			case layer_obj.AJAX_READY:
-				viewport.ptarmigan_map.status.network_status = "Network Idle"
+				viewport.ptarmigan_map.status.network_status = "Network Idle";
 				viewport.ptarmigan_map.status.network_busy = false;
 				viewport.ptarmigan_map.status.system_busy = true;
 				viewport.ptarmigan_map.status.network_response = layer_obj.xml_http.status;
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
 				// parse the JSON from the server
-				var current_features = eval('(' + layer_obj.xml_http.responseText + ')');
+				var current_features = JSON.parse(layer_obj.xml_http.responseText);
 				if (current_features.features) {
 					layer_obj.current_feature_count = current_features.features.length;
 								
@@ -378,7 +379,7 @@ pt_layer.prototype.render = function (viewport) {
 				break;
 		
 		}
-	}
+	};
 	this.xml_http.open("GET", layer_url, true);
     this.xml_http.send(null); 
 	
@@ -474,6 +475,7 @@ pt_viewport.prototype.current_feature_count = function() {
 	
 	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
 		tmp_fc = tmp_fc + this.ptarmigan_map.layers[i].current_feature_count;	
+		console.log("%o",this.ptarmigan_map.layers[i]);
 	}
 	
 	return(tmp_fc);
@@ -503,7 +505,7 @@ function pt_plugin (options)
 		this.shape_style = options.shape_style;
 	}
 	else {
-		this.shape_style = {color: 'green', weight:1, opacity: 1.0}	
+		this.shape_style = {color: 'green', weight:1, opacity: 1.0};
 	}
 	if (!options.on_installed) {
 		alert('Plugin Error: Callback function on_installed() is not defined.');
@@ -593,16 +595,16 @@ function pt_plugin (options)
 pt_plugin.prototype.activate = function (options) {
 	this.active = true;
 	return (this.on_activate(options));
-}
+};
 
 pt_plugin.prototype.deactivate = function () {
 	this.active = false;
 	return (this.on_deactivate());
-}
+};
 
 pt_plugin.prototype.get_feature_data = function (layer_id, feature_id) {
 	var feature_json_url = this.map_object.root_url + '/gis/json/feature.cfm?feature_id=' + feature_id + '&layer_id=' + layer_id;
-	var feature_json = eval('(' + request(feature_json_url) + ')');
+	var feature_json = JSON.parse(request(feature_json_url));
 	
 	return (feature_json);
 };
@@ -789,7 +791,7 @@ function pt_search(layer_id, search_type) {
 
 pt_search.prototype.add_column = function(search_column) {
 	this.columns.push(search_column);	
-}
+};
 
 pt_search.prototype.exec = function() {
 	console.log("Search object: %o", this);		
@@ -797,7 +799,7 @@ pt_search.prototype.exec = function() {
 	Ext.Ajax.request({
 		url: 'app/data/search_results.cfm',
 		success: function (response) {
-			var json_result = eval('(' + response.responseText + ')');
+			var json_result = JSON.parse(response.responseText);
 			
 			this.data_store = Ext.create('Ext.data.Store', {
 				model: 'pt_gis.model.search_result',
@@ -811,7 +813,7 @@ pt_search.prototype.exec = function() {
 		},
 		jsonData: this
 	});
-}
+};
 
 function pt_search_column (configs) {
 	this.src_attribute = configs.src_attribute;
