@@ -91,6 +91,7 @@ function pt_map(options)
 	// set up the base layers to regenerate the viewport when loaded		
 	this.leaflet_map.on('moveend', this.viewport.regenerate, this.viewport);
 	this.leaflet_map.on('zoomend', this.viewport.regenerate, this.viewport);
+	this.leaflet_map.on('resize', this.viewport.regenerate, this.viewport);
 	this.viewport.regenerate();
 	/**
 	 * default plugin for handling feature hover

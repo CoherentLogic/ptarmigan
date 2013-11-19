@@ -130,7 +130,16 @@ Ext.define('pt_gis.view.Viewport', {
     				xtype: 'panel',
     				id: 'plugin-box'    							    		
     			}]
-    		},	Ext.create('Ext.tab.Panel', {
+    		},	Ext.create('Ext.tab.Panel', {    				
+    				listeners: {
+    					resize: function () {
+    						// fix to force leaflet to resize the map properly    						
+    						var app = pt_gis.getApplication();
+    						if (app.__ptarmigan_gis) {
+    							app.__ptarmigan_gis.leaflet_map.invalidateSize(false);
+    						}    						
+    					}
+    				},
     				region: 'center',
     				deferredRender: false,
     				activeTab: 0,

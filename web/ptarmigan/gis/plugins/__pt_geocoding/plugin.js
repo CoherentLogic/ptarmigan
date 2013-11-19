@@ -4,6 +4,7 @@ var __pt_geocoding = new pt_plugin({
 		on_installed: function () { return(true); },
 		
 		on_activate: function () {
+			alert('Geocoding');
 			return(true);
 		},
 				
