@@ -1,7 +1,7 @@
 <cfapplication name="ptarmigan" sessionmanagement="true">
 <!---s--->
 <cfparam name="session.user" default="">
-<cfparam name="session.logged_in" default="false">
+<cfparam name="session.logged_in" type="boolean" default=false>
 <cfparam name="session.message" default="">
 <cfparam name="session.company" default="">
 <cfparam name="session.current_object" default="">

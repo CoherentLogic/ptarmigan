@@ -39,15 +39,7 @@ h2 {
 	margin:15px 0 0 0;
 }
 
-h3 {
-	font-weight:normal;
-	font-size:16px;
-	letter-spacing:-1px;
-	color:#000;
-	padding:0!important;
-	margin-bottom:10px;
 
-}
 
 h4 {
 	font-weight:normal;
@@ -843,8 +835,7 @@ input:required:valid {
 
 .leaflet-plugin p {
 	color:black;
-	font-size:10pt;
-	letter-spacing:-1px;
+	font-size:10pt;	
 	margin-bottom:0;
 	font-weight:normal;
 }

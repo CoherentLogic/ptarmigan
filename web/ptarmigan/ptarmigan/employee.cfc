@@ -210,7 +210,7 @@
 		<cfargument name="username" type="string" required="true">
 		
 		<cfquery name="obu" datasource="#session.company.datasource#">
-			SELECT * FROM employees WHERE username='#UCase(username)#'
+			SELECT * FROM employees WHERE username='#username#'
 		</cfquery>
 		
 		<cfif obu.RecordCount GT 0>
