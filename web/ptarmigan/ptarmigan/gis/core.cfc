@@ -17,11 +17,4 @@
 		<cfreturn serializejson(this.layers())>
 	</cffunction>
 		
-	<cffunction name="wkt_to_array" access="public" returntype="array" output="false">
-		<cfargument name="wkt" type="string" required="true">
-		
-			
-		
-		<cfreturn oa>
-	</cffunction>
 </cfcomponent>
