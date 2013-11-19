@@ -33,10 +33,11 @@ Ext.define('pt_gis.view.Viewport', {
     				}, '-', {
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom.png',
+    					text: 'Address Search',
     					handler: function () {
-    						
+    						pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_geocoding', {}); 
     					}
-    				}, {
+    				}, '-', {
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_in.png',
     					handler: function () {

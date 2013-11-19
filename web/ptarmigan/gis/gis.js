@@ -1,5 +1,5 @@
 /*
- * layers.js
+ * gis.js
  * Copyright (C) 2013 Coherent Logic Development LLC
  * 
  * Author: John Willis <jwillis@coherent-logic.com>
