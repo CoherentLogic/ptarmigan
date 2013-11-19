@@ -1,5 +1,5 @@
 <cfquery name="get_recent_objects" datasource="#session.company.datasource#">
-	SELECT DISTINCT object_id FROM object_access WHERE user_id='#session.user.id#' ORDER BY access_date DESC
+	SELECT DISTINCT object_id FROM object_access WHERE user_id='#session.user.id#' 
 </cfquery>
 
 <div style="padding:5px;">
