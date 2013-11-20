@@ -10,7 +10,7 @@ pt_session.prototype.load = function() {
     this.s = eval('(' + req_json + ')');    
     this.set_tools();
     
-    console.log("session: %o", this.s);
+    //console.log("session: %o", this.s);
 };
 
 pt_session.prototype.authenticated = function () {

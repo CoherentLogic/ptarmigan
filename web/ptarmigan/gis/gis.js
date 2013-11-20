@@ -476,7 +476,7 @@ pt_viewport.prototype.current_feature_count = function() {
 	
 	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
 		tmp_fc = tmp_fc + this.ptarmigan_map.layers[i].current_feature_count;	
-		console.log("%o",this.ptarmigan_map.layers[i]);
+		//console.log("%o",this.ptarmigan_map.layers[i]);
 	}
 	
 	return(tmp_fc);
@@ -748,6 +748,20 @@ pt_plugin.prototype.notify = function(title, text) {
 										}).show();
 };
 
+pt_plugin.prototype.cloudmade_api_key = function() {
+	var key = pt_gis.getApplication().__ptarmigan_session.s.system.cloudmade_api_key;
+	return(key);
+};
+
+pt_plugin.prototype.proxy_request = function(url, method, content_type) {
+	var proxy_url = "proxy_request.cfm?method=" + escape(method);
+	proxy_url += "&content_type=" + escape(content_type);
+	proxy_url += "&proxy_url=" + escape(url);
+
+	var result = request(proxy_url);
+	return(result);
+};
+
 function pt_plugin_manager (map_object) {
 	this.map_obj = map_object;	
 	return (this);
@@ -795,7 +809,6 @@ pt_search.prototype.add_column = function(search_column) {
 };
 
 pt_search.prototype.exec = function() {
-	console.log("Search object: %o", this);		
 	
 	Ext.Ajax.request({
 		url: 'app/data/search_results.cfm',
