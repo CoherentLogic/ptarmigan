@@ -3,7 +3,6 @@ Ext.define('pt_gis.view.feature_attributes.feature_attributes' ,{
 	alias: 'widget.featureattributes',
 	forceFit: true,	
 	
-	
 	initComponent: function() {
 		this.columns = [
 			{ text: 'Attribute', dataIndex: 'attribute'},

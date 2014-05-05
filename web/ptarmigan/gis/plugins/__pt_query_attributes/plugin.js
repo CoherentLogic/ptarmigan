@@ -12,10 +12,10 @@ var __pt_query_attributes = new pt_plugin({
 		},
 		
 		on_deactivate: function () { 
-			if(this.view) {
+			/*if(this.view) {
 				Ext.getCmp('plugin-box').remove(this.view);
 			}
-			Ext.getCmp('feature-attributes-container').collapse();			
+			Ext.getCmp('feature-attributes-container').collapse();*/			
 			this.release_map_ownership();
 			return (true); 
 		},

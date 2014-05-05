@@ -33,7 +33,7 @@ Ext.define('pt_gis.controller.session', {
 			},
 			jsonData: values
 		});
-		console.log("values: %o", values);
+		//console.log("values: %o", values);
 	}
 					
 });

@@ -16,7 +16,10 @@ var __pt_licensing = new pt_plugin({
 				buttons: [{
 					text: 'Accept',
 					handler: function (button, e) {						
+						var plugin_options = {noOptions: true};
 						this.up('.window').close();
+						
+						pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_disclaimer', plugin_options);
 					}
 				}, { 
 					text: 'Decline',

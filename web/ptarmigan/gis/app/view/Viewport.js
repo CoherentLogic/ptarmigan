@@ -30,20 +30,22 @@ Ext.define('pt_gis.view.Viewport', {
     					xtype: 'toolbar',
     					border: false,
     					id: '__pt_menu_bar'
-    				}, '-', {
+    				}, /*'-', {
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom.png',
     					text: 'Address Search',
     					handler: function () {
     						pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_geocoding', {}); 
     					}
-    				}, '-', {
+    				}, */'-', {
+    					text: 'Zoom In',
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_in.png',
     					handler: function () {
     						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomIn();
     					}
     				}, {
+    					text: 'Zoom Out',
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_out.png',
     					handler: function () {
@@ -75,8 +77,7 @@ Ext.define('pt_gis.view.Viewport', {
     						}]
     					}
     					
-    				}, '-',
-    				{
+    				}, {
     					xtype: 'toolbar',
     					border: false,
     					id: '__pt_plugins_bar'
@@ -100,6 +101,7 @@ Ext.define('pt_gis.view.Viewport', {
     			region: 'west',
     			//contentEl: 'sidebar',    			
     			title: 'Area',
+    			autoScroll: true,
     			width: 400,
     			minWidth: 400,
     			maxWidth: 400,
@@ -116,20 +118,6 @@ Ext.define('pt_gis.view.Viewport', {
     				xtype: 'panel',
     				id: 'latest-search'
     			}]    			
-    		}, {
-    			region: 'east',
-    			title: 'Feature Attributes',
-    			id: 'feature-attributes-container',
-    			margins: '0 0 0 0',
-    			collapsible: true,
-    			animCollapse: true,
-    			collapsed: true,
-    			width:400,
-    			autoScroll: true,
-    			items: [{
-    				xtype: 'panel',
-    				id: 'plugin-box'    							    		
-    			}]
     		},	Ext.create('Ext.tab.Panel', {    				
     				listeners: {
     					resize: function () {

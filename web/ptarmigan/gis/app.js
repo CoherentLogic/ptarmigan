@@ -12,7 +12,10 @@ Ext.application({
     launch: function() { 		
     	
     	this.__ptarmigan_session = new pt_session();
-    	this.__ptarmigan_session.login();
+    	
+    	if(this.__ptarmigan_session.s.system.anonymous_only != 'true') {
+    		this.__ptarmigan_session.login();
+    	}
 		    	    	    	             
         this.__ptarmigan_gis = new pt_map({
 		   	attach_to: 'map',
@@ -20,8 +23,19 @@ Ext.application({
 			cloudmade_api_key: this.__ptarmigan_session.s.system.cloudmade_api_key,
 			initial_center_latitude: this.__ptarmigan_session.s.system.center_latitude,
 			initial_center_longitude: this.__ptarmigan_session.s.system.center_longitude,
-			initial_zoom_level: 16,
+			initial_zoom_level: this.__ptarmigan_session.s.system.initial_zoom_level,
+			minimum_zoom_level: this.__ptarmigan_session.s.system.minimum_zoom_level,
+			maximum_zoom_level: this.__ptarmigan_session.s.system.maximum_zoom_level,			
 			on_status_changed: function (status) {
+			
+			
+				/*if(status.system_busy | status.network_busy) {
+					document.body.style.cursor = 'progress';
+				}
+				else {
+					document.body.style.cursor = 'default';
+				}*/
+			
 				__pt_status_network.update(status.network_status);
 				__pt_status_layer.update(status.layer);
 				__pt_status_latitude.update("Latitude: " + LocationFormatter.decimalLatToDMS(status.latitude));

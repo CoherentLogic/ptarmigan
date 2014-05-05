@@ -35,20 +35,22 @@ function pt_map(options)
 	this.plugins = new Array();
 
 	// set up OSM layer
-	var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + options.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
-	var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
-	var base_layer_osm_overview = L.tileLayer(cloudmade_url, {attribution:''});
+	var basemap_url = 'http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+	var base_layer_osm = L.tileLayer(basemap_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
+	var base_layer_osm_overview = L.tileLayer(basemap_url, {attribution:''});
 	
 	// set up aerial layer
-	var mapquest_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
-	var base_layer_aerial = L.tileLayer(mapquest_url, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
+	var aerial_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
+	var base_layer_aerial = L.tileLayer(aerial_url, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
 	
 	// initialize the map control with the base layers
 	this.leaflet_map = L.map(options.attach_to, {
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
 		layers: [base_layer_aerial, base_layer_osm],
-		zoomControl: false
+		zoomControl: false,
+		minZoom: options.mininum_zoom_level,
+		maxZoom: options.maximum_zoom_level
 	});
 	
 	this.overview_map = L.map("area-overview", {
@@ -105,9 +107,7 @@ function pt_map(options)
 	this.leaflet_map.on('click', function (e) {
 		map_accessor.on_map_click(e);
 	});
-	
-
-	
+		
 	var __pt_plugin_default = new pt_plugin({
 		plugin_name: '__pt_plugin_default',
 		on_installed: function () {
@@ -148,6 +148,20 @@ function pt_map(options)
 	return(this);
 }
 
+pt_map.prototype.reset_plugin_buttons = function (except) {
+	for(i = 0; i < this.plugins.length; i++) {
+		if(this.plugins[i].toolbar_button) {
+			if (this.plugins[i].toolbar_button === except) {
+				//do nothing
+			} 
+			else {
+				this.plugins[i].deactivate();
+				this.plugins[i].toolbar_button.toggle(false);
+			}
+		}
+	}
+};
+
 pt_map.prototype.install_plugin = function (plugin) {
 	plugin.map_object = this;
 	this.plugins.push(plugin);
@@ -165,6 +179,7 @@ pt_map.prototype.install_plugin = function (plugin) {
 			handler: function () {
 				var plugin_options = {noOptions: 'true'};
 				if(this.pressed) {
+					plugin.map_object.reset_plugin_buttons(this);
 					this.__pt_plugin.activate(plugin_options);
 				}
 				else {
@@ -245,7 +260,6 @@ pt_map.prototype.on_map_click = function (event_object) {
 		}
 	}
 };
-
 
 pt_map.prototype.clear_shape = function () {
 	if (this.shape) {
@@ -849,23 +863,29 @@ function pt_feature (configs) {
 	this.view = null;
 }
 
-pt_feature.prototype.show_attributes = function(container) {
-	if(container) {
-		target_container = container;
-	}
-	else {
-		target_container = 'plugin-box';
-	}
+pt_feature.prototype.show_attributes = function() {
 	
-	Ext.getCmp(target_container).removeAll();
-			
-	this.view = Ext.widget('featureattributes', {store: this.data_store});						
-			
-	Ext.getCmp(target_container).add(this.view);	
+	var pt_attributes_window = new Ext.Window({
+		title: 'Feature ' + this.feature_id,
+		autoScroll: true,
+		bodyStyle: 'background:white',
+		width: 800,
+		height: 600,
+		closable: true,
+		modal: false,
+		id: '__pt_features_window'/*,
+		tbar: [{
+			xtype: 'button',
+			text: 'Add to Favorites',
+			icon: '/OpenHorizon/Resources/Graphics/Silk/star.png'
+		}]*/
+	});
+
+	var features_list = new Ext.widget('featureattributes', {store: this.data_store});				
+	Ext.getCmp('__pt_features_window').add(features_list);	
 	
-	if(target_container === 'plugin-box') {
-		Ext.getCmp('feature-attributes-container').expand();
-	}				
+	pt_attributes_window.show();
+
 };
 
 /**

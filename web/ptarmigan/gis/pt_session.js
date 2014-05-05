@@ -90,7 +90,10 @@ pt_session.prototype.set_tools = function() {
 	else { // not authenticated
 		var ptarmigan_menu = Ext.widget('menu', {
 			items: [{
-				text: 'About Ptarmigan GIS 2013...'
+				text: 'About Ptarmigan GIS 2013...',
+				handler: function () {
+					alert('Ptarmigan GIS 2013. Copyright (C) 2013 Ptarmigan Geosystems LLC');
+				}
 			}]
 		});
 		
@@ -139,8 +142,10 @@ pt_session.prototype.set_tools = function() {
 		menu: session_menu
 	});
 	
-	bar.add(ptarmigan_button);	
-	bar.add(session_button);	
+	bar.add(ptarmigan_button);
+	if(this.s.system.anonymous_only != 'true') {		
+		bar.add(session_button);	
+	}
 	bar.add(layers_button);	
 };
 
