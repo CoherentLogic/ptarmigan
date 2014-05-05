@@ -11,10 +11,10 @@ Ext.define('pt_gis.view.search.search_results', {
         	var sess = pt_gis.getApplication().__ptarmigan_session;
         	
         	// set up OSM layer
-			var cloudmade_url = 'http://{s}.tile.cloudmade.com/' + sess.s.system.cloudmade_api_key + '/1155/256/{z}/{x}/{y}.png';
-			var base_layer_osm = L.tileLayer(cloudmade_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
-			var base_layer_osm_overview = L.tileLayer(cloudmade_url, {attribution:''});
-        	        
+			var basemap_url = 'http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+			var base_layer_osm = L.tileLayer(basemap_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
+			var base_layer_osm_overview = L.tileLayer(basemap_url, {attribution:''});        
+        	
         	this.__results_map = L.map('search_results_map', {
 				center: new L.LatLng(sess.s.system.center_latitude, sess.s.system.center_longitude),
 				zoom: 10,
