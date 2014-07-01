@@ -2,6 +2,7 @@ Ext.define('pt_gis.model.layer', {
 	extend: 'Ext.data.Model',
 	fields: [
 		'id',
+		'layer_type',
 		'layer_name',
 		'layer_table',
 		'layer_key_name',

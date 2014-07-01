@@ -83,13 +83,7 @@ function pt_map(options)
 		closure.leaflet_map.panTo(event.latlng);
 	});
 		
-	/*var base_maps = {
-		"Aerial": base_layer_aerial,		
-		"Base": base_layer_osm							
-	};
-	
-	L.control.layers(base_maps).addTo(this.leaflet_map);*/
-	
+		
 	// set up the layers structure
 	this.layers = new Array();
 

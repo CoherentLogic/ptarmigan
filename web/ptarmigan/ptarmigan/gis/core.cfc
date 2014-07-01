@@ -7,6 +7,7 @@
 		<cfset output_array = ArrayNew(1)>
 		<cfoutput query="q_layers">
 			<cfset tmp_layer = CreateObject("component", "ptarmigan.gis.layer").open(q_layers.id)>
+			<cfset tmp_layer.layer_type = "vector">
 			<cfset ArrayAppend(output_array, tmp_layer)>
 		</cfoutput>
 		
