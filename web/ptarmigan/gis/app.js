@@ -6,11 +6,10 @@ Ext.application({
     name: 'pt_gis',
 	autoCreateViewport: true,
     appFolder: 'app',
-	models: ['session', 'layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result', 'mensuration_result'],
-	stores: ['session', 'layers', 'pt_plugins', 'feature_attribute', 'layer_mappings'],
+	models: ['session', 'layer', 'raster_layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result', 'mensuration_result'],
+	stores: ['session', 'layers', 'raster_layers', 'pt_plugins', 'feature_attribute', 'layer_mappings'],
 	controllers: ['session', 'layers', 'features'],
     launch: function() { 		
-    	
     	this.__ptarmigan_session = new pt_session();
     	
     	if(this.__ptarmigan_session.s.system.anonymous_only != 'true') {

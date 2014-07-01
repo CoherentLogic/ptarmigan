@@ -34,25 +34,38 @@ function pt_map(options)
 	// the plugins array
 	this.plugins = new Array();
 
-	// set up OSM layer
-	var basemap_url = 'http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
-	var base_layer_osm = L.tileLayer(basemap_url, {attribution:'Map data &copy; OpenStreetMap contributors'});
-	var base_layer_osm_overview = L.tileLayer(basemap_url, {attribution:''});
-	
-	// set up aerial layer
-	//var aerial_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
-	//var base_layer_aerial = L.tileLayer(aerial_url, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
-	
-	// initialize the map control with the base layers
+	// initialize the map control
 	this.leaflet_map = L.map(options.attach_to, {
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
-		layers: [base_layer_osm],
 		zoomControl: false,
 		minZoom: options.mininum_zoom_level,
 		maxZoom: options.maximum_zoom_level
 	});
-	
+
+	// read in raster layer data
+	var raster = JSON.parse(request('app/data/raster_layers_read.cfm'));
+	this.raster_layers = [];
+
+	for (i = 0; i < raster.length; i++) {
+		var rast = {};
+
+		rast.leaflet_layer =  L.tileLayer(raster[i].url, {attribution: raster[i].attribution});
+		rast.attributes = raster[i];
+
+		this.raster_layers.push(rast);
+	}
+
+	var base_layer_osm_overview = null;
+
+	for (i = 0; i < raster.length; i++) {
+		if (this.raster_layers[i].attributes.layer_enabled == '1') {
+			this.leaflet_map.addLayer(this.raster_layers[i].leaflet_layer);
+			base_layer_osm_overview = L.tileLayer(raster[i].url, {attribution: ''});
+			this.raster_layers[i].leaflet_layer.redraw();
+		}
+	}
+
 	this.overview_map = L.map("area-overview", {
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: 12,
@@ -961,6 +974,41 @@ function pt_toggle_layer(layer_id)
 			return;
 		}
 	}		
+}
+
+function pt_toggle_raster_layer(layer_id)
+{	
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+	var chk_element = document.getElementById("RASTER_ENABLED_" + layer_id);
+	var enabled_value = chk_element.checked;
+	var raster_layer = null;
+
+	for (i = 0; i < current_map.raster_layers.length; i++) {
+		if(current_map.raster_layers[i].attributes.id === layer_id) {
+			raster_layer = current_map.raster_layers[i];
+		}
+	}
+
+	pt_remove_all_raster_layers();
+
+	if (enabled_value) {
+		current_map.leaflet_map.addLayer(raster_layer.leaflet_layer);
+		raster_layer.leaflet_layer.redraw();
+		chk_element.checked = true;
+	}
+	
+}
+
+function pt_remove_all_raster_layers()
+{
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+
+	for(i = 0; i < current_map.raster_layers.length; i++) {
+		var chk_element = document.getElementById("RASTER_ENABLED_" + current_map.raster_layers[i].attributes.id);
+		chk_element.checked = false;
+
+		current_map.leaflet_map.removeLayer(current_map.raster_layers[i].leaflet_layer);	
+	}
 }
 
 function pt_layer_zoom_extents(layer_id)

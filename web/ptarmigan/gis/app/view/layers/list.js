@@ -2,7 +2,7 @@ Ext.define('pt_gis.view.layers.list' ,{
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.layerlist',
 	store: 'layers',
-	title: 'Layers',
+	title: 'Vector Layers',
 	id: 'layers-list',	
 	plugins: [
 	 	Ext.create('Ext.grid.plugin.CellEditing', {

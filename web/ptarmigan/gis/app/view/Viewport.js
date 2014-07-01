@@ -10,6 +10,7 @@ Ext.define('pt_gis.view.Viewport', {
 	alias: 'widget.ptviewport',
 	requires: [		
 		'pt_gis.view.layers.list',
+		'pt_gis.view.raster_layers.list',
 		'pt_gis.view.feature_attributes.feature_attributes',
 		'pt_gis.view.search.search',
 		'pt_gis.view.search.search_results'
@@ -127,6 +128,8 @@ Ext.define('pt_gis.view.Viewport', {
     				xtype: 'panel',    				   			
     				html: '<div id="area-overview" style="width:100%;height:250px;"></div>'	
     			}, {
+				xtype: 'rasterlayerlist'
+			}, {
     				xtype: 'layerlist'    				
     			}, {
     				xtype: 'panel',
