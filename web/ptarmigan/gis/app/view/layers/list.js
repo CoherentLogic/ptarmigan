@@ -44,9 +44,9 @@ Ext.define('pt_gis.view.layers.list' ,{
 					var on_click = 'onclick="pt_search_layer(\'' + layer_id + '\')"';
 					var search_layer_button = '<button ' + on_click + ' title="Search for features on this layer"><img src="/OpenHorizon/Resources/Graphics/Silk/find.png"></button>';
 					var on_click = 'onclick="pt_layer_zoom_extents(\'' + layer_id + '\')"';					
-					var zoom_extents_button = '<button ' + on_click + ' title="Zoom to layer extents"><img src="/OpenHorizon/Resources/Graphics/Silk/zoom_extents.png"></button>';
+//					var zoom_extents_button = '<button ' + on_click + ' title="Zoom to layer extents"><img src="/OpenHorizon/Resources/Graphics/Silk/zoom_extents.png"></button>';
 					
-					return(search_layer_button + zoom_extents_button);
+					return(search_layer_button);
 				}			
 			}, {
 				header: 'Projection', 

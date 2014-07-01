@@ -42,14 +42,28 @@ Ext.define('pt_gis.view.Viewport', {
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_in.png',
     					handler: function () {
+					    var sess = pt_gis.getApplication().__ptarmigan_session.s.system;
+					    var max_zoom = parseInt(sess.maximum_zoom_level);
+					    var cur_zoom = pt_gis.getApplication().__ptarmigan_gis.leaflet_map.getZoom();
+
+					    if (cur_zoom < max_zoom) {
     						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomIn();
+						cur_zoom = pt_gis.getApplication().__ptarmigan_gis.leaflet_map.getZoom();
+					    }
+					    
     					}
     				}, {
     					text: 'Zoom Out',
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_out.png',
     					handler: function () {
+					    var sess = pt_gis.getApplication().__ptarmigan_session.s.system;
+					    var min_zoom = parseInt(sess.minimum_zoom_level);
+					    var cur_zoom = pt_gis.getApplication().__ptarmigan_gis.leaflet_map.getZoom();
+
+					    if (cur_zoom > min_zoom) {
     						pt_gis.getApplication().__ptarmigan_gis.leaflet_map.zoomOut();
+					    }
     					}
     				}, {
     					xtype: 'button',

@@ -282,8 +282,8 @@ pt_map.prototype.clear_shape_marker = function () {
  * @param {Object} layer_json
  */
 pt_layer.prototype.AJAX_READY = 4;
-pt_layer.prototype.AJAX_LOADING = 1;
-pt_layer.prototype.AJAX_PROCESSING = 3;
+pt_layer.prototype.AJAX_CONNECTED = 1;
+pt_layer.prototype.AJAX_LOADING = 3;
 
 function pt_layer(layer_json) {
 	
@@ -322,27 +322,24 @@ pt_layer.prototype.render = function (viewport) {
 	layer_url += '&nw_latitude=' + escape(viewport.nw_latitude);
 	layer_url += '&nw_longitude=' + escape(viewport.nw_longitude);
 	layer_url += '&se_latitude=' + escape(viewport.se_latitude);
-	layer_url += '&se_longitude=' + escape(viewport.se_longitude);	
-	
-	// clear all features from viewport
-	viewport.clear_features();
+	layer_url += '&se_longitude=' + escape(viewport.se_longitude);		
 	
 	// set up network transfer callback
 	this.xml_http = http_request_object();
 	var layer_obj = this;
 	this.xml_http.onreadystatechange = function () {
 		switch(layer_obj.xml_http.readyState) {
-			case layer_obj.AJAX_LOADING:				
-				viewport.ptarmigan_map.status.network_status = "Loading " + layer_obj.layer_name + "";
+			case layer_obj.AJAX_CONNECTED:				
+   			        viewport.ptarmigan_map.status.network_status = "Connection Established";
 				viewport.ptarmigan_map.status.network_busy = true;
 				viewport.ptarmigan_map.status.system_busy = true;
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
 				break;
-			case layer_obj.AJAX_PROCESSING:
-				viewport.ptarmigan_map.status.network_status = "Processing Data";
+			case layer_obj.AJAX_LOADING:
+			        viewport.ptarmigan_map.status.network_status = "Loading " + layer_obj.layer_name;
 				viewport.ptarmigan_map.status.system_busy = true;				
-				viewport.ptarmigan_map.status.network_busy = false;
+				viewport.ptarmigan_map.status.network_busy = true;
 				viewport.ptarmigan_map.on_status_changed(viewport.ptarmigan_map.status);
 				
 				break;
@@ -383,7 +380,7 @@ pt_layer.prototype.render = function (viewport) {
 					});					
 					
 					viewport.features.push(current_feature);	 
-		    		viewport.features[viewport.features.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
+		    			viewport.features[viewport.features.length - 1].addTo(viewport.ptarmigan_map.leaflet_map);					    					   
 					
 					layer_obj.request_pending = false;
 					
@@ -437,24 +434,24 @@ function pt_viewport(map_object) {
 
 pt_viewport.prototype.update_bounds = function () {
 	var bounds = this.ptarmigan_map.leaflet_map.getBounds();    
-    var nw = bounds.getNorthEast();
-    var se = bounds.getSouthWest();
+	var nw = bounds.getNorthEast();
+	var se = bounds.getSouthWest();
 
-    this.nw_latitude = nw.lat;
-    this.nw_longitude = nw.lng;
-    this.se_latitude = se.lat;
-    this.se_longitude = se.lng;
+	this.nw_latitude = nw.lat;
+	this.nw_longitude = nw.lng;
+	this.se_latitude = se.lat;
+	this.se_longitude = se.lng;
     
-    if(this.overview_rect) {
-    	this.ptarmigan_map.overview_map.removeLayer(this.overview_rect);
-    }
+	if(this.overview_rect) {
+    		this.ptarmigan_map.overview_map.removeLayer(this.overview_rect);
+	}
+	
+	this.overview_rect = L.rectangle(bounds, {color: 'red', weight:2, fill: false, opacity: 1.0});
+	this.overview_rect.addTo(this.ptarmigan_map.overview_map);
+	this.ptarmigan_map.overview_map.panTo(this.ptarmigan_map.leaflet_map.getCenter());
+	
     
-    this.overview_rect = L.rectangle(bounds, {color: 'red', weight:2, fill: false, opacity: 1.0});
-    this.overview_rect.addTo(this.ptarmigan_map.overview_map);
-    this.ptarmigan_map.overview_map.panTo(this.ptarmigan_map.leaflet_map.getCenter());
-    
-    
-    return(this);
+	return(this);
 };
 
 pt_viewport.prototype.clear_features = function () {
@@ -469,15 +466,43 @@ pt_viewport.prototype.clear_features = function () {
 
 pt_viewport.prototype.regenerate = function() {
 	
+	var geometry_minimum_zoom = pt_gis.getApplication().__ptarmigan_session.s.system.geometry_minimum_zoom;
+	var current_zoom_level = this.ptarmigan_map.leaflet_map.getZoom();
+
+	// clear current features
+	this.clear_features();
+
 	// update the viewport's boundary
 	this.update_bounds();		
 	
-	if (!this.layers_blocked) {
-		// loop through the layers and tell them to render themselves to this viewport
+
+	if (current_zoom_level >= geometry_minimum_zoom) {
+		if (!this.layers_blocked) {
+			// loop through the layers and tell them to render themselves to this viewport
+			for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
+				if(this.ptarmigan_map.layers[i].enabled) {
+					var layer_id = this.ptarmigan_map.layers[i].id;
+					var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
+					
+					if(chk_element) {
+						chk_element.disabled = false;
+						chk_element.checked = true;
+					}
+
+					this.ptarmigan_map.layers[i].abort_active_transfers();
+					this.ptarmigan_map.layers[i].render(this);					
+				}
+			}
+		}
+	}
+	else {
 		for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
-			if(this.ptarmigan_map.layers[i].enabled) {
-				this.ptarmigan_map.layers[i].abort_active_transfers();
-				this.ptarmigan_map.layers[i].render(this);
+			var layer_id = this.ptarmigan_map.layers[i].id;
+			var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
+
+			if(chk_element) {
+				chk_element.checked = false;
+				chk_element.disabled = true;
 			}
 		}
 	}
@@ -490,7 +515,6 @@ pt_viewport.prototype.current_feature_count = function() {
 	
 	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
 		tmp_fc = tmp_fc + this.ptarmigan_map.layers[i].current_feature_count;	
-		//console.log("%o",this.ptarmigan_map.layers[i]);
 	}
 	
 	return(tmp_fc);
@@ -927,7 +951,9 @@ function pt_toggle_layer(layer_id)
 	var current_map = pt_gis.getApplication().__ptarmigan_gis;
 	var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
 	var enabled_value = chk_element.checked;
-		
+
+	console.log(enabled_value);
+	console.log(chk_element);
 	for(i = 0; i < current_map.layers.length; i++) {
 		if(current_map.layers[i].id === layer_id) {
 			current_map.layers[i].enabled = enabled_value;			

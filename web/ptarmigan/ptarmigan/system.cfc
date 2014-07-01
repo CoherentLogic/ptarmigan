@@ -43,6 +43,7 @@
 		<cfset this.minimum_zoom_level = getprofilestring(ini_path, "GIS", "minimum_zoom_level")>
 		<cfset this.maximum_zoom_level = getprofilestring(ini_path, "GIS", "maximum_zoom_level")>
 		<cfset this.initial_zoom_level = getprofilestring(ini_path, "GIS", "initial_zoom_level")>	
+		<cfset this.geometry_minimum_zoom = getprofilestring(ini_path, "GIS", "geometry_minimum_zoom")>
 
 		<cfset session.root_url = this.root_url>
 		<cfset session.upload_path = this.upload_path>
