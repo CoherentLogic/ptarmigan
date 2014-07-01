@@ -40,14 +40,14 @@ function pt_map(options)
 	var base_layer_osm_overview = L.tileLayer(basemap_url, {attribution:''});
 	
 	// set up aerial layer
-	var aerial_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
-	var base_layer_aerial = L.tileLayer(aerial_url, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
+	//var aerial_url = 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg';
+	//var base_layer_aerial = L.tileLayer(aerial_url, {attribution:'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'});
 	
 	// initialize the map control with the base layers
 	this.leaflet_map = L.map(options.attach_to, {
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
-		layers: [base_layer_aerial, base_layer_osm],
+		layers: [base_layer_osm],
 		zoomControl: false,
 		minZoom: options.mininum_zoom_level,
 		maxZoom: options.maximum_zoom_level
@@ -70,12 +70,12 @@ function pt_map(options)
 		closure.leaflet_map.panTo(event.latlng);
 	});
 		
-	var base_maps = {
+	/*var base_maps = {
 		"Aerial": base_layer_aerial,		
 		"Base": base_layer_osm							
 	};
 	
-	L.control.layers(base_maps).addTo(this.leaflet_map);			
+	L.control.layers(base_maps).addTo(this.leaflet_map);*/
 	
 	// set up the layers structure
 	this.layers = new Array();
