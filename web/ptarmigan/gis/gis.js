@@ -940,13 +940,18 @@ function pt_status () {
  * utilities 
  */
 function pt_clone_object (source_object) {
-  var newObj = (source_object instanceof Array) ? [] : {};
+
+/*  var newObj = (source_object instanceof Array) ? [] : {};
   for (i in source_object) {
     if (i == 'clone') continue;
     if (source_object[i] && typeof source_object[i] == "object") {
       newObj[i] = pt_clone_object(source_object[i]);
     } else newObj[i] = source_object[i];
   } return newObj;
+*/
+	// dlw suggested this as a performance optimization since JSON.*
+	// are implemented in native code.
+	return(JSON.parse(JSON.stringify(source_object)));
 };
 
 function pt_debug(msg) {

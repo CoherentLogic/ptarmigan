@@ -150,7 +150,11 @@ Ext.define('pt_gis.view.Viewport', {
     					title: 'Map',
     					closable: false,
     					autoScroll: false
-    				}] /* tab items */
+    				}, {
+					title: 'Documents',
+					closable: false,
+					autoScroll: true
+				}] /* tab items */
     			}) /* Ext.create() */
     		];    	    
     	//console.log('Viewport.initComponent() pre-callParent()');	
