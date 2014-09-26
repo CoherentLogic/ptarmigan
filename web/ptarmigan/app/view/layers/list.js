@@ -5,14 +5,14 @@ Ext.define('pt_gis.view.layers.list' ,{
 	title: 'Layers',
 	id: 'layers-list',	
 	plugins: [
-	 	Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1
-        })
+		Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		})
 	],
 	initComponent: function() {
 		this.columns = [
 			{
-				header: 'Type',
+				header: '<img src="/OpenHorizon/Resources/Graphics/Silk/vector.png">',
 				dataIndex: 'layer_type',
 				flex: 0,
 				width: 40,
@@ -25,7 +25,7 @@ Ext.define('pt_gis.view.layers.list' ,{
 					}
 				}
 			}, {
-				header: 'On', 
+				header: '<img src="/OpenHorizon/Resources/Graphics/Silk/tick.png">', 
 				dataIndex: 'layer_enabled', 
 				flex: 0, 
 				width: 40,
@@ -52,10 +52,10 @@ Ext.define('pt_gis.view.layers.list' ,{
 					}
 				}							
 			}, {
-				header: 'Color', 
+				header: '<img src="/OpenHorizon/Resources/Graphics/Silk/color_swatch.png">', 
 				dataIndex: 'layer_color', 
 				flex: 0, 
-				width: 50,
+				width: 40,
 				renderer: function (value) {
 					if (value) {
 						return Ext.String.format('<div style="width:16px;height:16px;background-color:{0}"></div>', value);
@@ -65,9 +65,11 @@ Ext.define('pt_gis.view.layers.list' ,{
 					}
 				}
 			}, {
-				header: 'Name', dataIndex: 'layer_name', flex: 1
+				header: 'Layer Name', 
+				dataIndex: 'layer_name', 
+				flex: 1
 			}, {
-				header: 'Tools',
+				header: '<img src="/OpenHorizon/Resources/Graphics/Silk/wrench.png">',
 				renderer: function (val, meta, rec, rowIdx, colIdx, store, view) {
 					if (rec.data.layer_type === 'vector') { 
 						var layer_id = rec.data.id;
@@ -85,12 +87,13 @@ Ext.define('pt_gis.view.layers.list' ,{
 			}, {
 				header: 'Projection', 
 				dataIndex: 'layer_projection_name', 
-				flex: 1, hidden:true
+				flex: 1, 
+				hidden:true
 			}, {
 				header: 'ID', 
 				dataIndex: 'id', 
-				flex:1, 
-				hidden:true
+				flex: 1, 
+				hidden: true
 			}			
 		]; /* columns */
 		

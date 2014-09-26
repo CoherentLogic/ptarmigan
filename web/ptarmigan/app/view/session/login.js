@@ -9,8 +9,8 @@ Ext.define('pt_gis.view.session.login', {
 		this.items = [{
 			xtype: 'form',
 			layout: 'absolute',
-			bodyStyle: 'background-image:url(/signin-gis.png)',
-			width: 425,
+			bodyStyle: 'background-image:url(/images/signin-gis.png)',
+			width: 415,
 			height: 282,
 			bodyPadding:10,
 			items: [{
@@ -42,9 +42,9 @@ Ext.define('pt_gis.view.session.login', {
 				y: 154			
 			}, {
 				xtype: 'label',
-				text: 'Copyright \u00A9 2013 Ptarmigan Geosystems',
+				text: 'Copyright \u00A9 2014 Geodigraph',
 				x: 5,
-				y: 200,
+				y: 190,
 				style: 'color: #c0c0c0; font-weight: light; font-size: 10px;'
 			}]
 		}];

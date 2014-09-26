@@ -75,6 +75,12 @@ pt_session.prototype.set_tools = function() {
 				handler: function () {
 					pt_gis.getApplication().__ptarmigan_gis.viewport.unblock_layers();
 				}				
+			}, {
+				text: 'Force All On',
+				icon: silk('vector_add'),
+				handler: function () {
+					pt_force_all_layers_on();
+				}
 			}]
 		});
 	
@@ -120,6 +126,12 @@ pt_session.prototype.set_tools = function() {
 				handler: function () {
 					pt_gis.getApplication().__ptarmigan_gis.viewport.unblock_layers();
 				}				
+			}, {
+				text: 'Force All On',
+				icon: silk('vector_add'),
+				handler: function () {
+					pt_force_all_layers_on();
+				}
 			}]
 		});
 	
@@ -132,7 +144,7 @@ pt_session.prototype.set_tools = function() {
 	
 	ptarmigan_button = Ext.widget('button', {
 		text: 'Geodigraph',
-		icon: '/favicon.ico',
+		icon: '/images/geodigraph_icon.png',
 		menu: ptarmigan_menu
 	});
 	

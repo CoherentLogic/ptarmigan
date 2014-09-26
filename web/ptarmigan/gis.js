@@ -39,6 +39,7 @@ function pt_map(options)
 		center: new L.LatLng(options.initial_center_latitude, options.initial_center_longitude),
 		zoom: options.initial_zoom_level,
 		zoomControl: false,
+		zoomsliderControl: true,
 		minZoom: options.mininum_zoom_level,
 		maxZoom: options.maximum_zoom_level
 	});
@@ -366,18 +367,27 @@ pt_layer.prototype.render = function (viewport) {
 						onEachFeature: function (feature, layer) {
 							layer.feature._pt_feature_id = feature.properties.feature_id;
 							layer.feature._pt_layer_id = feature.properties.layer_id;
+						
+							if(!viewport.layer_events_blocked) {
+								layer.on('click', function (e) {
+									viewport.ptarmigan_map.on_feature_click(e, layer_obj);
+								});
 							
-							layer.on('click', function (e) {
-								viewport.ptarmigan_map.on_feature_click(e, layer_obj);
-							});
+								layer.on('mouseover', function (e) {
+									viewport.ptarmigan_map.on_feature_hover(e, layer_obj);
+								});
 							
-							layer.on('mouseover', function (e) {
-								viewport.ptarmigan_map.on_feature_hover(e, layer_obj);
-							});
-							
-							layer.on('mouseout', function (e) {
-								viewport.ptarmigan_map.on_feature_mouseout(e, layer_obj);
-							});
+								layer.on('mouseout', function (e) {
+									viewport.ptarmigan_map.on_feature_mouseout(e, layer_obj);
+								});
+							}
+							else {
+								// pass events through to the map
+								layer.on('click', function (e) {
+									viewport.ptarmigan_map.on_map_click(e, layer_obj);
+								});
+
+							}
 						},
 						style: {
 							color:layer_obj.color,
@@ -400,7 +410,7 @@ pt_layer.prototype.render = function (viewport) {
 		}
 	};
 	this.xml_http.open("GET", layer_url, true);
-    this.xml_http.send(null); 
+	this.xml_http.send(null); 
 	
 	return(this);		
 };
@@ -432,7 +442,7 @@ function pt_viewport(map_object) {
 	this.se_latitude = null;
 	this.se_longitude = null;
 	this.overview_rect = null;
-	this.layers_blocked = false;
+	this.layer_events_blocked = false;
 	
 	
 	return(this);
@@ -484,21 +494,19 @@ pt_viewport.prototype.regenerate = function() {
 	
 
 	if (current_zoom_level >= geometry_minimum_zoom) {
-		if (!this.layers_blocked) {
-			// loop through the layers and tell them to render themselves to this viewport
-			for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
-				if(this.ptarmigan_map.layers[i].enabled) {
-					var layer_id = this.ptarmigan_map.layers[i].id;
-					var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
-					
-					if(chk_element) {
-						chk_element.disabled = false;
-						chk_element.checked = true;
-					}
-
-					this.ptarmigan_map.layers[i].abort_active_transfers();
-					this.ptarmigan_map.layers[i].render(this);					
+		// loop through the layers and tell them to render themselves to this viewport
+		for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
+			if(this.ptarmigan_map.layers[i].enabled) {
+				var layer_id = this.ptarmigan_map.layers[i].id;
+				var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
+				
+				if(chk_element) {
+					chk_element.disabled = false;
+					chk_element.checked = true;
 				}
+
+				this.ptarmigan_map.layers[i].abort_active_transfers();
+				this.ptarmigan_map.layers[i].render(this);					
 			}
 		}
 	}
@@ -517,6 +525,33 @@ pt_viewport.prototype.regenerate = function() {
 	return(this);
 };
 
+pt_viewport.prototype.force_all_layers_on = function() {
+	
+	// clear current features
+	this.clear_features();
+
+	// update the viewport's boundary
+	this.update_bounds();		
+	
+
+	// loop through the layers and tell them to render themselves to this viewport
+	for(i = 0; i < this.ptarmigan_map.layers.length; i++) {
+		var layer_id = this.ptarmigan_map.layers[i].id;
+		var chk_element = document.getElementById("LAYER_ENABLED_" + layer_id);
+		
+		if(chk_element) {
+			chk_element.disabled = false;
+			chk_element.checked = true;
+		}
+
+		this.ptarmigan_map.layers[i].abort_active_transfers();
+		this.ptarmigan_map.layers[i].render(this);					
+	}
+	
+	return(this);
+};
+
+
 pt_viewport.prototype.current_feature_count = function() {
 	var tmp_fc = 0;
 	
@@ -527,15 +562,16 @@ pt_viewport.prototype.current_feature_count = function() {
 	return(tmp_fc);
 };
 
-pt_viewport.prototype.block_layers = function () {
-	this.layers_blocked = true;
+pt_viewport.prototype.block_layer_events = function () {
+	this.layer_events_blocked = true;
 	this.clear_features();
+	this.regenerate();
 	
 	return(true);
 };
 
-pt_viewport.prototype.unblock_layers = function () {
-	this.layers_blocked = false;
+pt_viewport.prototype.unblock_layer_events = function () {
+	this.layer_events_blocked = false;
 	this.clear_features();
 	this.regenerate();
 	
@@ -675,11 +711,11 @@ pt_plugin.prototype.release_map_ownership = function () {
 };
 
 pt_plugin.prototype.request_bare_map = function () {
-	this.map_object.viewport.block_layers();
+	this.map_object.viewport.block_layer_events();
 };
 
 pt_plugin.prototype.release_bare_map = function () {
-	this.map_object.viewport.unblock_layers();
+	this.map_object.viewport.unblock_layer_events();
 };
 
 pt_plugin.prototype.request_shape = function (config) {
@@ -779,18 +815,18 @@ pt_plugin.prototype.shape_complete = function (shape) {
 
 pt_plugin.prototype.notify = function(title, text) {
 	Ext.create('widget.uxNotification', {position: 't',
-										useXAxis: true,
-										cls: 'ux-notification-light',
-										iconCls: 'ux-notification-icon-information',
-										closable: false,
-										title: title,
-										html: text,
-										slideInDuration: 800,
-										slideBackDuration: 1500,
-										autoCloseDelay: 6000,
-										slideInAnimation: 'bounceOut',
-										slideBackAnimation: 'easeIn'
-										}).show();
+					useXAxis: true,
+					cls: 'ux-notification-light',
+					iconCls: 'ux-notification-icon-information',
+					closable: false,
+					title: title,
+					html: text,
+					slideInDuration: 800,
+					slideBackDuration: 1500,
+					autoCloseDelay: 6000,
+					slideInAnimation: 'bounceOut',
+					slideBackAnimation: 'easeIn'
+					}).show();
 };
 
 pt_plugin.prototype.cloudmade_api_key = function() {
@@ -973,6 +1009,20 @@ function pt_toggle_layer(layer_id)
 			return;
 		}
 	}		
+}
+
+function pt_force_all_layers_on()
+{
+	var current_map = pt_gis.getApplication().__ptarmigan_gis;
+	var geometry_minimum_zoom = pt_gis.getApplication().__ptarmigan_session.s.system.geometry_minimum_zoom;
+	var current_zoom_level = current_map.leaflet_map.getZoom();
+
+	if (current_zoom_level < geometry_minimum_zoom) {
+		var go_for_it = confirm("WARNING: Forcing all layers on at this zoom level can cause this application to perform very slowly.\n\nDo you wish to continue?");
+		if(go_for_it == true) {
+			current_map.viewport.force_all_layers_on();
+		}
+	}
 }
 
 function pt_toggle_raster_layer(layer_id)

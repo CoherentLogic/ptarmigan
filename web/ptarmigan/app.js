@@ -4,6 +4,9 @@ Ext.Loader.setConfig({
 
 Ext.application({
     name: 'pt_gis',
+	paths: {
+		Ext: './ext-5.0.1/build'
+	},
 	autoCreateViewport: true,
     appFolder: 'app',
 	models: ['session', 'layer', 'pt_plugin', 'feature_attribute', 'layer_mapping', 'search_result', 'mensuration_result'],

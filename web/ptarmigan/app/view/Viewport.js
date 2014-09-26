@@ -37,7 +37,7 @@ Ext.define('pt_gis.view.Viewport', {
     					handler: function () {
     						pt_gis.getApplication().__ptarmigan_gis.activate_plugin('__pt_geocoding', {}); 
     					}
-    				}, */'-', {
+    				}, */ {
     					text: 'Zoom In',
     					xtype: 'button',
     					icon: '/OpenHorizon/Resources/Graphics/Silk/zoom_in.png',
@@ -107,7 +107,7 @@ Ext.define('pt_gis.view.Viewport', {
     			margins: '0 0 0 0',
     			bbar: Ext.create('Ext.ux.statusbar.StatusBar', {
     				id: 'system-message',
-    				defaultText: 'Geodigraph',
+    				defaultText: 'Geodigraph GIS 2014',
     				height: 45,
     				items: [__pt_status_network, '-', __pt_status_layer, '-', __pt_status_feature_id, '-', __pt_status_feature_count, '-', __pt_status_latitude, '-', __pt_status_longitude]
     			})    					    			    	    				    	

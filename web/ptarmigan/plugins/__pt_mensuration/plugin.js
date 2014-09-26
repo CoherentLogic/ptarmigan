@@ -72,7 +72,7 @@ var __pt_mensuration = new pt_plugin({
 			}
 			
 			wkt_string += closing_parens;
-			var url = '/gis/app/data/mensuration.cfm?wkt=' + escape(wkt_string) + '&shape_type=' + escape(this.shape_type);
+			var url = 'app/data/mensuration.cfm?wkt=' + escape(wkt_string) + '&shape_type=' + escape(this.shape_type);
 			var response_meters = request(url);
 			
 			var resp_data = new Array();
